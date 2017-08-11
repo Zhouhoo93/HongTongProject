@@ -1,0 +1,15 @@
+PODS:
+  - AFNetworking (0.10.1)
+  - Toast (3.1.0)
+
+DEPENDENCIES:
+  - AFNetworking
+  - Toast
+
+SPEC CHECKSUMS:
+  AFNetworking: 560d6b9394bf2f80c1efac9141e0d36739e0ff6d
+  Toast: 14a93686d6c8bfe2727afd342414e35660a8a1f3
+
+PODFILE CHECKSUM: b497667ca676c971d88cd15333857ad8cf021bc4
+
+COCOAPODS: 1.2.1
