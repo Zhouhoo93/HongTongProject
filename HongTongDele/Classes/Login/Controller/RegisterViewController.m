@@ -126,8 +126,6 @@
 //    [parameters setValue:self.codeText.text forKey:@"code"];
     //post请求
     [manager GET:URLstring parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        [self requestPassWord];
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //数据请求成功后，返回 responseObject 结果集
         NSLog(@"%@",responseObject);
