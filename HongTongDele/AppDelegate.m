@@ -56,6 +56,13 @@
                  apsForProduction:0
             advertisingIdentifier:advertisingId];
     
+    //通知获取registerID
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+    
+    [defaultCenter addObserver:self selector:@selector(networkDidLogin:) name:kJPFNetworkDidLoginNotification object:nil];
+
+    
     //----------融云------------
     [[RCIM sharedRCIM] initWithAppKey:@"x18ywvqfx6pzc"];
     [[RCIM sharedRCIM] connectWithToken:@"rH8F2mY6bQseChYtoaXlSbNJK6dFwzkHhynZo6/vk2LmBbDprU2SVTVcZKJGnLMjukFXLss8sVhoKUvRtrdZzA=="     success:^(NSString *userId) {
@@ -123,6 +130,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         [JPUSHService handleRemoteNotification:userInfo];
     }
     completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
+    
 }
 
 // iOS 10 Support
@@ -152,6 +160,36 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+}
+
+- (void)networkDidLogin:(NSNotification *)notification {
+    
+    NSLog(@"已登录");
+    if ([JPUSHService registrationID]) {
+        
+        //下面是我拿到registeID,发送给服务器的代码，可以根据你需求来处理
+        NSString *registerid = [JPUSHService registrationID];
+        NSLog(@"APPDelegate开始上传rgeisterID");
+//        [HSingleGlobalData sharedInstance].registerid = registerid;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setValue:registerid forKey:@"registerid"];
+        [userDefaults synchronize];
+        NSLog(@"*******get RegistrationID = %@ ",[JPUSHService registrationID]);
+        //    }
+        //设置jPUsh 别名
+        //    NSString *userID = [HSingleGlobalData sharedInstance].passName;
+        //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [JPUSHService setTags:nil alias:registerid fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
+            NSLog(@"%d----%@---",iResCode,iAlias);
+            
+        }];
+        [JPUSHService setAlias:registerid callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:nil];
+        //    });
+        NSLog(@"设置别名:%@",registerid);
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kJPFNetworkDidLoginNotification
+                                                      object:nil];
+    }
 }
 
 

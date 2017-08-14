@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "RegisterViewController.h"
 @interface LoginOneViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
 @end
 
@@ -26,17 +28,64 @@
 - (IBAction)ForgetBtnClick:(id)sender {
 }
 - (IBAction)LoginBtnClick:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UITabBarController *baseNaviVC = [storyboard instantiateViewControllerWithIdentifier:@"Main"];
-    AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
-    delegate.window.rootViewController =baseNaviVC;
+    [self requestPassWord];
 }
 - (IBAction)RegisterBtnClick:(id)sender {
     RegisterViewController *vc = [[RegisterViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+//验证账号密码
+- (void)requestPassWord {
+    NSString *URL = [NSString stringWithFormat:@"%@/login",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    if ([self.selectbtn.titleLabel.text isEqualToString:@"学生"]) {
+//        [parameters setValue:@"students" forKey:@"type"];
+//    }else if([self.selectbtn.titleLabel.text isEqualToString:@"家长"]){
+//        [parameters setValue:@"family" forKey:@"type"];
+//    }else{
+//        [parameters setValue:@"teacher" forKey:@"type"];
+//    }
+    [parameters setValue:self.phoneTextField.text forKey:@"tel"];
+    [parameters setValue:self.passwordTextField.text forKey:@"pwd"];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *regis = [userDefaults valueForKey:@"registerid"];
+    [parameters setValue:regis forKey:@"register_id"];
+    NSLog(@"登陆参数:%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"正确%@",responseObject);
+        if([responseObject[@"result"][@"success"] intValue] ==1){
+            NSString *token = [NSString stringWithFormat:@"%@",responseObject[@"content"]];
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setValue:self.passwordTextField.text forKey:@"password"];
+            [userDefaults setValue:self.passwordTextField.text forKey:@"phone"];
+            [userDefaults setValue:token forKey:@"token"];
+            [userDefaults synchronize];
+            
+            [self goHomeController];
+            
+        }else{
+            [MBProgressHUD showText:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"errorMsg"]]];
+            NSLog(@"%@",responseObject[@"result"][@"errorMsg"]);
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+}
 
+- (void)goHomeController{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UITabBarController *baseNaviVC = [storyboard instantiateViewControllerWithIdentifier:@"Main"];
+    AppDelegate *delegate=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.window.rootViewController =baseNaviVC;
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

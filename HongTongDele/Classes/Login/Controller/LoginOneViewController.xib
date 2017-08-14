@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginOneViewController">
             <connections>
+                <outlet property="passwordTextField" destination="cgc-aQ-oRj" id="lee-fi-wq6"/>
+                <outlet property="phoneTextField" destination="i6y-sR-5BK" id="mBy-iC-3RJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
