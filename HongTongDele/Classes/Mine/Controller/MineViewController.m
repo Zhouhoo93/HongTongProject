@@ -7,7 +7,7 @@
 //
 
 #import "MineViewController.h"
-//#import "MineCenterViewController.h"
+#import "MineCenterViewController.h"
 //#import "ReleaseViewController.h"
 #import "LoginOneViewController.h"
 //#import "StuMineCenterViewController.h"
@@ -16,11 +16,13 @@
 //#import "TeacherMineViewController.h"
 //#import "LoginViewController.h"
 #import "AppDelegate.h"
+#import "AboutViewController.h"
 @interface MineViewController ()
 @property (nonatomic,strong) UIImageView *touImage;
 @property (nonatomic,strong) UILabel *nameLabel;
 @property (nonatomic,strong) UILabel *phoneLabel;
 @property (nonatomic,strong) UIButton *nameBtn;
+@property (nonatomic,copy)NSString *userName;
 @end
 
 @implementation MineViewController
@@ -45,7 +47,7 @@
 - (void)setHeaderView{
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 220)];
 //    imageView.backgroundColor = [UIColor grayColor];
-    imageView.image = [UIImage imageNamed:@"个人中心蓝背景"];
+    imageView.image = [UIImage imageNamed:@"图层-21"];
     imageView.userInteractionEnabled = YES;
     [self.view addSubview:imageView];
     
@@ -60,7 +62,7 @@
     _touImage.backgroundColor = [UIColor lightGrayColor];
     _touImage.layer.masksToBounds = YES;
     _touImage.layer.cornerRadius = 30;
-    _touImage.image = [UIImage imageNamed:@"个人中心头像"];
+    _touImage.image = [UIImage imageNamed:@"图层-22"];
 
     UIButton *headerBtn = [[UIButton alloc] initWithFrame:CGRectMake(KWidth/2-30, 82, 60, 60)];
     [headerBtn addTarget:self action:@selector(headerBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -114,12 +116,12 @@
 ////    [oneBtn addTarget:self action:@selector(oneBtnClick) forControlEvents:UIControlEventTouchUpInside];
 //    [one addSubview:oneBtn];
     
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 264, KWidth, 20)];
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 220, KWidth, 20)];
     lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self.view addSubview:lineView];
     
     for (int i=0; i<3; i++) {
-        UIView *two = [[UIView alloc] initWithFrame:CGRectMake(0, 284+i*44, KWidth, 44)];
+        UIView *two = [[UIView alloc] initWithFrame:CGRectMake(0, 240+i*44, KWidth, 44)];
         two.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:two];
         
@@ -131,7 +133,7 @@
         textLabel2.textColor = [UIColor grayColor];
         [two addSubview:textLabel2];
         UIImageView *tipImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-20, 16, 7, 12)];
-        tipImage2.image = [UIImage imageNamed:@"个人中心三角"];
+        tipImage2.image = [UIImage imageNamed:@"图层-20-拷贝"];
         [two addSubview:tipImage2];
         UIButton *oneBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(0,0, KWidth, 44)];
         [two addSubview:oneBtn2];
@@ -148,7 +150,7 @@
         }
     }
     
-    UIView *garyView = [[UIView alloc] initWithFrame:CGRectMake(0, 416, KWidth, KHeight-372)];
+    UIView *garyView = [[UIView alloc] initWithFrame:CGRectMake(0, 372, KWidth, KHeight-372)];
     garyView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self.view addSubview:garyView];
     
@@ -156,14 +158,15 @@
     [outLoginBtn setTitle:@"退出当前账号" forState:UIControlStateNormal];
     outLoginBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [outLoginBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [outLoginBtn setBackgroundImage:[UIImage imageNamed:@"个人中心灰条"] forState:UIControlStateNormal];
+    [outLoginBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形-1"] forState:UIControlStateNormal];
     [outLoginBtn addTarget:self action:@selector(logOutAction) forControlEvents:UIControlEventTouchUpInside];
     [garyView addSubview:outLoginBtn];
     
 }
 - (void)twoBtnClick{
-//    ZhanghaoViewController *vc = [[ZhanghaoViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    MineCenterViewController *vc = [[MineCenterViewController alloc] init];
+    vc.userName = self.userName;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)headerBtnClick{
@@ -234,12 +237,14 @@
 }
 - (void)threeBtnClick{
     SettingViewController *vc = [[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil];
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
 - (void)fourBtnClick{
-//    ReleaseViewController *vc = [[ReleaseViewController alloc] initWithNibName:@"ReleaseViewController" bundle:nil];
-//    [self.navigationController pushViewController:vc animated:YES];
+    AboutViewController *vc = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)logOutAction{
     UIAlertController *alert =[UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您确定退出登录吗" preferredStyle:UIAlertControllerStyleAlert];
@@ -276,7 +281,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4200"])  {
+            if ([errorcode isEqualToString:@"4100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{
@@ -284,12 +289,12 @@
             [MBProgressHUD showText:str];
             }
         }else{
-
-                NSString *nameText = responseObject[@"content"][@"stu_name"];
+                self.userName = responseObject[@"content"][@"username"];
+                NSString *nameText = responseObject[@"content"][@"username"];
                 [self.nameBtn setTitle:nameText forState:UIControlStateNormal];
                 NSString *tel = responseObject[@"content"][@"tel"];
                 self.phoneLabel.text = [NSString stringWithFormat:@"手机:%@",tel];
-                NSString *picURL = responseObject[@"content"][@"stu_pic"];
+                NSString *picURL = responseObject[@"content"][@"pic"];
                 
                 //然后就是添加照片语句，这次不是`imageWithName`了，是 imageWithData。
                 if (![picURL.class isEqual:[NSNull class]]) {

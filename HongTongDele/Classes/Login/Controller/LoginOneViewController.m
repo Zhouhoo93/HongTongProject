@@ -9,6 +9,7 @@
 #import "LoginOneViewController.h"
 #import "AppDelegate.h"
 #import "RegisterViewController.h"
+#import "ForgetViewController.h"
 @interface LoginOneViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -26,6 +27,8 @@
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 - (IBAction)ForgetBtnClick:(id)sender {
+    ForgetViewController *vc = [[ForgetViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)LoginBtnClick:(id)sender {
     [self requestPassWord];

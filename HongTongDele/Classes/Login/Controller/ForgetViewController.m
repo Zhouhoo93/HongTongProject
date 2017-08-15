@@ -19,7 +19,10 @@
 @end
 
 @implementation ForgetViewController
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES ];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

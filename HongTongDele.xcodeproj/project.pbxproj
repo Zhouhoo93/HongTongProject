@@ -168,6 +168,16 @@
 		38B2D4031F34584500038F47 /* SecondTwoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D4011F34584500038F47 /* SecondTwoTableViewCell.m */; };
 		38B2D4041F34584500038F47 /* SecondTwoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B2D4021F34584500038F47 /* SecondTwoTableViewCell.xib */; };
 		38B2D4071F345AE800038F47 /* StationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D4061F345AE800038F47 /* StationViewController.m */; };
+		38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB181F428C6900DB41B4 /* AboutViewController.m */; };
+		38C9EB1B1F428C6900DB41B4 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB191F428C6900DB41B4 /* AboutViewController.xib */; };
+		38C9EB1F1F42986900DB41B4 /* MineCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB1D1F42986900DB41B4 /* MineCenterViewController.m */; };
+		38C9EB201F42986900DB41B4 /* MineCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB1E1F42986900DB41B4 /* MineCenterViewController.xib */; };
+		38C9EB291F42C17600DB41B4 /* ChanggeWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB271F42C17600DB41B4 /* ChanggeWordViewController.m */; };
+		38C9EB2A1F42C17600DB41B4 /* ChanggeWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB281F42C17600DB41B4 /* ChanggeWordViewController.xib */; };
+		38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB2E1F42C3BA00DB41B4 /* NoticeViewController.m */; };
+		38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB341F42C3BA00DB41B4 /* NoticeModel.m */; };
+		38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */; };
+		38C9EB3E1F42C3BA00DB41B4 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */; };
 		38EEA7BA1F37FCAE00034F01 /* OneScrollViewBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */; };
 		38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7BC1F37FD8F00034F01 /* TwoScrollView.m */; };
 		38EEA7BF1F38045100034F01 /* StationTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7BE1F38045100034F01 /* StationTableHeader.xib */; };
@@ -497,6 +507,22 @@
 		38B2D4021F34584500038F47 /* SecondTwoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondTwoTableViewCell.xib; sourceTree = "<group>"; };
 		38B2D4051F345AE800038F47 /* StationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationViewController.h; sourceTree = "<group>"; };
 		38B2D4061F345AE800038F47 /* StationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationViewController.m; sourceTree = "<group>"; };
+		38C9EB171F428C6900DB41B4 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		38C9EB181F428C6900DB41B4 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		38C9EB191F428C6900DB41B4 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		38C9EB1C1F42986900DB41B4 /* MineCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCenterViewController.h; sourceTree = "<group>"; };
+		38C9EB1D1F42986900DB41B4 /* MineCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCenterViewController.m; sourceTree = "<group>"; };
+		38C9EB1E1F42986900DB41B4 /* MineCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineCenterViewController.xib; sourceTree = "<group>"; };
+		38C9EB261F42C17600DB41B4 /* ChanggeWordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChanggeWordViewController.h; sourceTree = "<group>"; };
+		38C9EB271F42C17600DB41B4 /* ChanggeWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChanggeWordViewController.m; sourceTree = "<group>"; };
+		38C9EB281F42C17600DB41B4 /* ChanggeWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChanggeWordViewController.xib; sourceTree = "<group>"; };
+		38C9EB2D1F42C3BA00DB41B4 /* NoticeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeViewController.h; sourceTree = "<group>"; };
+		38C9EB2E1F42C3BA00DB41B4 /* NoticeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeViewController.m; sourceTree = "<group>"; };
+		38C9EB331F42C3BA00DB41B4 /* NoticeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeModel.h; sourceTree = "<group>"; };
+		38C9EB341F42C3BA00DB41B4 /* NoticeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeModel.m; sourceTree = "<group>"; };
+		38C9EB361F42C3BA00DB41B4 /* NoticeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeTableViewCell.h; sourceTree = "<group>"; };
+		38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewCell.m; sourceTree = "<group>"; };
+		38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
 		38EEA7B81F37FCAE00034F01 /* OneScrollViewBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneScrollViewBar.h; sourceTree = "<group>"; };
 		38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneScrollViewBar.m; sourceTree = "<group>"; };
 		38EEA7BB1F37FD8F00034F01 /* TwoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoScrollView.h; sourceTree = "<group>"; };
@@ -1375,8 +1401,17 @@
 				3883A32D1F41A6CC007967DF /* MineViewController.h */,
 				3883A32E1F41A6CC007967DF /* MineViewController.m */,
 				3883A3301F41AD1C007967DF /* SettingViewController.h */,
+				38C9EB261F42C17600DB41B4 /* ChanggeWordViewController.h */,
+				38C9EB271F42C17600DB41B4 /* ChanggeWordViewController.m */,
+				38C9EB281F42C17600DB41B4 /* ChanggeWordViewController.xib */,
 				3883A3311F41AD1C007967DF /* SettingViewController.m */,
 				3883A3321F41AD1C007967DF /* SettingViewController.xib */,
+				38C9EB171F428C6900DB41B4 /* AboutViewController.h */,
+				38C9EB181F428C6900DB41B4 /* AboutViewController.m */,
+				38C9EB191F428C6900DB41B4 /* AboutViewController.xib */,
+				38C9EB1C1F42986900DB41B4 /* MineCenterViewController.h */,
+				38C9EB1D1F42986900DB41B4 /* MineCenterViewController.m */,
+				38C9EB1E1F42986900DB41B4 /* MineCenterViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1398,6 +1433,7 @@
 		38B2D3DE1F340A4200038F47 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				38C9EB2B1F42C3BA00DB41B4 /* Notice */,
 				3883A3291F41A68B007967DF /* Mine */,
 				384AB71C1F3C5E80005AFE7A /* Login */,
 				386483291F3C3217000A8EB1 /* Live */,
@@ -1472,6 +1508,44 @@
 				38EEA7C01F38052C00034F01 /* ThiredTableViewCell.h */,
 				38EEA7C11F38052C00034F01 /* ThiredTableViewCell.m */,
 				38EEA7C21F38052C00034F01 /* ThiredTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		38C9EB2B1F42C3BA00DB41B4 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				38C9EB2C1F42C3BA00DB41B4 /* Controller */,
+				38C9EB321F42C3BA00DB41B4 /* Model */,
+				38C9EB351F42C3BA00DB41B4 /* View */,
+			);
+			path = Notice;
+			sourceTree = "<group>";
+		};
+		38C9EB2C1F42C3BA00DB41B4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				38C9EB2D1F42C3BA00DB41B4 /* NoticeViewController.h */,
+				38C9EB2E1F42C3BA00DB41B4 /* NoticeViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		38C9EB321F42C3BA00DB41B4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				38C9EB331F42C3BA00DB41B4 /* NoticeModel.h */,
+				38C9EB341F42C3BA00DB41B4 /* NoticeModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		38C9EB351F42C3BA00DB41B4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				38C9EB361F42C3BA00DB41B4 /* NoticeTableViewCell.h */,
+				38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */,
+				38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1639,6 +1713,7 @@
 				38B2D3F51F344D0100038F47 /* TableTipView.xib in Resources */,
 				384AB7001F3C4C0F005AFE7A /* LivePlayerViewController.xib in Resources */,
 				387D31DB1F3AAFBA0066E762 /* jrmf.cer in Resources */,
+				38C9EB2A1F42C17600DB41B4 /* ChanggeWordViewController.xib in Resources */,
 				387D31D51F3AAFBA0066E762 /* RCConfig.plist in Resources */,
 				38B2D3FA1F34519900038F47 /* SecondTableViewCell.xib in Resources */,
 				384AB7021F3C4C0F005AFE7A /* LoginViewController.xib in Resources */,
@@ -1657,10 +1732,13 @@
 				387D31D11F3AAFBA0066E762 /* RongCloudKit.strings in Resources */,
 				38EEA7DB1F38425000034F01 /* AlarmPopView.xib in Resources */,
 				38EEA7D61F383E8D00034F01 /* MenuTableViewCell.xib in Resources */,
+				38C9EB1B1F428C6900DB41B4 /* AboutViewController.xib in Resources */,
+				38C9EB3E1F42C3BA00DB41B4 /* NoticeTableViewCell.xib in Resources */,
 				384AB7111F3C4C0F005AFE7A /* VideoResolutionView.xib in Resources */,
 				380494C71F32BA3700AA0DBC /* Main.storyboard in Resources */,
 				387D31E01F3AAFBA0066E762 /* release_notes_ios.txt in Resources */,
 				38755C981F3D9F4B0081CF4D /* MJRefresh.bundle in Resources */,
+				38C9EB201F42986900DB41B4 /* MineCenterViewController.xib in Resources */,
 				38B2D3ED1F341F9B00038F47 /* InstallTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1738,7 +1816,9 @@
 				384AB7061F3C4C0F005AFE7A /* TripleDES.m in Sources */,
 				38B2D3F91F34519900038F47 /* SecondTableViewCell.m in Sources */,
 				38755C4D1F3D9F350081CF4D /* IQUIScrollView+Additions.m in Sources */,
+				38C9EB1F1F42986900DB41B4 /* MineCenterViewController.m in Sources */,
 				380494C41F32BA3700AA0DBC /* ViewController.m in Sources */,
+				38C9EB291F42C17600DB41B4 /* ChanggeWordViewController.m in Sources */,
 				38755C8B1F3D9F4B0081CF4D /* MJRefreshBackFooter.m in Sources */,
 				38755C941F3D9F4B0081CF4D /* MJRefreshBackStateFooter.m in Sources */,
 				3883A32F1F41A6CC007967DF /* MineViewController.m in Sources */,
@@ -1770,6 +1850,7 @@
 				38EEA7D41F383E8D00034F01 /* MenuView.m in Sources */,
 				38755C991F3D9F4B0081CF4D /* MJRefreshConst.m in Sources */,
 				384AB7101F3C4C0F005AFE7A /* VideoResolutionView.m in Sources */,
+				38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */,
 				38B2D3EC1F341F9B00038F47 /* InstallTableViewCell.m in Sources */,
 				384AB70F1F3C4C0F005AFE7A /* UserListCell.m in Sources */,
 				38755C8E1F3D9F4B0081CF4D /* MJRefreshHeader.m in Sources */,
@@ -1791,9 +1872,11 @@
 				38755C8D1F3D9F4B0081CF4D /* MJRefreshFooter.m in Sources */,
 				380494C11F32BA3700AA0DBC /* AppDelegate.m in Sources */,
 				38755C231F3D9F2B0081CF4D /* AFSecurityPolicy.m in Sources */,
+				38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */,
 				38755C521F3D9F350081CF4D /* IQKeyboardManager.m in Sources */,
 				384AB70E1F3C4C0F005AFE7A /* UIView+Extension.m in Sources */,
 				38755C571F3D9F350081CF4D /* IQTitleBarButtonItem.m in Sources */,
+				38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */,
 				38755C561F3D9F350081CF4D /* IQPreviousNextView.m in Sources */,
 				38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */,
 				38B2D3FD1F34556000038F47 /* AlarmViewController.m in Sources */,
@@ -1804,6 +1887,7 @@
 				38EEA7D31F383E8D00034F01 /* LeftMenuViewDemo.m in Sources */,
 				38755C551F3D9F350081CF4D /* IQBarButtonItem.m in Sources */,
 				384AB7041F3C4C0F005AFE7A /* UseIdLoginController.m in Sources */,
+				38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */,
 				38755C9C1F3D9F4B0081CF4D /* UIScrollView+MJRefresh.m in Sources */,
 				38B2D3F31F34262E00038F47 /* ElectricityViewController.m in Sources */,
 				38755C951F3D9F4B0081CF4D /* MJRefreshGifHeader.m in Sources */,

@@ -153,10 +153,10 @@
             </objects>
             <point key="canvasLocation" x="1071" y="808"/>
         </scene>
-        <!--View Controller-->
+        <!--Notice View Controller-->
         <scene sceneID="zRT-PY-q0z">
             <objects>
-                <viewController id="3my-Ui-WLC" sceneMemberID="viewController">
+                <viewController id="3my-Ui-WLC" customClass="NoticeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="h4U-qf-C0R"/>
                         <viewControllerLayoutGuide type="bottom" id="gXQ-yd-enk"/>
