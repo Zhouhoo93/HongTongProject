@@ -77,7 +77,7 @@
         /***********************【回调】***********************/
     }];
     UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 50, 40)];
-    [leftBtn setImage:[UIImage imageNamed:@"向右箭头"] forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"ab_ic_back"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [_scroView addSubview:leftBtn];
     

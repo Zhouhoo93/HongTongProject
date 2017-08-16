@@ -1400,10 +1400,10 @@
 			children = (
 				3883A32D1F41A6CC007967DF /* MineViewController.h */,
 				3883A32E1F41A6CC007967DF /* MineViewController.m */,
-				3883A3301F41AD1C007967DF /* SettingViewController.h */,
 				38C9EB261F42C17600DB41B4 /* ChanggeWordViewController.h */,
 				38C9EB271F42C17600DB41B4 /* ChanggeWordViewController.m */,
 				38C9EB281F42C17600DB41B4 /* ChanggeWordViewController.xib */,
+				3883A3301F41AD1C007967DF /* SettingViewController.h */,
 				3883A3311F41AD1C007967DF /* SettingViewController.m */,
 				3883A3321F41AD1C007967DF /* SettingViewController.xib */,
 				38C9EB171F428C6900DB41B4 /* AboutViewController.h */,

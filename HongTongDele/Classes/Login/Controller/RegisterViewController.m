@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *userNameTextField;
 @property (weak, nonatomic) IBOutlet UIButton *typeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *sendBtn;
+@property (weak, nonatomic) IBOutlet UIButton *AgreeBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *SelectImage;
 @property (strong, nonatomic) NSTimer *timer;
 @end
 
@@ -71,14 +73,27 @@
     }
     
 }
-
-- (IBAction)registerBtnClick:(id)sender {
-    if([self.passWordTextField.text isEqualToString:self.passWordTwoTextField.text]){
-        [self checkCode];
+- (IBAction)AgreeBtnClick:(UIButton *)sender {
+    if (sender.selected) {
+        sender.selected = NO;
+        self.SelectImage.image = [UIImage imageNamed:@"矩形-6"];
     }else{
-        [MBProgressHUD showText:@"两次输入的密码不同"];
+        sender.selected = YES;
+        self.SelectImage.image = [UIImage imageNamed:@"打钩"];
     }
 }
+- (IBAction)registerBtnClick:(id)sender {
+    if(self.AgreeBtn.selected){
+        if([self.passWordTextField.text isEqualToString:self.passWordTwoTextField.text]){
+            [self checkCode];
+        }else{
+            [MBProgressHUD showText:@"两次输入的密码不同"];
+        }
+    }else{
+        [MBProgressHUD showText:@"请先同意协议"];
+    }
+}
+
 
 //请求数据,获取验证码
 - (void)requestData {

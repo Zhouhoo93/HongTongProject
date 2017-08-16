@@ -344,7 +344,7 @@
             imagePic.frame = CGRectMake(30, 50, 30, 30);
             linePic.frame = CGRectMake(70, 65, KWidth/2-95, 3);
             linePic.image = [UIImage imageNamed:@"形状-6-拷贝-2"];
-            imagePic.image = [UIImage imageNamed:@"图层-20-拷贝"];
+            imagePic.image = [UIImage imageNamed:@"未处理"];
             titlelabel.frame = CGRectMake(10, 10, 70, 30);
             titlelabel1.frame = CGRectMake(10, 80, 70, 30);
             titlelabel1.text = @"100条";

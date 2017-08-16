@@ -44,7 +44,7 @@
     
     UIImageView *backButtonImg = [[UIImageView alloc] initWithFrame:CGRectMake(30, 35, 10, 18)];
     backButtonImg.userInteractionEnabled = YES;
-    backButtonImg.image = [UIImage imageNamed:@"向右箭头"];
+    backButtonImg.image = [UIImage imageNamed:@"ab_ic_back"];
     [bgImage addSubview:backButtonImg];
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     [backButton addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];

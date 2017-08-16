@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self.navigationController setNavigationBarHidden:YES];
-    [self requestData];
+    
     [self setHeaderView];
     [self setTable];
     // Do any additional setup after loading the view.
@@ -44,6 +44,11 @@
     self.navigationController.navigationBar.titleTextAttributes = dict;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [self requestData];
+}
+
 - (void)setHeaderView{
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 220)];
 //    imageView.backgroundColor = [UIColor grayColor];

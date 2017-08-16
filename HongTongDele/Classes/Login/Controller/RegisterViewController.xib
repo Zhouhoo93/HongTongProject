@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterViewController">
             <connections>
+                <outlet property="AgreeBtn" destination="HAR-7A-Hes" id="n1R-38-dWw"/>
+                <outlet property="SelectImage" destination="3rs-qt-GqO" id="cOf-gu-Ng2"/>
                 <outlet property="codeTextfIELD" destination="Zfm-n9-S5Z" id="OLd-Ma-HT8"/>
                 <outlet property="passWordTextField" destination="8zu-kP-ste" id="ihy-0Q-Tx5"/>
                 <outlet property="passWordTwoTextField" destination="FW7-aU-hCv" id="3Fx-VU-Hdd"/>
@@ -174,6 +176,20 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="矩形-6" translatesAutoresizingMaskIntoConstraints="NO" id="3rs-qt-GqO">
+                    <rect key="frame" x="37" y="423" width="15" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="JTy-Wd-LVw"/>
+                        <constraint firstAttribute="height" constant="15" id="kOu-yn-eIj"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HAR-7A-Hes">
+                    <rect key="frame" x="16" y="420" width="133" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <action selector="AgreeBtnClick:" destination="-1" eventType="touchUpInside" id="Tas-Au-5dd"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <constraints>
@@ -219,6 +235,8 @@
                 <constraint firstItem="Jh9-gm-pcl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="24" id="mWK-JG-lr0"/>
                 <constraint firstItem="Zfm-n9-S5Z" firstAttribute="top" secondItem="Jh9-gm-pcl" secondAttribute="bottom" constant="17" id="oXt-Tm-2Lv"/>
                 <constraint firstItem="EzS-cw-nZV" firstAttribute="top" secondItem="Jh9-gm-pcl" secondAttribute="bottom" constant="10" id="ohX-Y3-E2A"/>
+                <constraint firstItem="3rs-qt-GqO" firstAttribute="top" secondItem="hnh-0E-AyI" secondAttribute="bottom" constant="11" id="pIx-ib-fJF"/>
+                <constraint firstItem="3rs-qt-GqO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="37" id="pq0-Lz-I3n"/>
                 <constraint firstItem="Bzk-g6-43a" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="60" id="qge-zr-M9I"/>
                 <constraint firstItem="J0s-WG-2ep" firstAttribute="top" secondItem="EzS-cw-nZV" secondAttribute="bottom" constant="10" id="sAR-Cf-f39"/>
                 <constraint firstItem="hnh-0E-AyI" firstAttribute="top" secondItem="1qp-s6-89f" secondAttribute="bottom" constant="10" id="sZF-f8-tFR"/>
@@ -234,5 +252,6 @@
         <image name="圆角矩形-9-副本-2-拷贝-2" width="65" height="40"/>
         <image name="圆角矩形-9-拷贝-2" width="92" height="40"/>
         <image name="圆角矩形-9-拷贝-4" width="317" height="40"/>
+        <image name="矩形-6" width="9" height="9"/>
     </resources>
 </document>
