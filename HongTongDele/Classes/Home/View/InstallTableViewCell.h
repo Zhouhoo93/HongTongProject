@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface InstallTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *houseID;
+@property (weak, nonatomic) IBOutlet UILabel *address;
+@property (weak, nonatomic) IBOutlet UILabel *InstallNum;
 
 @end

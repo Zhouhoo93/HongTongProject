@@ -205,6 +205,16 @@
         self.table.dataSource = self;
         self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
         [bgImage addSubview:self.table];
+        
+        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+        // 隐藏时间
+        header.lastUpdatedTimeLabel.hidden = YES;
+        // 隐藏状态
+        //    header.stateLabel.hidden = YES;
+        self.table.mj_header = header;
+        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

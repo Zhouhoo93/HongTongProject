@@ -12,12 +12,25 @@
 #import "ElectricityViewController.h"
 #import "AlarmViewController.h"
 #import "StationViewController.h"
+#import "MainModel.h"
+#import "AppDelegate.h"
+#import "LoginOneViewController.h"
+#import "MainModel.h"
 @interface ViewController ()<UIScrollViewDelegate,ChangeName>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,assign) NSInteger selectIndex;
 @property (nonatomic,strong) UIButton *selectBtn2;
 @property (nonatomic,strong) UIButton *selectBtn3;
 @property (nonatomic,strong) UIButton *selectBtn4;
+@property (nonatomic,strong) MainModel *model;
+@property (nonatomic,strong) UILabel *downLabel; //总装机量
+@property (nonatomic,strong) UILabel *rightTopLabel1; //全额上网
+@property (nonatomic,strong) UILabel *rightDownLabel1; //余电上网
+@property (nonatomic,strong) UILabel *fadianliang; //发电量
+@property (nonatomic,strong) UILabel *shangwangdianliang; //上网电量
+@property (nonatomic,strong) UILabel *zifaziyong; //自发自用
+@property (nonatomic,strong) UILabel *pingjungonglv; //平均功率
+
 @end
 
 @implementation ViewController
@@ -30,6 +43,7 @@
     NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     [self setUI];
+    [self requestData];
     [self setUITwo];
     [self setUIThree];
     [self setUIFour];
@@ -110,33 +124,33 @@
     topLabel.font = [UIFont systemFontOfSize:14];
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
-    UILabel *downLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
-    downLabel.text = @"100KW/100户";
-    downLabel.font = [UIFont systemFontOfSize:14];
-    downLabel.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:downLabel];
+    self.downLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
+    self.downLabel.text = @"100KW/100户";
+    self.downLabel.font = [UIFont systemFontOfSize:14];
+    self.downLabel.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.downLabel];
     
     UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 15, KWidth/2, 37)];
     rightTopLabel.text = @"全额上网/户数";
     rightTopLabel.font = [UIFont systemFontOfSize:14];
     rightTopLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightTopLabel];
-    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
-    rightTopLabel1.text = @"50KW/50户";
-    rightTopLabel1.font = [UIFont systemFontOfSize:14];
-    rightTopLabel1.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:rightTopLabel1];
+    self.rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
+    self.rightTopLabel1.text = @"50KW/50户";
+    self.rightTopLabel1.font = [UIFont systemFontOfSize:14];
+    self.rightTopLabel1.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.rightTopLabel1];
     
     UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2,80, KWidth/2, 37)];
     rightDownLabel.text = @"余电上网/户数";
     rightDownLabel.font = [UIFont systemFontOfSize:14];
     rightDownLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightDownLabel];
-    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
-    rightDownLabel1.text = @"50KW/50户";
-    rightDownLabel1.font = [UIFont systemFontOfSize:14];
-    rightDownLabel1.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:rightDownLabel1];
+    self.rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
+    self.rightDownLabel1.text = @"50KW/50户";
+    self.rightDownLabel1.font = [UIFont systemFontOfSize:14];
+    self.rightDownLabel1.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.rightDownLabel1];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
     [button addTarget:self action:@selector(FirstBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -195,33 +209,33 @@
     topLabel.font = [UIFont systemFontOfSize:14];
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
-    UILabel *downLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
-    downLabel.text = @"0.1MW·h/100元";
-    downLabel.font = [UIFont systemFontOfSize:14];
-    downLabel.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:downLabel];
+    self.fadianliang = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
+    self.fadianliang.text = @"0.1MW·h/100元";
+    self.fadianliang.font = [UIFont systemFontOfSize:14];
+    self.fadianliang.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.fadianliang];
     
     UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 15, KWidth/2, 37)];
     rightTopLabel.text = @"上网电量/现金收入";
     rightTopLabel.font = [UIFont systemFontOfSize:14];
     rightTopLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightTopLabel];
-    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
-    rightTopLabel1.text = @"0.1MW·h/100元";
-    rightTopLabel1.font = [UIFont systemFontOfSize:14];
-    rightTopLabel1.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:rightTopLabel1];
+    self.shangwangdianliang = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
+    self.shangwangdianliang.text = @"0.1MW·h/100元";
+    self.shangwangdianliang.font = [UIFont systemFontOfSize:14];
+    self.shangwangdianliang.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.shangwangdianliang];
     
     UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2,80, KWidth/2, 37)];
     rightDownLabel.text = @"自发自用电量/价值";
     rightDownLabel.font = [UIFont systemFontOfSize:14];
     rightDownLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightDownLabel];
-    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
-    rightDownLabel1.text = @"0.1MW·h/100元";
-    rightDownLabel1.font = [UIFont systemFontOfSize:14];
-    rightDownLabel1.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:rightDownLabel1];
+    self.zifaziyong = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
+    self.zifaziyong.text = @"0.1MW·h/100元";
+    self.zifaziyong.font = [UIFont systemFontOfSize:14];
+    self.zifaziyong.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.zifaziyong];
     
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
     [button addTarget:self action:@selector(SecondBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -255,11 +269,11 @@
     topLabel.font = [UIFont systemFontOfSize:14];
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
-    UILabel *downLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2+50, 20, KWidth/2-50, 35)];
-    downLabel.text = @"1100KW/1100KW";
-    downLabel.font = [UIFont systemFontOfSize:14];
-    downLabel.textAlignment = NSTextAlignmentCenter;
-    [bgImage1 addSubview:downLabel];
+    self.pingjungonglv = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2+50, 20, KWidth/2-50, 35)];
+    self.pingjungonglv.text = @"1100KW/1100KW";
+    self.pingjungonglv.font = [UIFont systemFontOfSize:14];
+    self.pingjungonglv.textAlignment = NSTextAlignmentCenter;
+    [bgImage1 addSubview:self.pingjungonglv];
     
    
 }
@@ -401,5 +415,98 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/sites/get-home-page",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取首页信息正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            NSArray *full_access = responseObject[@"content"][@"full_access"];
+            NSLog(@"full_access:%@",_model.full_access);
+            NSArray *installed_gross_capacity = responseObject[@"content"][@"installed_gross_capacity"];
+            NSArray *part_access = responseObject[@"content"][@"part_access"];
+            NSArray *power = responseObject[@"content"][@"power"];
+            NSArray *today_gencap_income = responseObject[@"content"][@"today_gencap_income"];
+            NSArray *today_self_occupied = responseObject[@"content"][@"today_self_occupied"];
+            NSArray *today_up_ele_income = responseObject[@"content"][@"today_up_ele_income"];
+            
+            CGFloat num = [installed_gross_capacity[0] floatValue] /1000;
+            self.downLabel.text = [NSString stringWithFormat:@"%.2fKW/%@户",num,installed_gross_capacity[1]];
+            CGFloat num1 = [full_access[0] floatValue] /1000;
+            self.rightTopLabel1.text = [NSString stringWithFormat:@"%.2fKW/%@户",num1,full_access[1]];
+            CGFloat num2 = [part_access[0] floatValue] /1000;
+            self.rightDownLabel1.text = [NSString stringWithFormat:@"%.2fKW/%@户",num2,part_access[1]];
+            CGFloat num22 = [today_gencap_income[1] floatValue];
+            self.fadianliang.text = [NSString stringWithFormat:@"%@MW·h/%.2f元",today_gencap_income[0],num22];
+            self.shangwangdianliang.text = [NSString stringWithFormat:@"%@MW·h/%@元",today_up_ele_income[0],today_up_ele_income[1]];
+            self.zifaziyong.text = [NSString stringWithFormat:@"%@MW·h/%@元",today_self_occupied[0],today_self_occupied[1]];
+            CGFloat num3 = [power[0] floatValue] /1000;
+            CGFloat num4 = [power[1] floatValue] /1000;
+            self.pingjungonglv.text = [NSString stringWithFormat:@"%.2fKW/%.2fKW",num3,num4];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+-(MainModel *)model{
+    if (!_model) {
+        _model = [[MainModel alloc] init];
+    }
+    return  _model;
+}
+
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
 
 @end

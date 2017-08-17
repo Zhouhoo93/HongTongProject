@@ -23,6 +23,7 @@
 @property (nonatomic,strong) UIView *ThreeView;
 @property (nonatomic,strong) UIView *FourView;
 @property (nonatomic,strong) UIView *FiveView;
+@property (nonatomic,strong) TwoScrollView *scroView;
 @property (nonatomic,strong) UITableView *table;
 @property (nonatomic ,strong)MenuView      *menu;
 
@@ -53,21 +54,21 @@
     //数据源
     NSArray *array = @[@"全部",@"在线",@"离线",@"故障",@"异常"];
     
-    TwoScrollView *scroView = [TwoScrollView setTabBarPoint:CGPointMake(0, 0)];
-    [scroView setData:array NormalColor
+    _scroView = [TwoScrollView setTabBarPoint:CGPointMake(0, 0)];
+    [_scroView setData:array NormalColor
                      :kColor(16, 16, 16) SelectColor
                      :[UIColor whiteColor] Font
                      :[UIFont systemFontOfSize:15]];
     
     
-    [self.view addSubview:scroView];
+    [self.view addSubview:_scroView];
     
     //设置默认值
     [TwoScrollView setViewIndex:0];
     
     
     //TabBar回调
-    [scroView getViewIndex:^(NSString *title, NSInteger index) {
+    [_scroView getViewIndex:^(NSString *title, NSInteger index) {
         
         NSLog(@"title:%@ - index:%li",title,index);
         
@@ -84,7 +85,7 @@
     UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 50, 40)];
     [leftBtn setImage:[UIImage imageNamed:@"ab_ic_back"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [scroView addSubview:leftBtn];
+    [_scroView addSubview:leftBtn];
     
     
     
@@ -190,6 +191,16 @@
         self.table.delegate = self;
         self.table.dataSource = self;
         self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+        // 隐藏时间
+        header.lastUpdatedTimeLabel.hidden = YES;
+        // 隐藏状态
+        //    header.stateLabel.hidden = YES;
+        self.table.mj_header = header;
+        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+
         [bgImage addSubview:self.table];
     }
 }

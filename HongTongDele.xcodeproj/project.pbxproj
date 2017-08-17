@@ -154,6 +154,25 @@
 		3883A32F1F41A6CC007967DF /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3883A32E1F41A6CC007967DF /* MineViewController.m */; };
 		3883A3331F41AD1C007967DF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3883A3311F41AD1C007967DF /* SettingViewController.m */; };
 		3883A3341F41AD1C007967DF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3883A3321F41AD1C007967DF /* SettingViewController.xib */; };
+		389A9FE61F45377B00B55BAC /* MainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FE51F45377B00B55BAC /* MainModel.m */; };
+		389A9FE91F45653300B55BAC /* InstallModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FE81F45653300B55BAC /* InstallModel.m */; };
+		389A9FEC1F45698E00B55BAC /* InstallStationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FEB1F45698E00B55BAC /* InstallStationViewController.m */; };
+		389A9FF01F456AAB00B55BAC /* InstallStationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FEE1F456AAB00B55BAC /* InstallStationTableViewCell.m */; };
+		389A9FF11F456AAB00B55BAC /* InstallStationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 389A9FEF1F456AAB00B55BAC /* InstallStationTableViewCell.xib */; };
+		389AA00E1F45769600B55BAC /* JHChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FF41F45769600B55BAC /* JHChart.m */; };
+		389AA00F1F45769600B55BAC /* JHColumnChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FF71F45769600B55BAC /* JHColumnChart.m */; };
+		389AA0101F45769600B55BAC /* JHLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FF91F45769600B55BAC /* JHLineChart.m */; };
+		389AA0111F45769600B55BAC /* JHPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FFB1F45769600B55BAC /* JHPieChart.m */; };
+		389AA0121F45769600B55BAC /* JHPieForeBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FFD1F45769600B55BAC /* JHPieForeBGView.m */; };
+		389AA0131F45769600B55BAC /* JHPieItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FFF1F45769600B55BAC /* JHPieItemsView.m */; };
+		389AA0141F45769600B55BAC /* JHRadarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA0011F45769600B55BAC /* JHRadarChart.m */; };
+		389AA0151F45769600B55BAC /* JHRingChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA0031F45769600B55BAC /* JHRingChart.m */; };
+		389AA0161F45769600B55BAC /* JHScatterChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA0051F45769600B55BAC /* JHScatterChart.m */; };
+		389AA0171F45769600B55BAC /* JHShowInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA0071F45769600B55BAC /* JHShowInfoView.m */; };
+		389AA0181F45769600B55BAC /* JHTableChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA0091F45769600B55BAC /* JHTableChart.m */; };
+		389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00B1F45769600B55BAC /* JHTableDataRowModel.m */; };
+		389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00D1F45769600B55BAC /* JHWaveChart.m */; };
+		389AA01D1F457A4D00B55BAC /* HistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA01C1F457A4D00B55BAC /* HistogramView.m */; };
 		38B2D3E51F340A6400038F47 /* HomeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */; };
 		38B2D3E81F34156F00038F47 /* InstallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3E71F34156F00038F47 /* InstallViewController.m */; };
 		38B2D3EC1F341F9B00038F47 /* InstallTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3EA1F341F9B00038F47 /* InstallTableViewCell.m */; };
@@ -178,6 +197,7 @@
 		38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB341F42C3BA00DB41B4 /* NoticeModel.m */; };
 		38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */; };
 		38C9EB3E1F42C3BA00DB41B4 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */; };
+		38DD9DC91F458A5B0028D73E /* ElectricityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38DD9DC81F458A5B0028D73E /* ElectricityModel.m */; };
 		38EEA7BA1F37FCAE00034F01 /* OneScrollViewBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */; };
 		38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7BC1F37FD8F00034F01 /* TwoScrollView.m */; };
 		38EEA7BF1F38045100034F01 /* StationTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7BE1F38045100034F01 /* StationTableHeader.xib */; };
@@ -484,6 +504,44 @@
 		3883A3301F41AD1C007967DF /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		3883A3311F41AD1C007967DF /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		3883A3321F41AD1C007967DF /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		389A9FE41F45377B00B55BAC /* MainModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainModel.h; sourceTree = "<group>"; };
+		389A9FE51F45377B00B55BAC /* MainModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainModel.m; sourceTree = "<group>"; };
+		389A9FE71F45653300B55BAC /* InstallModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallModel.h; sourceTree = "<group>"; };
+		389A9FE81F45653300B55BAC /* InstallModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallModel.m; sourceTree = "<group>"; };
+		389A9FEA1F45698E00B55BAC /* InstallStationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallStationViewController.h; sourceTree = "<group>"; };
+		389A9FEB1F45698E00B55BAC /* InstallStationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallStationViewController.m; sourceTree = "<group>"; };
+		389A9FED1F456AAB00B55BAC /* InstallStationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallStationTableViewCell.h; sourceTree = "<group>"; };
+		389A9FEE1F456AAB00B55BAC /* InstallStationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstallStationTableViewCell.m; sourceTree = "<group>"; };
+		389A9FEF1F456AAB00B55BAC /* InstallStationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstallStationTableViewCell.xib; sourceTree = "<group>"; };
+		389A9FF31F45769600B55BAC /* JHChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHChart.h; sourceTree = "<group>"; };
+		389A9FF41F45769600B55BAC /* JHChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHChart.m; sourceTree = "<group>"; };
+		389A9FF51F45769600B55BAC /* JHChartHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHChartHeader.h; sourceTree = "<group>"; };
+		389A9FF61F45769600B55BAC /* JHColumnChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHColumnChart.h; sourceTree = "<group>"; };
+		389A9FF71F45769600B55BAC /* JHColumnChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHColumnChart.m; sourceTree = "<group>"; };
+		389A9FF81F45769600B55BAC /* JHLineChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHLineChart.h; sourceTree = "<group>"; };
+		389A9FF91F45769600B55BAC /* JHLineChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHLineChart.m; sourceTree = "<group>"; };
+		389A9FFA1F45769600B55BAC /* JHPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPieChart.h; sourceTree = "<group>"; };
+		389A9FFB1F45769600B55BAC /* JHPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPieChart.m; sourceTree = "<group>"; };
+		389A9FFC1F45769600B55BAC /* JHPieForeBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPieForeBGView.h; sourceTree = "<group>"; };
+		389A9FFD1F45769600B55BAC /* JHPieForeBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPieForeBGView.m; sourceTree = "<group>"; };
+		389A9FFE1F45769600B55BAC /* JHPieItemsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHPieItemsView.h; sourceTree = "<group>"; };
+		389A9FFF1F45769600B55BAC /* JHPieItemsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHPieItemsView.m; sourceTree = "<group>"; };
+		389AA0001F45769600B55BAC /* JHRadarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHRadarChart.h; sourceTree = "<group>"; };
+		389AA0011F45769600B55BAC /* JHRadarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHRadarChart.m; sourceTree = "<group>"; };
+		389AA0021F45769600B55BAC /* JHRingChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHRingChart.h; sourceTree = "<group>"; };
+		389AA0031F45769600B55BAC /* JHRingChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHRingChart.m; sourceTree = "<group>"; };
+		389AA0041F45769600B55BAC /* JHScatterChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHScatterChart.h; sourceTree = "<group>"; };
+		389AA0051F45769600B55BAC /* JHScatterChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHScatterChart.m; sourceTree = "<group>"; };
+		389AA0061F45769600B55BAC /* JHShowInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHShowInfoView.h; sourceTree = "<group>"; };
+		389AA0071F45769600B55BAC /* JHShowInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHShowInfoView.m; sourceTree = "<group>"; };
+		389AA0081F45769600B55BAC /* JHTableChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHTableChart.h; sourceTree = "<group>"; };
+		389AA0091F45769600B55BAC /* JHTableChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHTableChart.m; sourceTree = "<group>"; };
+		389AA00A1F45769600B55BAC /* JHTableDataRowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHTableDataRowModel.h; sourceTree = "<group>"; };
+		389AA00B1F45769600B55BAC /* JHTableDataRowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHTableDataRowModel.m; sourceTree = "<group>"; };
+		389AA00C1F45769600B55BAC /* JHWaveChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHWaveChart.h; sourceTree = "<group>"; };
+		389AA00D1F45769600B55BAC /* JHWaveChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHWaveChart.m; sourceTree = "<group>"; };
+		389AA01B1F457A4D00B55BAC /* HistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistogramView.h; sourceTree = "<group>"; };
+		389AA01C1F457A4D00B55BAC /* HistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistogramView.m; sourceTree = "<group>"; };
 		38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSelectViewController.h; sourceTree = "<group>"; };
 		38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSelectViewController.m; sourceTree = "<group>"; };
 		38B2D3E61F34156F00038F47 /* InstallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallViewController.h; sourceTree = "<group>"; };
@@ -523,6 +581,8 @@
 		38C9EB361F42C3BA00DB41B4 /* NoticeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeTableViewCell.h; sourceTree = "<group>"; };
 		38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewCell.m; sourceTree = "<group>"; };
 		38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
+		38DD9DC71F458A5B0028D73E /* ElectricityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricityModel.h; sourceTree = "<group>"; };
+		38DD9DC81F458A5B0028D73E /* ElectricityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElectricityModel.m; sourceTree = "<group>"; };
 		38EEA7B81F37FCAE00034F01 /* OneScrollViewBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneScrollViewBar.h; sourceTree = "<group>"; };
 		38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneScrollViewBar.m; sourceTree = "<group>"; };
 		38EEA7BB1F37FD8F00034F01 /* TwoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoScrollView.h; sourceTree = "<group>"; };
@@ -1430,6 +1490,40 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		389A9FF21F45769600B55BAC /* JHChart */ = {
+			isa = PBXGroup;
+			children = (
+				389A9FF31F45769600B55BAC /* JHChart.h */,
+				389A9FF41F45769600B55BAC /* JHChart.m */,
+				389A9FF51F45769600B55BAC /* JHChartHeader.h */,
+				389A9FF61F45769600B55BAC /* JHColumnChart.h */,
+				389A9FF71F45769600B55BAC /* JHColumnChart.m */,
+				389A9FF81F45769600B55BAC /* JHLineChart.h */,
+				389A9FF91F45769600B55BAC /* JHLineChart.m */,
+				389A9FFA1F45769600B55BAC /* JHPieChart.h */,
+				389A9FFB1F45769600B55BAC /* JHPieChart.m */,
+				389A9FFC1F45769600B55BAC /* JHPieForeBGView.h */,
+				389A9FFD1F45769600B55BAC /* JHPieForeBGView.m */,
+				389A9FFE1F45769600B55BAC /* JHPieItemsView.h */,
+				389A9FFF1F45769600B55BAC /* JHPieItemsView.m */,
+				389AA0001F45769600B55BAC /* JHRadarChart.h */,
+				389AA0011F45769600B55BAC /* JHRadarChart.m */,
+				389AA0021F45769600B55BAC /* JHRingChart.h */,
+				389AA0031F45769600B55BAC /* JHRingChart.m */,
+				389AA0041F45769600B55BAC /* JHScatterChart.h */,
+				389AA0051F45769600B55BAC /* JHScatterChart.m */,
+				389AA0061F45769600B55BAC /* JHShowInfoView.h */,
+				389AA0071F45769600B55BAC /* JHShowInfoView.m */,
+				389AA0081F45769600B55BAC /* JHTableChart.h */,
+				389AA0091F45769600B55BAC /* JHTableChart.m */,
+				389AA00A1F45769600B55BAC /* JHTableDataRowModel.h */,
+				389AA00B1F45769600B55BAC /* JHTableDataRowModel.m */,
+				389AA00C1F45769600B55BAC /* JHWaveChart.h */,
+				389AA00D1F45769600B55BAC /* JHWaveChart.m */,
+			);
+			path = JHChart;
+			sourceTree = "<group>";
+		};
 		38B2D3DE1F340A4200038F47 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1458,6 +1552,7 @@
 			isa = PBXGroup;
 			children = (
 				38EEA7CA1F383E8D00034F01 /* MenuView */,
+				389A9FF21F45769600B55BAC /* JHChart */,
 				380494C21F32BA3700AA0DBC /* ViewController.h */,
 				380494C31F32BA3700AA0DBC /* ViewController.m */,
 				38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */,
@@ -1466,10 +1561,14 @@
 				38B2D3E71F34156F00038F47 /* InstallViewController.m */,
 				38B2D3F11F34262E00038F47 /* ElectricityViewController.h */,
 				38B2D3F21F34262E00038F47 /* ElectricityViewController.m */,
+				389AA01B1F457A4D00B55BAC /* HistogramView.h */,
+				389AA01C1F457A4D00B55BAC /* HistogramView.m */,
 				38B2D3FB1F34556000038F47 /* AlarmViewController.h */,
 				38B2D3FC1F34556000038F47 /* AlarmViewController.m */,
 				38B2D4051F345AE800038F47 /* StationViewController.h */,
 				38B2D4061F345AE800038F47 /* StationViewController.m */,
+				389A9FEA1F45698E00B55BAC /* InstallStationViewController.h */,
+				389A9FEB1F45698E00B55BAC /* InstallStationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1477,6 +1576,12 @@
 		38B2D3E11F340A4200038F47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				389A9FE41F45377B00B55BAC /* MainModel.h */,
+				389A9FE51F45377B00B55BAC /* MainModel.m */,
+				389A9FE71F45653300B55BAC /* InstallModel.h */,
+				389A9FE81F45653300B55BAC /* InstallModel.m */,
+				38DD9DC71F458A5B0028D73E /* ElectricityModel.h */,
+				38DD9DC81F458A5B0028D73E /* ElectricityModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1496,6 +1601,9 @@
 				38B2D3E91F341F9B00038F47 /* InstallTableViewCell.h */,
 				38B2D3EA1F341F9B00038F47 /* InstallTableViewCell.m */,
 				38B2D3EB1F341F9B00038F47 /* InstallTableViewCell.xib */,
+				389A9FED1F456AAB00B55BAC /* InstallStationTableViewCell.h */,
+				389A9FEE1F456AAB00B55BAC /* InstallStationTableViewCell.m */,
+				389A9FEF1F456AAB00B55BAC /* InstallStationTableViewCell.xib */,
 				38B2D3F41F344D0100038F47 /* TableTipView.xib */,
 				38B2D3FE1F34577400038F47 /* TableTipViewTwo.xib */,
 				38EEA7BE1F38045100034F01 /* StationTableHeader.xib */,
@@ -1730,6 +1838,7 @@
 				384AB7091F3C4C0F005AFE7A /* CollectionViewCellRoomMember.xib in Resources */,
 				38EEA7BF1F38045100034F01 /* StationTableHeader.xib in Resources */,
 				387D31D11F3AAFBA0066E762 /* RongCloudKit.strings in Resources */,
+				389A9FF11F456AAB00B55BAC /* InstallStationTableViewCell.xib in Resources */,
 				38EEA7DB1F38425000034F01 /* AlarmPopView.xib in Resources */,
 				38EEA7D61F383E8D00034F01 /* MenuTableViewCell.xib in Resources */,
 				38C9EB1B1F428C6900DB41B4 /* AboutViewController.xib in Resources */,
@@ -1826,7 +1935,11 @@
 				38755C9B1F3D9F4B0081CF4D /* UIScrollView+MJExtension.m in Sources */,
 				38755C4C1F3D9F350081CF4D /* IQNSArray+Sort.m in Sources */,
 				38B2D3F01F3425F200038F47 /* CJScroViewBar.m in Sources */,
+				389AA0111F45769600B55BAC /* JHPieChart.m in Sources */,
 				38755C541F3D9F350081CF4D /* IQTextView.m in Sources */,
+				389A9FF01F456AAB00B55BAC /* InstallStationTableViewCell.m in Sources */,
+				389AA0131F45769600B55BAC /* JHPieItemsView.m in Sources */,
+				389AA01D1F457A4D00B55BAC /* HistogramView.m in Sources */,
 				38EEA7C31F38052C00034F01 /* ThiredTableViewCell.m in Sources */,
 				38755C901F3D9F4B0081CF4D /* MJRefreshAutoNormalFooter.m in Sources */,
 				38755C9A1F3D9F4B0081CF4D /* NSBundle+MJRefresh.m in Sources */,
@@ -1835,20 +1948,28 @@
 				38755C531F3D9F350081CF4D /* IQKeyboardReturnKeyHandler.m in Sources */,
 				38755C931F3D9F4B0081CF4D /* MJRefreshBackNormalFooter.m in Sources */,
 				387D32121F3AB3DB0066E762 /* CustomerViewController.m in Sources */,
+				389A9FEC1F45698E00B55BAC /* InstallStationViewController.m in Sources */,
 				38755C961F3D9F4B0081CF4D /* MJRefreshNormalHeader.m in Sources */,
+				389AA0101F45769600B55BAC /* JHLineChart.m in Sources */,
 				38755C911F3D9F4B0081CF4D /* MJRefreshAutoStateFooter.m in Sources */,
 				38755C211F3D9F2B0081CF4D /* AFHTTPSessionManager.m in Sources */,
 				38B2D4071F345AE800038F47 /* StationViewController.m in Sources */,
 				38755C8F1F3D9F4B0081CF4D /* MJRefreshAutoGifFooter.m in Sources */,
+				389AA0141F45769600B55BAC /* JHRadarChart.m in Sources */,
 				384AB7031F3C4C0F005AFE7A /* QRCodeController.m in Sources */,
 				384AB6FF1F3C4C0F005AFE7A /* LivePlayerViewController.m in Sources */,
+				389AA0151F45769600B55BAC /* JHRingChart.m in Sources */,
 				384AB70A1F3C4C0F005AFE7A /* DragButton.m in Sources */,
 				3864832F1F3C3233000A8EB1 /* LiveViewController.m in Sources */,
 				384AB7071F3C4C0F005AFE7A /* GotyeLiveConfig.m in Sources */,
 				384AB7011F3C4C0F005AFE7A /* LoginViewController.m in Sources */,
 				3883A3331F41AD1C007967DF /* SettingViewController.m in Sources */,
 				38EEA7D41F383E8D00034F01 /* MenuView.m in Sources */,
+				389A9FE61F45377B00B55BAC /* MainModel.m in Sources */,
 				38755C991F3D9F4B0081CF4D /* MJRefreshConst.m in Sources */,
+				389AA00E1F45769600B55BAC /* JHChart.m in Sources */,
+				389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */,
+				389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */,
 				384AB7101F3C4C0F005AFE7A /* VideoResolutionView.m in Sources */,
 				38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */,
 				38B2D3EC1F341F9B00038F47 /* InstallTableViewCell.m in Sources */,
@@ -1870,17 +1991,22 @@
 				384AB7191F3C4D24005AFE7A /* MBProgressHUD.m in Sources */,
 				384AB6FE1F3C4C0F005AFE7A /* BaseNavigationController.m in Sources */,
 				38755C8D1F3D9F4B0081CF4D /* MJRefreshFooter.m in Sources */,
+				389AA0181F45769600B55BAC /* JHTableChart.m in Sources */,
+				389AA00F1F45769600B55BAC /* JHColumnChart.m in Sources */,
 				380494C11F32BA3700AA0DBC /* AppDelegate.m in Sources */,
 				38755C231F3D9F2B0081CF4D /* AFSecurityPolicy.m in Sources */,
 				38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */,
 				38755C521F3D9F350081CF4D /* IQKeyboardManager.m in Sources */,
 				384AB70E1F3C4C0F005AFE7A /* UIView+Extension.m in Sources */,
+				389AA0161F45769600B55BAC /* JHScatterChart.m in Sources */,
 				38755C571F3D9F350081CF4D /* IQTitleBarButtonItem.m in Sources */,
 				38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */,
+				389AA0171F45769600B55BAC /* JHShowInfoView.m in Sources */,
 				38755C561F3D9F350081CF4D /* IQPreviousNextView.m in Sources */,
 				38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */,
 				38B2D3FD1F34556000038F47 /* AlarmViewController.m in Sources */,
 				38755C9D1F3D9F4B0081CF4D /* UIView+MJExtension.m in Sources */,
+				389AA0121F45769600B55BAC /* JHPieForeBGView.m in Sources */,
 				38B2D4031F34584500038F47 /* SecondTwoTableViewCell.m in Sources */,
 				38B2D3E81F34156F00038F47 /* InstallViewController.m in Sources */,
 				38755C221F3D9F2B0081CF4D /* AFNetworkReachabilityManager.m in Sources */,
@@ -1890,6 +2016,7 @@
 				38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */,
 				38755C9C1F3D9F4B0081CF4D /* UIScrollView+MJRefresh.m in Sources */,
 				38B2D3F31F34262E00038F47 /* ElectricityViewController.m in Sources */,
+				389A9FE91F45653300B55BAC /* InstallModel.m in Sources */,
 				38755C951F3D9F4B0081CF4D /* MJRefreshGifHeader.m in Sources */,
 				38EEA7D51F383E8D00034F01 /* MenuTableViewCell.m in Sources */,
 				384AB70D1F3C4C0F005AFE7A /* MessageCell.m in Sources */,
@@ -1897,6 +2024,7 @@
 				3883A3271F41A084007967DF /* ForgetViewController.m in Sources */,
 				38755C501F3D9F350081CF4D /* IQUIViewController+Additions.m in Sources */,
 				384AB70B1F3C4C0F005AFE7A /* ZqwHorizontalTableView.m in Sources */,
+				38DD9DC91F458A5B0028D73E /* ElectricityModel.m in Sources */,
 				380494BE1F32BA3700AA0DBC /* main.m in Sources */,
 				38755C4F1F3D9F350081CF4D /* IQUIView+Hierarchy.m in Sources */,
 			);

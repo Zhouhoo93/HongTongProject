@@ -98,6 +98,14 @@
                     <constraint firstItem="r3Z-0f-cbT" firstAttribute="leading" secondItem="ljg-P0-SKc" secondAttribute="trailing" id="xDC-TQ-FvH"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="fadianliang" destination="ljg-P0-SKc" id="3QZ-qB-oxW"/>
+                <outlet property="houseID" destination="gjs-MF-qr4" id="aoF-nq-9mb"/>
+                <outlet property="pingjungonglv" destination="zVE-hY-nGv" id="TXW-H4-0zW"/>
+                <outlet property="shangwangdianliang" destination="7E9-Nd-DCk" id="vTy-MT-tjg"/>
+                <outlet property="zhuangjiliang" destination="r3Z-0f-cbT" id="3Zd-gp-8Nq"/>
+                <outlet property="zifaziyong" destination="caR-3O-Ern" id="hcE-FX-YO9"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

@@ -11,6 +11,10 @@
 #import "SecondTableViewCell.h"
 #import "MenuView.h"
 #import "LeftMenuViewDemo.h"
+#import "AppDelegate.h"
+#import "LoginOneViewController.h"
+#import "ElectricityModel.h"
+#import "MJRefresh.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
@@ -23,6 +27,9 @@
 @property (nonatomic,strong) UITableView *table;
 @property (nonatomic,strong) CJScroViewBar *scroView;
 @property (nonatomic ,strong)MenuView      *menu;
+@property (nonatomic,strong)ElectricityModel *model;
+@property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)LeftMenuViewDemo *demo;
 @end
 
 @implementation ElectricityViewController
@@ -31,14 +38,15 @@
     [super viewDidLoad];
     [self createSegmentMenu];
     [self setMenu];
+    [self requestData];
     // Do any additional setup after loading the view.
 }
 
 - (void)setMenu{
-    LeftMenuViewDemo *demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
-    demo.customDelegate = self;
+    self.demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
+    self.demo.customDelegate = self;
     
-    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
+    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:self.demo isShowCoverView:YES];
     //    MenuView *menu = [[MenuView alloc]initWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
     self.menu = menu;
 
@@ -47,7 +55,6 @@
 - (void)createSegmentMenu{
     //数据源
     NSArray *array = @[@"全部",@"全额上网",@"余电上网"];
-    
     _scroView = [CJScroViewBar setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
                      :kColor(16, 16, 16) SelectColor
@@ -62,12 +69,13 @@
     
     
     //TabBar回调
+    __weak ElectricityViewController *weakSelf =self;
     [_scroView getViewIndex:^(NSString *title, NSInteger index) {
         
         NSLog(@"title:%@ - index:%li",title,index);
         
         [UIView animateWithDuration:0.3 animations:^{
-            self.scrollView.contentOffset = CGPointMake(index * Bound_Width, 0);
+            weakSelf.scrollView.contentOffset = CGPointMake(index * Bound_Width, 0);
         }];
         
         /***********************【回调】***********************/
@@ -179,10 +187,19 @@
         self.table.dataSource = self;
         self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
         [bgImage addSubview:self.table];
+        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+        // 隐藏时间
+        header.lastUpdatedTimeLabel.hidden = YES;
+        // 隐藏状态
+        //    header.stateLabel.hidden = YES;
+        self.table.mj_header = header;
+        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return _dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -194,8 +211,19 @@
         NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"SecondTableViewCell" owner:nil options:nil];
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor clearColor];
-        //        cell.nameLabel.font = [UIFont systemFontOfSize:14];
-        
+        _model = _dataArr[indexPath.row];
+        cell.houseID.text = [NSString stringWithFormat:@"%@",_model.house_id];
+        CGFloat fadianliang = [_model.gen_cap floatValue];
+        CGFloat shouyi = [_model.gen_fee floatValue];
+        cell.fadianliang.text = [NSString stringWithFormat:@"%.2f/%.2f",fadianliang,shouyi];
+        NSInteger num = [_model.installed_gross_capacity integerValue];
+        cell.zhuangjiliang.text = [NSString stringWithFormat:@"%zd",num/1000];
+        CGFloat zifaziyong = [_model.gen_use_self_cap floatValue];
+        CGFloat jiazhi = [_model.gen_use_self_fee floatValue];
+        cell.zifaziyong.text = [NSString stringWithFormat:@"%.2f/%.2f",zifaziyong,jiazhi];
+        cell.shangwangdianliang.text = [NSString stringWithFormat:@"%@",_model.up_net_ele];
+         CGFloat pingjungonglv = [_model.gen_power floatValue];
+        cell.pingjungonglv.text = [NSString stringWithFormat:@"%.2f",pingjungonglv/1000];
     }
     return cell;
     
@@ -213,7 +241,96 @@
     [CJScroViewBar setViewIndex:index];
 }
 
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/sites/data",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取电站信息正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_model];
+            }
 
+//            if (_dataArr.count<10) {
+//                self.table.frame = CGRectMake(0, 48, KWidth, 34*_dataArr.count);
+//            }else{
+//                self.table.frame = CGRectMake(0, 48, KWidth, 340);
+//            }
+//            
+            [self.table reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr;
+}
+
+-(ElectricityModel *)model{
+    if (!_model) {
+        _model = [[ElectricityModel alloc] init];
+    }
+    return  _model;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
