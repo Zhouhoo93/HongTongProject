@@ -25,11 +25,17 @@
 @property (nonatomic,strong) UIView *QuanEView;
 @property (nonatomic,strong) UIView *YuDianView;
 @property (nonatomic,strong) UITableView *table;
+@property (nonatomic,strong) UITableView *table1;
+@property (nonatomic,strong) UITableView *table2;
 @property (nonatomic,strong) CJScroViewBar *scroView;
 @property (nonatomic ,strong)MenuView      *menu;
 @property (nonatomic,strong)ElectricityModel *model;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)LeftMenuViewDemo *demo;
+@property (nonatomic,copy) NSString *timeBtn;
+@property (nonatomic,strong) UIButton *timeSelectBtn;
+@property (nonatomic,strong) UIButton *timeSelectBtn1;
+@property (nonatomic,strong) UIButton *timeSelectBtn2;
 @end
 
 @implementation ElectricityViewController
@@ -128,26 +134,82 @@
     for (int j=0; j<3; j++) {
         
         for (int i=0; i<3; i++) {
-            UIButton *topButton = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
+            
             if (i==0) {
+                UIButton *topButton = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
                 [topButton setBackgroundImage:[UIImage imageNamed:@"图层-20"] forState:0];
                 [topButton setTitle:@"     排 序" forState:0];
+                [topButton setTitleColor:[UIColor whiteColor] forState:0];
+                topButton.titleLabel.font = [UIFont systemFontOfSize:14];
+                if (j==0) {
+                    [self.AllView addSubview:topButton];
+                }else if(j==1){
+                    [self.QuanEView addSubview:topButton];
+                }else{
+                    [self.YuDianView addSubview:topButton];
+                }
+
             }else if (i==1){
-                [topButton setBackgroundImage:[UIImage imageNamed:@"图层-21-拷贝"] forState:0];
-                [topButton setTitle:@"     今 日" forState:0];
+                if (j==0) {
+                    self.timeSelectBtn = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
+                    [self.timeSelectBtn setBackgroundImage:[UIImage imageNamed:@"图层-21-拷贝"] forState:0];
+                    [self.timeSelectBtn setTitle:@"     今 日" forState:0];
+                    [self.timeSelectBtn addTarget:self action:@selector(shijianBtnClick) forControlEvents:UIControlEventTouchUpInside];
+                    [self.timeSelectBtn setTitleColor:[UIColor whiteColor] forState:0];
+                    self.timeSelectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+                    if (j==0) {
+                        [self.AllView addSubview:self.timeSelectBtn];
+                    }else if(j==1){
+                        [self.QuanEView addSubview:self.timeSelectBtn];
+                    }else{
+                        [self.YuDianView addSubview:self.timeSelectBtn];
+                    }
+
+                }else if (j==1){
+                    self.timeSelectBtn1 = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
+                    [self.timeSelectBtn1 setBackgroundImage:[UIImage imageNamed:@"图层-21-拷贝"] forState:0];
+                    [self.timeSelectBtn1 setTitle:@"     今 日" forState:0];
+                    [self.timeSelectBtn1 addTarget:self action:@selector(shijianBtnClick) forControlEvents:UIControlEventTouchUpInside];
+                    [self.timeSelectBtn1 setTitleColor:[UIColor whiteColor] forState:0];
+                    self.timeSelectBtn1.titleLabel.font = [UIFont systemFontOfSize:14];
+                    if (j==0) {
+                        [self.AllView addSubview:self.timeSelectBtn1];
+                    }else if(j==1){
+                        [self.QuanEView addSubview:self.timeSelectBtn1];
+                    }else{
+                        [self.YuDianView addSubview:self.timeSelectBtn1];
+                    }
+                }else{
+                    self.timeSelectBtn2 = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
+                    [self.timeSelectBtn2 setBackgroundImage:[UIImage imageNamed:@"图层-21-拷贝"] forState:0];
+                    [self.timeSelectBtn2 setTitle:@"     今 日" forState:0];
+                    [self.timeSelectBtn2 addTarget:self action:@selector(shijianBtnClick) forControlEvents:UIControlEventTouchUpInside];
+                    [self.timeSelectBtn2 setTitleColor:[UIColor whiteColor] forState:0];
+                    self.timeSelectBtn2.titleLabel.font = [UIFont systemFontOfSize:14];
+                    if (j==0) {
+                        [self.AllView addSubview:self.timeSelectBtn2];
+                    }else if(j==1){
+                        [self.QuanEView addSubview:self.timeSelectBtn2];
+                    }else{
+                        [self.YuDianView addSubview:self.timeSelectBtn2];
+                    }
+                }
+                
             }else{
+                UIButton *topButton = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
                 [topButton setBackgroundImage:[UIImage imageNamed:@"图层-19"] forState:0];
                 [topButton setTitle:@"     筛 选" forState:0];
                 [topButton addTarget:self action:@selector(ShaiXuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-            }
-            [topButton setTitleColor:[UIColor whiteColor] forState:0];
-            topButton.titleLabel.font = [UIFont systemFontOfSize:14];
-            if (j==0) {
-                [self.AllView addSubview:topButton];
-            }else if(j==1){
-                [self.QuanEView addSubview:topButton];
-            }else{
-                [self.YuDianView addSubview:topButton];
+                [topButton setTitleColor:[UIColor whiteColor] forState:0];
+                topButton.titleLabel.font = [UIFont systemFontOfSize:14];
+                if (j==0) {
+                    [self.AllView addSubview:topButton];
+                }else if(j==1){
+                    [self.QuanEView addSubview:topButton];
+                }else{
+                    [self.YuDianView addSubview:topButton];
+                }
+
             }
         }
     }
@@ -157,6 +219,52 @@
 - (void)ShaiXuanBtnClick{
     [self.menu show];
 }
+
+- (void)shijianBtnClick{
+    UIActionSheet *actionsheet03 = [[UIActionSheet alloc] initWithTitle:@"选择时间" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"今日", @"本月",@"今年",  nil];
+    // 显示
+    [actionsheet03 showInView:self.view];
+
+}
+// UIActionSheetDelegate实现代理方法
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"buttonIndex=%ld", buttonIndex);
+    
+    
+    if (0 == buttonIndex)
+    {
+        NSLog(@"点击了小戴按钮");
+        self.timeBtn = @"今日";
+        [self.timeSelectBtn setTitle:@"     今 日" forState:0];
+        [self.timeSelectBtn1 setTitle:@"     今 日" forState:0];
+        [self.timeSelectBtn2 setTitle:@"     今 日" forState:0];
+        [self requestData];
+    }
+    else if (1 == buttonIndex)
+    {
+        NSLog(@"点击了中带按钮");
+        self.timeBtn = @"本月";
+        [self.timeSelectBtn setTitle:@"     本 月" forState:0];
+        [self.timeSelectBtn1 setTitle:@"     本 月" forState:0];
+        [self.timeSelectBtn2 setTitle:@"     本 月" forState:0];
+        [self requestData];
+    }
+    else if (2 == buttonIndex)
+    {
+        NSLog(@"点击了大袋按钮");
+        self.timeBtn = @"今年";
+        [self.timeSelectBtn setTitle:@"     今 年" forState:0];
+        [self.timeSelectBtn1 setTitle:@"     今 年" forState:0];
+        [self.timeSelectBtn2 setTitle:@"     今 年" forState:0];
+        [self requestData];
+    }else if (3 == buttonIndex)
+    {
+        NSLog(@"点击了取消按钮");
+    }
+    
+}
+
 
 -(void)LeftMenuViewClick:(NSInteger)tag{
     [self.menu hidenWithAnimation];
@@ -170,35 +278,75 @@
         bgImage.userInteractionEnabled = YES;
         bgImage.image = [UIImage imageNamed:@"首页背景框"];
         if (i==0) {
+            
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipView" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table.backgroundColor = [UIColor clearColor];
+            self.table.delegate = self;
+            self.table.dataSource = self;
+            self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table];
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table.mj_header = header;
+            self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
             [self.AllView addSubview:bgImage];
         }else if (i==1){
+            
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipView" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table1.backgroundColor = [UIColor clearColor];
+            self.table1.delegate = self;
+            self.table1.dataSource = self;
+            self.table1.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table1];
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table1.mj_header = header;
+            self.table1.mj_header.ignoredScrollViewContentInsetTop = self.table1.contentInset.top;
             [self.QuanEView addSubview:bgImage];
         }else{
+            
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipView" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table2.backgroundColor = [UIColor clearColor];
+            self.table2.delegate = self;
+            self.table2.dataSource = self;
+            self.table2.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table2];
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table2.mj_header = header;
+            self.table2.mj_header.ignoredScrollViewContentInsetTop = self.table2.contentInset.top;
             [self.YuDianView addSubview:bgImage];
         }
-
-        NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipView" owner:nil options:nil];
-        UIView *TableTipView = [nibContents lastObject];
-        TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
-        [bgImage addSubview:TableTipView];
-        self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
-        self.table.backgroundColor = [UIColor clearColor];
-        self.table.delegate = self;
-        self.table.dataSource = self;
-        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [bgImage addSubview:self.table];
-        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
-        // 隐藏时间
-        header.lastUpdatedTimeLabel.hidden = YES;
-        // 隐藏状态
-        //    header.stateLabel.hidden = YES;
-        self.table.mj_header = header;
-        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
-
+     
+        
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+  
     return _dataArr.count;
 }
 
@@ -243,6 +391,9 @@
 }
 
 -(void)requestData{
+    for (int i=0; i<3; i++) {
+        
+    
     NSString *URL = [NSString stringWithFormat:@"%@/sites/data",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -250,12 +401,20 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
-    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    if (i==1) {
+        [parameters setValue:@"0" forKey:@"access_way"];
+    }else if (i==2){
+        [parameters setValue:@"1" forKey:@"access_way"];
+    }
+        if (self.timeBtn.length>0) {
+            [parameters setValue:self.timeBtn forKey:@"time"];
+        }
+    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"获取电站信息正确%@",responseObject);
+        
         
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
@@ -268,25 +427,43 @@
                 [MBProgressHUD showText:str];
             }
         }else{
-            for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
-                _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                [self.dataArr addObject:_model];
-            }
+            if (i==0) {
+                NSLog(@"获取全部电站信息正确%@",responseObject);
+                [self.dataArr removeAllObjects];
+                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                    [self.dataArr addObject:_model];
+                }
+                
+                [self.table reloadData];
+            }else if (i==1){
+                NSLog(@"获取全额信息正确%@",responseObject);
+                [self.dataArr removeAllObjects];
+                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                    [self.dataArr addObject:_model];
+                }
+                
+                [self.table1 reloadData];
+            }else if(i==2){
+                NSLog(@"获取余电信息正确%@",responseObject);
+                [self.dataArr removeAllObjects];
+                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                    [self.dataArr addObject:_model];
+                }
+                
+                [self.table2 reloadData];
 
-//            if (_dataArr.count<10) {
-//                self.table.frame = CGRectMake(0, 48, KWidth, 34*_dataArr.count);
-//            }else{
-//                self.table.frame = CGRectMake(0, 48, KWidth, 340);
-//            }
-//            
-            [self.table reloadData];
+            }
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"失败%@",error);
         //        [MBProgressHUD showText:@"%@",error[@"error"]];
     }];
-    
+    }
     
 }
 
