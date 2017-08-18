@@ -49,11 +49,11 @@
 @implementation CJScroViewBar
 
 + (CJScroViewBar *)sharedTabBar{
-    static CJScroViewBar *CustomTabBar = nil;
-    static dispatch_once_t tabBar;
-    dispatch_once(&tabBar, ^{
+    static CJScroViewBar *CustomTabBar;
+//    static dispatch_once_t tabBar;
+//    dispatch_once(&tabBar, ^{
         CustomTabBar = [[self alloc] init];
-    });
+//    });
     return CustomTabBar;
 }
 
@@ -156,8 +156,11 @@
 
 + (void)setViewIndex:(NSInteger)index{
     [[CJScroViewBar sharedTabBar] setViewIndex:index];
+//    [self setViewIndex:index];
 }
-
+- (void)setlineFrame:(NSInteger)index{
+    [self setViewIndex:index];
+}
 - (void)setViewIndex:(NSInteger)index{
     if (index < 0) {
         index = 0;
@@ -179,7 +182,7 @@
     tempBtn.selected = YES;
     self.selectedBtn = tempBtn;
     
-    CGFloat x = index * (Bound_Width / tempArray.count);
+    CGFloat x = index * (KWidth / tempArray.count);
     [UIView animateWithDuration:0.3 animations:^{
         CGRect frame = self.lineView.frame;
         frame.origin.x = x;

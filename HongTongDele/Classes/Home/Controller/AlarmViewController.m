@@ -248,6 +248,7 @@
     
     //设置Bar的移动位置
     [OneScrollViewBar setViewIndex:index];
+    [self.scroView setlineFrame:index];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

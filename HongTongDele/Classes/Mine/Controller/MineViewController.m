@@ -286,7 +286,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"])  {
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{

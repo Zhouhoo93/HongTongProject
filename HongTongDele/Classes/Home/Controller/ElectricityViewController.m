@@ -55,6 +55,7 @@
 - (void)createSegmentMenu{
     //数据源
     NSArray *array = @[@"全部",@"全额上网",@"余电上网"];
+    
     _scroView = [CJScroViewBar setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
                      :kColor(16, 16, 16) SelectColor
@@ -66,7 +67,6 @@
     
     //设置默认值
     [CJScroViewBar setViewIndex:0];
-    
     
     //TabBar回调
     __weak ElectricityViewController *weakSelf =self;
@@ -239,6 +239,7 @@
     NSInteger index = scrollView.contentOffset.x / Bound_Width;
     //设置Bar的移动位置
     [CJScroViewBar setViewIndex:index];
+    [self.scroView setlineFrame:index];
 }
 
 -(void)requestData{
@@ -259,7 +260,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"])  {
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{

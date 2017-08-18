@@ -22,17 +22,19 @@
 @implementation TwoScrollView
 + (TwoScrollView *)sharedTabBar{
     static TwoScrollView *TwoScrollView = nil;
-    static dispatch_once_t tabBar;
-    dispatch_once(&tabBar, ^{
+//    static dispatch_once_t tabBar;
+//    dispatch_once(&tabBar, ^{
         TwoScrollView = [[self alloc] init];
-    });
+//    });
     return TwoScrollView;
 }
 
 + (TwoScrollView *)setTabBarPoint:(CGPoint)points{
     return [[TwoScrollView sharedTabBar] setTabBarPoint:points];
 }
-
+- (void)setlineFrame:(NSInteger)index{
+    [self setViewIndex:index];
+}
 - (TwoScrollView *)setTabBarPoint:(CGPoint)point{
     CGRect frame = self.frame;
     frame.origin.x = point.x;

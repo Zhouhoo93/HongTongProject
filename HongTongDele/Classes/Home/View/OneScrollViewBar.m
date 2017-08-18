@@ -22,17 +22,19 @@
 
 + (OneScrollViewBar *)sharedTabBar{
     static OneScrollViewBar *OneScrollViewBar = nil;
-    static dispatch_once_t tabBar;
-    dispatch_once(&tabBar, ^{
+//    static dispatch_once_t tabBar;
+//    dispatch_once(&tabBar, ^{
         OneScrollViewBar = [[self alloc] init];
-    });
+//    });
     return OneScrollViewBar;
 }
 
 + (OneScrollViewBar *)setTabBarPoint:(CGPoint)points{
     return [[OneScrollViewBar sharedTabBar] setTabBarPoint:points];
 }
-
+- (void)setlineFrame:(NSInteger)index{
+    [self setViewIndex:index];
+}
 - (OneScrollViewBar *)setTabBarPoint:(CGPoint)point{
     CGRect frame = self.frame;
     frame.origin.x = point.x;

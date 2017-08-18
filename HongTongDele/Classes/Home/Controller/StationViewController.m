@@ -236,6 +236,7 @@
     
     //设置Bar的移动位置
     [TwoScrollView setViewIndex:index];
+    [self.scroView setlineFrame:index];
 }
 
 /*

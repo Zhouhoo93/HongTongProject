@@ -45,5 +45,5 @@ typedef void (^IndexBlock)(NSString *title,NSInteger index);
  *  @param index 下标
  */
 + (void)setViewIndex:(NSInteger)index;
-
+- (void)setlineFrame:(NSInteger)index;
 @end
