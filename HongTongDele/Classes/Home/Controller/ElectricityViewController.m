@@ -15,11 +15,18 @@
 #import "LoginOneViewController.h"
 #import "ElectricityModel.h"
 #import "MJRefresh.h"
+#import "ZYSideSlipFilterController.h"
+#import "ZYSideSlipFilterRegionModel.h"
+#import "CommonItemModel.h"
+#import "AddressModel.h"
+#import "PriceRangeModel.h"
+#import "SideSlipCommonTableViewCell.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
 #define kColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 @interface ElectricityViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,HomeMenuViewDelegate>
+@property (strong, nonatomic) ZYSideSlipFilterController *filterController;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic,strong) UIView *AllView;
 @property (nonatomic,strong) UIView *QuanEView;
@@ -36,6 +43,9 @@
 @property (nonatomic,strong) UIButton *timeSelectBtn;
 @property (nonatomic,strong) UIButton *timeSelectBtn1;
 @property (nonatomic,strong) UIButton *timeSelectBtn2;
+@property (nonatomic,copy) NSString *province;
+@property (nonatomic,copy) NSString *city;
+@property (nonatomic,copy) NSString *town;
 @end
 
 @implementation ElectricityViewController
@@ -47,26 +57,15 @@
     [self requestData];
     // Do any additional setup after loading the view.
 }
-
-- (void)setMenu{
-    self.demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
-    self.demo.customDelegate = self;
-    
-    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:self.demo isShowCoverView:YES];
-    //    MenuView *menu = [[MenuView alloc]initWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
-    self.menu = menu;
-
-}
-
 - (void)createSegmentMenu{
     //数据源
     NSArray *array = @[@"全部",@"全额上网",@"余电上网"];
     
     _scroView = [CJScroViewBar setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
-                     :kColor(16, 16, 16) SelectColor
-                     :[UIColor whiteColor] Font
-                     :[UIFont systemFontOfSize:15]];
+                      :kColor(16, 16, 16) SelectColor
+                      :[UIColor whiteColor] Font
+                      :[UIFont systemFontOfSize:15]];
     
     
     [self.view addSubview:_scroView];
@@ -125,6 +124,58 @@
     
 }
 
+- (void)setMenu{
+
+    self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self resetBlock:^(NSArray *dataList) {
+        for (ZYSideSlipFilterRegionModel *model in dataList) {
+            //selectedStatus
+            for (CommonItemModel *itemModel in model.itemList) {
+                    [itemModel setSelected:NO];
+            }
+            //selectedItem
+            NSLog(@"dataList:%@",dataList);
+            model.selectedItemList = nil;
+        }
+    }                                                               commitBlock:^(NSArray *dataList) {
+                                
+            //Common Region
+            NSMutableString *commonRegionString = [NSMutableString string];
+            for (int i = 0; i < dataList.count; i ++) {
+                ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
+                [commonRegionString appendFormat:@"\n%@:", commonRegionModel.regionTitle];
+               
+                NSMutableArray *commonItemSelectedArray = [NSMutableArray array];
+                for (CommonItemModel *itemModel in commonRegionModel.itemList) {
+                    if (itemModel.selected) {
+                        [commonItemSelectedArray addObject:[NSString stringWithFormat:@"%@-%@", itemModel.itemId, itemModel.itemName]];
+                        if (i==0) {
+                            self.province = itemModel.itemName;
+                        }else if (i==1){
+                            self.city = itemModel.itemName;
+                        }else if (i==2){
+                            self.town = itemModel.itemName;
+                        }
+                    }
+                }
+                    [commonRegionString appendString:[commonItemSelectedArray componentsJoinedByString:@", "]];
+            }
+                NSLog(@"%@", commonRegionString);
+        NSLog(@"%@-%@-%@",self.province,self.city,self.town);
+        [self requestData];
+        [_filterController dismiss];
+            }];
+    _filterController.animationDuration = .3f;
+    _filterController.sideSlipLeading = 0.15*[UIScreen mainScreen].bounds.size.width;
+    _filterController.dataList = [self packageDataList];
+    
+}
+- (void)configureShowFilterButton {
+    //    _showFilterButton.layer.shadowOffset = CGSizeMake(1, 1);
+    //    _showFilterButton.layer.shadowOpacity = 0.6f;
+    //    _showFilterButton.layer.shadowColor = [UIColor grayColor].CGColor;
+}
+
+
 -(void)backBtnClick{
     self.scroView = nil;
     [self.navigationController popViewControllerAnimated:YES];
@@ -148,7 +199,7 @@
                 }else{
                     [self.YuDianView addSubview:topButton];
                 }
-
+                
             }else if (i==1){
                 if (j==0) {
                     self.timeSelectBtn = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
@@ -164,7 +215,7 @@
                     }else{
                         [self.YuDianView addSubview:self.timeSelectBtn];
                     }
-
+                    
                 }else if (j==1){
                     self.timeSelectBtn1 = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-270)/4*(i+1)+90*i, 10, 90, 40)];
                     [self.timeSelectBtn1 setBackgroundImage:[UIImage imageNamed:@"图层-21-拷贝"] forState:0];
@@ -209,7 +260,7 @@
                 }else{
                     [self.YuDianView addSubview:topButton];
                 }
-
+                
             }
         }
     }
@@ -217,14 +268,15 @@
 }
 
 - (void)ShaiXuanBtnClick{
-    [self.menu show];
+    //    [self.menu show];
+    [_filterController show];
 }
 
 - (void)shijianBtnClick{
     UIActionSheet *actionsheet03 = [[UIActionSheet alloc] initWithTitle:@"选择时间" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"今日", @"本月",@"今年",  nil];
     // 显示
     [actionsheet03 showInView:self.view];
-
+    
 }
 // UIActionSheetDelegate实现代理方法
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -341,12 +393,12 @@
             self.table2.mj_header.ignoredScrollViewContentInsetTop = self.table2.contentInset.top;
             [self.YuDianView addSubview:bgImage];
         }
-     
+        
         
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-  
+    
     return _dataArr.count;
 }
 
@@ -370,7 +422,7 @@
         CGFloat jiazhi = [_model.gen_use_self_fee floatValue];
         cell.zifaziyong.text = [NSString stringWithFormat:@"%.2f/%.2f",zifaziyong,jiazhi];
         cell.shangwangdianliang.text = [NSString stringWithFormat:@"%@",_model.up_net_ele];
-         CGFloat pingjungonglv = [_model.gen_power floatValue];
+        CGFloat pingjungonglv = [_model.gen_power floatValue];
         cell.pingjungonglv.text = [NSString stringWithFormat:@"%.2f",pingjungonglv/1000];
     }
     return cell;
@@ -393,76 +445,85 @@
 -(void)requestData{
     for (int i=0; i<3; i++) {
         
-    
-    NSString *URL = [NSString stringWithFormat:@"%@/sites/data",kUrl];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *token = [userDefaults valueForKey:@"token"];
-    NSLog(@"token:%@",token);
-    [userDefaults synchronize];
-    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    if (i==1) {
-        [parameters setValue:@"0" forKey:@"access_way"];
-    }else if (i==2){
-        [parameters setValue:@"1" forKey:@"access_way"];
-    }
+        
+        NSString *URL = [NSString stringWithFormat:@"%@/sites/data",kUrl];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [userDefaults synchronize];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        if (i==1) {
+            [parameters setValue:@"0" forKey:@"access_way"];
+        }else if (i==2){
+            [parameters setValue:@"1" forKey:@"access_way"];
+        }
         if (self.timeBtn.length>0) {
             [parameters setValue:self.timeBtn forKey:@"time"];
         }
-    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        
-        if ([responseObject[@"result"][@"success"] intValue] ==0) {
-            NSNumber *code = responseObject[@"result"][@"errorCode"];
-            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
-                [MBProgressHUD showText:@"请重新登陆"];
-                [self newLogin];
+        if (self.province.length>0) {
+            [parameters setValue:self.province forKey:@"province"];
+        }
+        if (self.city.length>0) {
+            [parameters setValue:self.city forKey:@"city"];
+        }
+        if (self.town.length>0) {
+            [parameters setValue:self.town forKey:@"town"];
+        }
+        [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            
+            if ([responseObject[@"result"][@"success"] intValue] ==0) {
+                NSNumber *code = responseObject[@"result"][@"errorCode"];
+                NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+                if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                    [MBProgressHUD showText:@"请重新登陆"];
+                    [self newLogin];
+                }else{
+                    NSString *str = responseObject[@"result"][@"errorMsg"];
+                    [MBProgressHUD showText:str];
+                }
             }else{
-                NSString *str = responseObject[@"result"][@"errorMsg"];
-                [MBProgressHUD showText:str];
-            }
-        }else{
-            if (i==0) {
-                NSLog(@"获取全部电站信息正确%@",responseObject);
-                [self.dataArr removeAllObjects];
-                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
-                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                    [self.dataArr addObject:_model];
+                if (i==0) {
+                    NSLog(@"获取全部电站信息正确%@",responseObject);
+                    [self.dataArr removeAllObjects];
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    
+                    [self.table reloadData];
+                }else if (i==1){
+                    NSLog(@"获取全额信息正确%@",responseObject);
+                    [self.dataArr removeAllObjects];
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    
+                    [self.table1 reloadData];
+                }else if(i==2){
+                    NSLog(@"获取余电信息正确%@",responseObject);
+                    [self.dataArr removeAllObjects];
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[ElectricityModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    
+                    [self.table2 reloadData];
+                    
                 }
                 
-                [self.table reloadData];
-            }else if (i==1){
-                NSLog(@"获取全额信息正确%@",responseObject);
-                [self.dataArr removeAllObjects];
-                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
-                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                    [self.dataArr addObject:_model];
-                }
-                
-                [self.table1 reloadData];
-            }else if(i==2){
-                NSLog(@"获取余电信息正确%@",responseObject);
-                [self.dataArr removeAllObjects];
-                for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
-                    _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                    [self.dataArr addObject:_model];
-                }
-                
-                [self.table2 reloadData];
-
             }
             
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"失败%@",error);
-        //        [MBProgressHUD showText:@"%@",error[@"error"]];
-    }];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"失败%@",error);
+            //        [MBProgressHUD showText:@"%@",error[@"error"]];
+        }];
     }
     
 }
@@ -513,6 +574,73 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - 模拟数据源
+- (NSArray *)packageDataList {
+    NSMutableArray *dataArray = [NSMutableArray array];
+    
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"省" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"县(市、区)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"乡镇(街道)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"发电方式" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    
+    return [dataArray mutableCopy];
+}
+
+- (ZYSideSlipFilterRegionModel *)commonFilterRegionModelWithKeyword:(NSString *)keyword selectionType:(CommonTableViewCellSelectionType)selectionType {
+    ZYSideSlipFilterRegionModel *model = [[ZYSideSlipFilterRegionModel alloc] init];
+    model.containerCellClass = @"SideSlipCommonTableViewCell";
+    model.regionTitle = keyword;
+    model.customDict = @{REGION_SELECTION_TYPE:@(selectionType)};
+    if ([keyword isEqualToString:@"省"]) {
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"浙江省"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"湖南省"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"江苏省"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"县(市、区)"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"杭州下城"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"宁波慈溪"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"杭州江干"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"乡镇(街道)"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"下沙街道"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"白杨街道"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"没有街道"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"发电方式"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"全额上网"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"余电上网"] itemId:@"0001" selected:NO]
+                           ];
+    }
+    
+    return model;
+}
+
+- (CommonItemModel *)createItemModelWithTitle:(NSString *)itemTitle
+                                       itemId:(NSString *)itemId
+                                     selected:(BOOL)selected {
+    CommonItemModel *model = [[CommonItemModel alloc] init];
+    model.itemId = itemId;
+    model.itemName = itemTitle;
+    model.selected = selected;
+    return model;
+}
+- (ZYSideSlipFilterRegionModel *)spaceFilterRegionModel {
+    ZYSideSlipFilterRegionModel *model = [[ZYSideSlipFilterRegionModel alloc] init];
+    model.containerCellClass = @"SideSlipSpaceTableViewCell";
+    return model;
+}
+
+
+
+- (AddressModel *)createAddressModelWithAddress:(NSString *)address addressId:(NSString *)addressId {
+    AddressModel *model = [[AddressModel alloc] init];
+    model.addressString = address;
+    model.addressId = addressId;
+    return model;
 }
 
 /*

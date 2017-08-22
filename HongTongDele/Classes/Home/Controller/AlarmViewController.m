@@ -12,12 +12,19 @@
 #import "MenuView.h"
 #import "LeftMenuViewDemo.h"
 #import "AlarmPopView.h"
+#import "ZYSideSlipFilterController.h"
+#import "ZYSideSlipFilterRegionModel.h"
+#import "CommonItemModel.h"
+#import "AddressModel.h"
+#import "PriceRangeModel.h"
+#import "SideSlipCommonTableViewCell.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
 #define kColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1]
 
 @interface AlarmViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,HomeMenuViewDelegate,UpdateAlertDelegate>
+@property (strong, nonatomic) ZYSideSlipFilterController *filterController;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic,strong) UIView *AllView;
 @property (nonatomic,strong) UIView *OneView;
@@ -27,6 +34,9 @@
 @property (nonatomic,strong) OneScrollViewBar *scroView;
 @property (nonatomic ,strong)MenuView      *menu;
 @property (nonatomic ,strong)AlarmPopView      *popView;
+@property (nonatomic,copy) NSString *province;
+@property (nonatomic,copy) NSString *city;
+@property (nonatomic,copy) NSString *town;
 @end
 
 @implementation AlarmViewController
@@ -39,13 +49,50 @@
     // Do any additional setup after loading the view.
 }
 - (void)setMenu{
-    LeftMenuViewDemo *demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
-    demo.customDelegate = self;
-    
-    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
-    //    MenuView *menu = [[MenuView alloc]initWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
-    self.menu = menu;
-    
+//    LeftMenuViewDemo *demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
+//    demo.customDelegate = self;
+//    
+//    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
+//    //    MenuView *menu = [[MenuView alloc]initWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
+//    self.menu = menu;
+//    [self configureShowFilterButton];
+    self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self
+                                                                     resetBlock:^(NSArray *dataList) {
+                                                                         for (ZYSideSlipFilterRegionModel *model in dataList) {
+                                                                             //selectedStatus
+                                                                             for (CommonItemModel *itemModel in model.itemList) {
+                                                                                 [itemModel setSelected:NO];
+                                                                             }
+                                                                             //selectedItem
+                                                                             model.selectedItemList = nil;
+                                                                         }
+                                                                     }                                                               commitBlock:^(NSArray *dataList) {
+                                                                                                                                                //Common Region
+                                                                         NSMutableString *commonRegionString = [NSMutableString string];
+                                                                         for (int i = 0; i < dataList.count; i ++) {
+                                                                             ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
+                                                                             [commonRegionString appendFormat:@"\n%@:", commonRegionModel.regionTitle];
+                                                                             NSMutableArray *commonItemSelectedArray = [NSMutableArray array];
+                                                                             for (CommonItemModel *itemModel in commonRegionModel.itemList) {
+                                                                                 if (itemModel.selected) {
+                                                                                     [commonItemSelectedArray addObject:[NSString stringWithFormat:@"%@-%@", itemModel.itemId, itemModel.itemName]];
+                                                                                     if (i==0) {
+                                                                                         self.province = itemModel.itemName;
+                                                                                     }else if (i==1){
+                                                                                         self.city = itemModel.itemName;
+                                                                                     }else if (i==2){
+                                                                                         self.town = itemModel.itemName;
+                                                                                     }
+                      }
+                                                                             }
+                                                                             [commonRegionString appendString:[commonItemSelectedArray componentsJoinedByString:@", "]];
+                                                                         }
+                                                                         NSLog(@"%@", commonRegionString);
+                                                            [_filterController dismiss];             
+                                                                     }];
+    _filterController.animationDuration = .3f;
+    _filterController.sideSlipLeading = 0.15*[UIScreen mainScreen].bounds.size.width;
+    _filterController.dataList = [self packageDataList];
 }
 
 - (void)CreatPopView{
@@ -60,6 +107,37 @@
     self.popView.hidden = YES;
 }
 
+-(void)bohaoBtnClick{
+    NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:18813189235"];
+    UIWebView *callWebview = [[UIWebView alloc] init];
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [self.view addSubview:callWebview];
+
+}
+
+-(void)xinxiBtnClick{
+    NSURL *url = [NSURL URLWithString:@"sms://18813189235"];
+    
+    [[UIApplication sharedApplication] openURL:url];
+    
+
+}
+
+-(void)daohangBtnClick{
+    [self mapBtnClick];
+}
+
+-(void)weichuliBtnClick{
+
+}
+
+-(void)chulizhongBtnClick{
+
+}
+
+-(void)yichuliBtnClick{
+
+}
 - (void)createSegmentMenu{
     
     //数据源
@@ -170,7 +248,7 @@
 }
 
 - (void)ShaiXuanBtnClick{
-    [self.menu show];
+     [_filterController show];
 }
 
 -(void)LeftMenuViewClick:(NSInteger)tag{
@@ -259,6 +337,101 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - 模拟数据源
+- (NSArray *)packageDataList {
+    NSMutableArray *dataArray = [NSMutableArray array];
+    
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"省" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"县(市、区)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"乡镇(街道)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"发电方式" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    
+    return [dataArray mutableCopy];
+}
+
+- (ZYSideSlipFilterRegionModel *)commonFilterRegionModelWithKeyword:(NSString *)keyword selectionType:(CommonTableViewCellSelectionType)selectionType {
+    ZYSideSlipFilterRegionModel *model = [[ZYSideSlipFilterRegionModel alloc] init];
+    model.containerCellClass = @"SideSlipCommonTableViewCell";
+    model.regionTitle = keyword;
+    model.customDict = @{REGION_SELECTION_TYPE:@(selectionType)};
+    if ([keyword isEqualToString:@"省"]) {
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"浙江省"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"湖南省"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"江苏省"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"县(市、区)"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"杭州下城"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"宁波慈溪"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"杭州江干"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"乡镇(街道)"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"下沙街道"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"白杨街道"] itemId:@"0001" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"没有街道"] itemId:@"0002" selected:NO]
+                           ];
+        
+    }else if([keyword isEqualToString:@"发电方式"]){
+        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"全额上网"] itemId:@"0000" selected:NO],
+                           [self createItemModelWithTitle:[NSString stringWithFormat:@"余电上网"] itemId:@"0001" selected:NO]
+                           ];
+    }
+    
+    return model;
+}
+
+- (CommonItemModel *)createItemModelWithTitle:(NSString *)itemTitle
+                                       itemId:(NSString *)itemId
+                                     selected:(BOOL)selected {
+    CommonItemModel *model = [[CommonItemModel alloc] init];
+    model.itemId = itemId;
+    model.itemName = itemTitle;
+    model.selected = selected;
+    return model;
+}
+
+- (ZYSideSlipFilterRegionModel *)spaceFilterRegionModel {
+    ZYSideSlipFilterRegionModel *model = [[ZYSideSlipFilterRegionModel alloc] init];
+    model.containerCellClass = @"SideSlipSpaceTableViewCell";
+    return model;
+}
+
+
+
+- (AddressModel *)createAddressModelWithAddress:(NSString *)address addressId:(NSString *)addressId {
+    AddressModel *model = [[AddressModel alloc] init];
+    model.addressString = address;
+    model.addressId = addressId;
+    return model;
+}
+- (void)mapBtnClick{
+    BOOL hasBaiduMap = NO;
+    BOOL hasGaodeMap = NO;
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]){
+        hasBaiduMap = YES;
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"iosamap://"]]){
+        hasGaodeMap = YES;
+    }
+    
+    
+    if (hasBaiduMap)
+    {
+//        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:终点&mode=driving",currentLat, currentLon,_shopLat,_shopLon] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:30.833708884292438,119.9267578125|name:我的位置&destination=latlng:30.307762967396343,120.21493434906006|name:终点&mode=driving"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else if (hasGaodeMap)
+    {
+        NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&poiname=%@&lat=30.833708884292438&lon=120.21493434906006&dev=1&style=2",@"红彤代理端", @"123123123", @"终点"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else{
+        [MBProgressHUD showText:@"请先安装百度地图或者高德地图"];
+    }
+}
+
 
 /*
 #pragma mark - Navigation

@@ -10,10 +10,10 @@
 
 #import "LeftMenuViewDemo.h"
 #import "MenuTableViewCell.h"
-@interface LeftMenuViewDemo ()<UITableViewDataSource,UITableViewDelegate>
+@interface LeftMenuViewDemo ()<UITableViewDataSource,UITableViewDelegate,TopButtonDelegate>
 
 @property (nonatomic ,strong)UITableView    *contentTableView;
-
+@property (nonatomic,assign) NSInteger selectTag;
 @end
 
 @implementation LeftMenuViewDemo
@@ -28,7 +28,7 @@
 }
 
 -(void)initView{
-    
+    self.selectTag = nil;
     //添加头部
     UIView *headerView     = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Frame_Width, 44)];
     [headerView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
@@ -95,8 +95,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 94 ;
+    if (indexPath.row == self.selectTag-1000) {
+        return 25;
+    }else {
+        return 94 ;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -108,6 +111,8 @@
         NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"MenuTableViewCell" owner:nil options:nil];
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor clearColor];
+        cell.tag = 1000+indexPath.row;
+        cell.delegate = self;
         //        cell.nameLabel.font = [UIFont systemFontOfSize:14];
         
     }
@@ -146,6 +151,13 @@
     
 }
 
-
+-(void)hideCell:(NSInteger)tag{
+//    if (self.selectTag ==tag) {
+//        self.selectTag = 0;
+//    }else{
+//        self.selectTag = tag;
+//        [self.contentTableView reloadData];
+//    }
+}
 
 @end

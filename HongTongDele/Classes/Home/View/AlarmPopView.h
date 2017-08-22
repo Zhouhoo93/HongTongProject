@@ -10,6 +10,12 @@
 //协议定义
 @protocol UpdateAlertDelegate <NSObject>
 - (void)cancelBtnClick;
+- (void)bohaoBtnClick;
+- (void)xinxiBtnClick;
+- (void)daohangBtnClick;
+- (void)weichuliBtnClick;
+- (void)chulizhongBtnClick;
+- (void)yichuliBtnClick;
 @end
 @interface AlarmPopView : UIView
 //遵循协议的一个代理变量定义

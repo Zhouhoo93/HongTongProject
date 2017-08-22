@@ -20,7 +20,12 @@
 
     // Configure the view for the selected state
 }
-- (IBAction)hideBtnClick:(id)sender {
+- (IBAction)hideBtnClick:(UIButton *)sender {
+   
+        [self.delegate hideCell:self.tag];
+    
+    
+
 }
 
 @end

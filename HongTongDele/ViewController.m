@@ -328,6 +328,7 @@
 
 -(void)FourBtnClick{
     StationViewController *vc = [[StationViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

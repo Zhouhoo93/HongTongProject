@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "LoginOneViewController.h"
 @interface InstallStationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+
 @property (nonatomic,strong)UITableView *table;
 @property (nonatomic,strong)UIScrollView *bgScrollView;
 @property (nonatomic,strong) NSMutableArray *FirstChartgenArr;

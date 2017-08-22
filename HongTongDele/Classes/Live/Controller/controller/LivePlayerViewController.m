@@ -220,15 +220,15 @@
     [_dragButView addSubview:_cameraBtn];
     [_cameraBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
     
-    _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 20,40, 40)];
-    _shareBtn.backgroundColor = [UIColor clearColor];
-    _shareBtn.tag = 2;
-    [_shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-//    [_shareBtn setImage:[UIImage imageNamed:@"share_hover"] forState:UIControlStateSelected];
-    [_dragButView addSubview:_shareBtn];
-    [_shareBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
+//    _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 20,40, 40)];
+//    _shareBtn.backgroundColor = [UIColor clearColor];
+//    _shareBtn.tag = 2;
+//    [_shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+////    [_shareBtn setImage:[UIImage imageNamed:@"share_hover"] forState:UIControlStateSelected];
+//    [_dragButView addSubview:_shareBtn];
+//    [_shareBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
     
-    _landscapeBtn = [[UIButton alloc] initWithFrame:CGRectMake(130, 70,40, 40)];
+    _landscapeBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 40,40, 40)];
     _landscapeBtn.backgroundColor = [UIColor clearColor];
     _landscapeBtn.tag = 3;
     [_landscapeBtn setImage:[UIImage imageNamed:@"hs_switch"] forState:UIControlStateNormal];
@@ -236,7 +236,7 @@
     [_dragButView addSubview:_landscapeBtn];
     [_landscapeBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
     
-    _torchOnBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 120,40, 40)];
+    _torchOnBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 100,40, 40)];
     _torchOnBtn.backgroundColor = [UIColor clearColor];
     _torchOnBtn.tag = 4;
     [_torchOnBtn setImage:[UIImage imageNamed:@"flashLamp_on"] forState:UIControlStateNormal];
