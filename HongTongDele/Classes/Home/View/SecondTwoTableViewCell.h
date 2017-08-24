@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface SecondTwoTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *houseID;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *reasonLabel;
+@property (weak, nonatomic) IBOutlet UILabel *happendTime;
+@property (weak, nonatomic) IBOutlet UILabel *onLineLabel;
 
 @end

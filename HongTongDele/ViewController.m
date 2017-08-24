@@ -30,7 +30,13 @@
 @property (nonatomic,strong) UILabel *shangwangdianliang; //上网电量
 @property (nonatomic,strong) UILabel *zifaziyong; //自发自用
 @property (nonatomic,strong) UILabel *pingjungonglv; //平均功率
-
+@property (nonatomic,strong) UILabel *weichuliLabel;
+@property (nonatomic,strong) UILabel *chulizhongLabel;
+@property (nonatomic,strong) UILabel *yichuliLabel;
+@property (nonatomic,strong) UILabel *zhengchangLabel;
+@property (nonatomic,strong) UILabel *lixianLabel;
+@property (nonatomic,strong) UILabel *yichangLabel;
+@property (nonatomic,strong) UILabel *guzhangLabel;
 @end
 
 @implementation ViewController
@@ -297,29 +303,40 @@
     
     for (int i=0; i<4; i++) {
         UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth-200)/5*(i+1)+50*i, 30, 50, 50)];
-        UILabel *titlelabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
-        titlelabel.textAlignment = NSTextAlignmentCenter;
+        
+        
         if (i==0) {
             imagePic.image = [UIImage imageNamed:@"正常"];
-            titlelabel.textColor = [UIColor greenColor];
-            titlelabel.text = @"100户";
+            self.zhengchangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            self.zhengchangLabel.textAlignment = NSTextAlignmentCenter;
+            self.zhengchangLabel.textColor = [UIColor greenColor];
+            self.zhengchangLabel.text = @"";
+            [imageView addSubview:self.zhengchangLabel];
         }else if (i==1) {
             imagePic.image = [UIImage imageNamed:@"离线"];
-            titlelabel.textColor = [UIColor lightGrayColor];
-            titlelabel.text = @"10户";
+            self.lixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            self.lixianLabel.textAlignment = NSTextAlignmentCenter;
+            self.lixianLabel.textColor = [UIColor lightGrayColor];
+            self.lixianLabel.text = @"";
+            [imageView addSubview:self.lixianLabel];
         }else if (i==2) {
+            self.yichangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            self.yichangLabel.textAlignment = NSTextAlignmentCenter;
             imagePic.image = [UIImage imageNamed:@"异常"];
-            titlelabel.textColor = [UIColor yellowColor];
-            titlelabel.text = @"10户";
+            self.yichangLabel.textColor = [UIColor yellowColor];
+            self.yichangLabel.text = @"";
+            [imageView addSubview:self.yichangLabel];
         }else {
+            self.guzhangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            self.guzhangLabel.textAlignment = NSTextAlignmentCenter;
             imagePic.image = [UIImage imageNamed:@"故障"];
-            titlelabel.textColor = [UIColor redColor];
-            titlelabel.text = @"10户";
+            self.guzhangLabel.textColor = [UIColor redColor];
+            self.guzhangLabel.text = @"";
+            [imageView addSubview:self.guzhangLabel];
         }
         [imageView addSubview:imagePic];
-        [imageView addSubview:titlelabel];
     }
-    
+    [self requestStationData];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
     [button addTarget:self action:@selector(FourBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [imageView addSubview:button];
@@ -353,50 +370,71 @@
         UIImageView *imagePic = [[UIImageView alloc] init];
         UIImageView *linePic = [[UIImageView alloc] init];
         UILabel *titlelabel = [[UILabel alloc] init];
-        UILabel *titlelabel1 = [[UILabel alloc] init];
         titlelabel.textAlignment = NSTextAlignmentCenter;
         if (i==0) {
+            self.weichuliLabel = [[UILabel alloc] init];
             imagePic.frame = CGRectMake(30, 50, 30, 30);
             linePic.frame = CGRectMake(70, 65, KWidth/2-95, 3);
             linePic.image = [UIImage imageNamed:@"形状-6-拷贝-2"];
             imagePic.image = [UIImage imageNamed:@"未处理"];
             titlelabel.frame = CGRectMake(10, 10, 70, 30);
-            titlelabel1.frame = CGRectMake(10, 80, 70, 30);
-            titlelabel1.text = @"100条";
-            titlelabel1.textColor = [UIColor orangeColor];
+            self.weichuliLabel.frame = CGRectMake(10, 80, 70, 30);
+            self.weichuliLabel.text = @"0条";
+            self.weichuliLabel.textColor = [UIColor orangeColor];
             titlelabel.text = @"未处理";
+            titlelabel.textColor = [UIColor lightGrayColor];
+            titlelabel.font = [UIFont systemFontOfSize:12];
+            self.weichuliLabel.font = [UIFont systemFontOfSize:12];
+            self.weichuliLabel.textAlignment = NSTextAlignmentCenter;
+            [imageView addSubview:imagePic];
+            [imageView addSubview:linePic];
+            [imageView addSubview:titlelabel];
+            [imageView addSubview:self.weichuliLabel];
+
         }else if (i==1) {
+            self.chulizhongLabel = [[UILabel alloc] init];
             imagePic.frame = CGRectMake(KWidth/2-15, 50, 30, 30);
             linePic.frame = CGRectMake(KWidth/2+25, 65, KWidth/2-95, 3);
             linePic.image = [UIImage imageNamed:@"形状-6-拷贝-2"];
             imagePic.image = [UIImage imageNamed:@"图层-18-拷贝"];
             titlelabel.frame = CGRectMake(KWidth/2-35, 10, 70, 30);
-            titlelabel1.frame = CGRectMake(KWidth/2-35, 80, 70, 30);
-            titlelabel1.text = @"100条";
-            titlelabel1.textColor = [UIColor greenColor];
+            self.chulizhongLabel.frame = CGRectMake(KWidth/2-35, 80, 70, 30);
+            self.chulizhongLabel.text = @"0条";
+            self.chulizhongLabel.textColor = [UIColor greenColor];
             titlelabel.text = @"处理中";
+            titlelabel.textColor = [UIColor lightGrayColor];
+            titlelabel.font = [UIFont systemFontOfSize:12];
+            self.chulizhongLabel.font = [UIFont systemFontOfSize:12];
+            self.chulizhongLabel.textAlignment = NSTextAlignmentCenter;
+            [imageView addSubview:imagePic];
+            [imageView addSubview:linePic];
+            [imageView addSubview:titlelabel];
+            [imageView addSubview:self.chulizhongLabel];
+
         }else if (i==2) {
+            self.yichuliLabel = [[UILabel alloc] init];
             imagePic.frame = CGRectMake(KWidth-60, 50, 30, 30);
             imagePic.image = [UIImage imageNamed:@"图层-19-拷贝"];
             titlelabel.frame = CGRectMake(KWidth-80, 10, 70, 30);
-            titlelabel1.frame = CGRectMake(KWidth-80, 80, 70, 30);
-            titlelabel1.text = @"100条";
-            titlelabel1.textColor = [UIColor blueColor];
+            self.yichuliLabel.frame = CGRectMake(KWidth-80, 80, 70, 30);
+            self.yichuliLabel.text = @"0条";
+            self.yichuliLabel.textColor = [UIColor blueColor];
             titlelabel.text = @"已处理";
+            titlelabel.textColor = [UIColor lightGrayColor];
+            titlelabel.font = [UIFont systemFontOfSize:12];
+            self.yichuliLabel.font = [UIFont systemFontOfSize:12];
+            self.yichuliLabel.textAlignment = NSTextAlignmentCenter;
+            [imageView addSubview:imagePic];
+            [imageView addSubview:linePic];
+            [imageView addSubview:titlelabel];
+            [imageView addSubview:self.yichuliLabel];
+
         }
-        titlelabel.textColor = [UIColor lightGrayColor];
-        titlelabel.font = [UIFont systemFontOfSize:12];
-        titlelabel1.font = [UIFont systemFontOfSize:12];
-        titlelabel1.textAlignment = NSTextAlignmentCenter;
-        [imageView addSubview:imagePic];
-        [imageView addSubview:linePic];
-        [imageView addSubview:titlelabel];
-        [imageView addSubview:titlelabel1];
     }
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 120)];
     [button addTarget:self action:@selector(AlarmBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [imageView addSubview:button];
-    
+     [self requestAlarmData];
 }
 
 - (void)AlarmBtnClick{
@@ -473,6 +511,97 @@
     
     
 }
+
+-(void)requestAlarmData{
+    NSString *URL = [NSString stringWithFormat:@"%@/subscribe/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取首页报警正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            NSNumber *noHandled = responseObject[@"content"][@"noHandled"];
+            NSNumber *inHandled = responseObject[@"content"][@"inHandled"];
+            NSNumber *Handled = responseObject[@"content"][@"Handled"];
+//            NSInteger noHandled1 = [noHandled integerValue];
+//            NSInteger inHandled1 = [inHandled integerValue];
+//            NSInteger Handled1 = [Handled integerValue];
+            self.weichuliLabel.text =[NSString stringWithFormat:@"%@条",noHandled];
+            self.chulizhongLabel.text = [NSString stringWithFormat:@"%@条",inHandled];
+            self.yichuliLabel.text = [NSString stringWithFormat:@"%@条",Handled];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+-(void)requestStationData{
+    NSString *URL = [NSString stringWithFormat:@"%@/power/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取首页电站正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            NSNumber *normal = responseObject[@"content"][@"normal"];
+            NSNumber *offLine = responseObject[@"content"][@"offLine"];
+            NSNumber *abnormal = responseObject[@"content"][@"abnormal"];
+            NSNumber *fault = responseObject[@"content"][@"fault"];
+            self.zhengchangLabel.text =[NSString stringWithFormat:@"%@户",normal];
+            self.lixianLabel.text = [NSString stringWithFormat:@"%@户",offLine];
+            self.yichangLabel.text = [NSString stringWithFormat:@"%@户",abnormal];
+            self.guzhangLabel.text = [NSString stringWithFormat:@"%@户",fault];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+
 
 -(MainModel *)model{
     if (!_model) {

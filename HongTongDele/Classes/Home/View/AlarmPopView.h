@@ -19,5 +19,13 @@
 @end
 @interface AlarmPopView : UIView
 //遵循协议的一个代理变量定义
+@property (weak, nonatomic) IBOutlet UILabel *huhaoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *telLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *xiangqingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *zhuangtaiLabel;
+@property (weak, nonatomic) IBOutlet UILabel *gonglvLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fadianliangLabel;
+@property (weak, nonatomic) IBOutlet UILabel *zaixianLabel;
 @property (nonatomic, weak) id<UpdateAlertDelegate> delegate;
 @end

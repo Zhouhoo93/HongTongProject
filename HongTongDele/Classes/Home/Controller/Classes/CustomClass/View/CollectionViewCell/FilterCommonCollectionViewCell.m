@@ -39,6 +39,21 @@
         self.layer.borderWidth = .5f;
         self.layer.borderColor = [UIColor hexColor:FILTER_RED_STRING].CGColor;
         [_nameButton setImage:[UIImage imageNamed:@"item_checked"] forState:UIControlStateNormal];
+        NSDictionary *dict;
+        if ([self.itemId integerValue]-2999>0) {
+            dict = @{@"grade":@"address", @"address":_nameButton.titleLabel.text};
+        }else if ([self.itemId integerValue]-1999>0){
+            dict = @{@"grade":@"town", @"town":_nameButton.titleLabel.text};
+        }else if([self.itemId integerValue]-999>0){
+            dict = @{@"grade":@"city", @"city":_nameButton.titleLabel.text};
+        }else{
+            dict = @{@"grade":@"province", @"province":_nameButton.titleLabel.text};
+        }
+       
+        NSLog(@"%@,%@",_nameButton,self.itemId);
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAddress" object:nil userInfo:dict];
+
     } else {
         [self setBackgroundColor:[UIColor hexColor:FILTER_COLLECTION_ITEM_COLOR_NORMAL_STRING]];
         [_nameButton setTitleColor:[UIColor hexColor:FILTER_BLACK_STRING] forState:UIControlStateNormal];

@@ -528,6 +528,7 @@
     
 }
 
+
 - (void)newLogin{
     [MBProgressHUD showText:@"请重新登录"];
     [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];

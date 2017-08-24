@@ -18,6 +18,9 @@
 #import "AddressModel.h"
 #import "PriceRangeModel.h"
 #import "SideSlipCommonTableViewCell.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "AlarmListModel.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
@@ -31,31 +34,43 @@
 @property (nonatomic,strong) UIView *TwoView;
 @property (nonatomic,strong) UIView *ThreeView;
 @property (nonatomic,strong) UITableView *table;
+@property (nonatomic,strong) UITableView *table1;
+@property (nonatomic,strong) UITableView *table2;
+@property (nonatomic,strong) UITableView *table3;
 @property (nonatomic,strong) OneScrollViewBar *scroView;
 @property (nonatomic ,strong)MenuView      *menu;
 @property (nonatomic ,strong)AlarmPopView      *popView;
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *town;
+@property (nonatomic,copy) NSString *grade;
+@property (nonatomic,strong)NSMutableArray *provinceArr;
+@property (nonatomic,strong)NSMutableArray *cityArr;
+@property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)NSMutableArray *dataArr1;
+@property (nonatomic,strong)NSMutableArray *dataArr2;
+@property (nonatomic,strong)NSMutableArray *dataArr3;
+@property (nonatomic,strong)AlarmListModel *model;
+@property (nonatomic,copy)NSString *ID;
+@property (nonatomic,copy)NSString *status;
+
 @end
 
 @implementation AlarmViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.grade = @"province";
+    [self requestShaiXuanData];
     [self createSegmentMenu];
     [self setMenu];
     [self CreatPopView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
     // Do any additional setup after loading the view.
 }
 - (void)setMenu{
-//    LeftMenuViewDemo *demo = [[LeftMenuViewDemo alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width * 0.2, 20, [[UIScreen mainScreen] bounds].size.width * 0.8, [[UIScreen mainScreen] bounds].size.height-20)];
-//    demo.customDelegate = self;
-//    
-//    MenuView *menu = [MenuView MenuViewWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
-//    //    MenuView *menu = [[MenuView alloc]initWithDependencyView:self.view MenuView:demo isShowCoverView:YES];
-//    self.menu = menu;
-//    [self configureShowFilterButton];
+
     self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self
                                                                      resetBlock:^(NSArray *dataList) {
                                                                          for (ZYSideSlipFilterRegionModel *model in dataList) {
@@ -107,6 +122,25 @@
     self.popView.hidden = YES;
 }
 
+- (void)changeAddress:(NSNotification *)notification{
+    
+    NSLog(@"接受到通知，改变地址:%@",notification);
+    
+    NSDictionary *dic = notification.userInfo;
+    if ([dic[@"grade"] isEqualToString:@"province"]) {
+        self.grade = @"province";
+        self.province = dic[@"city"];
+    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
+        self.grade = @"city";
+        self.city = dic[@"town"];
+    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.grade = @"town";
+        self.town = dic[@"address"];
+    }
+    [self requestShaiXuanData];
+}
+
+
 -(void)bohaoBtnClick{
     NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:18813189235"];
     UIWebView *callWebview = [[UIWebView alloc] init];
@@ -128,14 +162,18 @@
 }
 
 -(void)weichuliBtnClick{
-
+    self.status = @"未处理";
+    [self putStatus];
 }
 
 -(void)chulizhongBtnClick{
-
+    self.status = @"处理中";
+    [self putStatus];
 }
 
 -(void)yichuliBtnClick{
+    self.status = @"已处理";
+    [self putStatus];
 
 }
 - (void)createSegmentMenu{
@@ -265,52 +303,148 @@
         bgImage.image = [UIImage imageNamed:@"首页背景框"];
         if (i==0) {
             [self.AllView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipViewTwo" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            
+            self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table.backgroundColor = [UIColor clearColor];
+            self.table.delegate = self;
+            self.table.dataSource = self;
+            self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table];
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table.mj_header = header;
+            self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+
         }else if (i==1){
             [self.OneView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipViewTwo" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            
+            self.table1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table1.backgroundColor = [UIColor clearColor];
+            self.table1.delegate = self;
+            self.table1.dataSource = self;
+            self.table1.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table1];
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table1.mj_header = header;
+            self.table1.mj_header.ignoredScrollViewContentInsetTop = self.table1.contentInset.top;
+
         }else if(i==2){
             [self.TwoView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipViewTwo" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            
+            self.table2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table2.backgroundColor = [UIColor clearColor];
+            self.table2.delegate = self;
+            self.table2.dataSource = self;
+            self.table2.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table2];
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table2.mj_header = header;
+            self.table2.mj_header.ignoredScrollViewContentInsetTop = self.table2.contentInset.top;
+
         }else{
             [self.ThreeView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipViewTwo" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            
+            self.table3 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table3.backgroundColor = [UIColor clearColor];
+            self.table3.delegate = self;
+            self.table3.dataSource = self;
+            self.table3.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [bgImage addSubview:self.table3];
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table3.mj_header = header;
+            self.table3.mj_header.ignoredScrollViewContentInsetTop = self.table3.contentInset.top;
+
         }
         
-        NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"TableTipViewTwo" owner:nil options:nil];
-        UIView *TableTipView = [nibContents lastObject];
-        TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
-        [bgImage addSubview:TableTipView];
-        self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
-        self.table.backgroundColor = [UIColor clearColor];
-        self.table.delegate = self;
-        self.table.dataSource = self;
-        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [bgImage addSubview:self.table];
         
-        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
-        // 隐藏时间
-        header.lastUpdatedTimeLabel.hidden = YES;
-        // 隐藏状态
-        //    header.stateLabel.hidden = YES;
-        self.table.mj_header = header;
-        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
-
     }
+    [self requestAlarmData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    NSInteger count  ;
+    if (tableView==self.table) {
+        count = _dataArr.count;
+    }else if (tableView==self.table1){
+        count =  _dataArr1.count;
+    }else if (tableView==self.table2){
+        count =  _dataArr2.count;
+    }else {
+        count =  _dataArr3.count;
+    }
+    return count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *ID = @"SecondTwoTableViewCell";
-    // 2.从缓存池中取出cell
-    SecondTwoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    // 3.如果缓存池中没有cell
-    if (cell == nil) {
-        NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"SecondTwoTableViewCell" owner:nil options:nil];
-        cell = [nibs lastObject];
-        cell.backgroundColor = [UIColor clearColor];
-        //        cell.nameLabel.font = [UIFont systemFontOfSize:14];
-        
-    }
+    
+        static NSString *ID = @"SecondTwoTableViewCell";
+        // 2.从缓存池中取出cell
+        SecondTwoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+        // 3.如果缓存池中没有cell
+        if (cell == nil) {
+            NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"SecondTwoTableViewCell" owner:nil options:nil];
+            cell = [nibs lastObject];
+            cell.backgroundColor = [UIColor clearColor];
+            if (tableView==self.table) {
+                _model = _dataArr[indexPath.row];
+            }else if (tableView == self.table1){
+                _model = _dataArr1[indexPath.row];
+            }else if (tableView == self.table2){
+                _model = _dataArr2[indexPath.row];
+            }else if (tableView == self.table3){
+                _model = _dataArr3[indexPath.row];
+            }
+            
+            cell.houseID.text = _model.home;
+            cell.statusLabel.text = _model.nature;
+            cell.reasonLabel.text = _model.cause;
+            cell.happendTime.text = _model.happen_time;
+            if ([_model.nature isEqualToString:@"离线"]) {
+                cell.onLineLabel.text = @"离线";
+            }else {
+                cell.onLineLabel.text = @"在线";
+            }
+
+        }
+    
     return cell;
     
 }
@@ -330,6 +464,32 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (tableView==self.table) {
+        _model = self.dataArr[indexPath.row];
+    }else if (tableView==self.table1){
+        _model = self.dataArr1[indexPath.row];
+    }else if (tableView==self.table2){
+        _model = self.dataArr2[indexPath.row];
+    }else if (tableView==self.table3){
+        _model = self.dataArr3[indexPath.row];
+    }
+    self.ID = _model.ID;
+    self.popView.huhaoLabel.text = _model.home;
+    self.popView.telLabel.text = _model.tel;
+    self.popView.addressLabel.text = _model.addr;
+    self.popView.xiangqingLabel.text = _model.cause;
+    self.popView.zhuangtaiLabel.text = _model.nature;
+    self.popView.gonglvLabel.text = _model.power;
+    self.popView.fadianliangLabel.text = _model.ele_gen;
+    if ([_model.nature isEqualToString:@"离线"]) {
+        self.popView.zaixianLabel.text = @"离线";
+        self.popView.zaixianLabel.textColor = [UIColor redColor];
+    }else{
+        self.popView.zaixianLabel.text = @"在线";
+        self.popView.zaixianLabel.textColor = [UIColor greenColor];
+
+    }
+    
     self.popView.hidden = NO;
 }
 
@@ -355,22 +515,23 @@
     model.regionTitle = keyword;
     model.customDict = @{REGION_SELECTION_TYPE:@(selectionType)};
     if ([keyword isEqualToString:@"省"]) {
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"浙江省"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"湖南省"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"江苏省"] itemId:@"0002" selected:NO]
-                           ];
-        
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.provinceArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
+        }
+        model.itemList = dataArr;
     }else if([keyword isEqualToString:@"县(市、区)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"杭州下城"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"宁波慈溪"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"杭州江干"] itemId:@"0002" selected:NO]
-                           ];
-        
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.cityArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
+        }
+        model.itemList = dataArr;
     }else if([keyword isEqualToString:@"乡镇(街道)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"下沙街道"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"白杨街道"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"没有街道"] itemId:@"0002" selected:NO]
-                           ];
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.townArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.townArr[i] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+        }
+        model.itemList = dataArr;
         
     }else if([keyword isEqualToString:@"发电方式"]){
         model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"全额上网"] itemId:@"0000" selected:NO],
@@ -432,7 +593,249 @@
     }
 }
 
+-(void)requestAlarmData{
+    for (int i=0; i<4; i++) {
+        NSString *URL = [NSString stringWithFormat:@"%@/subscribe/show",kUrl];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [userDefaults synchronize];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        [parameters setValue:@"20" forKey:@"limit"];
+        if (i==0) {
+            
+        }else if(i==1){
+            [parameters setValue:@"未处理" forKey:@"status"];
+        }else if(i==2){
+            [parameters setValue:@"处理中" forKey:@"status"];
+        }else if(i==3){
+            [parameters setValue:@"已处理" forKey:@"status"];
+        }
+        [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"%d获取报警列表正确%@",i,responseObject);
+            
+            if ([responseObject[@"result"][@"success"] intValue] ==0) {
+                NSNumber *code = responseObject[@"result"][@"errorCode"];
+                NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+                if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                    [MBProgressHUD showText:@"请重新登陆"];
+                    [self newLogin];
+                }else{
+                    NSString *str = responseObject[@"result"][@"errorMsg"];
+                    [MBProgressHUD showText:str];
+                }
+            }else{
+                if (i==0) {
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[AlarmListModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    [self.table reloadData];
+                }else if (i==1){
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[AlarmListModel alloc] initWithDictionary:dic];
+                        [self.dataArr1 addObject:_model];
+                    }
+                    [self.table1 reloadData];
+                }else if (i==2){
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[AlarmListModel alloc] initWithDictionary:dic];
+                        [self.dataArr2 addObject:_model];
+                    }
+                    [self.table2 reloadData];
+                }else if (i==3){
+                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                        _model = [[AlarmListModel alloc] initWithDictionary:dic];
+                        [self.dataArr3 addObject:_model];
+                    }
+                    [self.table3 reloadData];
+                }
 
+                
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"失败%@",error);
+            //        [MBProgressHUD showText:@"%@",error[@"error"]];
+        }];
+
+    }
+    
+    
+}
+
+-(void)putStatus{
+    NSString *URL = [NSString stringWithFormat:@"%@/update/status",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.status forKey:@"status"];
+    [parameters setValue:self.ID forKey:@"id"];
+    [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"修改状态正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [MBProgressHUD showText:@"修改成功"];
+        }
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+    }];
+}
+
+- (void)requestShaiXuanData{
+    NSString *URL = [NSString stringWithFormat:@"%@/getArea",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.grade forKey:@"grade"];
+    if ([self.grade isEqualToString:@"province"]) {
+        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"city"]) {
+        [parameters setValue:self.city forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"town"]) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"获取地址列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            if ([self.grade isEqualToString:@"province"]) {
+                self.provinceArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"city"]){
+                self.cityArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"town"]){
+                self.townArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"address"]){
+//                self.a = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }
+            [_filterController.mainTableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+
+}
+
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(AlarmListModel *)model{
+    if (!_model) {
+        _model = [[AlarmListModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
+}
+-(NSMutableArray *)dataArr1{
+    if (!_dataArr1) {
+        _dataArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr1;
+}
+-(NSMutableArray *)dataArr2{
+    if (!_dataArr2) {
+        _dataArr2 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr2;
+}
+-(NSMutableArray *)dataArr3{
+    if (!_dataArr3) {
+        _dataArr3 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr3;
+}
+-(NSMutableArray *)provinceArr{
+    if (!_provinceArr) {
+        _provinceArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _provinceArr;
+}
+-(NSMutableArray *)cityArr{
+    if (!_cityArr) {
+        _cityArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _cityArr;
+}
+-(NSMutableArray *)townArr{
+    if (!_townArr) {
+        _townArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _townArr;
+}
 /*
 #pragma mark - Navigation
 

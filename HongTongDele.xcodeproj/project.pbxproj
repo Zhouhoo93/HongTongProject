@@ -29,6 +29,9 @@
 		3811B3A71F39A66C001B1AE6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3A61F39A66C001B1AE6 /* AdSupport.framework */; };
 		3811B3A91F39A673001B1AE6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3A81F39A673001B1AE6 /* UserNotifications.framework */; };
 		3811B3AB1F39A684001B1AE6 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3AA1F39A684001B1AE6 /* libresolv.tbd */; };
+		383CABED1F4D513F001B3034 /* AlarmListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEC1F4D513F001B3034 /* AlarmListModel.m */; };
+		383CABF01F4D5BA2001B3034 /* AlarmPopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */; };
+		383CABF61F4D7F43001B3034 /* StationListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABF51F4D7F43001B3034 /* StationListModel.m */; };
 		384AB6BC1F3C3BCC005AFE7A /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384AB6BB1F3C3BCC005AFE7A /* GLKit.framework */; };
 		384AB6FE1F3C4C0F005AFE7A /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384AB6C31F3C4C0F005AFE7A /* BaseNavigationController.m */; };
 		384AB6FF1F3C4C0F005AFE7A /* LivePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384AB6C51F3C4C0F005AFE7A /* LivePlayerViewController.m */; };
@@ -291,6 +294,12 @@
 		3811B3A81F39A673001B1AE6 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		3811B3AA1F39A684001B1AE6 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		3811B3AC1F39A902001B1AE6 /* HongTongDele.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HongTongDele.entitlements; sourceTree = "<group>"; };
+		383CABEB1F4D513F001B3034 /* AlarmListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmListModel.h; sourceTree = "<group>"; };
+		383CABEC1F4D513F001B3034 /* AlarmListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmListModel.m; sourceTree = "<group>"; };
+		383CABEE1F4D5BA2001B3034 /* AlarmPopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmPopModel.h; sourceTree = "<group>"; };
+		383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmPopModel.m; sourceTree = "<group>"; };
+		383CABF41F4D7F43001B3034 /* StationListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationListModel.h; sourceTree = "<group>"; };
+		383CABF51F4D7F43001B3034 /* StationListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationListModel.m; sourceTree = "<group>"; };
 		384AB6BB1F3C3BCC005AFE7A /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		384AB6C21F3C4C0F005AFE7A /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		384AB6C31F3C4C0F005AFE7A /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
@@ -1821,6 +1830,12 @@
 				389A9FE81F45653300B55BAC /* InstallModel.m */,
 				38DD9DC71F458A5B0028D73E /* ElectricityModel.h */,
 				38DD9DC81F458A5B0028D73E /* ElectricityModel.m */,
+				383CABEB1F4D513F001B3034 /* AlarmListModel.h */,
+				383CABEC1F4D513F001B3034 /* AlarmListModel.m */,
+				383CABEE1F4D5BA2001B3034 /* AlarmPopModel.h */,
+				383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */,
+				383CABF41F4D7F43001B3034 /* StationListModel.h */,
+				383CABF51F4D7F43001B3034 /* StationListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2186,6 +2201,7 @@
 				38755C4C1F3D9F350081CF4D /* IQNSArray+Sort.m in Sources */,
 				387692381F4ABDA4001B7E82 /* FilterAddressController.m in Sources */,
 				38B2D3F01F3425F200038F47 /* CJScroViewBar.m in Sources */,
+				383CABF61F4D7F43001B3034 /* StationListModel.m in Sources */,
 				389AA0111F45769600B55BAC /* JHPieChart.m in Sources */,
 				38755C541F3D9F350081CF4D /* IQTextView.m in Sources */,
 				389A9FF01F456AAB00B55BAC /* InstallStationTableViewCell.m in Sources */,
@@ -2223,6 +2239,7 @@
 				389A9FE61F45377B00B55BAC /* MainModel.m in Sources */,
 				387692491F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.m in Sources */,
 				38755C991F3D9F4B0081CF4D /* MJRefreshConst.m in Sources */,
+				383CABF01F4D5BA2001B3034 /* AlarmPopModel.m in Sources */,
 				389AA00E1F45769600B55BAC /* JHChart.m in Sources */,
 				389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */,
 				389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */,
@@ -2264,6 +2281,7 @@
 				38755C561F3D9F350081CF4D /* IQPreviousNextView.m in Sources */,
 				38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */,
 				38B2D3FD1F34556000038F47 /* AlarmViewController.m in Sources */,
+				383CABED1F4D513F001B3034 /* AlarmListModel.m in Sources */,
 				38755C9D1F3D9F4B0081CF4D /* UIView+MJExtension.m in Sources */,
 				389AA0121F45769600B55BAC /* JHPieForeBGView.m in Sources */,
 				387692431F4ABDA4001B7E82 /* SideSlipAllCategoryTableViewCell.m in Sources */,

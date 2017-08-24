@@ -17,6 +17,9 @@
 #import "AddressModel.h"
 #import "PriceRangeModel.h"
 #import "SideSlipCommonTableViewCell.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "StationListModel.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
@@ -32,10 +35,20 @@
 @property (nonatomic,strong) UIView *FiveView;
 @property (nonatomic,strong) TwoScrollView *scroView;
 @property (nonatomic,strong) UITableView *table;
+@property (nonatomic,strong) UITableView *table1;
+@property (nonatomic,strong) UITableView *table2;
+@property (nonatomic,strong) UITableView *table3;
+@property (nonatomic,strong) UITableView *table4;
 @property (nonatomic ,strong)MenuView      *menu;
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *town;
+@property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)NSMutableArray *dataArr1;
+@property (nonatomic,strong)NSMutableArray *dataArr2;
+@property (nonatomic,strong)NSMutableArray *dataArr3;
+@property (nonatomic,strong)NSMutableArray *dataArr4;
+@property (nonatomic,strong)StationListModel *model;
 
 @end
 
@@ -93,7 +106,7 @@
 - (void)createSegmentMenu{
     
     //数据源
-    NSArray *array = @[@"全部",@"在线",@"离线",@"故障",@"异常"];
+    NSArray *array = @[@"全部",@"正常",@"离线",@"故障",@"异常"];
     
     _scroView = [TwoScrollView setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
@@ -213,40 +226,136 @@
         bgImage.image = [UIImage imageNamed:@"首页背景框"];
         if (i==0) {
             [self.AllView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table.backgroundColor = [UIColor clearColor];
+            self.table.delegate = self;
+            self.table.dataSource = self;
+            self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table.mj_header = header;
+            self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+            
+            [bgImage addSubview:self.table];
         }else if (i==1){
             [self.OneView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table1 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table1.backgroundColor = [UIColor clearColor];
+            self.table1.delegate = self;
+            self.table1.dataSource = self;
+            self.table1.separatorStyle = UITableViewCellSeparatorStyleNone;
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table1.mj_header = header;
+            self.table1.mj_header.ignoredScrollViewContentInsetTop = self.table1.contentInset.top;
+            
+            [bgImage addSubview:self.table1];
         }else if(i==2){
             [self.TwoView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table2 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table2.backgroundColor = [UIColor clearColor];
+            self.table2.delegate = self;
+            self.table2.dataSource = self;
+            self.table2.separatorStyle = UITableViewCellSeparatorStyleNone;
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table2.mj_header = header;
+            self.table2.mj_header.ignoredScrollViewContentInsetTop = self.table2.contentInset.top;
+            
+            [bgImage addSubview:self.table2];
         }else if(i==3){
             [self.ThreeView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table3 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table3.backgroundColor = [UIColor clearColor];
+            self.table3.delegate = self;
+            self.table3.dataSource = self;
+            self.table3.separatorStyle = UITableViewCellSeparatorStyleNone;
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table3.mj_header = header;
+            self.table3.mj_header.ignoredScrollViewContentInsetTop = self.table3.contentInset.top;
+            
+            [bgImage addSubview:self.table3];
         }else{
             [self.FourView addSubview:bgImage];
+            NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
+            UIView *TableTipView = [nibContents lastObject];
+            TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
+            [bgImage addSubview:TableTipView];
+            self.table4 = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
+            self.table4.backgroundColor = [UIColor clearColor];
+            self.table4.delegate = self;
+            self.table4.dataSource = self;
+            self.table4.separatorStyle = UITableViewCellSeparatorStyleNone;
+            
+            // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+            MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+            // 隐藏时间
+            header.lastUpdatedTimeLabel.hidden = YES;
+            // 隐藏状态
+            //    header.stateLabel.hidden = YES;
+            self.table4.mj_header = header;
+            self.table4.mj_header.ignoredScrollViewContentInsetTop = self.table4.contentInset.top;
+            
+            [bgImage addSubview:self.table4];
         }
         
-        NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
-        UIView *TableTipView = [nibContents lastObject];
-        TableTipView.frame = CGRectMake(0, 0, KWidth, 44);
-        [bgImage addSubview:TableTipView];
-        self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 60, KWidth, 300-80) style:UITableViewStylePlain];
-        self.table.backgroundColor = [UIColor clearColor];
-        self.table.delegate = self;
-        self.table.dataSource = self;
-        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
         
-        // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
-        // 隐藏时间
-        header.lastUpdatedTimeLabel.hidden = YES;
-        // 隐藏状态
-        //    header.stateLabel.hidden = YES;
-        self.table.mj_header = header;
-        self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
-
-        [bgImage addSubview:self.table];
     }
+    [self requestStationData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    NSInteger count  ;
+    if (tableView==self.table) {
+        count = _dataArr.count;
+    }else if (tableView==self.table1){
+        count =  _dataArr1.count;
+    }else if (tableView==self.table2){
+        count =  _dataArr2.count;
+    }else if(tableView==self.table3){
+        count =  _dataArr3.count;
+    }else{
+        count =  _dataArr4.count;
+
+    }
+    return count;
+
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -259,7 +368,31 @@
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor clearColor];
         //        cell.nameLabel.font = [UIFont systemFontOfSize:14];
-        
+        if (tableView==self.table) {
+            _model = _dataArr[indexPath.row];
+        }else if (tableView == self.table1){
+            _model = _dataArr1[indexPath.row];
+        }else if (tableView == self.table2){
+            _model = _dataArr2[indexPath.row];
+        }else if (tableView == self.table3){
+            _model = _dataArr3[indexPath.row];
+        }else{
+            _model = _dataArr4[indexPath.row];
+        }
+
+        cell.huhaoLabel.text = _model.home;
+        cell.statusLabel.text = _model.nature;
+        if ([_model.nature isEqualToString:@"正常"]) {
+            cell.statusLabel.textColor = [UIColor greenColor];
+        }else if ([_model.nature isEqualToString:@"异常"]){
+           cell.statusLabel.textColor = [UIColor yellowColor];
+        }else if ([_model.nature isEqualToString:@"故障"]){
+            cell.statusLabel.textColor = [UIColor redColor];
+        }else if ([_model.nature isEqualToString:@"离线"]){
+            cell.statusLabel.textColor = [UIColor grayColor];
+        }else{
+            cell.statusLabel.textColor = [UIColor greenColor];
+        }
     }
     return cell;
     
@@ -347,7 +480,167 @@
     model.addressId = addressId;
     return model;
 }
+-(void)requestStationData{
+    for (int i=0; i<5; i++) {
+        NSString *URL = [NSString stringWithFormat:@"%@/home/status",kUrl];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [userDefaults synchronize];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        
+        if (i==0) {
+            
+        }else if(i==1){
+            [parameters setValue:@"正常" forKey:@"nature"];
+        }else if(i==2){
+            [parameters setValue:@"离线" forKey:@"nature"];
+        }else if(i==3){
+            [parameters setValue:@"故障" forKey:@"nature"];
+        }else{
+            [parameters setValue:@"异常" forKey:@"nature"];
+        }
+        [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"%d获取电站列表正确%@",i,responseObject);
+            
+            if ([responseObject[@"result"][@"success"] intValue] ==0) {
+                NSNumber *code = responseObject[@"result"][@"errorCode"];
+                NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+                if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                    [MBProgressHUD showText:@"请重新登陆"];
+                    [self newLogin];
+                }else{
+                    NSString *str = responseObject[@"result"][@"errorMsg"];
+                    [MBProgressHUD showText:str];
+                }
+            }else{
 
+                if (i==0) {
+                    
+                        for (NSDictionary *dic in responseObject[@"content"]) {
+                            _model = [[StationListModel alloc] initWithDictionary:dic];
+                            [self.dataArr addObject:_model];
+                        }
+                    
+                    
+
+                   [self.table reloadData];
+                }else if (i==1){
+                    
+                        for (NSDictionary *dic in responseObject[@"content"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr1 addObject:_model];
+                    
+                    }
+                    [self.table1 reloadData];
+                }else if (i==2){
+                   
+                        for (NSDictionary *dic in responseObject[@"content"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr2 addObject:_model];
+                        }
+                    
+                    [self.table2 reloadData];
+                }else if (i==3){
+                    
+                        for (NSDictionary *dic in responseObject[@"content"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr3 addObject:_model];
+                        }
+                    
+                    [self.table3 reloadData];
+                }else{
+                    
+                        for (NSDictionary *dic in responseObject[@"content"]) {
+                            _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr4 addObject:_model];
+                        }
+                    
+                    [self.table4 reloadData];
+                }
+                
+                
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"失败%@",error);
+            //        [MBProgressHUD showText:@"%@",error[@"error"]];
+        }];
+        
+    }
+    
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(StationListModel *)model{
+    if (!_model) {
+        _model = [[StationListModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
+}
+-(NSMutableArray *)dataArr1{
+    if (!_dataArr1) {
+        _dataArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr1;
+}
+-(NSMutableArray *)dataArr2{
+    if (!_dataArr2) {
+        _dataArr2 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr2;
+}
+-(NSMutableArray *)dataArr3{
+    if (!_dataArr3) {
+        _dataArr3 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr3;
+}
+-(NSMutableArray *)dataArr4{
+    if (!_dataArr4) {
+        _dataArr4 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr4;
+}
 /*
 #pragma mark - Navigation
 

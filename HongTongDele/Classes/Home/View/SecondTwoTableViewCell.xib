@@ -83,6 +83,13 @@
                     <constraint firstItem="xyn-Da-cKP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="6" id="rZA-Y3-gh6"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="happendTime" destination="xyn-Da-cKP" id="T3v-Mf-Eon"/>
+                <outlet property="houseID" destination="bac-P7-PGx" id="KCb-qF-1xH"/>
+                <outlet property="onLineLabel" destination="7yb-Eb-Zp0" id="0XU-O3-2GS"/>
+                <outlet property="reasonLabel" destination="q6J-I1-EbX" id="uHA-is-ijb"/>
+                <outlet property="statusLabel" destination="ekS-ri-Gje" id="YS4-v1-Cxm"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

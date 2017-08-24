@@ -35,11 +35,11 @@
     [super viewDidLoad];
 
     _loginBt.layer.cornerRadius = 5.0;
-    _loginBt.backgroundColor = MAIN_COLOR;
+    _loginBt.backgroundColor = RGBColor(73, 185, 251);
     self.view.backgroundColor = COLOR(236, 244, 244, 1);
 
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
-    headerView.backgroundColor = MAIN_COLOR;
+    headerView.backgroundColor = RGBColor(73, 185, 251);
     [self.view addSubview:headerView];
     
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeCustom];

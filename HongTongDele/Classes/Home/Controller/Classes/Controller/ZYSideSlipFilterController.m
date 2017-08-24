@@ -31,7 +31,7 @@ id (*objc_msgSendCreateCellWithIndexPath)(id self, SEL _cmd, NSIndexPath *) = (v
 @property (copy, nonatomic) SideSlipFilterCommitBlock commitBlock;
 @property (copy, nonatomic) SideSlipFilterResetBlock resetBlock;
 @property (weak, nonatomic) UINavigationController *filterNavigation;
-@property (strong, nonatomic) UITableView *mainTableView;
+
 @property (strong, nonatomic) UIView *backCover;
 @property (weak, nonatomic) UIViewController *sponsor;
 @property (strong, nonatomic) NSMutableDictionary *templateCellDict;
@@ -57,7 +57,6 @@ id (*objc_msgSendCreateCellWithIndexPath)(id self, SEL _cmd, NSIndexPath *) = (v
     }
     return self;
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 }

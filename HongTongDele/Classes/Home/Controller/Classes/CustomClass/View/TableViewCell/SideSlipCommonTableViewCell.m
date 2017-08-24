@@ -13,7 +13,7 @@
 #import "UIColor+hexColor.h"
 #import "ZYSideSlipFilterConfig.h"
 #import "ZYSideSlipFilterController.h"
-
+#import "FilterCommonCollectionViewCell.h"
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 #define FILTER_LEADING ((ZYSideSlipFilterController *)self.delegate).sideSlipLeading
 #define CELL_WIDTH SCREEN_WIDTH - FILTER_LEADING
@@ -27,7 +27,7 @@
 
 const int BRIEF_ROW = 2;
 
-@interface SideSlipCommonTableViewCell () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface SideSlipCommonTableViewCell () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,SecretGardenPicPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *controlIcon;
 @property (weak, nonatomic) IBOutlet UILabel *controlLabel;
@@ -60,6 +60,8 @@ const int BRIEF_ROW = 2;
     [_mainCollectionView registerClass:[FilterCommonCollectionViewCell class] forCellWithReuseIdentifier:[FilterCommonCollectionViewCell cellReuseIdentifier]];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
+
+
 
 - (void)updateCellWithModel:(ZYSideSlipFilterRegionModel **)model
                   indexPath:(NSIndexPath *)indexPath {
@@ -168,6 +170,7 @@ const int BRIEF_ROW = 2;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FilterCommonCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[FilterCommonCollectionViewCell cellReuseIdentifier] forIndexPath:indexPath];
+    cell.delegate = self;
     CommonItemModel *model = [_dataList objectAtIndex:indexPath.row];
     [cell updateCellWithModel:model];
     return cell;

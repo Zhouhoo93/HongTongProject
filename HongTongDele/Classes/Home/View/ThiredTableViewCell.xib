@@ -48,6 +48,10 @@
                     <constraint firstItem="2US-x2-6GF" firstAttribute="leading" secondItem="2aY-ep-ZCr" secondAttribute="trailing" id="jNX-Ve-Eia"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="huhaoLabel" destination="2aY-ep-ZCr" id="anU-HA-wKc"/>
+                <outlet property="statusLabel" destination="2US-x2-6GF" id="pzW-Zo-WoL"/>
+            </connections>
         </tableViewCell>
     </objects>
 </document>

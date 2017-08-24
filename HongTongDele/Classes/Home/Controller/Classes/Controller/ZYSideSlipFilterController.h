@@ -15,6 +15,7 @@ typedef void (^SideSlipFilterResetBlock)(NSArray *dataList);
 @property (assign, nonatomic) CGFloat animationDuration;
 @property (assign, nonatomic) CGFloat sideSlipLeading;
 @property (copy, nonatomic) NSArray *dataList;
+@property (strong, nonatomic) UITableView *mainTableView;
 - (instancetype)initWithSponsor:(UIViewController *)sponsor
                      resetBlock:(SideSlipFilterResetBlock)resetBlock
                     commitBlock:(SideSlipFilterCommitBlock)commitBlock;

@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ThiredTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *huhaoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @end

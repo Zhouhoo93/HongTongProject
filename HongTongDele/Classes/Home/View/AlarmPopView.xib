@@ -422,6 +422,16 @@
                 <constraint firstItem="5Sk-Oi-JW7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="40" id="zmM-e1-aM3"/>
                 <constraint firstItem="MGf-QJ-s2M" firstAttribute="top" secondItem="TlZ-GG-AYh" secondAttribute="bottom" constant="13" id="zqW-jP-u5I"/>
             </constraints>
+            <connections>
+                <outlet property="addressLabel" destination="H3J-2Q-rqy" id="vgy-ds-9JN"/>
+                <outlet property="fadianliangLabel" destination="BwT-LN-gtW" id="Bf2-ko-O6a"/>
+                <outlet property="gonglvLabel" destination="7sg-u5-54D" id="gv0-a7-QK2"/>
+                <outlet property="huhaoLabel" destination="TlZ-GG-AYh" id="xYg-xP-5lV"/>
+                <outlet property="telLabel" destination="oAk-aR-iel" id="NQ1-p3-Xg8"/>
+                <outlet property="xiangqingLabel" destination="gPv-UN-jKE" id="SX3-t5-5fl"/>
+                <outlet property="zaixianLabel" destination="n3R-fs-RXz" id="ED2-VZ-42x"/>
+                <outlet property="zhuangtaiLabel" destination="gBv-ZB-Uv9" id="6cC-j0-dym"/>
+            </connections>
             <point key="canvasLocation" x="16.5" y="-360.5"/>
         </view>
     </objects>

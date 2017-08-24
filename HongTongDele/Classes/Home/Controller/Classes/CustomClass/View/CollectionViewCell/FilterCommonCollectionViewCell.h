@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "FilterBaseCollectionViewCell.h"
+@protocol SecretGardenPicPopViewDelegate <NSObject>
 
+- (void)buttonClick:(UIButton *)sender;
+
+@end
 @interface FilterCommonCollectionViewCell : FilterBaseCollectionViewCell
+@property (nonatomic, assign) id<SecretGardenPicPopViewDelegate> delegate;  
 @end
