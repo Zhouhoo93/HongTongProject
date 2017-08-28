@@ -43,6 +43,10 @@
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *town;
+@property (nonatomic,strong)NSMutableArray *provinceArr;
+@property (nonatomic,strong)NSMutableArray *cityArr;
+@property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,copy) NSString *grade;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)NSMutableArray *dataArr1;
 @property (nonatomic,strong)NSMutableArray *dataArr2;
@@ -56,8 +60,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.grade = @"province";
+    [self requestShaiXuanData];
     [self createSegmentMenu];
     [self setMenu];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
+
     // Do any additional setup after loading the view.
 }
 
@@ -102,6 +110,23 @@
     
 }
 
+- (void)changeAddress:(NSNotification *)notification{
+    
+    NSLog(@"接受到通知，改变地址:%@",notification);
+    
+    NSDictionary *dic = notification.userInfo;
+    if ([dic[@"grade"] isEqualToString:@"province"]) {
+        self.grade = @"province";
+        self.province = dic[@"city"];
+    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
+        self.grade = @"city";
+        self.city = dic[@"town"];
+    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.grade = @"town";
+        self.town = dic[@"address"];
+    }
+    [self requestShaiXuanData];
+}
 
 - (void)createSegmentMenu{
     
@@ -430,22 +455,23 @@
     model.regionTitle = keyword;
     model.customDict = @{REGION_SELECTION_TYPE:@(selectionType)};
     if ([keyword isEqualToString:@"省"]) {
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"浙江省"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"湖南省"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"江苏省"] itemId:@"0002" selected:NO]
-                           ];
-        
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.provinceArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
+        }
+        model.itemList = dataArr;
     }else if([keyword isEqualToString:@"县(市、区)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"杭州下城"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"宁波慈溪"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"杭州江干"] itemId:@"0002" selected:NO]
-                           ];
-        
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.cityArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
+        }
+        model.itemList = dataArr;
     }else if([keyword isEqualToString:@"乡镇(街道)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"下沙街道"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"白杨街道"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"没有街道"] itemId:@"0002" selected:NO]
-                           ];
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.townArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.townArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+        }
+        model.itemList = dataArr;
         
     }else if([keyword isEqualToString:@"发电方式"]){
         model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"全额上网"] itemId:@"0000" selected:NO],
@@ -527,7 +553,7 @@
                             _model = [[StationListModel alloc] initWithDictionary:dic];
                             [self.dataArr addObject:_model];
                         }
-                    
+                    _filterController.dataList = [self packageDataList];
                     
 
                    [self.table reloadData];
@@ -538,6 +564,7 @@
                         [self.dataArr1 addObject:_model];
                     
                     }
+                    _filterController.dataList = [self packageDataList];
                     [self.table1 reloadData];
                 }else if (i==2){
                    
@@ -545,7 +572,7 @@
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr2 addObject:_model];
                         }
-                    
+                    _filterController.dataList = [self packageDataList];
                     [self.table2 reloadData];
                 }else if (i==3){
                     
@@ -553,7 +580,7 @@
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr3 addObject:_model];
                         }
-                    
+                    _filterController.dataList = [self packageDataList];
                     [self.table3 reloadData];
                 }else{
                     
@@ -561,12 +588,13 @@
                             _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr4 addObject:_model];
                         }
-                    
+                    _filterController.dataList = [self packageDataList];
                     [self.table4 reloadData];
                 }
                 
                 
             }
+            [_filterController.mainTableView reloadData];
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"失败%@",error);
@@ -577,6 +605,65 @@
     
     
 }
+
+- (void)requestShaiXuanData{
+    NSString *URL = [NSString stringWithFormat:@"%@/getArea",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.grade forKey:@"grade"];
+    if ([self.grade isEqualToString:@"province"]) {
+        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"city"]) {
+        [parameters setValue:self.city forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"town"]) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"获取地址列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            if ([self.grade isEqualToString:@"province"]) {
+                self.provinceArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"city"]){
+                self.cityArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"town"]){
+                self.townArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"address"]){
+                //                self.a = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }
+            [_filterController.mainTableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+}
+
+
 - (void)newLogin{
     [MBProgressHUD showText:@"请重新登录"];
     [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
@@ -640,6 +727,25 @@
         _dataArr4 = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return _dataArr4;
+}
+
+-(NSMutableArray *)provinceArr{
+    if (!_provinceArr) {
+        _provinceArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _provinceArr;
+}
+-(NSMutableArray *)cityArr{
+    if (!_cityArr) {
+        _cityArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _cityArr;
+}
+-(NSMutableArray *)townArr{
+    if (!_townArr) {
+        _townArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _townArr;
 }
 /*
 #pragma mark - Navigation

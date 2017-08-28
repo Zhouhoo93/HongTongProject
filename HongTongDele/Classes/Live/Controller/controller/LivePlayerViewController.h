@@ -14,7 +14,7 @@
 @property (nonatomic, assign) BOOL isLiveMode;
 @property (nonatomic, copy) NSString *roomId;
 @property (nonatomic, copy) NSString *password;
-
+@property (nonatomic,assign)BOOL isZhuBo;
 @property (nonatomic, strong) GLRoomPublisher *publisher;
 
 @end

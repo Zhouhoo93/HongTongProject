@@ -43,10 +43,12 @@
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *town;
+@property (nonatomic,copy) NSString *address;
 @property (nonatomic,copy) NSString *grade;
 @property (nonatomic,strong)NSMutableArray *provinceArr;
 @property (nonatomic,strong)NSMutableArray *cityArr;
 @property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,strong)NSMutableArray *addressArr;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)NSMutableArray *dataArr1;
 @property (nonatomic,strong)NSMutableArray *dataArr2;
@@ -61,14 +63,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.grade = @"province";
-    [self requestShaiXuanData];
+    
     [self createSegmentMenu];
     [self setMenu];
     [self CreatPopView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
     // Do any additional setup after loading the view.
+
 }
+
 - (void)setMenu{
 
     self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self
@@ -82,7 +85,7 @@
                                                                              model.selectedItemList = nil;
                                                                          }
                                                                      }                                                               commitBlock:^(NSArray *dataList) {
-                                                                                                                                                //Common Region
+                                                                         [self requestAlarmData];                                                                                      //Common Region
                                                                          NSMutableString *commonRegionString = [NSMutableString string];
                                                                          for (int i = 0; i < dataList.count; i ++) {
                                                                              ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
@@ -97,6 +100,8 @@
                                                                                          self.city = itemModel.itemName;
                                                                                      }else if (i==2){
                                                                                          self.town = itemModel.itemName;
+                                                                                     }else if (i==3){
+                                                                                         self.address = itemModel.itemName;
                                                                                      }
                       }
                                                                              }
@@ -128,17 +133,25 @@
     
     NSDictionary *dic = notification.userInfo;
     if ([dic[@"grade"] isEqualToString:@"province"]) {
-        self.grade = @"province";
-        self.province = dic[@"city"];
-    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
         self.grade = @"city";
-        self.city = dic[@"town"];
-    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.city = dic[@"province"];
+        [self requestShaiXuanData];
+
+    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
         self.grade = @"town";
-        self.town = dic[@"address"];
+        self.town = dic[@"city"];
+        [self requestShaiXuanData];
+
+    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.grade = @"address";
+        self.address = dic[@"town"];
+        [self requestShaiXuanData];
+
+    }else if ([dic[@"grade"] isEqualToString:@"address"]) {
+        self.grade = @"province";
+        self.address = dic[@"address"];
     }
-    [self requestShaiXuanData];
-}
+    }
 
 
 -(void)bohaoBtnClick{
@@ -286,6 +299,8 @@
 }
 
 - (void)ShaiXuanBtnClick{
+    self.grade = @"province";
+    [self requestShaiXuanData];
      [_filterController show];
 }
 
@@ -502,8 +517,9 @@
     NSMutableArray *dataArray = [NSMutableArray array];
     
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"省" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"县(市、区)" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"乡镇(街道)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"市" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"区(乡镇)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"街道" selectionType:BrandTableViewCellSelectionTypeSingle]];
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"发电方式" selectionType:BrandTableViewCellSelectionTypeSingle]];
     
     return [dataArray mutableCopy];
@@ -517,19 +533,26 @@
     if ([keyword isEqualToString:@"省"]) {
         NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i=0; i<self.provinceArr.count; i++) {
-            [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
+            [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
         }
         model.itemList = dataArr;
-    }else if([keyword isEqualToString:@"县(市、区)"]){
+    }else if([keyword isEqualToString:@"市"]){
         NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i=0; i<self.cityArr.count; i++) {
-            [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
+            [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
         }
         model.itemList = dataArr;
-    }else if([keyword isEqualToString:@"乡镇(街道)"]){
+    }else if([keyword isEqualToString:@"区(乡镇)"]){
         NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i=0; i<self.townArr.count; i++) {
-            [dataArr addObject: [self createItemModelWithTitle:self.townArr[i] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+            [dataArr addObject: [self createItemModelWithTitle:self.townArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+        }
+        model.itemList = dataArr;
+        
+    }else if([keyword isEqualToString:@"街道"]){
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.addressArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.addressArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+4000] selected:NO]];
         }
         model.itemList = dataArr;
         
@@ -612,6 +635,18 @@
             [parameters setValue:@"处理中" forKey:@"status"];
         }else if(i==3){
             [parameters setValue:@"已处理" forKey:@"status"];
+        }
+        if (self.grade.length>0) {
+            [parameters setValue:self.grade forKey:@"grade"];
+        }
+        if ([self.grade isEqualToString:@"address"] ) {
+            [parameters setValue:self.town forKey:@"area"];
+        }else if ([self.grade isEqualToString:@"town"] ) {
+            [parameters setValue:self.city forKey:@"area"];
+        }else if ([self.grade isEqualToString:@"city"] ) {
+            [parameters setValue:self.province forKey:@"area"];
+        }else if ([self.grade isEqualToString:@"province"] ) {
+            [parameters setValue:self.address forKey:@"area"];
         }
         [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -713,12 +748,15 @@
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:self.grade forKey:@"grade"];
     if ([self.grade isEqualToString:@"province"]) {
-        [parameters setValue:self.province forKey:@"province"];
+//        [parameters setValue:self.province forKey:@"province"];
     }else if ([self.grade isEqualToString:@"city"]) {
-        [parameters setValue:self.city forKey:@"city"];
+        [parameters setValue:self.city forKey:@"province"];
     }else if ([self.grade isEqualToString:@"town"]) {
-        [parameters setValue:self.town forKey:@"town"];
+        [parameters setValue:self.town forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"address"]) {
+        [parameters setValue:self.address forKey:@"town"];
     }
+    NSLog(@"%@",parameters);
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -747,7 +785,7 @@
                 self.townArr = responseObject[@"content"];
                 _filterController.dataList = [self packageDataList];
             }else if ([self.grade isEqualToString:@"address"]){
-//                self.a = responseObject[@"content"];
+                self.addressArr = responseObject[@"content"];
                 _filterController.dataList = [self packageDataList];
             }
             [_filterController.mainTableView reloadData];
@@ -835,6 +873,12 @@
         _townArr = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return _townArr;
+}
+-(NSMutableArray *)addressArr{
+    if (!_addressArr) {
+        _addressArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _addressArr;
 }
 /*
 #pragma mark - Navigation

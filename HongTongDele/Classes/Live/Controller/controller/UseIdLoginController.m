@@ -13,7 +13,8 @@
 #import "MBProgressHUD.h"
 #import "QRCodeController.h"
 #import "GotyeLiveConfig.h"
-
+#import "AppDelegate.h"
+#import "LoginOneViewController.h"
 @interface UseIdLoginController ()
 {
     GLAuthToken *_authToken;
@@ -29,7 +30,22 @@
 @end
 
 @implementation UseIdLoginController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    UIColor * color = [UIColor whiteColor];
+    NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillHideNotification object:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -56,14 +72,14 @@
     title.backgroundColor = [UIColor clearColor];
     title.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:title];
-    
+//    
 #if DEBUG
     [GLCore setDebugLogEnabled:YES];
 #endif
-    [GLCore registerWithAppKey:@"de8b955b8b634fe2826e13ce077b26e2" accessSecret:@"77d7262d8c7e4676a5e7b1b333169d29" companyId:@"a002ab3fda3544fbabfd839dc119776f"];
-    _userRoomId.text = [GotyeLiveConfig config].roomId;
-    _userPassword.text = [GotyeLiveConfig config].password;
-    _userNickName.text = [GotyeLiveConfig config].nickname;
+    [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088" accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148" companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
+//    _userRoomId.text = self.roomID;
+//    _userPassword.text = self.roomWord;
+//    _userNickName.text = self.nickName;
     if (_fromQRScan) {
         _userRoomId.enabled = _userPassword.enabled = NO;
         [_userNickName becomeFirstResponder];
@@ -75,16 +91,12 @@
     tapGestureRecognizer.cancelsTouchesInView = NO;
     //将触摸事件添加到当前view
     [self.view addGestureRecognizer:tapGestureRecognizer];
-    _userRoomId.text = @"2221262";
-    _userPassword.text = @"IYC8M7";
-    _userNickName.text = @"主播";
+//    _userRoomId.text = self.roomID;
+//    _userPassword.text = self.roomWord;
+//    _userNickName.text = @"主播";
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-}
+
 
 // 导航栏点击事件
 - (void)btnClick:(UIButton *)sender
@@ -93,14 +105,7 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillHideNotification object:nil];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
 
-}
 
 - (IBAction)didEndOnExit:(id)sender
 {
@@ -112,40 +117,24 @@
         [self.view endEditing:YES];
     }
 }
-
 - (IBAction)didSelectLoginButton:(id)sender
 {
-    if (_userRoomId.text.length < 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入房间ID" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-//        LivePlayerViewController *viewController = [[LivePlayerViewController alloc] init];
-//        viewController.isLiveMode  = YES;
-//        viewController.roomId = roomId;
-//        viewController.publisher = _publisher;
-//        [self.navigationController pushViewController:viewController animated:YES];
-        return;
-    }
-    if (_userPassword.text.length < 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入密码" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    if (_userNickName.text.length < 1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入昵称" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-//    NSString *roomId = _userRoomId.text;
-//    NSString *pwd = _userPassword.text;
-//    NSString *nickname = _userNickName.text;
+    [self requestData];
+
     
-    NSString *roomId = @"2221262";
-    NSString *pwd = @"IYC8M7";
+}
+- (void)loginGo{
+#if DEBUG
+    [GLCore setDebugLogEnabled:YES];
+#endif
+    [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088" accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148" companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
+    NSString *roomId = _roomID;
+    NSString *pwd = _roomWord;
     NSString *nickname = @"主播";
     
-    if (roomId.length == 0 || pwd.length == 0 || nickname.length == 0) {
-        return;
-    }
+    //    if (roomId.length == 0 || pwd.length == 0 || nickname.length == 0) {
+    //        return;
+    //    }
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _roomSession = [GLCore sessionWithType:GLRoomSessionTypeDefault roomId:roomId password:pwd nickname:nickname bindAccount:nil];
@@ -159,9 +148,9 @@
             return;
         }
         
-        [GotyeLiveConfig config].roomId = strong_self->_userRoomId.text;
-        [GotyeLiveConfig config].password = strong_self->_userPassword.text;
-        [GotyeLiveConfig config].nickname = strong_self->_userNickName.text;
+        [GotyeLiveConfig config].roomId = strong_self->_roomID;
+        [GotyeLiveConfig config].password = strong_self->_roomWord;
+        [GotyeLiveConfig config].nickname = @"咖喱给给";
         
         strong_self->_authToken = authToken;
         if (strong_self->_authToken.role == GLAuthTokenRolePresenter) {
@@ -172,6 +161,7 @@
                     viewController.hidesBottomBarWhenPushed = YES;
                     viewController.isLiveMode  = YES;
                     viewController.roomId = roomId;
+                    viewController.isZhuBo = YES;
                     viewController.publisher = _publisher;
                     [strong_self.navigationController pushViewController:viewController animated:YES];
                     return;
@@ -201,6 +191,9 @@
                             viewController.hidesBottomBarWhenPushed = YES;
                             viewController.isLiveMode  = YES;
                             viewController.roomId = roomId;
+                            viewController.isZhuBo = NO;
+                            viewController.isZhuBo = YES;
+                            viewController.navigationController.navigationBar.hidden = YES;
                             viewController.publisher = _publisher;
                             [strong_strong_self.navigationController pushViewController:viewController animated:YES];
                         }];
@@ -222,7 +215,10 @@
             LivePlayerViewController *viewController = [[LivePlayerViewController alloc] init];
             viewController.hidesBottomBarWhenPushed = YES;
             viewController.isLiveMode  = NO;
+            viewController.navigationController.navigationBar.hidden = YES;
             viewController.roomId = roomId;
+            viewController.isZhuBo = NO;
+            viewController.isZhuBo = YES;
             viewController.publisher = _publisher;
             [strong_self.navigationController pushViewController:viewController animated:YES];
         }
@@ -232,10 +228,7 @@
         [strong_self hud:hud showError:error.localizedDescription];
     }];
 
-//    LivePlayerViewController *viewController = [[LivePlayerViewController alloc] init];
-//    [self.navigationController pushViewController:viewController animated:YES];
 }
-
 - (void)_loginPublisherWithForce:(BOOL)force callback:(void(^)(NSError *error))callback
 {
     _publisher = [[GLRoomPublisher alloc]initWithSession:_roomSession];
@@ -305,6 +298,76 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
+}
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/live-t/create-room",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.userRoomId.text forKey:@"room_name"];
+    [parameters setValue:self.userPassword.text forKey:@"desc"];
+    [parameters setValue:self.userNickName.text forKey:@"shareDesc"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"创建直播正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            
+            self.roomID = responseObject[@"content"][@"room_id"];
+            self.roomWord = responseObject[@"content"][@"psw"];
+            [self loginGo];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
 }
 
 @end

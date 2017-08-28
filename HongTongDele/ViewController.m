@@ -43,6 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(InfoNotificationAction:) name:@"InfoNotification" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     UIColor * color = [UIColor whiteColor];
@@ -56,7 +57,14 @@
     [self setUIFive];
     // Do any additional setup after loading the view, typically from a nib.
 }
-
+- (void)InfoNotificationAction:(NSNotification *)notification{
+    AlarmViewController *vc = [[AlarmViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    NSLog(@"---接收到通知---");
+    
+}
 - (void)setUI{
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, KWidth, KHeight)];
     self.bgScrollView.delegate = self;

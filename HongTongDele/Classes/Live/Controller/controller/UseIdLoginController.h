@@ -11,5 +11,7 @@
 @interface UseIdLoginController : UIViewController
 
 @property (nonatomic ,assign) BOOL fromQRScan;
-
+@property (nonatomic,copy)NSString *roomID;
+@property (nonatomic,copy)NSString *roomWord;
+@property (nonatomic,copy)NSString *nickName;
 @end

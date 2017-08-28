@@ -218,6 +218,9 @@
 		38B2D4031F34584500038F47 /* SecondTwoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D4011F34584500038F47 /* SecondTwoTableViewCell.m */; };
 		38B2D4041F34584500038F47 /* SecondTwoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B2D4021F34584500038F47 /* SecondTwoTableViewCell.xib */; };
 		38B2D4071F345AE800038F47 /* StationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D4061F345AE800038F47 /* StationViewController.m */; };
+		38BACA7B1F53DE990041EDD0 /* LiveCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BACA791F53DE990041EDD0 /* LiveCollectionViewCell.m */; };
+		38BACA7C1F53DE990041EDD0 /* LiveCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38BACA7A1F53DE990041EDD0 /* LiveCollectionViewCell.xib */; };
+		38BACA7F1F53E1F60041EDD0 /* liveListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BACA7E1F53E1F60041EDD0 /* liveListModel.m */; };
 		38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB181F428C6900DB41B4 /* AboutViewController.m */; };
 		38C9EB1B1F428C6900DB41B4 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB191F428C6900DB41B4 /* AboutViewController.xib */; };
 		38C9EB1F1F42986900DB41B4 /* MineCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB1D1F42986900DB41B4 /* MineCenterViewController.m */; };
@@ -652,6 +655,11 @@
 		38B2D4021F34584500038F47 /* SecondTwoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondTwoTableViewCell.xib; sourceTree = "<group>"; };
 		38B2D4051F345AE800038F47 /* StationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationViewController.h; sourceTree = "<group>"; };
 		38B2D4061F345AE800038F47 /* StationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationViewController.m; sourceTree = "<group>"; };
+		38BACA781F53DE990041EDD0 /* LiveCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveCollectionViewCell.h; sourceTree = "<group>"; };
+		38BACA791F53DE990041EDD0 /* LiveCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveCollectionViewCell.m; sourceTree = "<group>"; };
+		38BACA7A1F53DE990041EDD0 /* LiveCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveCollectionViewCell.xib; sourceTree = "<group>"; };
+		38BACA7D1F53E1F60041EDD0 /* liveListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liveListModel.h; sourceTree = "<group>"; };
+		38BACA7E1F53E1F60041EDD0 /* liveListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = liveListModel.m; sourceTree = "<group>"; };
 		38C9EB171F428C6900DB41B4 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		38C9EB181F428C6900DB41B4 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		38C9EB191F428C6900DB41B4 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
@@ -1205,6 +1213,9 @@
 				384AB6EA1F3C4C0F005AFE7A /* Share */,
 				3864832D1F3C3233000A8EB1 /* LiveViewController.h */,
 				3864832E1F3C3233000A8EB1 /* LiveViewController.m */,
+				38BACA781F53DE990041EDD0 /* LiveCollectionViewCell.h */,
+				38BACA791F53DE990041EDD0 /* LiveCollectionViewCell.m */,
+				38BACA7A1F53DE990041EDD0 /* LiveCollectionViewCell.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1212,6 +1223,8 @@
 		3864832B1F3C3217000A8EB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				38BACA7D1F53E1F60041EDD0 /* liveListModel.h */,
+				38BACA7E1F53E1F60041EDD0 /* liveListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2066,6 +2079,7 @@
 			files = (
 				387692481F4ABDA4001B7E82 /* SideSlipPriceTableViewCell.xib in Resources */,
 				38755C5A1F3D9F350081CF4D /* IQKeyboardManager.bundle in Resources */,
+				38BACA7C1F53DE990041EDD0 /* LiveCollectionViewCell.xib in Resources */,
 				3883A3281F41A084007967DF /* ForgetViewController.xib in Resources */,
 				387D31DF1F3AAFBA0066E762 /* WalletResource.bundle in Resources */,
 				3883A3341F41AD1C007967DF /* SettingViewController.xib in Resources */,
@@ -2249,6 +2263,7 @@
 				384AB70F1F3C4C0F005AFE7A /* UserListCell.m in Sources */,
 				38755C8E1F3D9F4B0081CF4D /* MJRefreshHeader.m in Sources */,
 				3876923D1F4ABDA4001B7E82 /* PriceRangeModel.m in Sources */,
+				38BACA7F1F53E1F60041EDD0 /* liveListModel.m in Sources */,
 				38B2D3E51F340A6400038F47 /* HomeSelectViewController.m in Sources */,
 				38755C591F3D9F350081CF4D /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				38EEA7BA1F37FCAE00034F01 /* OneScrollViewBar.m in Sources */,
@@ -2291,6 +2306,7 @@
 				38755C221F3D9F2B0081CF4D /* AFNetworkReachabilityManager.m in Sources */,
 				387692101F4ABBAD001B7E82 /* SideSlipBaseTableViewCell.m in Sources */,
 				38EEA7D31F383E8D00034F01 /* LeftMenuViewDemo.m in Sources */,
+				38BACA7B1F53DE990041EDD0 /* LiveCollectionViewCell.m in Sources */,
 				3876923B1F4ABDA4001B7E82 /* AddressModel.m in Sources */,
 				38755C551F3D9F350081CF4D /* IQBarButtonItem.m in Sources */,
 				384AB7041F3C4C0F005AFE7A /* UseIdLoginController.m in Sources */,

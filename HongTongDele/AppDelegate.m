@@ -77,9 +77,9 @@
     }];
     
     //-------------亲加直播------------
-    [GLCore registerWithAppKey:@"de8b955b8b634fe2826e13ce077b26e2"
-                  accessSecret:@"77d7262d8c7e4676a5e7b1b333169d29"
-                     companyId:@"a002ab3fda3544fbabfd839dc119776f"];
+    [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088"
+                  accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148"
+                     companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
     [WXApi registerApp:WX_APP];
     [WeiboSDK registerApp:Weibo_APP];
     [WeiboSDK enableDebugMode:YES];
@@ -103,7 +103,6 @@
     }
     
     [self.window makeKeyAndVisible];
-
     
     return YES;
 }
@@ -144,7 +143,11 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
         [JPUSHService handleRemoteNotification:userInfo];
     }
     completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
-    
+    NSString *str = [userInfo objectForKey:@"pushCause"];
+    if(str.length>0){
+        NSNotification *notification =[NSNotification notificationWithName:@"InfoNotification" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
 }
 
 // iOS 10 Support
@@ -168,6 +171,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     // Required,For systems with less than or equal to iOS6
     [JPUSHService handleRemoteNotification:userInfo];
+    // Create a pointer to the Photo object
+    NSString *str = [userInfo objectForKey:@"pushCause"];
+    if(str.length>0){
+        NSNotification *notification =[NSNotification notificationWithName:@"InfoNotification" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+
 }
 
 

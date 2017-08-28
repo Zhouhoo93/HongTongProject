@@ -113,7 +113,21 @@
 @end
 
 @implementation LivePlayerViewController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    UIColor * color = [UIColor whiteColor];
+    NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
+    self.navigationController.navigationBar.titleTextAttributes = dict;
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillhide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillshow:) name:UIKeyboardWillShowNotification object:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    
+    isOrientationPortrait=YES;
 
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -134,15 +148,6 @@
                                                object:[UIApplication sharedApplication]];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillhide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillshow:) name:UIKeyboardWillShowNotification object:nil];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-
-    isOrientationPortrait=YES;
-}
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification
 {
@@ -1367,7 +1372,37 @@
 - (void)closeClick:(id)sender
 {
     [self stopEverything];
+    if (self.isZhuBo) {
+        [self closerequest];
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)closerequest{
+        NSString *URL = [NSString stringWithFormat:@"%@/live-t/del-room",kUrl];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [userDefaults synchronize];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        [parameters setValue:self.roomId forKey:@"room_id"];
+        [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"删除信息正确%@",responseObject);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"失败%@",error);
+            //        [MBProgressHUD showText:@"%@",error[@"error"]];
+        }];
+        
+        
+    
+
 }
 
 - (void)showReport

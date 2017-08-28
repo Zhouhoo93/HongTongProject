@@ -40,13 +40,13 @@
         self.layer.borderColor = [UIColor hexColor:FILTER_RED_STRING].CGColor;
         [_nameButton setImage:[UIImage imageNamed:@"item_checked"] forState:UIControlStateNormal];
         NSDictionary *dict;
-        if ([self.itemId integerValue]-2999>0) {
+        if ([self.itemId integerValue]-3999>0) {
             dict = @{@"grade":@"address", @"address":_nameButton.titleLabel.text};
-        }else if ([self.itemId integerValue]-1999>0){
+        }else if ([self.itemId integerValue]-2999>0){
             dict = @{@"grade":@"town", @"town":_nameButton.titleLabel.text};
-        }else if([self.itemId integerValue]-999>0){
+        }else if([self.itemId integerValue]-1999>0){
             dict = @{@"grade":@"city", @"city":_nameButton.titleLabel.text};
-        }else{
+        }else if([self.itemId integerValue]-999>0){
             dict = @{@"grade":@"province", @"province":_nameButton.titleLabel.text};
         }
        
