@@ -63,18 +63,6 @@
     [defaultCenter addObserver:self selector:@selector(networkDidLogin:) name:kJPFNetworkDidLoginNotification object:nil];
 
     
-    //----------融云------------
-    [[RCIM sharedRCIM] initWithAppKey:@"x18ywvqfx6pzc"];
-    [[RCIM sharedRCIM] connectWithToken:@"rH8F2mY6bQseChYtoaXlSbNJK6dFwzkHhynZo6/vk2LmBbDprU2SVTVcZKJGnLMjukFXLss8sVhoKUvRtrdZzA=="     success:^(NSString *userId) {
-        NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
-    } error:^(RCConnectErrorCode status) {
-        NSLog(@"登陆的错误码为:%d", status);
-    } tokenIncorrect:^{
-        //token过期或者不正确。
-        //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
-        //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
-        NSLog(@"token错误");
-    }];
     
     //-------------亲加直播------------
     [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088"
@@ -106,6 +94,7 @@
     
     return YES;
 }
+
 
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

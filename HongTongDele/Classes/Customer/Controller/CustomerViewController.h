@@ -7,6 +7,8 @@
 //
 
 #import <RongIMKit/RongIMKit.h>
-@interface CustomerViewController : RCConversationListViewController
-
+@interface CustomerViewController : RCConversationListViewController<RCIMUserInfoDataSource,RCIMGroupInfoDataSource>
+@property (nonatomic,copy)NSString *touxiang;
+@property (nonatomic,copy)NSString *nicheng;
+@property (nonatomic,copy)NSString *telNumber;
 @end

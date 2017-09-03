@@ -61,6 +61,14 @@
                             <constraint firstAttribute="width" constant="10" id="T96-UT-9EA"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yuN-df-OLG">
+                        <rect key="frame" x="75" y="140" width="10" height="11"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="4wQ-1H-5Qy"/>
+                            <constraint firstAttribute="height" constant="11" id="vBg-kG-LIh"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
@@ -79,12 +87,15 @@
                 <constraint firstItem="ug9-kp-Dag" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="fe2-5L-9Xp"/>
                 <constraint firstAttribute="trailing" secondItem="OZM-AB-M0P" secondAttribute="trailing" constant="10" id="kkZ-Xa-Cjq"/>
                 <constraint firstItem="twt-Yy-aDo" firstAttribute="top" secondItem="PaW-vM-fmD" secondAttribute="bottom" constant="6" id="lPV-QQ-X52"/>
+                <constraint firstItem="yuN-df-OLG" firstAttribute="top" secondItem="Qjv-jM-AzO" secondAttribute="bottom" constant="2" id="lxZ-gl-o4l"/>
                 <constraint firstItem="OZM-AB-M0P" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="oNk-NJ-2fv"/>
                 <constraint firstItem="PaW-vM-fmD" firstAttribute="top" secondItem="Qjv-jM-AzO" secondAttribute="bottom" constant="2" id="p1w-J1-as4"/>
                 <constraint firstItem="Qjv-jM-AzO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="7" id="qUm-Ln-z08"/>
+                <constraint firstAttribute="trailing" secondItem="yuN-df-OLG" secondAttribute="trailing" constant="30" id="waG-Q4-NxU"/>
             </constraints>
             <size key="customSize" width="115" height="188"/>
             <connections>
+                <outlet property="StatusImage" destination="yuN-df-OLG" id="OsO-Nm-0Oz"/>
                 <outlet property="headerimg" destination="Qjv-jM-AzO" id="DTp-h4-gWb"/>
                 <outlet property="nameLabel" destination="PaW-vM-fmD" id="ZEn-0y-MQf"/>
                 <outlet property="numbeiLabel" destination="4Dx-gD-hLg" id="bFf-V6-uei"/>

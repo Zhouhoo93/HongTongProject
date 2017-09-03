@@ -122,7 +122,7 @@
 }
 
 - (void)kaiqizhibo{
-    NSString *URL = [NSString stringWithFormat:@"%@/live-t/get-room-list",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/live-t/get-room-list",kUrl];    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -195,6 +195,12 @@
     cell.typelabel.text = @"小代";
     cell.numbeiLabel.text = [NSString stringWithFormat:@"%@",_model.onlineNum];
     NSString *picURL = _model.pic;
+    NSString *status = [NSString stringWithFormat:@"%@",_model.status];
+    if([status isEqualToString:@"0"]){
+        cell.StatusImage.backgroundColor = [UIColor redColor];
+    }else{
+        cell.StatusImage.backgroundColor = [UIColor greenColor];
+    }
     //然后就是添加照片语句，这次不是`imageWithName`了，是 imageWithData。
     if (![picURL.class isEqual:[NSNull class]]) {
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:picURL]];

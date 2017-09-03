@@ -27,7 +27,7 @@
                     <rect key="frame" x="60" y="380" width="255" height="40"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.22997918269617568" green="0.69302808543440753" blue="0.70490428664921467" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="登录">
+                    <state key="normal" title="创建直播">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>

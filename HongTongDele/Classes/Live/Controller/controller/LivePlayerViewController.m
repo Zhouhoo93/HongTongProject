@@ -1380,20 +1380,20 @@
 }
 
 - (void)closerequest{
-        NSString *URL = [NSString stringWithFormat:@"%@/live-t/del-room",kUrl];
+        NSString *URL = [NSString stringWithFormat:@"%@/live-t/close-live",kUrl];
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [userDefaults valueForKey:@"token"];
         NSLog(@"token:%@",token);
         [userDefaults synchronize];
         [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-        [parameters setValue:self.roomId forKey:@"room_id"];
-        [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+//        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+//        [parameters setValue:self.roomId forKey:@"room_id"];
+        [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
             
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"删除信息正确%@",responseObject);
+            NSLog(@"关闭直播间正确%@",responseObject);
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"失败%@",error);

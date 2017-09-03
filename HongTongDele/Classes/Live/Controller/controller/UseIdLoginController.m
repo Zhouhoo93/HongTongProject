@@ -67,7 +67,7 @@
     [backBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2-60, 20, 120, 44)];
-    title.text = @"登录";
+    title.text = @"创建直播";
     title.textColor = [UIColor whiteColor];
     title.backgroundColor = [UIColor clearColor];
     title.textAlignment = NSTextAlignmentCenter;
@@ -300,18 +300,18 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/live-t/create-room",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/live-t/open-live",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setValue:self.userRoomId.text forKey:@"room_name"];
-    [parameters setValue:self.userPassword.text forKey:@"desc"];
-    [parameters setValue:self.userNickName.text forKey:@"shareDesc"];
-    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+//    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+//    [parameters setValue:self.userRoomId.text forKey:@"room_name"];
+//    [parameters setValue:self.userPassword.text forKey:@"desc"];
+//    [parameters setValue:self.userNickName.text forKey:@"shareDesc"];
+    [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -329,8 +329,8 @@
             }
         }else{
             
-            self.roomID = responseObject[@"content"][@"room_id"];
-            self.roomWord = responseObject[@"content"][@"psw"];
+            self.roomID = responseObject[@"content"][@"roomId"];
+            self.roomWord = responseObject[@"content"][@"anchorPwd"];
             [self loginGo];
         }
         

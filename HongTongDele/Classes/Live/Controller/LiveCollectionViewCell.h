@@ -11,6 +11,7 @@
 @interface LiveCollectionViewCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headerimg;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *StatusImage;
 @property (weak, nonatomic) IBOutlet UILabel *typelabel;
 @property (weak, nonatomic) IBOutlet UILabel *numbeiLabel;
 
