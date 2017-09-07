@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface liveListModel : NSObject
-@property (nonatomic,copy) NSString *assistPwd;
+@property (nonatomic,copy) NSString *userPwd;
 @property (nonatomic,copy) NSString *creator;
 @property (nonatomic,copy) NSString *onlineNum;
 @property (nonatomic,copy) NSString *pic;

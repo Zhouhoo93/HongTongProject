@@ -66,7 +66,7 @@
     //    header.stateLabel.hidden = YES;
     self.table.mj_header = header;
     self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
-
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 8;
@@ -82,7 +82,7 @@
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor clearColor];
         if(indexPath.row==0){
-           cell.LeftLabel.text = @"户号";
+            cell.LeftLabel.text = @"户号";
             cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.house_id];
         }else if(indexPath.row==1){
             cell.LeftLabel.text = @"姓名";
@@ -166,7 +166,7 @@
     rightDownLabel.font = [UIFont systemFontOfSize:8];
     [bg addSubview:rightDownLabel];
     UIImageView *downImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 30, 10, 10)];
-    downImg.image = [UIImage imageNamed:@"xiaohongdian"];
+    downImg.image = [UIImage imageNamed:@"椭圆-6-拷贝"];
     [bg addSubview:downImg];
     
     NSInteger count = 1;
@@ -454,40 +454,40 @@
     self.lineChart1.yLineDataArr = @[yline2,yline3,yline4,yline5,yline6];
     /*       Start animation        */
     [self.lineChart1 showAnimation];
-
     
-//    JHLineChart *lineChart11 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
-//    lineChart11.isShowRight = NO;
-//    lineChart11.isShowLeft = YES;
-//    
-//    lineChart11.isKw = NO;
-//    
-//    lineChart11.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
-//    
-//    lineChart11.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
-//    
-//    lineChart11.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
-//    lineChart11.valueArr = @[];
-//    lineChart11.showYLevelLine = NO;
-//    lineChart11.showYLine = NO;
-//    lineChart11.showValueLeadingLine = NO;
-//    lineChart11.valueFontSize = 0.0;
-//    lineChart11.xAndYLineColor = [UIColor blackColor];
-//    /* XY axis scale color */
-//    lineChart11.xAndYNumberColor = [UIColor darkGrayColor];
-//    lineChart11.backgroundColor = [UIColor clearColor];
-//    [self.bgScrollView addSubview:lineChart11];
     
-//    NSString *yline11 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
-//    NSString *yline22 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
-//    NSString *yline33 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
-//    NSString *yline44 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
-//    NSString *yline55 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
-//    NSString *yline66 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
-//    lineChart11.yLineDataArr = @[yline22,yline33,yline44,yline55,yline66];
-//    /*       Start animation        */
-//    [lineChart11 showAnimation];
-
+    //    JHLineChart *lineChart11 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    //    lineChart11.isShowRight = NO;
+    //    lineChart11.isShowLeft = YES;
+    //
+    //    lineChart11.isKw = NO;
+    //
+    //    lineChart11.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    //
+    //    lineChart11.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    //
+    //    lineChart11.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    //    lineChart11.valueArr = @[];
+    //    lineChart11.showYLevelLine = NO;
+    //    lineChart11.showYLine = NO;
+    //    lineChart11.showValueLeadingLine = NO;
+    //    lineChart11.valueFontSize = 0.0;
+    //    lineChart11.xAndYLineColor = [UIColor blackColor];
+    //    /* XY axis scale color */
+    //    lineChart11.xAndYNumberColor = [UIColor darkGrayColor];
+    //    lineChart11.backgroundColor = [UIColor clearColor];
+    //    [self.bgScrollView addSubview:lineChart11];
+    
+    //    NSString *yline11 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
+    //    NSString *yline22 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
+    //    NSString *yline33 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
+    //    NSString *yline44 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
+    //    NSString *yline55 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
+    //    NSString *yline66 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    //    lineChart11.yLineDataArr = @[yline22,yline33,yline44,yline55,yline66];
+    //    /*       Start animation        */
+    //    [lineChart11 showAnimation];
+    
     
     self.zhuView = [[HistogramView alloc] initWithFrame:CGRectMake(0, 34, KWidth-14, KHeight/667*180)];
     self.zhuView.maxNumber = self.maxNumber;
@@ -502,7 +502,7 @@
     [bg1 addSubview:self.zhuView];
     //    self.page=0;
     //    [self addTimer];
-
+    
 }
 
 // 曲线图数据
@@ -844,14 +844,38 @@
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSMutableArray *)redArr{
+    if(!_redArr){
+        _redArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _redArr;
 }
-*/
+-(NSMutableArray *)yellowArr{
+    if(!_yellowArr){
+        _yellowArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _yellowArr;
+}
+-(NSMutableArray *)greenArr{
+    if(!_greenArr){
+        _greenArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _greenArr;
+}
+-(NSMutableArray *)blueArr{
+    if(!_blueArr){
+        _blueArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _blueArr;
+}
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

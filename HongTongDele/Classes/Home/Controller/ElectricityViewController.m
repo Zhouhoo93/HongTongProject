@@ -43,9 +43,12 @@
 @property (nonatomic,strong) UIButton *timeSelectBtn;
 @property (nonatomic,strong) UIButton *timeSelectBtn1;
 @property (nonatomic,strong) UIButton *timeSelectBtn2;
-@property (nonatomic,copy) NSString *province;
-@property (nonatomic,copy) NSString *city;
-@property (nonatomic,copy) NSString *town;
+@property (nonatomic,strong)NSMutableArray *provinceArr;
+@property (nonatomic,strong)NSMutableArray *cityArr;
+@property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,strong)NSMutableArray *addressArr;
+@property (nonatomic,copy) NSString *grade;
+
 @end
 
 @implementation ElectricityViewController
@@ -55,6 +58,7 @@
     [self createSegmentMenu];
     [self setMenu];
     [self requestData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
     // Do any additional setup after loading the view.
 }
 - (void)createSegmentMenu{
@@ -125,50 +129,76 @@
 }
 
 - (void)setMenu{
-
-    self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self resetBlock:^(NSArray *dataList) {
-        for (ZYSideSlipFilterRegionModel *model in dataList) {
-            //selectedStatus
-            for (CommonItemModel *itemModel in model.itemList) {
-                    [itemModel setSelected:NO];
-            }
-            //selectedItem
-            NSLog(@"dataList:%@",dataList);
-            model.selectedItemList = nil;
-        }
-    }                                                               commitBlock:^(NSArray *dataList) {
-                                
-            //Common Region
-            NSMutableString *commonRegionString = [NSMutableString string];
-            for (int i = 0; i < dataList.count; i ++) {
-                ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
-                [commonRegionString appendFormat:@"\n%@:", commonRegionModel.regionTitle];
-               
-                NSMutableArray *commonItemSelectedArray = [NSMutableArray array];
-                for (CommonItemModel *itemModel in commonRegionModel.itemList) {
-                    if (itemModel.selected) {
-                        [commonItemSelectedArray addObject:[NSString stringWithFormat:@"%@-%@", itemModel.itemId, itemModel.itemName]];
-                        if (i==0) {
-                            self.province = itemModel.itemName;
-                        }else if (i==1){
-                            self.city = itemModel.itemName;
-                        }else if (i==2){
-                            self.town = itemModel.itemName;
-                        }
-                    }
-                }
-                    [commonRegionString appendString:[commonItemSelectedArray componentsJoinedByString:@", "]];
-            }
-                NSLog(@"%@", commonRegionString);
-        NSLog(@"%@-%@-%@",self.province,self.city,self.town);
-        [self requestData];
-        [_filterController dismiss];
-            }];
+    
+    self.filterController = [[ZYSideSlipFilterController alloc] initWithSponsor:self
+                                                                     resetBlock:^(NSArray *dataList) {
+                                                                         for (ZYSideSlipFilterRegionModel *model in dataList) {
+                                                                             //selectedStatus
+                                                                             for (CommonItemModel *itemModel in model.itemList) {
+                                                                                 [itemModel setSelected:NO];
+                                                                             }
+                                                                             //selectedItem
+                                                                             model.selectedItemList = nil;
+                                                                         }
+                                                                     }                                                               commitBlock:^(NSArray *dataList) {
+                                                                         [self requestData];                                                                                      //Common Region
+                                                                         NSMutableString *commonRegionString = [NSMutableString string];
+                                                                         for (int i = 0; i < dataList.count; i ++) {
+                                                                             ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
+                                                                             [commonRegionString appendFormat:@"\n%@:", commonRegionModel.regionTitle];
+                                                                             NSMutableArray *commonItemSelectedArray = [NSMutableArray array];
+                                                                             for (CommonItemModel *itemModel in commonRegionModel.itemList) {
+                                                                                 if (itemModel.selected) {
+                                                                                     [commonItemSelectedArray addObject:[NSString stringWithFormat:@"%@-%@", itemModel.itemId, itemModel.itemName]];
+                                                                                     if (i==0) {
+                                                                                         self.province = itemModel.itemName;
+                                                                                     }else if (i==1){
+                                                                                         self.city = itemModel.itemName;
+                                                                                     }else if (i==2){
+                                                                                         self.town = itemModel.itemName;
+                                                                                     }else if (i==3){
+                                                                                         self.address = itemModel.itemName;
+                                                                                     }
+                                                                                 }
+                                                                             }
+                                                                             [commonRegionString appendString:[commonItemSelectedArray componentsJoinedByString:@", "]];
+                                                                         }
+                                                                         NSLog(@"%@", commonRegionString);
+                                                                         [_filterController dismiss];
+                                                                     }];
     _filterController.animationDuration = .3f;
     _filterController.sideSlipLeading = 0.15*[UIScreen mainScreen].bounds.size.width;
     _filterController.dataList = [self packageDataList];
-    
 }
+
+- (void)changeAddress:(NSNotification *)notification{
+    
+    NSLog(@"接受到通知，改变地址:%@",notification);
+    
+    NSDictionary *dic = notification.userInfo;
+    if ([dic[@"grade"] isEqualToString:@"province"]) {
+        self.grade = @"city";
+        self.province = dic[@"province"];
+        //        self.city = dic[@"province"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
+        self.grade = @"town";
+        self.city = dic[@"city"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.grade = @"address";
+        self.town = dic[@"town"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"address"]) {
+        self.grade = @"province";
+        self.address = dic[@"address"];
+    }
+}
+
+
 - (void)configureShowFilterButton {
     //    _showFilterButton.layer.shadowOffset = CGSizeMake(1, 1);
     //    _showFilterButton.layer.shadowOpacity = 0.6f;
@@ -268,12 +298,72 @@
 }
 
 - (void)ShaiXuanBtnClick{
-    //    [self.menu show];
+    self.grade = @"province";
+    [self requestShaiXuanData];
     [_filterController show];
+}
+- (void)requestShaiXuanData{
+    NSString *URL = [NSString stringWithFormat:@"%@/getArea",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.grade forKey:@"grade"];
+    if ([self.grade isEqualToString:@"province"]) {
+        //        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"city"]) {
+        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"town"]) {
+        [parameters setValue:self.city forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"address"]) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    NSLog(@"%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"获取地址列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            if ([self.grade isEqualToString:@"province"]) {
+                self.provinceArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"city"]){
+                self.cityArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"town"]){
+                self.townArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"address"]){
+                self.addressArr = responseObject[@"content"];
+                _filterController.dataList = [self packageDataList];
+            }
+            [_filterController.mainTableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
 }
 
 - (void)shijianBtnClick{
-    UIActionSheet *actionsheet03 = [[UIActionSheet alloc] initWithTitle:@"选择时间" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"今日", @"本月",@"今年",  nil];
+    UIActionSheet *actionsheet03 = [[UIActionSheet alloc] initWithTitle:@"选择时间" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"今日", @"本月",@"本年",  nil];
     // 显示
     [actionsheet03 showInView:self.view];
     
@@ -305,10 +395,10 @@
     else if (2 == buttonIndex)
     {
         NSLog(@"点击了大袋按钮");
-        self.timeBtn = @"今年";
-        [self.timeSelectBtn setTitle:@"     今 年" forState:0];
-        [self.timeSelectBtn1 setTitle:@"     今 年" forState:0];
-        [self.timeSelectBtn2 setTitle:@"     今 年" forState:0];
+        self.timeBtn = @"本年";
+        [self.timeSelectBtn setTitle:@"     本 年" forState:0];
+        [self.timeSelectBtn1 setTitle:@"     本 年" forState:0];
+        [self.timeSelectBtn2 setTitle:@"     本 年" forState:0];
         [self requestData];
     }else if (3 == buttonIndex)
     {
@@ -471,6 +561,10 @@
         if (self.town.length>0) {
             [parameters setValue:self.town forKey:@"town"];
         }
+        if (self.address.length>0) {
+            [parameters setValue:self.address forKey:@"village"];
+        }
+        NSLog(@"time:%@",parameters);
         [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
             
@@ -491,7 +585,7 @@
                 if (i==0) {
                     NSLog(@"获取全部电站信息正确%@",responseObject);
                     [self.dataArr removeAllObjects];
-                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    for (NSMutableDictionary *dic in responseObject[@"content"]) {
                         _model = [[ElectricityModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
@@ -500,7 +594,7 @@
                 }else if (i==1){
                     NSLog(@"获取全额信息正确%@",responseObject);
                     [self.dataArr removeAllObjects];
-                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    for (NSMutableDictionary *dic in responseObject[@"content"]) {
                         _model = [[ElectricityModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
@@ -509,7 +603,7 @@
                 }else if(i==2){
                     NSLog(@"获取余电信息正确%@",responseObject);
                     [self.dataArr removeAllObjects];
-                    for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
+                    for (NSMutableDictionary *dic in responseObject[@"content"]) {
                         _model = [[ElectricityModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
@@ -581,8 +675,9 @@
     NSMutableArray *dataArray = [NSMutableArray array];
     
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"省" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"县(市、区)" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"乡镇(街道)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"市" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"区(乡镇)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"街道" selectionType:BrandTableViewCellSelectionTypeSingle]];
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"发电方式" selectionType:BrandTableViewCellSelectionTypeSingle]];
     
     return [dataArray mutableCopy];
@@ -594,22 +689,30 @@
     model.regionTitle = keyword;
     model.customDict = @{REGION_SELECTION_TYPE:@(selectionType)};
     if ([keyword isEqualToString:@"省"]) {
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"浙江省"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"湖南省"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"江苏省"] itemId:@"0002" selected:NO]
-                           ];
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.provinceArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
+        }
+        model.itemList = dataArr;
+    }else if([keyword isEqualToString:@"市"]){
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.cityArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
+        }
+        model.itemList = dataArr;
+    }else if([keyword isEqualToString:@"区(乡镇)"]){
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.townArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.townArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+        }
+        model.itemList = dataArr;
         
-    }else if([keyword isEqualToString:@"县(市、区)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"杭州下城"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"宁波慈溪"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"杭州江干"] itemId:@"0002" selected:NO]
-                           ];
-        
-    }else if([keyword isEqualToString:@"乡镇(街道)"]){
-        model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"下沙街道"] itemId:@"0000" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"白杨街道"] itemId:@"0001" selected:NO],
-                           [self createItemModelWithTitle:[NSString stringWithFormat:@"没有街道"] itemId:@"0002" selected:NO]
-                           ];
+    }else if([keyword isEqualToString:@"街道"]){
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.addressArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.addressArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+4000] selected:NO]];
+        }
+        model.itemList = dataArr;
         
     }else if([keyword isEqualToString:@"发电方式"]){
         model.itemList = @[[self createItemModelWithTitle:[NSString stringWithFormat:@"全额上网"] itemId:@"0000" selected:NO],
@@ -642,6 +745,30 @@
     model.addressString = address;
     model.addressId = addressId;
     return model;
+}
+-(NSMutableArray *)provinceArr{
+    if (!_provinceArr) {
+        _provinceArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _provinceArr;
+}
+-(NSMutableArray *)cityArr{
+    if (!_cityArr) {
+        _cityArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _cityArr;
+}
+-(NSMutableArray *)townArr{
+    if (!_townArr) {
+        _townArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _townArr;
+}
+-(NSMutableArray *)addressArr{
+    if (!_addressArr) {
+        _addressArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _addressArr;
 }
 
 /*

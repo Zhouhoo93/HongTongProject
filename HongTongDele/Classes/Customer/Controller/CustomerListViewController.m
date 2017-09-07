@@ -12,12 +12,16 @@
 #import "CustomerListModel.h"
 #import "CustomerListTableViewCell.h"
 #import <RongIMKit/RongIMKit.h>
-@interface CustomerListViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "GroupCusomerViewController.h"
+//#import "HSingleGlobalData.h"
+@interface CustomerListViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 @property (nonatomic,strong)UITableView *listTableView;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)CustomerListModel *model;
 @property (nonatomic, strong) NSMutableArray *selectArray;
 @property (nonatomic,strong)UIBarButtonItem *anotherButton;
+@property (nonatomic,copy)NSString *groupID;
+@property (nonatomic,copy)NSString *roomName;
 @end
 
 @implementation CustomerListViewController
@@ -28,7 +32,8 @@
     [self setUI];
     [self requestListData];
     self.anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"群组" style:UIBarButtonSystemItemAdd
-                                                                     target:self action:@selector(qunzuBtnClick)];
+                                                         target:self action:@selector(qunzuBtnClick)];
+    self.anotherButton.image = [UIImage imageNamed:@"添加群组"];
     self.navigationItem.rightBarButtonItem = self.anotherButton;
     // Do any additional setup after loading the view.
 }
@@ -36,15 +41,23 @@
 - (void)qunzuBtnClick{
     if ([_anotherButton.title isEqualToString:@"群组"]){
         self.anotherButton.title = @"完成";
+        self.anotherButton.image = nil;
         [self.listTableView setEditing:YES animated:YES];
     }else{
         self.anotherButton.title = @"群组";
+        self.anotherButton.image = [UIImage imageNamed:@"添加群组"];
         [self.listTableView setEditing:NO animated:YES];
-        [self requestCreat];
+        //        [self requestCreat];
+        
+        
+        UIAlertView *alertview = [[UIAlertView alloc] initWithTitle:@"设置" message:@"请输入您的群组名称" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+        
+        alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alertview show];
         NSLog(@"选中数组%@",self.selectArray);
     }
     
-
+    
 }
 
 - (void)setUI{
@@ -55,7 +68,7 @@
 }
 
 -(void)requestListData{
-    NSString *URL = [NSString stringWithFormat:@"%@/chat/get-relations",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/getChatList",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -80,7 +93,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
-                        
+            
             for (NSMutableDictionary *dic in responseObject[@"content"]) {
                 _model = [[CustomerListModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_model];
@@ -109,11 +122,12 @@
         if (i==0) {
             userList = [NSString stringWithFormat:@"%@",self.selectArray[i]];
         }else{
-           userList = [NSString stringWithFormat:@"%@,%@",userList,self.selectArray[i]];
+            userList = [NSString stringWithFormat:@"%@,%@",userList,self.selectArray[i]];
         }
     }
+    userList = [NSString stringWithFormat:@"%@,%@",userList,self.selfTargetID];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setValue:@"群组" forKey:@"groupName"];
+    [parameters setValue:self.roomName forKey:@"groupName"];
     [parameters setValue:userList forKey:@"user"];
     NSLog(@"列表 : %@",userList);
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -133,13 +147,41 @@
                 [MBProgressHUD showText:str];
             }
         }else{
-//            RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-//            conversationVC.conversationType = 1;
-//            conversationVC.targetId = [NSString stringWithFormat:@"%@",self.rongID];
-//            conversationVC.title = @"客服代理";
-//            conversationVC.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:conversationVC animated:YES];
-
+            
+            self.groupID = responseObject[@"content"][@"groupId"];
+            //            [[HSingleGlobalData sharedInstance].groupArr addObject:self.groupID];
+            //---------------------
+            
+            NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+            NSString *documents = [array lastObject];
+            NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
+            //第四步：准备好要存到本地的数组
+            //第六步：可对已经存储的数组进行查询等操作
+            NSMutableArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
+            if (!resultArray) {
+                resultArray = [[NSMutableArray alloc] initWithCapacity:0];
+            }
+            [resultArray addObject:self.groupID];
+            //            NSMutableArray *dataArray = [NSArray arrayWithObjects:@"你好", @"我是", @"沙盒", nil];
+            //第五步：将数组存入到指定的本地文件
+            [resultArray writeToFile:documentPath atomically:YES];
+            NSLog(@"%@,%@", documentPath,resultArray);
+            //--------------------
+            GroupCusomerViewController *conversationVC = [[GroupCusomerViewController alloc]init];
+            conversationVC.conversationType = 3;
+            NSString *targetID = self.groupID;
+            conversationVC.targetId = [NSString stringWithFormat:@"%@",targetID];
+            conversationVC.title = responseObject[@"content"][@"groupName"];
+            conversationVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:conversationVC animated:YES];
+            
+            NSNotification *notification =[NSNotification notificationWithName:@"CreatNotification" object:nil userInfo:nil];
+            
+            // 3.通过 通知中心 发送 通知
+            
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -148,6 +190,13 @@
     }];
     
     
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    UITextField *nameField = [alertView textFieldAtIndex:0];
+    NSString *str = nameField.text;
+    NSLog(@"%@",str);
+    self.roomName = str;
+    [self requestCreat];
 }
 
 
@@ -163,8 +212,8 @@
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor whiteColor];
         _model = _dataArr[indexPath.row];
-        cell.nameLabel.text = _model.nick;
-        NSString *picURL = _model.headimgurl;
+        cell.nameLabel.text = _model.username;
+        NSString *picURL = _model.pic;
         NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:picURL]];
         cell.headerImg.image = [UIImage imageWithData:data];
         
@@ -190,7 +239,7 @@
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_listTableView.editing) {
         _model = self.dataArr[indexPath.row];
-        NSString *userID = _model.user_id;
+        NSString *userID = _model.bid;
         if ([self.selectArray containsObject:userID]) {
             [self.selectArray removeObject:userID];
         }
@@ -202,21 +251,21 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_listTableView.editing) {
         _model = self.dataArr[indexPath.row];
-        NSString *userID = _model.user_id;
+        NSString *userID = _model.bid;
         if (![self.selectArray containsObject:userID]) {
             [self.selectArray addObject:userID];
         }
-
+        
     }else{
-    
-    _model = _dataArr[indexPath.row];
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
-    conversationVC.conversationType = 1;
-    conversationVC.targetId = [NSString stringWithFormat:@"%@",_model.user_id];
-    conversationVC.title = [NSString stringWithFormat:@"%@",_model.nick];
-//    conversationVC.hidesBottomBarWhenPushed = YES;
-//    [IQKeyboardManager sharedManager].enable = NO;
-    [self.navigationController pushViewController:conversationVC animated:YES];
+        
+        _model = _dataArr[indexPath.row];
+        RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+        conversationVC.conversationType = 1;
+        conversationVC.targetId = [NSString stringWithFormat:@"%@",_model.bid];
+        conversationVC.title = [NSString stringWithFormat:@"%@",_model.username];
+        //    conversationVC.hidesBottomBarWhenPushed = YES;
+        //    [IQKeyboardManager sharedManager].enable = NO;
+        [self.navigationController pushViewController:conversationVC animated:YES];
     }
 }
 
@@ -275,13 +324,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

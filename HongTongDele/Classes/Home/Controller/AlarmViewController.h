@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface AlarmViewController : UIViewController
-
+@property (nonatomic,copy) NSString *province;
+@property (nonatomic,copy) NSString *city;
+@property (nonatomic,copy) NSString *town;
+@property (nonatomic,copy) NSString *address;
 @end

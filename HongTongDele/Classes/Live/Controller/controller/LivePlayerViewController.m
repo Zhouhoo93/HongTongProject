@@ -43,7 +43,7 @@
     DragButton *_dragButton;//悬浮按钮
     UITapGestureRecognizer *_tapGesture;
     GLSmoothSkinFilter *_smoothSkinFilter;
-
+    
     UIView *_shareView;
     dispatch_source_t _timer;//定时获取了聊天室人数
     
@@ -126,7 +126,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     isOrientationPortrait=YES;
-
+    
 }
 - (void)viewDidLoad
 {
@@ -177,10 +177,10 @@
         if (isPublishing) {
             [_publisher publish];
         }
-//        [_dragButton setImage:[UIImage imageNamed:@"guanjiandian_publish"] forState:UIControlStateNormal];
-
+        //        [_dragButton setImage:[UIImage imageNamed:@"guanjiandian_publish"] forState:UIControlStateNormal];
+        
     } else {
-
+        
     }
     [self tapGestureClick];
 }
@@ -193,9 +193,9 @@
     _tapGesture.delegate = self;
     [_baseChatView addGestureRecognizer:_tapGesture];
     
-//    _anchorIncome.text = @"2551.00";
+    //    _anchorIncome.text = @"2551.00";
     _onlineUserCount.text = @"1";
-
+    
     isShowdragView = YES;
     isPublishing = NO;
     
@@ -216,7 +216,7 @@
     [_baseChatView addSubview:_dragButView];
     _dragButView.layer.cornerRadius = 90;
     _dragButView.hidden = !isShowdragView;
-
+    
     _cameraBtn = [[UIButton alloc] initWithFrame:CGRectMake(60, 10,40, 40)];
     _cameraBtn.backgroundColor = [UIColor clearColor];
     _cameraBtn.tag = 1;
@@ -225,13 +225,13 @@
     [_dragButView addSubview:_cameraBtn];
     [_cameraBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
     
-//    _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 20,40, 40)];
-//    _shareBtn.backgroundColor = [UIColor clearColor];
-//    _shareBtn.tag = 2;
-//    [_shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
-////    [_shareBtn setImage:[UIImage imageNamed:@"share_hover"] forState:UIControlStateSelected];
-//    [_dragButView addSubview:_shareBtn];
-//    [_shareBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
+    //    _shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 20,40, 40)];
+    //    _shareBtn.backgroundColor = [UIColor clearColor];
+    //    _shareBtn.tag = 2;
+    //    [_shareBtn setImage:[UIImage imageNamed:@"share"] forState:UIControlStateNormal];
+    ////    [_shareBtn setImage:[UIImage imageNamed:@"share_hover"] forState:UIControlStateSelected];
+    //    [_dragButView addSubview:_shareBtn];
+    //    [_shareBtn addTarget:self action:@selector(showTag:) forControlEvents:UIControlEventTouchUpInside];
     
     _landscapeBtn = [[UIButton alloc] initWithFrame:CGRectMake(120, 40,40, 40)];
     _landscapeBtn.backgroundColor = [UIColor clearColor];
@@ -275,14 +275,14 @@
     _userHeaderView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, 100, 300)];
     _userHeaderView.backgroundColor = [UIColor clearColor];
     [_baseChatView addSubview:_userHeaderView];
-
+    
     _userHeaderImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 300)];
     _userHeaderImg.backgroundColor = [UIColor clearColor];
     _userHeaderImg.image = [UIImage imageNamed:@"hpBg"];
     [_userHeaderView addSubview:_userHeaderImg];
-
+    
     _userHeaderTabView = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, 100, 290) style:UITableViewStylePlain];
-//    _userHeaderTabView.alpha = 0.6;
+    //    _userHeaderTabView.alpha = 0.6;
     _userHeaderTabView.backgroundColor = [UIColor clearColor];
     _userHeaderTabView.dataSource = self;
     _userHeaderTabView.delegate = self;
@@ -418,12 +418,12 @@
             [function setImage:[UIImage imageNamed:@"btn_sina_weibo"] forState:UIControlStateNormal];
         }
     }
-
+    
 }
 
 - (void)tapGestureClick
 {
-     NSLog(@"*******tapGestureClick******");
+    NSLog(@"*******tapGestureClick******");
     [_inputField resignFirstResponder];
     
     if (self.isLiveMode) {
@@ -600,76 +600,76 @@
         }
         
         
-//        [UIView animateWithDuration:0 animations:^{
-            if (_dragButton.y < 90) {
+        //        [UIView animateWithDuration:0 animations:^{
+        if (_dragButton.y < 90) {
+            if (_dragButton.x > 90 && _dragButton.x < kScreenWidth-90) {
+                _dragButView.frame = CGRectMake(_dragButton.x-90, -60, 180, 180);
+            }else if (_dragButton.x > kScreenWidth-90) {
+                _dragButView.frame = CGRectMake(kScreenWidth-120, 0, 180, 180);
+            }else if (_dragButton.x < 90){
+                _dragButView.frame = CGRectMake(-60, 0, 180, 180);
+            }else {
+                
+            }
+        }else {
+            if (kScreenHeight < _dragButton.y + 90) {
                 if (_dragButton.x > 90 && _dragButton.x < kScreenWidth-90) {
-                    _dragButView.frame = CGRectMake(_dragButton.x-90, -60, 180, 180);
+                    _dragButView.frame = CGRectMake(_dragButton.x-90, kScreenHeight-120, 180, 180);
                 }else if (_dragButton.x > kScreenWidth-90) {
-                    _dragButView.frame = CGRectMake(kScreenWidth-120, 0, 180, 180);
+                    _dragButView.frame = CGRectMake(kScreenWidth-120, kScreenHeight-180, 180, 180);
                 }else if (_dragButton.x < 90){
-                    _dragButView.frame = CGRectMake(-60, 0, 180, 180);
+                    _dragButView.frame = CGRectMake(-60, kScreenHeight-180, 180, 180);
                 }else {
                     
                 }
             }else {
-                if (kScreenHeight < _dragButton.y + 90) {
-                    if (_dragButton.x > 90 && _dragButton.x < kScreenWidth-90) {
-                        _dragButView.frame = CGRectMake(_dragButton.x-90, kScreenHeight-120, 180, 180);
-                    }else if (_dragButton.x > kScreenWidth-90) {
-                        _dragButView.frame = CGRectMake(kScreenWidth-120, kScreenHeight-180, 180, 180);
-                    }else if (_dragButton.x < 90){
-                        _dragButView.frame = CGRectMake(-60, kScreenHeight-180, 180, 180);
-                    }else {
-                        
-                    }
+                if (_dragButton.x > kScreenWidth/2) {
+                    _dragButView.frame = CGRectMake(kScreenWidth-120, _dragButton.y-60, 180, 180);
                 }else {
-                    if (_dragButton.x > kScreenWidth/2) {
-                        _dragButView.frame = CGRectMake(kScreenWidth-120, _dragButton.y-60, 180, 180);
-                    }else {
-                        _dragButView.frame = CGRectMake(-60, _dragButton.y-60, 180, 180);
-                    }
+                    _dragButView.frame = CGRectMake(-60, _dragButton.y-60, 180, 180);
                 }
             }
-//        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.6 animations:^{
-                if (_dragButView.x == -60) {
-                    _cameraBtn.frame = CGRectMake(60, 10,40, 40);
-                    _shareBtn.frame = CGRectMake(120, 20,40, 40);
-                    _landscapeBtn.frame = CGRectMake(130, 70,40, 40);
-                    _torchOnBtn.frame = CGRectMake(120, 120,40, 40);
-                    _filterBtn.frame = CGRectMake(60, 130,40, 40);
-                    _closeBtn.frame = CGRectMake(60, 65,50, 50);
-                }else if (_dragButView.x == kScreenWidth-120) {
-                    _cameraBtn.frame = CGRectMake(70, 0,40, 40);
-                    _shareBtn.frame = CGRectMake(20, 20,40, 40);
-                    _landscapeBtn.frame = CGRectMake(0, 70,40, 40);
+        }
+        //        } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.6 animations:^{
+            if (_dragButView.x == -60) {
+                _cameraBtn.frame = CGRectMake(60, 10,40, 40);
+                _shareBtn.frame = CGRectMake(120, 20,40, 40);
+                _landscapeBtn.frame = CGRectMake(130, 70,40, 40);
+                _torchOnBtn.frame = CGRectMake(120, 120,40, 40);
+                _filterBtn.frame = CGRectMake(60, 130,40, 40);
+                _closeBtn.frame = CGRectMake(60, 65,50, 50);
+            }else if (_dragButView.x == kScreenWidth-120) {
+                _cameraBtn.frame = CGRectMake(70, 0,40, 40);
+                _shareBtn.frame = CGRectMake(20, 20,40, 40);
+                _landscapeBtn.frame = CGRectMake(0, 70,40, 40);
+                _torchOnBtn.frame = CGRectMake(20, 120,40, 40);
+                _filterBtn.frame = CGRectMake(70, 130,40, 40);
+                _closeBtn.frame = CGRectMake(70, 65,50, 50);
+            }else {
+                if (_dragButView.y < 0) {
+                    _cameraBtn.frame = CGRectMake(130, 60,40, 40);
+                    _shareBtn.frame = CGRectMake(120, 120,40, 40);
+                    _landscapeBtn.frame = CGRectMake(70, 130,40, 40);
                     _torchOnBtn.frame = CGRectMake(20, 120,40, 40);
-                    _filterBtn.frame = CGRectMake(70, 130,40, 40);
+                    _filterBtn.frame = CGRectMake(0, 60,40, 40);
                     _closeBtn.frame = CGRectMake(70, 65,50, 50);
                 }else {
-                    if (_dragButView.y < 0) {
-                        _cameraBtn.frame = CGRectMake(130, 60,40, 40);
-                        _shareBtn.frame = CGRectMake(120, 120,40, 40);
-                        _landscapeBtn.frame = CGRectMake(70, 130,40, 40);
-                        _torchOnBtn.frame = CGRectMake(20, 120,40, 40);
-                        _filterBtn.frame = CGRectMake(0, 60,40, 40);
-                        _closeBtn.frame = CGRectMake(70, 65,50, 50);
-                    }else {
-                        _cameraBtn.frame = CGRectMake(0, 70,40, 40);
-                        _shareBtn.frame = CGRectMake(20, 20,40, 40);
-                        _landscapeBtn.frame = CGRectMake(70, 0,40, 40);
-                        _torchOnBtn.frame = CGRectMake(120, 20,40, 40);
-                        _filterBtn.frame = CGRectMake(130, 70,40, 40);
-                        _closeBtn.frame = CGRectMake(60, 65,50, 50);
-                    }
+                    _cameraBtn.frame = CGRectMake(0, 70,40, 40);
+                    _shareBtn.frame = CGRectMake(20, 20,40, 40);
+                    _landscapeBtn.frame = CGRectMake(70, 0,40, 40);
+                    _torchOnBtn.frame = CGRectMake(120, 20,40, 40);
+                    _filterBtn.frame = CGRectMake(130, 70,40, 40);
+                    _closeBtn.frame = CGRectMake(60, 65,50, 50);
                 }
-            } completion:^(BOOL finished) {}];
-//        }];
-
+            }
+        } completion:^(BOOL finished) {}];
+        //        }];
+        
     }else {
         
         isShowdragView = NO;
-
+        
         
         [UIView animateWithDuration:0.6 animations:^{
             for (UIButton *button in [_dragButView subviews]) {
@@ -689,11 +689,11 @@
             bounceAnimation.duration = 0.4;
             [_dragButton.layer addAnimation:bounceAnimation forKey:@"bounce"];
         } completion:^(BOOL finished) {
-//            [UIView animateWithDuration:0 animations:^{
-//                _dragButView.frame = CGRectMake(60, _dragButton.y, 0, 0);
-//
-//            } completion:^(BOOL finished) {
-//            }];
+            //            [UIView animateWithDuration:0 animations:^{
+            //                _dragButView.frame = CGRectMake(60, _dragButton.y, 0, 0);
+            //
+            //            } completion:^(BOOL finished) {
+            //            }];
             _dragButView.hidden = YES;
         }];
     }
@@ -701,25 +701,25 @@
 
 -(void)showTag:(UIButton *)sender
 {
-//    NSLog(@"button.tag >> %@",@(sender.tag));
+    //    NSLog(@"button.tag >> %@",@(sender.tag));
     
     UIButton *button = sender;
     
-//    if (button.selected) {
-//        button.selected = NO;
-//    }else{
-//        button.selected = YES;
-//    }
-//    if(!self.isLiveMode) return;
+    //    if (button.selected) {
+    //        button.selected = NO;
+    //    }else{
+    //        button.selected = YES;
+    //    }
+    //    if(!self.isLiveMode) return;
     
     BOOL changeBtnState = YES;
     
     switch ([button tag]) {
         case 0:
         {
-           
+            
             [self setFrameOfDragBtn:YES];
-
+            
         }
             break;
             
@@ -736,9 +736,9 @@
             
         case 2:
         {
-//            _shareView.y = kScreenHeight/2-80;
-//            _shareView.x = ((kScreenWidth-300)/2);
-//            _shareView.frame = CGRectMake((kScreenWidth-300)/2, kScreenHeight/2-80, 300, 120);
+            //            _shareView.y = kScreenHeight/2-80;
+            //            _shareView.x = ((kScreenWidth-300)/2);
+            //            _shareView.frame = CGRectMake((kScreenWidth-300)/2, kScreenHeight/2-80, 300, 120);
             [self creatShareView];
             _shareView.alpha = 0;
             _shareView.transform = CGAffineTransformIdentity;
@@ -747,13 +747,13 @@
                     [self setFrameOfDragBtn:NO];
                 }
             }];
-
+            
             CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
             bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
             bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
             bounceAnimation.duration = 0.4;
             [_shareView.layer addAnimation:bounceAnimation forKey:@"bounce"];
-
+            
         }
             break;
             
@@ -761,7 +761,7 @@
         {
             if (button.selected) {
                 [self setOrientation:UIInterfaceOrientationPortrait];
-
+                
             }else{
                 
                 [self setOrientation:UIInterfaceOrientationLandscapeRight];
@@ -808,8 +808,8 @@
                     isRecording = YES;
                 }
                 isPublishing = YES;
-//                [_dragButton setImage:[UIImage imageNamed:@"guanjiandian_publish"] forState:UIControlStateNormal];
-
+                //                [_dragButton setImage:[UIImage imageNamed:@"guanjiandian_publish"] forState:UIControlStateNormal];
+                
             }
         }
             break;
@@ -914,7 +914,7 @@
             _peerClient.localVideoView = _localPlayerView;
             _peerClient.remoteVideoView = _peerPlayView;
             _peerPlayView.superview.hidden = NO;
-
+            
             [_publisher inviteUser:obj.account withCallback:^(GLRoomPublisherPCEvent event) {
                 if (event == GLRoomPublisherPCEventAccept) {
                     [_peerClient connectToRoom:_roomSession.roomId withUserId:_publisher.currentUser];
@@ -939,7 +939,7 @@
         default:
             break;
     }
-
+    
     if (changeBtnState) {
         button.selected = !button.selected;
     }
@@ -1043,10 +1043,10 @@
         
     }
     
-//    [UIView animateWithDuration:0.3 animations:^{
+    //    [UIView animateWithDuration:0.3 animations:^{
     
-        _aleatView.frame = CGRectMake(kScreenWidth/2-100, kScreenHeight/2-100, 200, _aleatView.height);
-//    } completion:nil];
+    _aleatView.frame = CGRectMake(kScreenWidth/2-100, kScreenHeight/2-100, 200, _aleatView.height);
+    //    } completion:nil];
     
     _aleatView.alpha = 0;
     _aleatView.transform = CGAffineTransformIdentity;
@@ -1113,7 +1113,7 @@
     NSDictionary *userInfo = note.userInfo;
     CGRect keyFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [UIView animateWithDuration:0.3 animations:^{
-//        _chatContentView.y = _chatConY - keyFrame.size.height;
+        //        _chatContentView.y = _chatConY - keyFrame.size.height;
         _inputField.y = kScreenHeight-keyFrame.size.height-40;
     } completion:nil];
 }
@@ -1121,7 +1121,7 @@
 - (void)keyboardWillhide:(NSNotification *)note
 {
     [UIView animateWithDuration:0.3 animations:^{
-//        _chatContentView.y = _chatConY;
+        //        _chatContentView.y = _chatConY;
         _inputField.y = -100;
     } completion:nil];
 }
@@ -1274,7 +1274,7 @@
     _videoResolutionView.alpha = 0.f;
     _videoResolutionView.frame = CGRectMake(0, 35, 100, 1);
     endAnimation;
-
+    
 }
 
 - (void)onAnimationSettingStop
@@ -1364,9 +1364,9 @@
     }
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO] ;
     
-//    if (!isOrientationPortrait) {
-//        [self setOrientation:UIInterfaceOrientationPortrait];
-//    }
+    //    if (!isOrientationPortrait) {
+    //        [self setOrientation:UIInterfaceOrientationPortrait];
+    //    }
 }
 
 - (void)closeClick:(id)sender
@@ -1380,29 +1380,29 @@
 }
 
 - (void)closerequest{
-        NSString *URL = [NSString stringWithFormat:@"%@/live-t/close-live",kUrl];
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *token = [userDefaults valueForKey:@"token"];
-        NSLog(@"token:%@",token);
-        [userDefaults synchronize];
-        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-//        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-//        [parameters setValue:self.roomId forKey:@"room_id"];
-        [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"关闭直播间正确%@",responseObject);
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"失败%@",error);
-            //        [MBProgressHUD showText:@"%@",error[@"error"]];
-        }];
+    NSString *URL = [NSString stringWithFormat:@"%@/live-t/close-live",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    //        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    //        [parameters setValue:self.roomId forKey:@"room_id"];
+    [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"关闭直播间正确%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
     
-
+    
+    
+    
 }
 
 - (void)showReport
@@ -1467,7 +1467,7 @@
         if([msg.text isEqualToString:@"enter"])
         {
             [self updateRoomUserCount];
-        
+            
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
             [params setObject:@"0"  forKey:@"msgid"];
             [params setObject:msg.sendName  forKey:@"nickname"];
@@ -1490,14 +1490,14 @@
             
             NSDictionary *dictionary = (NSDictionary *)jsonObject;
             NSString *giftName = [dictionary objectForKey:@"giftName"];
-  
+            
             if(giftName)
             {
                 NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:4];
                 [params setObject:@"2"  forKey:@"msgid"];
                 [params setObject:msg.sendName  forKey:@"nickname"];
                 [params setObject:giftName  forKey:@"msg"];
-            
+                
                 NSError *parseError = nil;
                 NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&parseError];
                 NSString *sssss = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -1505,7 +1505,7 @@
                 [_msgTableView reloadData];
                 [_msgTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:_messageArrays.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
             }
-
+            
         }
     } else if(msg.type == GLChatMessageTypeText){
         
@@ -1513,7 +1513,7 @@
         [params setObject:@"1"  forKey:@"msgid"];
         [params setObject:msg.sendName  forKey:@"nickname"];
         [params setObject:msg.text  forKey:@"msg"];
-
+        
         NSError *parseError = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&parseError];
         NSString *sssss = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -1538,8 +1538,8 @@
 - (void)playerDidConnect:(GLPlayer *)player;
 {
     _player.playerView.backgroundColor = [UIColor blackColor];
-//    [self hideIndicator];
-//    [self setTip:nil];
+    //    [self hideIndicator];
+    //    [self setTip:nil];
     [self updateRoomUserCount];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES] ;
 }
@@ -1547,15 +1547,15 @@
 - (void)playerReconnecting:(GLPlayer *)player;
 {
     NSLog(@"playerReconnecting");
-//    [self setTip:@"重新连线中..."];
-//    [self showIndicator];
+    //    [self setTip:@"重新连线中..."];
+    //    [self showIndicator];
 }
 
 - (void)playerDidDisconnected:(GLPlayer *)player
 {
     NSLog(@"playerDidDisconnected");
-//    [self setTip:@"直播已结束！"];
-//    [self hideIndicator];
+    //    [self setTip:@"直播已结束！"];
+    //    [self hideIndicator];
 }
 
 - (void)playerStatusDidUpdate:(GLPlayer *)player
@@ -1568,8 +1568,8 @@
 {
     NSLog(@"playerOnError: %@ ", error);
     
-//    [self hideIndicator];
-//    [self setTip:error.localizedDescription];
+    //    [self hideIndicator];
+    //    [self setTip:error.localizedDescription];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO] ;
 }
@@ -1582,22 +1582,22 @@
     _closeBtn.enabled = YES;
     _closeBtn.selected = YES;
     [_dragButton setImage:[UIImage imageNamed:@"guanjiandian_publish"] forState:UIControlStateNormal];
-//    _startRec.enabled = YES;
-//    _startRec.selected = YES;
-//    [_startRec setImage:[UIImage imageNamed:@"btn_stop"] forState:UIControlStateNormal];
-//    _timeLabel.hidden = NO;
+    //    _startRec.enabled = YES;
+    //    _startRec.selected = YES;
+    //    [_startRec setImage:[UIImage imageNamed:@"btn_stop"] forState:UIControlStateNormal];
+    //    _timeLabel.hidden = NO;
     
-//    [_publisher beginRecording];
-//    [self startPublishTimer];
-//    [self hideIndicator];
-//    [self setTip:nil];
+    //    [_publisher beginRecording];
+    //    [self startPublishTimer];
+    //    [self hideIndicator];
+    //    [self setTip:nil];
     [self updateRoomUserCount];
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES] ;
     
     
-//    _pushLiveStreamTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(PushLiveStream) userInfo:nil repeats:YES];
-//    [_pushLiveStreamTimer fire];
+    //    _pushLiveStreamTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(PushLiveStream) userInfo:nil repeats:YES];
+    //    [_pushLiveStreamTimer fire];
 }
 
 - (void)publisher:(GLPublisher *)publisher onError:(NSError *)error;
@@ -1607,7 +1607,7 @@
     _closeBtn.selected = NO;
     [_dragButton setImage:[UIImage imageNamed:@"guanjiandian"] forState:UIControlStateNormal];
     [self endPeerConnection:NO];
-
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:okAction];
@@ -1621,29 +1621,29 @@
     [MBProgressHUD showHUDAddedTo:_baseChatView animated:YES];
     [_dragButton setImage:[UIImage imageNamed:@"guanjiandian"] forState:UIControlStateNormal];
     
-//    [self setTip:@"重新连线中..."];
-//    [self showIndicator];
+    //    [self setTip:@"重新连线中..."];
+    //    [self showIndicator];
 }
 
 - (void)publisherDidForceLogout:(GLRoomPublisher *)publisher;
 {
     [MBProgressHUD hideHUDForView:_baseChatView animated:YES];
-//    [self publishDidStop];
+    //    [self publishDidStop];
     [self forceLogout:@"你的账号在别处登录了！"];
     [_dragButton setImage:[UIImage imageNamed:@"guanjiandian"] forState:UIControlStateNormal];
-
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO] ;
 }
 
 - (void)publisherDidDisconnected:(GLPublisher *)publisher;
 {
     [MBProgressHUD hideHUDForView:_baseChatView animated:YES];
-//    [self publishDidStop];
-//    [self setTip:nil];
+    //    [self publishDidStop];
+    //    [self setTip:nil];
     _closeBtn.selected = NO;
     [self endPeerConnection:NO];
     [_dragButton setImage:[UIImage imageNamed:@"guanjiandian"] forState:UIControlStateNormal];
-
+    
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO] ;
 }
 
@@ -1699,7 +1699,7 @@
 
 - (void)dealloc
 {
-//    [_presentView removeFromSuperview];
+    //    [_presentView removeFromSuperview];
     [_shareView removeFromSuperview];
     [_messageArrays removeAllObjects];
     [_msgTableView removeFromSuperview];
@@ -1780,7 +1780,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell fillCellWithObject:[self getUserAtIndex:indexPath.row] level:[self getUserLevelAtIndex:indexPath.row]];
         cell.didSelectedButton = ^(UIButton *button){
-          
+            
             [self showAleatView:1 index:indexPath.row enableBackgroundClick:YES];
         };
         return cell;
@@ -1810,7 +1810,7 @@
             return;
         }
         GLUser *obj = [self getUserAtIndex:userIndex];
-
+        
         NSLog(@"%@",obj.account);
         
         [self showAleatView:3 index:indexPath.row enableBackgroundClick:YES];
@@ -1835,7 +1835,7 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return (_publisher.state != GLPublisherStatePublished
-    && _publisher.state != GLPublisherStateReconnecting
+            && _publisher.state != GLPublisherStateReconnecting
             && _publisher.state != GLPublisherStatePublishing)
     ? UIInterfaceOrientationMaskAllButUpsideDown
     : 1 << [[UIApplication sharedApplication]statusBarOrientation];
@@ -1852,32 +1852,32 @@
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
         
-//        if (orientation == UIInterfaceOrientationLandscapeRight) {
-//            
-//            _userHeaderView.frame = CGRectMake(kScreenWidth, 20, 100, 100);
-//            _userHeaderImg.frame = CGRectMake(0, 0, 100, 100);
-//            _userHeaderTabView.frame = CGRectMake(0, 0, 100, 100);
-//            
-//            _dragButton.frame = CGRectMake(0, 200, 60, 60);
-//            _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
-//
-//            if (isShowdragView) {
-//                [self setFrameOfDragBtn:NO];
-//            }
-//            
-//            
-//        }else {
-//            _userHeaderView.frame = CGRectMake(kScreenWidth, 20, 100, 100);
-//            _userHeaderImg.frame = CGRectMake(0, 0, 100, 100);
-//            _userHeaderTabView.frame = CGRectMake(0, 0, 100, 100);
-//            
-//            _dragButton.frame = CGRectMake(0, 200, 60, 60);
-//            
-//            _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
-//            if (isShowdragView) {
-//                [self setFrameOfDragBtn:NO];
-//            }
-//        }
+        //        if (orientation == UIInterfaceOrientationLandscapeRight) {
+        //
+        //            _userHeaderView.frame = CGRectMake(kScreenWidth, 20, 100, 100);
+        //            _userHeaderImg.frame = CGRectMake(0, 0, 100, 100);
+        //            _userHeaderTabView.frame = CGRectMake(0, 0, 100, 100);
+        //
+        //            _dragButton.frame = CGRectMake(0, 200, 60, 60);
+        //            _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
+        //
+        //            if (isShowdragView) {
+        //                [self setFrameOfDragBtn:NO];
+        //            }
+        //
+        //
+        //        }else {
+        //            _userHeaderView.frame = CGRectMake(kScreenWidth, 20, 100, 100);
+        //            _userHeaderImg.frame = CGRectMake(0, 0, 100, 100);
+        //            _userHeaderTabView.frame = CGRectMake(0, 0, 100, 100);
+        //
+        //            _dragButton.frame = CGRectMake(0, 200, 60, 60);
+        //
+        //            _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
+        //            if (isShowdragView) {
+        //                [self setFrameOfDragBtn:NO];
+        //            }
+        //        }
         
         
     }
@@ -1891,15 +1891,15 @@
     if (toInterfaceOrientation == UIInterfaceOrientationPortrait) {
         
         isOrientationPortrait=YES;
-
+        
         _userHeaderView.frame = CGRectMake(kScreenWidth, 0, 100, 300);
         _userHeaderImg.frame = CGRectMake(0, 0, 100, 300);
         _userHeaderTabView.frame = CGRectMake(0, 0, 100, 300);
         
         _dragButton.frame = CGRectMake(0, 300, 60, 60);
         _shareView.frame = CGRectMake((kScreenWidth-300)/2, kScreenHeight, 300, 120);
-
-//        _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
+        
+        //        _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
         if (isShowdragView) {
             [self setFrameOfDragBtn:NO];
         }
@@ -1907,14 +1907,14 @@
         _publisher.videoPreset = _portraitPreset;
     }else {
         isOrientationPortrait=NO;
-
+        
         _userHeaderView.frame = CGRectMake(kScreenWidth, 0, 100, 100);
         _userHeaderImg.frame = CGRectMake(0, 0, 100, 100);
         _userHeaderTabView.frame = CGRectMake(0, 0, 100, 100);
         _shareView.frame = CGRectMake((kScreenWidth-300)/2, kScreenHeight, 300, 120);
-
+        
         _dragButton.frame = CGRectMake(0, 200, 60, 60);
-//        _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
+        //        _shareView.frame = CGRectMake(10, kScreenHeight, kScreenWidth-20, 120);
         
         if (isShowdragView) {
             [self setFrameOfDragBtn:NO];

@@ -40,12 +40,6 @@
 @property (nonatomic,strong) UITableView *table3;
 @property (nonatomic,strong) UITableView *table4;
 @property (nonatomic ,strong)MenuView      *menu;
-@property (nonatomic,copy) NSString *province;
-@property (nonatomic,copy) NSString *city;
-@property (nonatomic,copy) NSString *town;
-@property (nonatomic,strong)NSMutableArray *provinceArr;
-@property (nonatomic,strong)NSMutableArray *cityArr;
-@property (nonatomic,strong)NSMutableArray *townArr;
 @property (nonatomic,copy) NSString *grade;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)NSMutableArray *dataArr1;
@@ -53,19 +47,45 @@
 @property (nonatomic,strong)NSMutableArray *dataArr3;
 @property (nonatomic,strong)NSMutableArray *dataArr4;
 @property (nonatomic,strong)StationListModel *model;
-
+@property (nonatomic,strong)NSMutableArray *provinceArr;
+@property (nonatomic,strong)NSMutableArray *cityArr;
+@property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,strong)NSMutableArray *addressArr;
 @end
 
 @implementation StationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //    self.dataArr = @[@{@"home":@"1", @"nature":@"正常"},@{@"home":@"2", @"nature":@"正常"}];
+    for (int i=0; i<2; i++) {
+        _model = [[StationListModel alloc] init];
+        if (i==0) {
+            _model.nature = @"正常";
+            _model.home = @"1";
+        }else{
+            _model.nature = @"正常";
+            _model.home = @"2";
+        }
+        [self.dataArr addObject:_model];
+    }
+    for (int i=0; i<2; i++) {
+        _model = [[StationListModel alloc] init];
+        if (i==0) {
+            _model.nature = @"正常";
+            _model.home = @"1";
+        }else{
+            _model.nature = @"正常";
+            _model.home = @"2";
+        }
+        [self.dataArr1 addObject:_model];
+    }
     self.grade = @"province";
     [self requestShaiXuanData];
     [self createSegmentMenu];
     [self setMenu];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -81,7 +101,7 @@
                                                                              model.selectedItemList = nil;
                                                                          }
                                                                      }                                                               commitBlock:^(NSArray *dataList) {
-                                                                                                                                                 //Common Region
+                                                                         [self requestStationData];                                                                                      //Common Region
                                                                          NSMutableString *commonRegionString = [NSMutableString string];
                                                                          for (int i = 0; i < dataList.count; i ++) {
                                                                              ZYSideSlipFilterRegionModel *commonRegionModel = dataList[i];
@@ -96,17 +116,20 @@
                                                                                          self.city = itemModel.itemName;
                                                                                      }else if (i==2){
                                                                                          self.town = itemModel.itemName;
+                                                                                     }else if (i==3){
+                                                                                         self.address = itemModel.itemName;
                                                                                      }
-                       }
+                                                                                 }
                                                                              }
                                                                              [commonRegionString appendString:[commonItemSelectedArray componentsJoinedByString:@", "]];
                                                                          }
                                                                          NSLog(@"%@", commonRegionString);
-                                                            [_filterController dismiss];             
+                                                                         [_filterController dismiss];
                                                                      }];
     _filterController.animationDuration = .3f;
     _filterController.sideSlipLeading = 0.15*[UIScreen mainScreen].bounds.size.width;
     _filterController.dataList = [self packageDataList];
+    
     
 }
 
@@ -116,34 +139,40 @@
     
     NSDictionary *dic = notification.userInfo;
     if ([dic[@"grade"] isEqualToString:@"province"]) {
-        self.grade = @"province";
-        self.province = dic[@"city"];
-    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
         self.grade = @"city";
-        self.city = dic[@"town"];
-    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.city = dic[@"province"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"city"]) {
         self.grade = @"town";
-        self.town = dic[@"address"];
+        self.town = dic[@"city"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"town"]) {
+        self.grade = @"address";
+        self.address = dic[@"town"];
+        [self requestShaiXuanData];
+        
+    }else if ([dic[@"grade"] isEqualToString:@"address"]) {
+        self.grade = @"province";
+        self.address = dic[@"address"];
     }
-    [self requestShaiXuanData];
 }
 
 - (void)createSegmentMenu{
     
     //数据源
-    NSArray *array = @[@"全部",@"正常",@"离线",@"故障",@"异常"];
+    NSArray *array = @[@"全部",@"正常",@"离线",@"异常",@"故障"];
     
     _scroView = [TwoScrollView setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
-                     :kColor(16, 16, 16) SelectColor
-                     :[UIColor whiteColor] Font
-                     :[UIFont systemFontOfSize:15]];
-    
-    
+                      :kColor(16, 16, 16) SelectColor
+                      :[UIColor whiteColor] Font
+                      :[UIFont systemFontOfSize:15]];
     [self.view addSubview:_scroView];
     
     //设置默认值
-    [TwoScrollView setViewIndex:0];
+    //    [TwoScrollView setViewIndex:[_index integerValue]];
     
     
     //TabBar回调
@@ -190,17 +219,22 @@
             self.TwoView.backgroundColor = [UIColor whiteColor];
             [self.scrollView addSubview:self.TwoView];
         }else if(i==3){
-            self.ThreeView = [[UIView alloc]initWithFrame:CGRectMake(i*Bound_Width, 0, CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame))];
-            self.ThreeView.backgroundColor = [UIColor whiteColor];
-            [self.scrollView addSubview:self.ThreeView];
-        }else if(i==4){
             self.FourView = [[UIView alloc]initWithFrame:CGRectMake(i*Bound_Width, 0, CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame))];
             self.FourView.backgroundColor = [UIColor whiteColor];
             [self.scrollView addSubview:self.FourView];
-        }        
+        }else if(i==4){
+            
+            self.ThreeView = [[UIView alloc]initWithFrame:CGRectMake(i*Bound_Width, 0, CGRectGetWidth(self.scrollView.frame), CGRectGetHeight(self.scrollView.frame))];
+            self.ThreeView.backgroundColor = [UIColor whiteColor];
+            [self.scrollView addSubview:self.ThreeView];
+            
+        }
     }
     [self setTopButton];
-    
+    [_scroView setViewIndex1:[_index integerValue]];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.scrollView.contentOffset = CGPointMake([_index integerValue] * Bound_Width, 0);
+    }];
 }
 -(void)backBtnClick{
     [self.navigationController popViewControllerAnimated:YES];
@@ -211,31 +245,31 @@
 }
 - (void)setTopButton{
     for (int j=0; j<5; j++) {
-            UIButton *topButton = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-120, 10, 90, 40)];
-    
-            [topButton setBackgroundImage:[UIImage imageNamed:@"图层-20"] forState:0];
-            [topButton setTitle:@"     筛 选" forState:0];
-            [topButton addTarget:self action:@selector(ShaiXuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-            [topButton setTitleColor:[UIColor whiteColor] forState:0];
-            topButton.titleLabel.font = [UIFont systemFontOfSize:14];
-            if (j==0) {
-                [self.AllView addSubview:topButton];
-            }else if(j==1){
-                [self.OneView addSubview:topButton];
-            }else if(j==2){
-                [self.TwoView addSubview:topButton];
-            }else if(j==3){
-                [self.ThreeView addSubview:topButton];
-            }else{
-                [self.FourView addSubview:topButton];
-            }
-    
+        UIButton *topButton = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-120, 10, 90, 40)];
+        
+        [topButton setBackgroundImage:[UIImage imageNamed:@"图层-20"] forState:0];
+        [topButton setTitle:@"     筛 选" forState:0];
+        [topButton addTarget:self action:@selector(ShaiXuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [topButton setTitleColor:[UIColor whiteColor] forState:0];
+        topButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        if (j==0) {
+            [self.AllView addSubview:topButton];
+        }else if(j==1){
+            [self.OneView addSubview:topButton];
+        }else if(j==2){
+            [self.TwoView addSubview:topButton];
+        }else if(j==3){
+            [self.ThreeView addSubview:topButton];
+        }else{
+            [self.FourView addSubview:topButton];
+        }
+        
     }
     [self setTableView];
 }
 
 - (void)ShaiXuanBtnClick{
-     [_filterController show];
+    [_filterController show];
 }
 
 -(void)LeftMenuViewClick:(NSInteger)tag{
@@ -363,7 +397,7 @@
         
         
     }
-    [self requestStationData];
+    //    [self requestStationData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger count  ;
@@ -377,10 +411,10 @@
         count =  _dataArr3.count;
     }else{
         count =  _dataArr4.count;
-
+        
     }
     return count;
-
+    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -394,23 +428,33 @@
         cell.backgroundColor = [UIColor clearColor];
         //        cell.nameLabel.font = [UIFont systemFontOfSize:14];
         if (tableView==self.table) {
-            _model = _dataArr[indexPath.row];
+            if (_dataArr.count>0) {
+                _model = _dataArr[indexPath.row];
+            }
         }else if (tableView == self.table1){
-            _model = _dataArr1[indexPath.row];
+            if (_dataArr1.count>0) {
+                _model = _dataArr1[indexPath.row];
+            }
         }else if (tableView == self.table2){
-            _model = _dataArr2[indexPath.row];
+            if (_dataArr2.count>0) {
+                _model = _dataArr2[indexPath.row];
+            }
         }else if (tableView == self.table3){
-            _model = _dataArr3[indexPath.row];
+            if (_dataArr3.count>0) {
+                _model = _dataArr3[indexPath.row];
+            }
         }else{
-            _model = _dataArr4[indexPath.row];
+            if (_dataArr4.count>0) {
+                _model = _dataArr4[indexPath.row];
+            }
         }
-
+        
         cell.huhaoLabel.text = _model.home;
         cell.statusLabel.text = _model.nature;
         if ([_model.nature isEqualToString:@"正常"]) {
             cell.statusLabel.textColor = [UIColor greenColor];
         }else if ([_model.nature isEqualToString:@"异常"]){
-           cell.statusLabel.textColor = [UIColor yellowColor];
+            cell.statusLabel.textColor = [UIColor yellowColor];
         }else if ([_model.nature isEqualToString:@"故障"]){
             cell.statusLabel.textColor = [UIColor redColor];
         }else if ([_model.nature isEqualToString:@"离线"]){
@@ -442,8 +486,9 @@
     NSMutableArray *dataArray = [NSMutableArray array];
     
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"省" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"县(市、区)" selectionType:BrandTableViewCellSelectionTypeSingle]];
-    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"乡镇(街道)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"市" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"区(乡镇)" selectionType:BrandTableViewCellSelectionTypeSingle]];
+    [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"街道" selectionType:BrandTableViewCellSelectionTypeSingle]];
     [dataArray addObject:[self commonFilterRegionModelWithKeyword:@"发电方式" selectionType:BrandTableViewCellSelectionTypeSingle]];
     
     return [dataArray mutableCopy];
@@ -460,16 +505,23 @@
             [dataArr addObject: [self createItemModelWithTitle:self.provinceArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+1000] selected:NO]];
         }
         model.itemList = dataArr;
-    }else if([keyword isEqualToString:@"县(市、区)"]){
+    }else if([keyword isEqualToString:@"市"]){
         NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i=0; i<self.cityArr.count; i++) {
             [dataArr addObject: [self createItemModelWithTitle:self.cityArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+2000] selected:NO]];
         }
         model.itemList = dataArr;
-    }else if([keyword isEqualToString:@"乡镇(街道)"]){
+    }else if([keyword isEqualToString:@"区(乡镇)"]){
         NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
         for (int i=0; i<self.townArr.count; i++) {
             [dataArr addObject: [self createItemModelWithTitle:self.townArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+3000] selected:NO]];
+        }
+        model.itemList = dataArr;
+        
+    }else if([keyword isEqualToString:@"街道"]){
+        NSMutableArray *dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<self.addressArr.count; i++) {
+            [dataArr addObject: [self createItemModelWithTitle:self.addressArr[i][@"area"] itemId:[NSString stringWithFormat:@"%d",i+4000] selected:NO]];
         }
         model.itemList = dataArr;
         
@@ -478,7 +530,6 @@
                            [self createItemModelWithTitle:[NSString stringWithFormat:@"余电上网"] itemId:@"0001" selected:NO]
                            ];
     }
-    
     return model;
 }
 
@@ -528,6 +579,23 @@
         }else{
             [parameters setValue:@"异常" forKey:@"nature"];
         }
+        //        if (self.grade.length>0) {
+        //            [parameters setValue:self.grade forKey:@"grade"];
+        //        }
+        //        if ([self.grade isEqualToString:@"address"] ) {
+        //            [parameters setValue:self.town forKey:@"area"];
+        
+        //        }else if ([self.grade isEqualToString:@"town"] ) {
+        //            [parameters setValue:self.city forKey:@"area"];
+        //        }else if ([self.grade isEqualToString:@"city"] ) {
+        //            [parameters setValue:self.province forKey:@"area"];
+        //        }else if ([self.grade isEqualToString:@"province"] ) {
+        //            [parameters setValue:self.address forKey:@"area"];
+        //        }
+        if (self.address.length>0) {
+            [parameters setValue:self.address forKey:@"area"];
+        }
+        NSLog(@"%@",parameters)
         [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
             
@@ -546,48 +614,51 @@
                     [MBProgressHUD showText:str];
                 }
             }else{
-
+                [self.dataArr removeAllObjects];
+                [self.dataArr1 removeAllObjects];
+                [self.dataArr2 removeAllObjects];
+                [self.dataArr3 removeAllObjects];
                 if (i==0) {
                     
-                        for (NSDictionary *dic in responseObject[@"content"]) {
-                            _model = [[StationListModel alloc] initWithDictionary:dic];
-                            [self.dataArr addObject:_model];
-                        }
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
                     _filterController.dataList = [self packageDataList];
                     
-
-                   [self.table reloadData];
+                    
+                    [self.table reloadData];
                 }else if (i==1){
                     
-                        for (NSDictionary *dic in responseObject[@"content"]) {
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr1 addObject:_model];
-                    
+                        
                     }
                     _filterController.dataList = [self packageDataList];
                     [self.table1 reloadData];
                 }else if (i==2){
-                   
-                        for (NSDictionary *dic in responseObject[@"content"]) {
+                    
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr2 addObject:_model];
-                        }
+                    }
                     _filterController.dataList = [self packageDataList];
                     [self.table2 reloadData];
                 }else if (i==3){
                     
-                        for (NSDictionary *dic in responseObject[@"content"]) {
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr3 addObject:_model];
-                        }
+                    }
                     _filterController.dataList = [self packageDataList];
                     [self.table3 reloadData];
                 }else{
                     
-                        for (NSDictionary *dic in responseObject[@"content"]) {
-                            _model = [[StationListModel alloc] initWithDictionary:dic];
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr4 addObject:_model];
-                        }
+                    }
                     _filterController.dataList = [self packageDataList];
                     [self.table4 reloadData];
                 }
@@ -616,11 +687,13 @@
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:self.grade forKey:@"grade"];
     if ([self.grade isEqualToString:@"province"]) {
-        [parameters setValue:self.province forKey:@"province"];
+        //        [parameters setValue:self.province forKey:@"province"];
     }else if ([self.grade isEqualToString:@"city"]) {
-        [parameters setValue:self.city forKey:@"city"];
+        [parameters setValue:self.city forKey:@"province"];
     }else if ([self.grade isEqualToString:@"town"]) {
-        [parameters setValue:self.town forKey:@"town"];
+        [parameters setValue:self.town forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"address"]) {
+        [parameters setValue:self.address forKey:@"town"];
     }
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -650,7 +723,7 @@
                 self.townArr = responseObject[@"content"];
                 _filterController.dataList = [self packageDataList];
             }else if ([self.grade isEqualToString:@"address"]){
-                //                self.a = responseObject[@"content"];
+                self.addressArr = responseObject[@"content"];
                 _filterController.dataList = [self packageDataList];
             }
             [_filterController.mainTableView reloadData];
@@ -662,6 +735,7 @@
     }];
     
 }
+
 
 
 - (void)newLogin{
@@ -728,7 +802,6 @@
     }
     return _dataArr4;
 }
-
 -(NSMutableArray *)provinceArr{
     if (!_provinceArr) {
         _provinceArr = [[NSMutableArray alloc] initWithCapacity:0];
@@ -747,14 +820,20 @@
     }
     return _townArr;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSMutableArray *)addressArr{
+    if (!_addressArr) {
+        _addressArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _addressArr;
 }
-*/
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

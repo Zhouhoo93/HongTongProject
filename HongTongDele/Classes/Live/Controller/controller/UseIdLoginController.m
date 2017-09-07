@@ -44,16 +44,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChange:) name:UIKeyboardWillHideNotification object:nil];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-
+    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     _loginBt.layer.cornerRadius = 5.0;
     _loginBt.backgroundColor = RGBColor(73, 185, 251);
     self.view.backgroundColor = COLOR(236, 244, 244, 1);
-
+    
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     headerView.backgroundColor = RGBColor(73, 185, 251);
     [self.view addSubview:headerView];
@@ -72,14 +72,14 @@
     title.backgroundColor = [UIColor clearColor];
     title.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:title];
-//    
+    //
 #if DEBUG
     [GLCore setDebugLogEnabled:YES];
 #endif
     [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088" accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148" companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
-//    _userRoomId.text = self.roomID;
-//    _userPassword.text = self.roomWord;
-//    _userNickName.text = self.nickName;
+    //    _userRoomId.text = self.roomID;
+    //    _userPassword.text = self.roomWord;
+    //    _userNickName.text = self.nickName;
     if (_fromQRScan) {
         _userRoomId.enabled = _userPassword.enabled = NO;
         [_userNickName becomeFirstResponder];
@@ -91,9 +91,9 @@
     tapGestureRecognizer.cancelsTouchesInView = NO;
     //将触摸事件添加到当前view
     [self.view addGestureRecognizer:tapGestureRecognizer];
-//    _userRoomId.text = self.roomID;
-//    _userPassword.text = self.roomWord;
-//    _userNickName.text = @"主播";
+    //    _userRoomId.text = self.roomID;
+    //    _userPassword.text = self.roomWord;
+    //    _userNickName.text = @"主播";
 }
 
 
@@ -102,7 +102,7 @@
 - (void)btnClick:(UIButton *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
-
+    
 }
 
 
@@ -120,7 +120,7 @@
 - (IBAction)didSelectLoginButton:(id)sender
 {
     [self requestData];
-
+    
     
 }
 - (void)loginGo{
@@ -217,7 +217,7 @@
             viewController.isLiveMode  = NO;
             viewController.navigationController.navigationBar.hidden = YES;
             viewController.roomId = roomId;
-            viewController.isZhuBo = NO;
+            //            viewController.isZhuBo = NO;
             viewController.isZhuBo = YES;
             viewController.publisher = _publisher;
             [strong_self.navigationController pushViewController:viewController animated:YES];
@@ -227,7 +227,7 @@
         @strongify(self);
         [strong_self hud:hud showError:error.localizedDescription];
     }];
-
+    
 }
 - (void)_loginPublisherWithForce:(BOOL)force callback:(void(^)(NSError *error))callback
 {
@@ -273,7 +273,7 @@
     
     [UIView animateWithDuration:duration animations:^{
         //        viewToChange.transform = CGAffineTransformTranslate(viewToChange.transform, 0, moveY);
-//        [self.view setContentOffset:CGPointMake(0, -moveY)];
+        //        [self.view setContentOffset:CGPointMake(0, -moveY)];
     } completion:nil];
 }
 
@@ -307,10 +307,10 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-//    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-//    [parameters setValue:self.userRoomId.text forKey:@"room_name"];
-//    [parameters setValue:self.userPassword.text forKey:@"desc"];
-//    [parameters setValue:self.userNickName.text forKey:@"shareDesc"];
+    //    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    //    [parameters setValue:self.userRoomId.text forKey:@"room_name"];
+    //    [parameters setValue:self.userPassword.text forKey:@"desc"];
+    //    [parameters setValue:self.userNickName.text forKey:@"shareDesc"];
     [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

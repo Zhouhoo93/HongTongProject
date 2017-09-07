@@ -17,12 +17,14 @@
 #import "LoginOneViewController.h"
 #import "MainModel.h"
 #import <RongIMKit/RongIMKit.h>
+#import "JHTableChart.h"
 @interface ViewController ()<UIScrollViewDelegate,ChangeName>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,assign) NSInteger selectIndex;
 @property (nonatomic,strong) UIButton *selectBtn2;
 @property (nonatomic,strong) UIButton *selectBtn3;
 @property (nonatomic,strong) UIButton *selectBtn4;
+@property (nonatomic,strong) UIButton *selectBtn5;
 @property (nonatomic,strong) MainModel *model;
 @property (nonatomic,strong) UILabel *downLabel; //总装机量
 @property (nonatomic,strong) UILabel *rightTopLabel1; //全额上网
@@ -38,7 +40,15 @@
 @property (nonatomic,strong) UILabel *lixianLabel;
 @property (nonatomic,strong) UILabel *yichangLabel;
 @property (nonatomic,strong) UILabel *guzhangLabel;
-
+@property (nonatomic,strong)NSMutableArray *provinceArr;
+@property (nonatomic,strong)NSMutableArray *cityArr;
+@property (nonatomic,strong)NSMutableArray *townArr;
+@property (nonatomic,strong)NSMutableArray *addressArr;
+@property (nonatomic,copy) NSString *province;
+@property (nonatomic,copy) NSString *city;
+@property (nonatomic,copy) NSString *town;
+@property (nonatomic,copy) NSString *address;
+@property (nonatomic,copy) NSString *grade;
 @end
 
 @implementation ViewController
@@ -52,13 +62,18 @@
     UIColor * color = [UIColor whiteColor];
     NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:UITextAttributeTextColor];
     self.navigationController.navigationBar.titleTextAttributes = dict;
+    self.grade = @"province";
     [self setUI];
     [self requestData];
     [self setUITwo];
     [self setUIThree];
     [self setUIFour];
     [self setUIFive];
+    [self setUISix];
     [self getRongYunToken];
+    [self requestShaiXuanData];
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -84,9 +99,9 @@
     bgImage.userInteractionEnabled = YES;
     [self.view addSubview:bgImage];
     
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<5; i++) {
         if (i==0) {
-            UIButton *addressBtn = [[UIButton alloc] initWithFrame:CGRectMake(20*(i+1)+(KWidth-100)/4*i, 30, (KWidth-100)/4, 24)];
+            UIButton *addressBtn = [[UIButton alloc] initWithFrame:CGRectMake(16*(i+1)+(KWidth-100)/5*i, 30, (KWidth-100)/5, 24)];
             addressBtn.titleLabel.font = [UIFont systemFontOfSize:13];
             [addressBtn setTitleColor:[UIColor blackColor] forState:0];
             [addressBtn setBackgroundImage:[UIImage imageNamed:@"形状-5-拷贝"] forState:0];
@@ -95,34 +110,43 @@
             [addressBtn addTarget:self action:@selector(selctBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             [bgImage addSubview:addressBtn];
         }else if (i==1){
-            self.selectBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(20*(i+1)+(KWidth-100)/4*i, 30, (KWidth-100)/4, 24)];
+            self.selectBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(16*(i+1)+(KWidth-100)/5*i, 30, (KWidth-100)/5, 24)];
             self.selectBtn2.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.selectBtn2 setTitleColor:[UIColor blackColor] forState:0];
             [self.selectBtn2 setBackgroundImage:[UIImage imageNamed:@"形状-5-拷贝"] forState:0];
-            [self.selectBtn2 setTitle:@"浙江省" forState:0];
+            [self.selectBtn2 setTitle:@"" forState:0];
             self.selectBtn2.tag = 10001;
             [self.selectBtn2 addTarget:self action:@selector(selctBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             [bgImage addSubview:self.selectBtn2];
         }else if (i==2){
-            self.selectBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(20*(i+1)+(KWidth-100)/4*i, 30, (KWidth-100)/4, 24)];
+            self.selectBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(16*(i+1)+(KWidth-100)/5*i, 30, (KWidth-100)/5, 24)];
             self.selectBtn3.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.selectBtn3 setTitleColor:[UIColor blackColor] forState:0];
             [self.selectBtn3 setBackgroundImage:[UIImage imageNamed:@"形状-5-拷贝"] forState:0];
-            [self.selectBtn3 setTitle:@"杭州江干" forState:0];
+            [self.selectBtn3 setTitle:@"" forState:0];
             self.selectBtn3.tag = 10002;
             [self.selectBtn3 addTarget:self action:@selector(selctBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             [bgImage addSubview:self.selectBtn3];
-        }else{
-            self.selectBtn4 = [[UIButton alloc] initWithFrame:CGRectMake(20*(i+1)+(KWidth-100)/4*i, 30, (KWidth-100)/4, 24)];
+        }else if(i==3){
+            self.selectBtn4 = [[UIButton alloc] initWithFrame:CGRectMake(16*(i+1)+(KWidth-100)/5*i, 30, (KWidth-100)/5, 24)];
             self.selectBtn4.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.selectBtn4 setTitleColor:[UIColor blackColor] forState:0];
             [self.selectBtn4 setBackgroundImage:[UIImage imageNamed:@"形状-5-拷贝"] forState:0];
-            [self.selectBtn4 setTitle:@"白杨街道" forState:0];
+            [self.selectBtn4 setTitle:@"" forState:0];
             self.selectBtn4.tag = 10003;
             [self.selectBtn4 addTarget:self action:@selector(selctBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             [bgImage addSubview:self.selectBtn4];
+        }else{
+            self.selectBtn5 = [[UIButton alloc] initWithFrame:CGRectMake(16*(i+1)+(KWidth-100)/5*i, 30, (KWidth-100)/5, 24)];
+            self.selectBtn5.titleLabel.font = [UIFont systemFontOfSize:13];
+            [self.selectBtn5 setTitleColor:[UIColor blackColor] forState:0];
+            [self.selectBtn5 setBackgroundImage:[UIImage imageNamed:@"形状-5-拷贝"] forState:0];
+            [self.selectBtn5 setTitle:@"" forState:0];
+            self.selectBtn5.tag = 10004;
+            [self.selectBtn5 addTarget:self action:@selector(selctBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [bgImage addSubview:self.selectBtn5];
         }
-       
+        
     }
     
     UIImageView *bgImage1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
@@ -176,7 +200,7 @@
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
     [button addTarget:self action:@selector(FirstBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [bgImage1 addSubview:button];
-
+    
     
 }
 - (void)selctBtnClick:(UIButton *)sender{
@@ -185,13 +209,19 @@
         HomeSelectViewController *vc = [[HomeSelectViewController alloc] init];
         if (sender.tag == 10001) {
             self.selectIndex  = 1;
-            vc.dataArr = @[@"浙江省",@"河南省",@"江西省",@"河北省",@"山东省",@"福建省"];
+            //            vc.dataArr = @[@"浙江省",@"河南省",@"江西省",@"河北省",@"山东省",@"福建省"];
+            vc.dataArr = self.provinceArr;
         }else if (sender.tag == 10002) {
             self.selectIndex  = 2;
-            vc.dataArr = @[@"杭州江干",@"杭州下城",@"杭州拱墅",@"杭州滨江",@"杭州萧山",@"杭州西湖"];
+            //            vc.dataArr = @[@"杭州江干",@"杭州下城",@"杭州拱墅",@"杭州滨江",@"杭州萧山",@"杭州西湖"];
+            vc.dataArr = self.cityArr;
         }else if (sender.tag == 10003) {
             self.selectIndex  = 3;
-            vc.dataArr = @[@"白杨街道",@"下沙街道",@"啊啊街道",@"啊啊街道",@"啊啊街道",@"没有街道"];
+            //            vc.dataArr = @[@"白杨街道",@"下沙街道",@"啊啊街道",@"啊啊街道",@"啊啊街道",@"没有街道"];
+            vc.dataArr = self.townArr;
+        }else {
+            self.selectIndex = 4;
+            vc.dataArr = self.addressArr;
         }
         vc.hidesBottomBarWhenPushed = YES;
         vc.delegate = self;
@@ -203,12 +233,25 @@
 {
     if(self.selectIndex==1){
         [self.selectBtn2 setTitle:string forState:0];
+        self.grade = @"city";
+        self.province = string;
+        [self requestShaiXuanData];
     }else if(self.selectIndex==2){
         [self.selectBtn3 setTitle:string forState:0];
+        self.grade = @"town";
+        self.city = string;
+        [self requestShaiXuanData];
     }else if (self.selectIndex ==3){
         [self.selectBtn4 setTitle:string forState:0];
-    }
-}
+        self.town = string;
+        self.grade = @"address";
+        [self requestShaiXuanData];
+    }else if (self.selectIndex ==4){
+        self.address = string;
+        [self.selectBtn5 setTitle:string forState:0];
+        self.grade = @"province";
+        //        [self requestShaiXuanData];
+    }}
 - (void)setUITwo{
     UIImageView *bgImage1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 150, KWidth, 150)];
     bgImage1.userInteractionEnabled = YES;
@@ -272,6 +315,18 @@
 - (void)SecondBtnClick{
     ElectricityViewController *vc = [[ElectricityViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -296,7 +351,7 @@
     self.pingjungonglv.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.pingjungonglv];
     
-   
+    
 }
 
 - (void)setUIFour{
@@ -318,7 +373,7 @@
     
     for (int i=0; i<4; i++) {
         UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth-200)/5*(i+1)+50*i, 30, 50, 50)];
-        
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-200)/5*(i+1)+50*i, 30, 50, 50)];
         
         if (i==0) {
             imagePic.image = [UIImage imageNamed:@"正常"];
@@ -327,6 +382,7 @@
             self.zhengchangLabel.textColor = [UIColor greenColor];
             self.zhengchangLabel.text = @"";
             [imageView addSubview:self.zhengchangLabel];
+            [button addTarget:self action:@selector(zhengchangBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }else if (i==1) {
             imagePic.image = [UIImage imageNamed:@"离线"];
             self.lixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
@@ -334,6 +390,7 @@
             self.lixianLabel.textColor = [UIColor lightGrayColor];
             self.lixianLabel.text = @"";
             [imageView addSubview:self.lixianLabel];
+            [button addTarget:self action:@selector(lixianBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }else if (i==2) {
             self.yichangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
             self.yichangLabel.textAlignment = NSTextAlignmentCenter;
@@ -341,6 +398,7 @@
             self.yichangLabel.textColor = [UIColor yellowColor];
             self.yichangLabel.text = @"";
             [imageView addSubview:self.yichangLabel];
+            [button addTarget:self action:@selector(yichangBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }else {
             self.guzhangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
             self.guzhangLabel.textAlignment = NSTextAlignmentCenter;
@@ -348,19 +406,89 @@
             self.guzhangLabel.textColor = [UIColor redColor];
             self.guzhangLabel.text = @"";
             [imageView addSubview:self.guzhangLabel];
+            [button addTarget:self action:@selector(guzhangBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }
         [imageView addSubview:imagePic];
+        [imageView addSubview:button];
     }
     [self requestStationData];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
-    [button addTarget:self action:@selector(FourBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [imageView addSubview:button];
+    //    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
+    //    [button addTarget:self action:@selector(FourBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [imageView addSubview:button];
     
 }
 
--(void)FourBtnClick{
+
+- (void)zhengchangBtnClick{
     StationViewController *vc = [[StationViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
+    vc.index = @"1";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)lixianBtnClick{
+    StationViewController *vc = [[StationViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
+    vc.index = @"2";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)yichangBtnClick{
+    StationViewController *vc = [[StationViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
+    vc.index = @"3";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)guzhangBtnClick{
+    StationViewController *vc = [[StationViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
+    vc.index = @"4";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -405,7 +533,7 @@
             [imageView addSubview:linePic];
             [imageView addSubview:titlelabel];
             [imageView addSubview:self.weichuliLabel];
-
+            
         }else if (i==1) {
             self.chulizhongLabel = [[UILabel alloc] init];
             imagePic.frame = CGRectMake(KWidth/2-15, 50, 30, 30);
@@ -425,7 +553,7 @@
             [imageView addSubview:linePic];
             [imageView addSubview:titlelabel];
             [imageView addSubview:self.chulizhongLabel];
-
+            
         }else if (i==2) {
             self.yichuliLabel = [[UILabel alloc] init];
             imagePic.frame = CGRectMake(KWidth-60, 50, 30, 30);
@@ -443,19 +571,96 @@
             [imageView addSubview:linePic];
             [imageView addSubview:titlelabel];
             [imageView addSubview:self.yichuliLabel];
-
+            
         }
     }
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 120)];
     [button addTarget:self action:@selector(AlarmBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [imageView addSubview:button];
-     [self requestAlarmData];
+    [self requestAlarmData];
 }
 
 - (void)AlarmBtnClick{
     AlarmViewController *vc = [[AlarmViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)setUISix{
+    UIImageView *imageHeader = [[UIImageView alloc] initWithFrame:CGRectMake(8, 690, 100, 20)];
+    imageHeader.image = [UIImage imageNamed:@"圆角矩形-4"];
+    [self.bgScrollView addSubview:imageHeader];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+    titleLabel.text = @"运维工作排名表";
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.font = [UIFont systemFontOfSize:14];
+    [imageHeader addSubview:titleLabel];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 715, KWidth, 120)];
+    imageView.userInteractionEnabled = YES;
+    //    imageView.image = [UIImage imageNamed:@"首页背景框"];
+    [self.bgScrollView addSubview:imageView];
+    
+    UIScrollView *Table = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-211)];
+    Table.bounces = NO;
+    [imageView addSubview:Table];
+    
+    UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, KWidth-30, 34)];
+    blueView.backgroundColor = RGBColor(10, 68, 132);
+    [Table addSubview:blueView];
+    
+    JHTableChart *table = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 35)];
+    table.typeCount = 7;
+    table.lineColor = [UIColor blackColor];
+    /*       Table name         */
+    //    table.tableTitleString = @"全选jeep自由光";
+    /*        Each column of the statement, one of the first to show if the rows and columns that can use the vertical segmentation of rows and columns         */
+    table.tableTitleFont = [UIFont systemFontOfSize:12];
+    //    table.xDescTextFontSize =  (CGFloat)13;
+    //    table.yDescTextFontSize =  (CGFloat)13;
+    table.colTitleArr = @[@"总排名",@"姓名",@"指标1",@"指标2",@"指标3"];
+    /*        The width of the column array, starting with the first column         */
+    //    table.colWidthArr = @[@100.0,@100.0,@160,@100];
+    table.colWidthArr = @[@80.0,@30.0,@70,@50];
+    //    table.beginSpace = 30;
+    /*        Text color of the table body         */
+    table.bodyTextColor = [UIColor whiteColor];
+    /*        Minimum grid height         */
+    table.minHeightItems = 35;
+    /*        Table line color         */
+    table.lineColor = [UIColor whiteColor];
+    
+    table.backgroundColor = [UIColor clearColor];
+    /*       Data source array, in accordance with the data from top to bottom that each line of data, if one of the rows of a column in a number of cells, can be stored in an array of         */
+    NSArray *arr = @[@[@"1",@"小明",@"80",@"80",@"80"],@[@"2",@"小刚",@"60",@"60",@"80"],@[@"3",@"小丁",@"70",@"60",@"80"],@[@"4",@"小王",@"60",@"60",@"60"]];
+    table.dataArr = arr;
+    /*        show   */
+    //    Table.contentSize = CGSizeMake(KWidth, 35*(table.dataArr.count+1));
+    Table.contentSize = CGSizeMake(KWidth, 35);
+    [table showAnimation];
+    [Table addSubview:table];
+    /*        Automatic calculation table height        */
+    table.frame = CGRectMake(0, 0, KWidth, [table heightFromThisDataSource]);
+    
+    UIScrollView *Table1= [[UIScrollView alloc] initWithFrame:CGRectMake(0, 35, KWidth, KHeight-246)];
+    Table1.bounces = NO;
+    [Table addSubview:Table1];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -511,9 +716,12 @@
             CGFloat num2 = [part_access[0] floatValue] /1000;
             self.rightDownLabel1.text = [NSString stringWithFormat:@"%.2fKW/%@户",num2,part_access[1]];
             CGFloat num22 = [today_gencap_income[1] floatValue];
-            self.fadianliang.text = [NSString stringWithFormat:@"%@MW·h/%.2f元",today_gencap_income[0],num22];
+            CGFloat num222 = [today_gencap_income[0] floatValue];
+            self.fadianliang.text = [NSString stringWithFormat:@"%.2fMW·h/%.2f元",num222,num22];
             self.shangwangdianliang.text = [NSString stringWithFormat:@"%@MW·h/%@元",today_up_ele_income[0],today_up_ele_income[1]];
-            self.zifaziyong.text = [NSString stringWithFormat:@"%@MW·h/%@元",today_self_occupied[0],today_self_occupied[1]];
+            CGFloat num33 = [today_self_occupied[0] floatValue];
+            CGFloat num44 = [today_self_occupied[1] floatValue];
+            self.zifaziyong.text = [NSString stringWithFormat:@"%.2fMW·h/%.2f元",num33,num44];
             CGFloat num3 = [power[0] floatValue] /1000;
             CGFloat num4 = [power[1] floatValue] /1000;
             self.pingjungonglv.text = [NSString stringWithFormat:@"%.2fKW/%.2fKW",num3,num4];
@@ -542,18 +750,18 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"登陆融云正确%@",responseObject);
         NSString *rongToken = responseObject[@"content"];
-                //----------融云------------
-                [[RCIM sharedRCIM] initWithAppKey:@"x18ywvqfx6pzc"];
-                [[RCIM sharedRCIM] connectWithToken:rongToken     success:^(NSString *userId) {
-                    NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
-                } error:^(RCConnectErrorCode status) {
-                    NSLog(@"登陆的错误码为:%d", status);
-                } tokenIncorrect:^{
-                    //token过期或者不正确。
-                    //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
-                    //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
-                    NSLog(@"token错误");
-                }];
+        //----------融云------------
+        [[RCIM sharedRCIM] initWithAppKey:@"x18ywvqfx6pzc"];
+        [[RCIM sharedRCIM] connectWithToken:rongToken     success:^(NSString *userId) {
+            NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+        } error:^(RCConnectErrorCode status) {
+            NSLog(@"登陆的错误码为:%d", status);
+        } tokenIncorrect:^{
+            //token过期或者不正确。
+            //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
+            //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
+            NSLog(@"token错误");
+        }];
         
         
         
@@ -595,9 +803,9 @@
             NSNumber *noHandled = responseObject[@"content"][@"noHandled"];
             NSNumber *inHandled = responseObject[@"content"][@"inHandled"];
             NSNumber *Handled = responseObject[@"content"][@"Handled"];
-//            NSInteger noHandled1 = [noHandled integerValue];
-//            NSInteger inHandled1 = [inHandled integerValue];
-//            NSInteger Handled1 = [Handled integerValue];
+            //            NSInteger noHandled1 = [noHandled integerValue];
+            //            NSInteger inHandled1 = [inHandled integerValue];
+            //            NSInteger Handled1 = [Handled integerValue];
             self.weichuliLabel.text =[NSString stringWithFormat:@"%@条",noHandled];
             self.chulizhongLabel.text = [NSString stringWithFormat:@"%@条",inHandled];
             self.yichuliLabel.text = [NSString stringWithFormat:@"%@条",Handled];
@@ -655,6 +863,104 @@
     
 }
 
+- (void)requestShaiXuanData{
+    NSString *URL = [NSString stringWithFormat:@"%@/getArea",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.grade forKey:@"grade"];
+    if ([self.grade isEqualToString:@"province"]) {
+        //        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"city"]) {
+        [parameters setValue:self.province forKey:@"province"];
+    }else if ([self.grade isEqualToString:@"town"]) {
+        [parameters setValue:self.city forKey:@"city"];
+    }else if ([self.grade isEqualToString:@"address"]) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    NSLog(@"%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"获取地址列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            if ([self.grade isEqualToString:@"province"]) {
+                [self.provinceArr removeAllObjects];
+                NSArray *arr = responseObject[@"content"];
+                for (int i=0; i<arr.count; i++) {
+                    NSString *str = arr[i][@"area"];
+                    [self.provinceArr addObject:str];
+                }
+                if (self.provinceArr.count>0) {
+                    [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateNormal];
+                }
+                
+                //                [self requestShaiXuanData];
+                //                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"city"]){
+                [self.cityArr removeAllObjects];
+                NSArray *arr = responseObject[@"content"];
+                for (int i=0; i<arr.count; i++) {
+                    NSString *str = arr[i][@"area"];
+                    [self.cityArr addObject:str];
+                }
+                if (self.cityArr.count>0) {
+                    [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateNormal];
+                }
+                
+                //                [self requestShaiXuanData];
+                
+                //                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"town"]){
+                [self.townArr removeAllObjects];
+                NSArray *arr = responseObject[@"content"];
+                for (int i=0; i<arr.count; i++) {
+                    NSString *str = arr[i][@"area"];
+                    [self.townArr addObject:str];
+                }
+                if (self.townArr.count>0) {
+                    [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateNormal];
+                }
+                
+                //                [self requestShaiXuanData];
+                //                _filterController.dataList = [self packageDataList];
+            }else if ([self.grade isEqualToString:@"address"]){
+                [self.addressArr removeAllObjects];
+                NSArray *arr = responseObject[@"content"];
+                for (int i=0; i<arr.count; i++) {
+                    NSString *str = arr[i][@"area"];
+                    [self.addressArr addObject:str];
+                }
+                if (self.addressArr.count>0) {
+                    [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateNormal];
+                }
+                //                _filterController.dataList = [self packageDataList];
+            }
+            //            [_filterController.mainTableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+}
 
 
 -(MainModel *)model{
@@ -691,6 +997,30 @@
     //    [userDefaults setValue:nil forKey:@"registerid"];
     [userDefaults synchronize];
     
+}
+-(NSMutableArray *)provinceArr{
+    if (!_provinceArr) {
+        _provinceArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _provinceArr;
+}
+-(NSMutableArray *)cityArr{
+    if (!_cityArr) {
+        _cityArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _cityArr;
+}
+-(NSMutableArray *)townArr{
+    if (!_townArr) {
+        _townArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _townArr;
+}
+-(NSMutableArray *)addressArr{
+    if (!_addressArr) {
+        _addressArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _addressArr;
 }
 
 @end

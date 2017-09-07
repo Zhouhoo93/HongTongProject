@@ -22,10 +22,10 @@
 @implementation TwoScrollView
 + (TwoScrollView *)sharedTabBar{
     static TwoScrollView *TwoScrollView = nil;
-//    static dispatch_once_t tabBar;
-//    dispatch_once(&tabBar, ^{
-        TwoScrollView = [[self alloc] init];
-//    });
+    //    static dispatch_once_t tabBar;
+    //    dispatch_once(&tabBar, ^{
+    TwoScrollView = [[self alloc] init];
+    //    });
     return TwoScrollView;
 }
 
@@ -131,6 +131,9 @@
 + (void)setViewIndex:(NSInteger)index{
     [[TwoScrollView sharedTabBar] setViewIndex:index];
 }
+- (void)setViewIndex1:(NSInteger)index{
+    [self setViewIndex:index];
+}
 
 - (void)setViewIndex:(NSInteger)index{
     if (index < 0) {
@@ -162,11 +165,11 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 
 @end

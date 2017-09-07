@@ -189,6 +189,7 @@
 		389392ED1F593A4B00EDF535 /* CustomerListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392EC1F593A4B00EDF535 /* CustomerListModel.m */; };
 		389392F11F59439000EDF535 /* CustomerListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392EF1F59439000EDF535 /* CustomerListTableViewCell.m */; };
 		389392F21F59439000EDF535 /* CustomerListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 389392F01F59439000EDF535 /* CustomerListTableViewCell.xib */; };
+		3895B6FB1F6029B30061ABC3 /* GroupCusomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3895B6FA1F6029B30061ABC3 /* GroupCusomerViewController.m */; };
 		389A9FE61F45377B00B55BAC /* MainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FE51F45377B00B55BAC /* MainModel.m */; };
 		389A9FE91F45653300B55BAC /* InstallModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FE81F45653300B55BAC /* InstallModel.m */; };
 		389A9FEC1F45698E00B55BAC /* InstallStationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389A9FEB1F45698E00B55BAC /* InstallStationViewController.m */; };
@@ -247,6 +248,7 @@
 		38EEA7D61F383E8D00034F01 /* MenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7D21F383E8D00034F01 /* MenuTableViewCell.xib */; };
 		38EEA7D91F38424200034F01 /* AlarmPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7D81F38424200034F01 /* AlarmPopView.m */; };
 		38EEA7DB1F38425000034F01 /* AlarmPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7DA1F38425000034F01 /* AlarmPopView.xib */; };
+		38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */; };
 		D237A9353E650F031D4FCBEE /* libPods-HongTongDele.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */; };
 /* End PBXBuildFile section */
 
@@ -605,6 +607,8 @@
 		389392EE1F59439000EDF535 /* CustomerListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerListTableViewCell.h; sourceTree = "<group>"; };
 		389392EF1F59439000EDF535 /* CustomerListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerListTableViewCell.m; sourceTree = "<group>"; };
 		389392F01F59439000EDF535 /* CustomerListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomerListTableViewCell.xib; sourceTree = "<group>"; };
+		3895B6F91F6029B30061ABC3 /* GroupCusomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupCusomerViewController.h; sourceTree = "<group>"; };
+		3895B6FA1F6029B30061ABC3 /* GroupCusomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupCusomerViewController.m; sourceTree = "<group>"; };
 		389A9FE41F45377B00B55BAC /* MainModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainModel.h; sourceTree = "<group>"; };
 		389A9FE51F45377B00B55BAC /* MainModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainModel.m; sourceTree = "<group>"; };
 		389A9FE71F45653300B55BAC /* InstallModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallModel.h; sourceTree = "<group>"; };
@@ -707,6 +711,8 @@
 		38EEA7D71F38424200034F01 /* AlarmPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmPopView.h; sourceTree = "<group>"; };
 		38EEA7D81F38424200034F01 /* AlarmPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmPopView.m; sourceTree = "<group>"; };
 		38EEA7DA1F38425000034F01 /* AlarmPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlarmPopView.xib; sourceTree = "<group>"; };
+		38FA5DFB1F5FF3D300FD7888 /* addPosListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addPosListModel.h; sourceTree = "<group>"; };
+		38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addPosListModel.m; sourceTree = "<group>"; };
 		7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HongTongDele.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772E9B9573D96B614B21027 /* Pods-HongTongDele.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.debug.xcconfig"; sourceTree = "<group>"; };
 		E90E5AEF5282315D8FAA1EC0 /* Pods-HongTongDele.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.release.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.release.xcconfig"; sourceTree = "<group>"; };
@@ -1700,6 +1706,8 @@
 				387D32111F3AB3DB0066E762 /* CustomerViewController.m */,
 				389392E81F59371000EDF535 /* CustomerListViewController.h */,
 				389392E91F59371000EDF535 /* CustomerListViewController.m */,
+				3895B6F91F6029B30061ABC3 /* GroupCusomerViewController.h */,
+				3895B6FA1F6029B30061ABC3 /* GroupCusomerViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1867,6 +1875,8 @@
 				383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */,
 				383CABF41F4D7F43001B3034 /* StationListModel.h */,
 				383CABF51F4D7F43001B3034 /* StationListModel.m */,
+				38FA5DFB1F5FF3D300FD7888 /* addPosListModel.h */,
+				38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2266,6 +2276,7 @@
 				384AB6FF1F3C4C0F005AFE7A /* LivePlayerViewController.m in Sources */,
 				389AA0151F45769600B55BAC /* JHRingChart.m in Sources */,
 				384AB70A1F3C4C0F005AFE7A /* DragButton.m in Sources */,
+				38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */,
 				3864832F1F3C3233000A8EB1 /* LiveViewController.m in Sources */,
 				384AB7071F3C4C0F005AFE7A /* GotyeLiveConfig.m in Sources */,
 				384AB7011F3C4C0F005AFE7A /* LoginViewController.m in Sources */,
@@ -2280,6 +2291,7 @@
 				389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */,
 				384AB7101F3C4C0F005AFE7A /* VideoResolutionView.m in Sources */,
 				389392ED1F593A4B00EDF535 /* CustomerListModel.m in Sources */,
+				3895B6FB1F6029B30061ABC3 /* GroupCusomerViewController.m in Sources */,
 				38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */,
 				38B2D3EC1F341F9B00038F47 /* InstallTableViewCell.m in Sources */,
 				384AB70F1F3C4C0F005AFE7A /* UserListCell.m in Sources */,

@@ -21,9 +21,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.title = @"学校信息";
+    self.title = @"通知消息";
     self.page = 1;
     [self requestData];
     [self setUI];
@@ -60,7 +60,7 @@
     //在刷新数据覆盖不显示数据的 cell 的分割线,如果不设置,则会显示 cell 的分割线
     UIView *footView = [UIView new];
     self.table.tableFooterView = footView;
-
+    
 }
 - (void)refresh{
     self.page = 1;
@@ -79,20 +79,20 @@
     //    //3,关闭刷新
     //    [self.tableView.mj_footer endRefreshing];
     self.page++;
-     [self.table.mj_footer resetNoMoreData];
+    [self.table.mj_footer resetNoMoreData];
     [self requestData];
     
 }
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/selectAppfind",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/select-article",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSString *token = [userDefaults valueForKey:@"token"];
-//    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    //    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    //    NSString *token = [userDefaults valueForKey:@"token"];
+    //    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-//    [parameters setValue:@"5" forKey:@"limit"];
-    //    [parameters setValue:@"文章id" forKey:@"id"];
+    //    [parameters setValue:@"5" forKey:@"limit"];
+    //        [parameters setValue:@"文章id" forKey:@"id"];
     NSString *page = [NSString stringWithFormat:@"%d",self.page];
     [parameters setValue:page forKey:@"page"];
     
@@ -102,7 +102,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"获取文章正确%@",responseObject);
-
+        
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
@@ -110,8 +110,8 @@
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{
-            NSString *str = responseObject[@"result"][@"errorMsg"];
-            [MBProgressHUD showText:str];
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
             }
         }else{
             if (self.page<2) {
@@ -131,7 +131,7 @@
             if (self.table) {
                 [self.table.mj_header endRefreshing];
             }
-        
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -171,7 +171,7 @@
     NoticeTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"myCell"];
     if (!cell)
     {
-       
+        
         [tableView registerNib:[UINib nibWithNibName:@"NoticeTableViewCell" bundle:nil] forCellReuseIdentifier:@"myCell"];
     }
     NoticeModel *model = self.dataArr[indexPath.row];
@@ -191,7 +191,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     NSString *DateTime = [formatter stringFromDate:date];
     
     
@@ -223,7 +223,7 @@
         
     }
     cell.topTime.text = str;
-
+    
     
     return cell;
 }
@@ -250,13 +250,13 @@
     return _noticeModel;
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

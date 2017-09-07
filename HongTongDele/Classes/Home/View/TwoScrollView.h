@@ -20,6 +20,7 @@ typedef void (^IndexBlock)(NSString *title,NSInteger index);
  *
  *  @return 对象
  */
++ (TwoScrollView *)sharedTabBar;
 + (TwoScrollView *)setTabBarPoint:(CGPoint)points;
 
 /**
@@ -45,5 +46,6 @@ typedef void (^IndexBlock)(NSString *title,NSInteger index);
  *  @param index 下标
  */
 + (void)setViewIndex:(NSInteger)index;
+- (void)setViewIndex1:(NSInteger)index;
 - (void)setlineFrame:(NSInteger)index;
 @end
