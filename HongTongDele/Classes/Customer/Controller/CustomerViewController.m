@@ -11,13 +11,14 @@
 #import "AppDelegate.h"
 #import "LoginOneViewController.h"
 #import "CustomerListViewController.h"
+#import "GroupCusomerViewController.h"
 //#import "HSingleGlobalData.h"
 @implementation CustomerViewController
 - (void)viewDidLoad {
     //重写显示相关的接口，必须先调用super，否则会屏蔽SDK默认的处理
     [super viewDidLoad];
-    [self requestMineData];
     [self requestListData];
+    [self requestMineData];
     [self getGroupList];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -39,15 +40,17 @@
     anotherButton.image = [UIImage imageNamed:@"通讯录"];
     self.navigationItem.rightBarButtonItem = anotherButton;
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(InfoNotificationAction:) name:@"CreatNotification" object:nil];
-    
-}
-- (void)InfoNotificationAction:(NSNotification *)notification{
-    
-    [self getGroupList];
+  
     
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    if (self.conversationListTableView) {
+        [self.conversationListTableView reloadData];
+    }
+}
+
 -(void)creatBtnClick{
     CustomerListViewController *vc = [[CustomerListViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
@@ -177,11 +180,25 @@
 
 
 -(void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *))completion{
-    NSLog(@"completion:%@",completion);
+    NSLog(@"groupId:%@",groupId);
+    NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *documents = [array lastObject];
+    NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
+    NSString *documentPath1 = [documents stringByAppendingPathComponent:@"arrayXML1.xml"];
+    //第六步：可对已经存储的数组进行查询等操作
+    NSArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
+    NSArray *resultArray1 = [NSArray arrayWithContentsOfFile:documentPath1];
+    NSLog(@"%@,%@,%@", documentPath,resultArray,resultArray1);
+    for (int i=0; i<resultArray.count; i++) {
+        NSString *str = [NSString stringWithFormat:@"%@",resultArray[i]];
+        if ([groupId isEqualToString:str]) {
+            return completion([[RCGroup alloc] initWithGroupId:groupId groupName:resultArray1[i] portraitUri:@""]);
+        }
+    }
 }
 
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
-    NSLog(@"userId:%@,completion:%@",userId,completion);
+    NSLog(@"userId:%@,userList:%@",userId,self.dataArr);
     if ([userId isEqualToString:self.telNumber]) {
         return completion([[RCUserInfo alloc] initWithUserId:userId name:self.nicheng portrait:self.touxiang]);
         
@@ -189,14 +206,14 @@
     {
         for (int i=0; i<self.dataArr.count; i++) {
             _model = self.dataArr[i];
-            if ([userId isEqualToString:_model.ID]) {
+            if ([userId isEqualToString:_model.bid]) {
                 return completion([[RCUserInfo alloc] initWithUserId:userId name:_model.username portrait:_model.pic]);
             }else{
-                return completion([[RCUserInfo alloc] initWithUserId:userId name:userId portrait:@""]);
+                
             }
         }
         //设置对方的信息
-        
+        return completion([[RCUserInfo alloc] initWithUserId:userId name:userId portrait:@""]);
     }
     
 }
@@ -205,10 +222,17 @@
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model
                atIndexPath:(NSIndexPath *)indexPath {
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
+    GroupCusomerViewController *conversationVC = [[GroupCusomerViewController alloc]init];
     conversationVC.conversationType = model.conversationType;
     conversationVC.targetId = model.targetId;
-    //    conversationVC.title = model.objectName;
+    conversationVC.dataArr = self.dataArr;
+    conversationVC.nicheng = self.nicheng;
+    conversationVC.touxiang = self.touxiang;
+    if (model.conversationType ==1) {
+        conversationVC.title = self.nicheng;
+    }else{
+//        conversationVC.title = self.groupNicheng;
+    }
     conversationVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
@@ -273,7 +297,7 @@
                 _model = [[CustomerListModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_model];
             }
-            
+            [self.conversationListTableView reloadData];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

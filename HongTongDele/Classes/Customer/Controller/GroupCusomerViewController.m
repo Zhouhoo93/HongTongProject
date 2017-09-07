@@ -8,7 +8,7 @@
 
 #import "GroupCusomerViewController.h"
 
-@interface GroupCusomerViewController ()<RCIMGroupMemberDataSource>
+@interface GroupCusomerViewController ()<RCIMGroupMemberDataSource,RCIMUserInfoDataSource>
 
 @end
 
@@ -76,7 +76,26 @@
         
     
 }
-
+- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
+    NSLog(@"userId:%@,userList:%@",userId,self.dataArr);
+    if ([userId isEqualToString:self.telNumber]) {
+        return completion([[RCUserInfo alloc] initWithUserId:userId name:self.nicheng portrait:self.touxiang]);
+        
+    }else
+    {
+        for (int i=0; i<self.dataArr.count; i++) {
+            _model = self.dataArr[i];
+            if ([userId isEqualToString:_model.bid]) {
+                return completion([[RCUserInfo alloc] initWithUserId:userId name:_model.username portrait:_model.pic]);
+            }else{
+                
+            }
+        }
+        //设置对方的信息
+        return completion([[RCUserInfo alloc] initWithUserId:userId name:userId portrait:@""]);
+    }
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -86,6 +105,19 @@
         _groupArr = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return _groupArr;
+}
+-(NSMutableArray *)dataArr{
+    if(!_dataArr){
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
+ }
+
+-(CustomerListModel *)model{
+    if (!_model) {
+        _model = [[CustomerListModel alloc] init];
+    }
+    return _model;
 }
 /*
 #pragma mark - Navigation

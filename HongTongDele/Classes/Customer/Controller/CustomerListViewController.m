@@ -152,21 +152,36 @@
             //            [[HSingleGlobalData sharedInstance].groupArr addObject:self.groupID];
             //---------------------
             
-            NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+            NSMutableArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
             NSString *documents = [array lastObject];
             NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
             //第四步：准备好要存到本地的数组
             //第六步：可对已经存储的数组进行查询等操作
-            NSMutableArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
+            NSMutableArray *resultArray = [NSMutableArray arrayWithContentsOfFile:documentPath];
             if (!resultArray) {
                 resultArray = [[NSMutableArray alloc] initWithCapacity:0];
             }
             [resultArray addObject:self.groupID];
-            //            NSMutableArray *dataArray = [NSArray arrayWithObjects:@"你好", @"我是", @"沙盒", nil];
+//            [resultArray removeAllObjects];
             //第五步：将数组存入到指定的本地文件
             [resultArray writeToFile:documentPath atomically:YES];
             NSLog(@"%@,%@", documentPath,resultArray);
             //--------------------
+            NSString *documentPath1 = [documents stringByAppendingPathComponent:@"arrayXML1.xml"];
+            //第四步：准备好要存到本地的数组
+            //第六步：可对已经存储的数组进行查询等操作
+            NSMutableArray *resultArray1 = [NSMutableArray arrayWithContentsOfFile:documentPath1];
+            if (!resultArray1) {
+                resultArray1 = [[NSMutableArray alloc] initWithCapacity:0];
+            }
+            [resultArray1 addObject:self.roomName];
+//                        [resultArray1 removeAllObjects];
+            //第五步：将数组存入到指定的本地文件
+            [resultArray1 writeToFile:documentPath1 atomically:YES];
+            NSLog(@"%@,%@", documentPath1,resultArray1);
+
+            
+            
             GroupCusomerViewController *conversationVC = [[GroupCusomerViewController alloc]init];
             conversationVC.conversationType = 3;
             NSString *targetID = self.groupID;

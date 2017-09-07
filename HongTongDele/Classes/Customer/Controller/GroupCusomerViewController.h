@@ -7,8 +7,13 @@
 //
 
 #import <RongIMKit/RongIMKit.h>
-
+#import "CustomerListModel.h"
 @interface GroupCusomerViewController : RCConversationViewController
 @property (nonatomic,copy)NSString *group;
+@property (nonatomic,copy)NSString *telNumber;
+@property (nonatomic,copy)NSString *touxiang;
+@property (nonatomic,copy)NSString *nicheng;
+@property (nonatomic,strong)CustomerListModel *model;
 @property (nonatomic,copy)NSMutableArray *groupArr;
+@property (nonatomic,copy)NSMutableArray *dataArr;
 @end
