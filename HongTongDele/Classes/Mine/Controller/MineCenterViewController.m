@@ -8,6 +8,7 @@
 
 #import "MineCenterViewController.h"
 #import "ChanggeWordViewController.h"
+#import "ChangePassViewController.h"
 @interface MineCenterViewController ()<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PassWordLabel;
@@ -42,11 +43,12 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)ChanggePhoneBtnClick:(id)sender {
-    self.indexSlect = 2;
-    UIAlertView *alertview = [[UIAlertView alloc] initWithTitle:@"设置" message:@"请输入您的新手机号" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
-    alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertview show];
-    
+//    self.indexSlect = 2;
+//    UIAlertView *alertview = [[UIAlertView alloc] initWithTitle:@"设置" message:@"请输入您的新手机号" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:@"取消", nil];
+//    alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
+//    [alertview show];
+    ChangePassViewController *vc = [[ChangePassViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)ChanggeAddressBtnClick:(id)sender {
     self.indexSlect = 3;

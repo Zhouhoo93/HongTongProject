@@ -210,6 +210,8 @@
 		389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00B1F45769600B55BAC /* JHTableDataRowModel.m */; };
 		389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00D1F45769600B55BAC /* JHWaveChart.m */; };
 		389AA01D1F457A4D00B55BAC /* HistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA01C1F457A4D00B55BAC /* HistogramView.m */; };
+		38B166E71F622D3900C0E3E4 /* ChangePassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B166E51F622D3900C0E3E4 /* ChangePassViewController.m */; };
+		38B166E81F622D3900C0E3E4 /* ChangePassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B166E61F622D3900C0E3E4 /* ChangePassViewController.xib */; };
 		38B2D3E51F340A6400038F47 /* HomeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */; };
 		38B2D3E81F34156F00038F47 /* InstallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3E71F34156F00038F47 /* InstallViewController.m */; };
 		38B2D3EC1F341F9B00038F47 /* InstallTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3EA1F341F9B00038F47 /* InstallTableViewCell.m */; };
@@ -650,6 +652,9 @@
 		389AA00D1F45769600B55BAC /* JHWaveChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHWaveChart.m; sourceTree = "<group>"; };
 		389AA01B1F457A4D00B55BAC /* HistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistogramView.h; sourceTree = "<group>"; };
 		389AA01C1F457A4D00B55BAC /* HistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistogramView.m; sourceTree = "<group>"; };
+		38B166E41F622D3900C0E3E4 /* ChangePassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePassViewController.h; sourceTree = "<group>"; };
+		38B166E51F622D3900C0E3E4 /* ChangePassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePassViewController.m; sourceTree = "<group>"; };
+		38B166E61F622D3900C0E3E4 /* ChangePassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePassViewController.xib; sourceTree = "<group>"; };
 		38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeSelectViewController.h; sourceTree = "<group>"; };
 		38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeSelectViewController.m; sourceTree = "<group>"; };
 		38B2D3E61F34156F00038F47 /* InstallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstallViewController.h; sourceTree = "<group>"; };
@@ -1747,6 +1752,9 @@
 		3883A32A1F41A68B007967DF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				38B166E41F622D3900C0E3E4 /* ChangePassViewController.h */,
+				38B166E51F622D3900C0E3E4 /* ChangePassViewController.m */,
+				38B166E61F622D3900C0E3E4 /* ChangePassViewController.xib */,
 				3883A32D1F41A6CC007967DF /* MineViewController.h */,
 				3883A32E1F41A6CC007967DF /* MineViewController.m */,
 				38C9EB261F42C17600DB41B4 /* ChanggeWordViewController.h */,
@@ -2131,6 +2139,7 @@
 				387D31D51F3AAFBA0066E762 /* RCConfig.plist in Resources */,
 				38B2D3FA1F34519900038F47 /* SecondTableViewCell.xib in Resources */,
 				384AB7021F3C4C0F005AFE7A /* LoginViewController.xib in Resources */,
+				38B166E81F622D3900C0E3E4 /* ChangePassViewController.xib in Resources */,
 				384AB7291F3C620E005AFE7A /* RegisterViewController.xib in Resources */,
 				38EEA7C41F38052C00034F01 /* ThiredTableViewCell.xib in Resources */,
 				384AB7131F3C4C0F005AFE7A /* WeiboSDK.bundle in Resources */,
@@ -2282,6 +2291,7 @@
 				389AA0151F45769600B55BAC /* JHRingChart.m in Sources */,
 				384AB70A1F3C4C0F005AFE7A /* DragButton.m in Sources */,
 				38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */,
+				38B166E71F622D3900C0E3E4 /* ChangePassViewController.m in Sources */,
 				3864832F1F3C3233000A8EB1 /* LiveViewController.m in Sources */,
 				384AB7071F3C4C0F005AFE7A /* GotyeLiveConfig.m in Sources */,
 				384AB7011F3C4C0F005AFE7A /* LoginViewController.m in Sources */,

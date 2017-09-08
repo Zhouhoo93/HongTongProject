@@ -74,11 +74,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y56-qB-3eA">
-                            <rect key="frame" x="22" y="104" width="71" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="修改手机号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y56-qB-3eA">
+                            <rect key="frame" x="22" y="104" width="100" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="POK-O4-86W"/>
-                                <constraint firstAttribute="width" constant="71" id="V9y-RC-Hu1"/>
+                                <constraint firstAttribute="width" constant="100" id="V9y-RC-Hu1"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <nil key="textColor"/>
@@ -141,7 +141,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="myO-7Y-U1S">
-                            <rect key="frame" x="126" y="104" width="219" height="21"/>
+                            <rect key="frame" x="155" y="104" width="190" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="UHZ-r3-qxS"/>
                             </constraints>
