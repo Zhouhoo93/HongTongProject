@@ -7,16 +7,19 @@
 //
 
 #import "GroupCusomerViewController.h"
-
+#import "IQKeyboardManager.h"
 @interface GroupCusomerViewController ()<RCIMGroupMemberDataSource,RCIMUserInfoDataSource>
 
 @end
 
 @implementation GroupCusomerViewController
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getGroupList];
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
     [[RCIM sharedRCIM] setGroupInfoDataSource:self];
     //            [[RCIM sharedRCIM] setGroupMemberDataSource:self];
@@ -28,54 +31,37 @@
 }
 - (void)getAllMembersOfGroup:(NSString *)groupId
                       result:(void (^)(NSArray<NSString *> *userIdList))resultBlock{
-    for (int i=0; i<_groupArr.count; i++) {
- 
-            NSDictionary *arr = _groupArr[i];
-            NSLog(@"arr:%@",arr);
-            NSMutableArray *arrName = [[NSMutableArray alloc] initWithCapacity:0];
- 
-                NSString *bid = arr[@"username"];
-                [arrName addObject:bid];
+    NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,groupId];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取群组列表%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            
+        }else{
+            NSMutableArray *arrName = [[NSMutableArray alloc] initWithCapacity:0];
+            NSArray *group1 =responseObject[@"content"][@"group"];
+            for (int k=0; k<group1.count; k++) {
+                NSString *bid = group1[k][@"username"];
+                [arrName addObject:bid];
+            }
             resultBlock(arrName);
         }
-    
-
-    
-    
-}
-
-- (void)getGroupList{
-    
-        NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,self.targetId];
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *token = [userDefaults valueForKey:@"token"];
-        //        NSLog(@"token:%@",token);
-        [userDefaults synchronize];
-        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-        [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"获取群组列表%@",responseObject);
-            
-            if ([responseObject[@"result"][@"success"] intValue] ==0) {
-                
-            }else{
-                self.groupArr =responseObject[@"content"][@"group"];
-//                [self.grouparr addObject:group1];
-                
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"获取群组列表失败%@",error);
-//            NSLog(@"那个群组%@",resultArray[i]);
-            //        [MBProgressHUD showText:@"%@",error[@"error"]];
-        }];
         
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"获取群组列表失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
     
 }
+
+
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
     NSLog(@"userId:%@,userList:%@",userId,self.dataArr);
     if ([userId isEqualToString:self.telNumber]) {

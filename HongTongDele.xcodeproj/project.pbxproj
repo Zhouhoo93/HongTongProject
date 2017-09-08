@@ -185,6 +185,7 @@
 		3883A32F1F41A6CC007967DF /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3883A32E1F41A6CC007967DF /* MineViewController.m */; };
 		3883A3331F41AD1C007967DF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3883A3311F41AD1C007967DF /* SettingViewController.m */; };
 		3883A3341F41AD1C007967DF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3883A3321F41AD1C007967DF /* SettingViewController.xib */; };
+		388F3D071F613489001D7169 /* noticeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 388F3D061F613489001D7169 /* noticeWebViewController.m */; };
 		389392EA1F59371000EDF535 /* CustomerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392E91F59371000EDF535 /* CustomerListViewController.m */; };
 		389392ED1F593A4B00EDF535 /* CustomerListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392EC1F593A4B00EDF535 /* CustomerListModel.m */; };
 		389392F11F59439000EDF535 /* CustomerListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392EF1F59439000EDF535 /* CustomerListTableViewCell.m */; };
@@ -600,6 +601,8 @@
 		3883A3301F41AD1C007967DF /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		3883A3311F41AD1C007967DF /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		3883A3321F41AD1C007967DF /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		388F3D051F613489001D7169 /* noticeWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = noticeWebViewController.h; sourceTree = "<group>"; };
+		388F3D061F613489001D7169 /* noticeWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = noticeWebViewController.m; sourceTree = "<group>"; };
 		389392E81F59371000EDF535 /* CustomerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerListViewController.h; sourceTree = "<group>"; };
 		389392E91F59371000EDF535 /* CustomerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerListViewController.m; sourceTree = "<group>"; };
 		389392EB1F593A4B00EDF535 /* CustomerListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerListModel.h; sourceTree = "<group>"; };
@@ -1930,6 +1933,8 @@
 			children = (
 				38C9EB2D1F42C3BA00DB41B4 /* NoticeViewController.h */,
 				38C9EB2E1F42C3BA00DB41B4 /* NoticeViewController.m */,
+				388F3D051F613489001D7169 /* noticeWebViewController.h */,
+				388F3D061F613489001D7169 /* noticeWebViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2290,6 +2295,7 @@
 				389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */,
 				389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */,
 				384AB7101F3C4C0F005AFE7A /* VideoResolutionView.m in Sources */,
+				388F3D071F613489001D7169 /* noticeWebViewController.m in Sources */,
 				389392ED1F593A4B00EDF535 /* CustomerListModel.m in Sources */,
 				3895B6FB1F6029B30061ABC3 /* GroupCusomerViewController.m in Sources */,
 				38C9EB3C1F42C3BA00DB41B4 /* NoticeModel.m in Sources */,

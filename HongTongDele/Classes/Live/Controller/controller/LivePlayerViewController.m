@@ -7,6 +7,7 @@
 //
 
 #import "LivePlayerViewController.h"
+#import "IQKeyboardManager.h"
 #import "GLPlayer.h"
 #import "GLCore.h"
 #import "GLPublisher.h"
@@ -126,6 +127,8 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     isOrientationPortrait=YES;
+   
+    [[IQKeyboardManager sharedManager] setEnable:NO];
     
 }
 - (void)viewDidLoad

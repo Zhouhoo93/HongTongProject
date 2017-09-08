@@ -54,7 +54,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="图层-35" translatesAutoresizingMaskIntoConstraints="NO" id="twt-Yy-aDo">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xiaoren" translatesAutoresizingMaskIntoConstraints="NO" id="twt-Yy-aDo">
                         <rect key="frame" x="75" y="163" width="10" height="10"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="P5h-z5-fii"/>
@@ -105,7 +105,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="图层-35" width="9" height="8"/>
+        <image name="xiaoren" width="16" height="16"/>
         <image name="圆角矩形-10" width="163" height="160"/>
     </resources>
 </document>

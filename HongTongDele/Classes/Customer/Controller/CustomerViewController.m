@@ -19,7 +19,6 @@
     [super viewDidLoad];
     [self requestListData];
     [self requestMineData];
-    [self getGroupList];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     UIColor * color = [UIColor whiteColor];
@@ -39,8 +38,6 @@
                                                                      target:self action:@selector(creatBtnClick)];
     anotherButton.image = [UIImage imageNamed:@"通讯录"];
     self.navigationItem.rightBarButtonItem = anotherButton;
-    
-  
     
 }
 
@@ -109,92 +106,85 @@
 
 - (void)getAllMembersOfGroup:(NSString *)groupId
                       result:(void (^)(NSArray<NSString *> *userIdList))resultBlock{
-    NSLog(@":%@",resultBlock);
-    self.group = groupId;
-    NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *documents = [array lastObject];
-    NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
-    //第六步：可对已经存储的数组进行查询等操作
-    NSArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
-    NSLog(@"%@,%@", documentPath,resultArray);
-    for (int i=0; i<_grouparr.count; i++) {
-        NSString *groupna = [NSString stringWithFormat:@"%@",resultArray[i]];
-        NSLog(@"groupna:%@",groupna);
-        NSLog(@"groupID:%@",groupId);
-        if ([groupna isEqualToString:groupId]) {
-            NSArray *arr = _grouparr[i];
-            NSLog(@"arr:%@",arr);
+
+    NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,groupId];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取群组列表%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            
+        }else{
             NSMutableArray *arrName = [[NSMutableArray alloc] initWithCapacity:0];
-            for (int k=0; k<arr.count; k++) {
-                NSString *bid = arr[k][@"username"];
+            NSArray *group1 =responseObject[@"content"][@"group"];
+            for (int k=0; k<group1.count; k++) {
+                NSString *bid = group1[k][@"username"];
                 [arrName addObject:bid];
             }
-            NSLog(@"arrName:%@",arrName);
             resultBlock(arrName);
         }
-    }
-    
-    
-}
-
-- (void)getGroupList{
-    NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *documents = [array lastObject];
-    NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
-    //第六步：可对已经存储的数组进行查询等操作
-    NSArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
-    NSLog(@"%@,%@", documentPath,resultArray);
-    [self.grouparr removeAllObjects];
-    for (int i=0; i<resultArray.count; i++) {
-        NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,resultArray[i]];
-                NSLog(@"%@请求group:%@",URL,resultArray[i]);
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *token = [userDefaults valueForKey:@"token"];
-        //        NSLog(@"token:%@",token);
-        [userDefaults synchronize];
-        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-        [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSLog(@"获取群组列表%@",responseObject);
-            
-            if ([responseObject[@"result"][@"success"] intValue] ==0) {
-                
-            }else{
-                NSArray *group1 =responseObject[@"content"][@"group"];
-                [self.grouparr addObject:group1];
-                
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"获取群组列表失败%@",error);
-            NSLog(@"那个群组%@",resultArray[i]);
-            //        [MBProgressHUD showText:@"%@",error[@"error"]];
-        }];
         
-    }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"获取群组列表失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+
+    
 }
 
-
-
--(void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *))completion{
-    NSLog(@"groupId:%@",groupId);
-    NSArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+-(void)didDeleteConversationCell:(RCConversationModel *)model{
+    NSMutableArray *array =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     NSString *documents = [array lastObject];
     NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
     NSString *documentPath1 = [documents stringByAppendingPathComponent:@"arrayXML1.xml"];
     //第六步：可对已经存储的数组进行查询等操作
-    NSArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
-    NSArray *resultArray1 = [NSArray arrayWithContentsOfFile:documentPath1];
-    NSLog(@"%@,%@,%@", documentPath,resultArray,resultArray1);
+    NSMutableArray *resultArray = [NSMutableArray arrayWithContentsOfFile:documentPath];
+    NSMutableArray *resultArray1 = [NSMutableArray arrayWithContentsOfFile:documentPath1];
+    //第六步：可对已经存储的数组进行查询等操作
+    NSLog(@"删除cell:%@",model.targetId);
     for (int i=0; i<resultArray.count; i++) {
-        NSString *str = [NSString stringWithFormat:@"%@",resultArray[i]];
-        if ([groupId isEqualToString:str]) {
-            return completion([[RCGroup alloc] initWithGroupId:groupId groupName:resultArray1[i] portraitUri:@""]);
+        NSString *str = [NSString stringWithFormat:@"%@",resultArray[i]] ;
+        if ([str isEqualToString:model.targetId]) {
+            [resultArray removeObjectAtIndex:i];
+            [resultArray1 removeObjectAtIndex:i];
         }
     }
+    [resultArray writeToFile:documentPath atomically:YES];
+    [resultArray1 writeToFile:documentPath1 atomically:YES];
+}
+
+
+
+
+
+-(void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *))completion{
+    
+    NSString *URL = [NSString stringWithFormat:@"%@/getGroupName/%@",kUrl,groupId];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取groupName正确%@",responseObject);
+       return completion([[RCGroup alloc] initWithGroupId:groupId groupName:responseObject[@"content"][@"groupName"] portraitUri:@""]);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+
 }
 
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{

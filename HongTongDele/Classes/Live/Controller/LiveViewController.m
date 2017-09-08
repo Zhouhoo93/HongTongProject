@@ -81,22 +81,22 @@
     [topView addSubview:leftbutton];
     
     
-    UIImageView *topImg = [[UIImageView alloc] initWithFrame: CGRectMake(20, 74, 20, 10)];
-    topImg.image = [UIImage imageNamed:@"zhibo"];
-    [self.view addSubview:topImg];
-    
-    UILabel *topimgLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 74, 50, 10)];
-    topimgLabel.text = @"直播列表";
-    topimgLabel.font = [UIFont systemFontOfSize:12];
-    topLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:topimgLabel];
+//    UIImageView *topImg = [[UIImageView alloc] initWithFrame: CGRectMake(20, 74, 20, 10)];
+//    topImg.image = [UIImage imageNamed:@"zhibo"];
+//    [self.view addSubview:topImg];
+//    
+//    UILabel *topimgLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 74, 50, 10)];
+//    topimgLabel.text = @"直播列表";
+//    topimgLabel.font = [UIFont systemFontOfSize:12];
+//    topLabel.textColor = [UIColor whiteColor];
+//    [self.view addSubview:topimgLabel];
     
     //创建一个layout布局类
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
     //设置布局方向为垂直流布局
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     //创建collectionView 通过一个布局策略layout来创建
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 90, [UIScreen mainScreen].bounds.size.width, KHeight) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, KHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.tag= 10001;
     //    _collectionView.backgroundColor =[UIColor whiteColor];
@@ -116,7 +116,7 @@
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"live"];
     [self.view addSubview:_collectionView];
     
-    self.noDataIMG = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, KWidth, KHeight)];
+    self.noDataIMG = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, KWidth, KHeight-64)];
     self.noDataIMG.image = [UIImage imageNamed:@"直播列表 - 空"];
     [self.collectionView addSubview:self.noDataIMG];
 }

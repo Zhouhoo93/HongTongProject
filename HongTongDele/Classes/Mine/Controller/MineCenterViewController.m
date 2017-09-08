@@ -61,23 +61,31 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(self.indexSlect==0){
-        UITextField *nameField = [alertView textFieldAtIndex:0];
-        NSString *str = nameField.text;
-        self.userNameLabel.text = str;
-        self.userName = str;
-        [self requestNewUserName];
+        if (buttonIndex==0) {
+            UITextField *nameField = [alertView textFieldAtIndex:0];
+            NSString *str = nameField.text;
+            self.userNameLabel.text = str;
+            self.userName = str;
+            [self requestNewUserName];
+        }
+        
     }else if(self.indexSlect==2){
+        if (buttonIndex==0) {
         UITextField *nameField = [alertView textFieldAtIndex:0];
         NSString *str = nameField.text;
+        
         self.phoneNumLbale.text = str;
         self.NewPhone = str;
         [self requestNewPhone];
+        }
     }else if(self.indexSlect==3){
+        if (buttonIndex==0) {
         UITextField *nameField = [alertView textFieldAtIndex:0];
         NSString *str = nameField.text;
         self.addressLabel.text = str;
         self.NewAddress = str;
         [self requestNewAddress];
+        }
     }
 }
 
@@ -118,15 +126,16 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
-    NSLog(@"token:%@",token);
+    NSLog(@"token:%@   ,%@",token,URL);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+            if ([errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 //                [self newLogin];
             }else{
@@ -169,6 +178,13 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"失败%@",error);
     }];
+}
+
++ (BOOL)isChinaMobile:(NSString *)phoneNum
+{
+    NSString *MOBILE = @"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[0678])\\d{8}$";
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    return [regextestmobile evaluateWithObject:phoneNum];
 }
 
 /*

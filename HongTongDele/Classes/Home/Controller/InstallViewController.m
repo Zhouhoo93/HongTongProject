@@ -144,6 +144,16 @@
         vc.hidesBottomBarWhenPushed = YES;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        self.selectBtn3.titleLabel.text = @"";
+        self.selectBtn4.titleLabel.text = @"";
+        self.selectBtn5.titleLabel.text = @"";
+        self.city = @"";
+        self.town = @"";
+        self.address = @"";
+        [self.cityArr removeAllObjects];
+        [self.townArr removeAllObjects];
+        [self.addressArr removeAllObjects];
     }
 }
 //协议要实现的方法
