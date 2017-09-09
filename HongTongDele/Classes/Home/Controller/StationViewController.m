@@ -139,7 +139,7 @@
 - (void)createSegmentMenu{
     
     //数据源
-    NSArray *array = @[@"全部",@"正常",@"离线",@"异常",@"故障"];
+    NSArray *array = @[@"在线",@"离线",@"正常",@"异常",@"故障"];
     
     _scroView = [TwoScrollView setTabBarPoint:CGPointMake(0, 0)];
     [_scroView setData:array NormalColor
@@ -167,7 +167,7 @@
         //
         /***********************【回调】***********************/
     }];
-    UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 50, 40)];
+    UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, 40, 30)];
     [leftBtn setImage:[UIImage imageNamed:@"ab_ic_back"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [_scroView addSubview:leftBtn];
@@ -212,6 +212,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.scrollView.contentOffset = CGPointMake([_index integerValue] * Bound_Width, 0);
     }];
+//    [TwoScrollView setViewIndex:[_index integerValue]];
 }
 -(void)backBtnClick{
     [self.navigationController popViewControllerAnimated:YES];
@@ -326,7 +327,7 @@
             self.table2.mj_header.ignoredScrollViewContentInsetTop = self.table2.contentInset.top;
             
             [bgImage addSubview:self.table2];
-        }else if(i==3){
+        }else if(i==4){
             [self.ThreeView addSubview:bgImage];
             NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"StationTableHeader" owner:nil options:nil];
             UIView *TableTipView = [nibContents lastObject];
@@ -385,9 +386,9 @@
     }else if (tableView==self.table2){
         count =  _dataArr2.count;
     }else if(tableView==self.table3){
-        count =  _dataArr3.count;
-    }else{
         count =  _dataArr4.count;
+    }else{
+        count =  _dataArr3.count;
         
     }
     return count;
@@ -408,39 +409,30 @@
             if (_dataArr.count>0) {
                 _model = _dataArr[indexPath.row];
                 cell.huhaoLabel.text = _model.home;
-                cell.statusLabel.text = _model.nature;
-                if ([_model.nature isEqualToString:@"正常"]) {
-                    cell.statusLabel.textColor = [UIColor greenColor];
-                }else if ([_model.nature isEqualToString:@"异常"]){
-                    cell.statusLabel.textColor = [UIColor yellowColor];
-                }else if ([_model.nature isEqualToString:@"故障"]){
-                    cell.statusLabel.textColor = [UIColor redColor];
-                }else if ([_model.nature isEqualToString:@"离线"]){
-                    cell.statusLabel.textColor = [UIColor grayColor];
-                }else{
-                    cell.statusLabel.textColor = [UIColor greenColor];
-                }
+                cell.statusLabel.text = @"在线";
+                cell.statusLabel.textColor = RGBColor(35, 134, 2);
+                
             }
         }else if (tableView == self.table1){
             if (_dataArr1.count>0) {
                 _model = _dataArr1[indexPath.row];
                 cell.huhaoLabel.text = _model.home;
-                cell.statusLabel.text = @"正常";
-                cell.statusLabel.textColor = [UIColor greenColor];
+                cell.statusLabel.text = @"离线";
+                cell.statusLabel.textColor = [UIColor grayColor];
             }
         }else if (tableView == self.table2){
             if (_dataArr2.count>0) {
                 _model = _dataArr2[indexPath.row];
                 cell.huhaoLabel.text = _model.home;
-                cell.statusLabel.text = @"离线";
-                cell.statusLabel.textColor = [UIColor grayColor];
+                cell.statusLabel.text = @"正常";
+                cell.statusLabel.textColor = RGBColor(35, 134, 2);
             }
-        }else if (tableView == self.table3){
+        }else if (tableView == self.table4){
             if (_dataArr3.count>0) {
                 _model = _dataArr3[indexPath.row];
                 cell.huhaoLabel.text = _model.home;
                 cell.statusLabel.text = @"异常";
-                cell.statusLabel.textColor = [UIColor yellowColor];
+                cell.statusLabel.textColor = RGBColor(255, 219, 37);
             }
         }else{
             if (_dataArr4.count>0) {
@@ -563,17 +555,17 @@
         [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
         NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
         
-        if (i==0) {
-            
-        }else if(i==1){
-            [parameters setValue:@"正常" forKey:@"nature"];
-        }else if(i==2){
-            [parameters setValue:@"离线" forKey:@"nature"];
-        }else if(i==3){
-            [parameters setValue:@"故障" forKey:@"nature"];
-        }else{
-            [parameters setValue:@"异常" forKey:@"nature"];
-        }
+//        if (i==0) {
+//            
+//        }else if(i==1){
+//            [parameters setValue:@"正常" forKey:@"nature"];
+//        }else if(i==2){
+//            [parameters setValue:@"离线" forKey:@"nature"];
+//        }else if(i==3){
+//            [parameters setValue:@"故障" forKey:@"nature"];
+//        }else{
+//            [parameters setValue:@"异常" forKey:@"nature"];
+//        }
                 if (self.grade.length>0) {
                     [parameters setValue:self.grade forKey:@"grade"];
                 }
@@ -614,29 +606,18 @@
                 if (i==0) {
                     [self.dataArr removeAllObjects];
                  
-                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                    for (NSDictionary *dic in responseObject[@"content"][@"onLine"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
-                    for (NSDictionary *dic in responseObject[@"content"][@"offLine"]) {
-                        _model = [[StationListModel alloc] initWithDictionary:dic];
-                        [self.dataArr addObject:_model];
-                    }
-                    for (NSDictionary *dic in responseObject[@"content"][@"abnormal"]) {
-                        _model = [[StationListModel alloc] initWithDictionary:dic];
-                        [self.dataArr addObject:_model];
-                    }
-                    for (NSDictionary *dic in responseObject[@"content"][@"fault"]) {
-                        _model = [[StationListModel alloc] initWithDictionary:dic];
-                        [self.dataArr addObject:_model];
-                    }
+                    
                     _filterController.dataList = [self packageDataList];
                     
                     
                     [self.table reloadData];
                 }else if (i==1){
                     [self.dataArr1 removeAllObjects];
-                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                    for (NSDictionary *dic in responseObject[@"content"][@"offLine"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr1 addObject:_model];
                         
@@ -645,7 +626,7 @@
                     [self.table1 reloadData];
                 }else if (i==2){
                     [self.dataArr2 removeAllObjects];
-                    for (NSDictionary *dic in responseObject[@"content"][@"offLine"]) {
+                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr2 addObject:_model];
                     }
@@ -658,7 +639,7 @@
                         [self.dataArr3 addObject:_model];
                     }
                     _filterController.dataList = [self packageDataList];
-                    [self.table3 reloadData];
+                    [self.table4 reloadData];
                 }else{
                     [self.dataArr4 removeAllObjects];
                     for (NSDictionary *dic in responseObject[@"content"][@"fault"]) {
@@ -666,7 +647,7 @@
                         [self.dataArr4 addObject:_model];
                     }
                     _filterController.dataList = [self packageDataList];
-                    [self.table4 reloadData];
+                    [self.table3 reloadData];
                 }
                 
                 
@@ -676,17 +657,18 @@
                 [_table.mj_header endRefreshing];
             }
             if (_table1.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table1.mj_header endRefreshing];
             }
             if (_table2.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table2.mj_header endRefreshing];
             }
             if (_table3.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table3.mj_header endRefreshing];
             }
             if (_table4.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table4.mj_header endRefreshing];
             }
+            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"失败%@",error);
             //        [MBProgressHUD showText:@"%@",error[@"error"]];

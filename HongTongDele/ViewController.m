@@ -40,6 +40,7 @@
 @property (nonatomic,strong) UILabel *lixianLabel;
 @property (nonatomic,strong) UILabel *yichangLabel;
 @property (nonatomic,strong) UILabel *guzhangLabel;
+@property (nonatomic,strong) UILabel *zaixianLabel;
 @property (nonatomic,strong)NSMutableArray *provinceArr;
 @property (nonatomic,strong)NSMutableArray *cityArr;
 @property (nonatomic,strong)NSMutableArray *townArr;
@@ -49,6 +50,7 @@
 @property (nonatomic,copy) NSString *town;
 @property (nonatomic,copy) NSString *address;
 @property (nonatomic,copy) NSString *grade;
+@property (nonatomic,strong)UITableView *table;
 @end
 
 @implementation ViewController
@@ -77,7 +79,11 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 
-
+- (void)refresh{
+    [self requestData];
+    [self requestAlarmData];
+    [self requestStationData];
+}
 
 - (void)InfoNotificationAction:(NSNotification *)notification{
     AlarmViewController *vc = [[AlarmViewController alloc] init];
@@ -88,17 +94,28 @@
     
 }
 - (void)setUI{
-    
-    self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, KWidth, KHeight)];
+    self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, -20, KWidth, KHeight) style:UITableViewStylePlain];
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.table];
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+    // 隐藏时间
+    header.lastUpdatedTimeLabel.hidden = YES;
+    // 隐藏状态
+    //    header.stateLabel.hidden = YES;
+    self.table.mj_header = header;
+    self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+
+    self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64)];
     self.bgScrollView.delegate = self;
     self.bgScrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.bgScrollView.contentSize = CGSizeMake(KWidth, 1000);
-    [self.view addSubview:self.bgScrollView];
+    [self.table addSubview:self.bgScrollView];
     
-    UIImageView *bgImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 64)];
+    UIImageView *bgImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 66)];
     bgImage.image = [UIImage imageNamed:@"形状-3"];
     bgImage.userInteractionEnabled = YES;
-    [self.view addSubview:bgImage];
+    [self.table addSubview:bgImage];
     
     for (int i=0; i<5; i++) {
         if (i==0) {
@@ -171,7 +188,7 @@
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
     self.downLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
-    self.downLabel.text = @"100KW/100户";
+    self.downLabel.text = @" KW/ 户";
     self.downLabel.font = [UIFont systemFontOfSize:14];
     self.downLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.downLabel];
@@ -182,7 +199,7 @@
     rightTopLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightTopLabel];
     self.rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
-    self.rightTopLabel1.text = @"50KW/50户";
+    self.rightTopLabel1.text = @" KW/ 户";
     self.rightTopLabel1.font = [UIFont systemFontOfSize:14];
     self.rightTopLabel1.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.rightTopLabel1];
@@ -193,7 +210,7 @@
     rightDownLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightDownLabel];
     self.rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
-    self.rightDownLabel1.text = @"50KW/50户";
+    self.rightDownLabel1.text = @" KW/ 户";
     self.rightDownLabel1.font = [UIFont systemFontOfSize:14];
     self.rightDownLabel1.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.rightDownLabel1];
@@ -286,7 +303,7 @@
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
     self.fadianliang = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
-    self.fadianliang.text = @"0.1MW·h/100元";
+    self.fadianliang.text = @" MW·h/ 元";
     self.fadianliang.font = [UIFont systemFontOfSize:14];
     self.fadianliang.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.fadianliang];
@@ -297,7 +314,7 @@
     rightTopLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightTopLabel];
     self.shangwangdianliang = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 38, KWidth/2, 37)];
-    self.shangwangdianliang.text = @"0.1MW·h/100元";
+    self.shangwangdianliang.text = @" MW·h/ 元";
     self.shangwangdianliang.font = [UIFont systemFontOfSize:14];
     self.shangwangdianliang.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.shangwangdianliang];
@@ -308,7 +325,7 @@
     rightDownLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:rightDownLabel];
     self.zifaziyong = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 103, KWidth/2, 37)];
-    self.zifaziyong.text = @"0.1MW·h/100元";
+    self.zifaziyong.text = @" MW·h/ 元";
     self.zifaziyong.font = [UIFont systemFontOfSize:14];
     self.zifaziyong.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.zifaziyong];
@@ -358,7 +375,7 @@
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
     self.pingjungonglv = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2+50, 20, KWidth/2-50, 35)];
-    self.pingjungonglv.text = @"1100KW/1100KW";
+    self.pingjungonglv.text = @" KW/ KW";
     self.pingjungonglv.font = [UIFont systemFontOfSize:14];
     self.pingjungonglv.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:self.pingjungonglv];
@@ -383,45 +400,89 @@
     imageView.image = [UIImage imageNamed:@"首页背景框"];
     [self.bgScrollView addSubview:imageView];
     
-    for (int i=0; i<4; i++) {
-        UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth-200)/5*(i+1)+50*i, 30, 50, 50)];
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((KWidth-200)/5*(i+1)+50*i, 30, 50, 50)];
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, KWidth/5*2, 20)];
+    leftLabel.text = @"监测设备";
+    leftLabel.textColor = [UIColor grayColor];
+    leftLabel.font = [UIFont systemFontOfSize:14];
+    leftLabel.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:leftLabel];
+    
+    UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/5*2, 10, KWidth/5*3, 20)];
+    rightLabel.text = @"逆变器";
+    rightLabel.textColor = [UIColor grayColor];
+    rightLabel.font = [UIFont systemFontOfSize:14];
+    rightLabel.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:rightLabel];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(KWidth/5*2, 3, 1, 124)];
+    line.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [imageView addSubview:line];
+    for (int i=0; i<5; i++) {
+        
         
         if (i==0) {
+            UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
             imagePic.image = [UIImage imageNamed:@"正常"];
-            self.zhengchangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
-            self.zhengchangLabel.textAlignment = NSTextAlignmentCenter;
-            self.zhengchangLabel.textColor = [UIColor greenColor];
-            self.zhengchangLabel.text = @"";
-            [imageView addSubview:self.zhengchangLabel];
-            [button addTarget:self action:@selector(zhengchangBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            self.zaixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth/5*2-140)/3*(i+1)+70*i, 95,70, 20)];
+            self.zaixianLabel.textAlignment = NSTextAlignmentCenter;
+            self.zaixianLabel.textColor = RGBColor(35, 134, 2);
+            self.zaixianLabel.text = @"";
+            [imageView addSubview:self.zaixianLabel];
+            [button addTarget:self action:@selector(zaixianBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:imagePic];
+            [imageView addSubview:button];
         }else if (i==1) {
+            UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
             imagePic.image = [UIImage imageNamed:@"离线"];
-            self.lixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            self.lixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth/5*2-140)/3*(i+1)+70*i, 95,70, 20)];
             self.lixianLabel.textAlignment = NSTextAlignmentCenter;
             self.lixianLabel.textColor = [UIColor lightGrayColor];
             self.lixianLabel.text = @"";
             [imageView addSubview:self.lixianLabel];
             [button addTarget:self action:@selector(lixianBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:imagePic];
+            [imageView addSubview:button];
         }else if (i==2) {
-            self.yichangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            self.zhengchangLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-210)/4*(i-2+1)+70*(i-2)), 95,70, 20)];
+            self.zhengchangLabel.textAlignment = NSTextAlignmentCenter;
+            imagePic.image = [UIImage imageNamed:@"正常"];
+            self.zhengchangLabel.textColor = RGBColor(35, 134, 2);
+            self.zhengchangLabel.text = @"";
+            [imageView addSubview:self.zhengchangLabel];
+            [button addTarget:self action:@selector(zhengchangBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:imagePic];
+            [imageView addSubview:button];
+        }else if(i==3){
+            UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            self.yichangLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-210)/4*(i-2+1)+70*(i-2)), 95,70, 20)];
             self.yichangLabel.textAlignment = NSTextAlignmentCenter;
             imagePic.image = [UIImage imageNamed:@"异常"];
-            self.yichangLabel.textColor = [UIColor yellowColor];
+            self.yichangLabel.textColor = RGBColor(255, 219, 37);
             self.yichangLabel.text = @"";
             [imageView addSubview:self.yichangLabel];
             [button addTarget:self action:@selector(yichangBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        }else {
-            self.guzhangLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth-280)/5*(i+1)+70*i, 90,70, 20)];
+            [imageView addSubview:imagePic];
+            [imageView addSubview:button];
+        }else{
+            UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-150)/4*(i-2+1)+50*(i-2)), 40, 50, 50)];
+            self.guzhangLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/5*2+((KWidth/5*3-210)/4*(i-2+1)+70*(i-2)), 95,70, 20)];
             self.guzhangLabel.textAlignment = NSTextAlignmentCenter;
             imagePic.image = [UIImage imageNamed:@"故障"];
             self.guzhangLabel.textColor = [UIColor redColor];
             self.guzhangLabel.text = @"";
             [imageView addSubview:self.guzhangLabel];
             [button addTarget:self action:@selector(guzhangBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:imagePic];
+            [imageView addSubview:button];
+
         }
-        [imageView addSubview:imagePic];
-        [imageView addSubview:button];
+       
     }
     [self requestStationData];
     //    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth, 150)];
@@ -430,7 +491,24 @@
     
 }
 
-
+- (void)zaixianBtnClick{
+    StationViewController *vc = [[StationViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
+    vc.index = @"0";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)zhengchangBtnClick{
     StationViewController *vc = [[StationViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
@@ -446,7 +524,7 @@
     if (self.address.length>0) {
         vc.address = self.address;
     }
-    vc.index = @"1";
+    vc.index = @"2";
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)lixianBtnClick{
@@ -464,7 +542,7 @@
     if (self.address.length>0) {
         vc.address = self.address;
     }
-    vc.index = @"2";
+    vc.index = @"1";
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)yichangBtnClick{
@@ -555,7 +633,7 @@
             titlelabel.frame = CGRectMake(KWidth/2-35, 10, 70, 30);
             self.chulizhongLabel.frame = CGRectMake(KWidth/2-35, 80, 70, 30);
             self.chulizhongLabel.text = @"0条";
-            self.chulizhongLabel.textColor = [UIColor greenColor];
+            self.chulizhongLabel.textColor = RGBColor(35, 134, 2);
             titlelabel.text = @"处理中";
             titlelabel.textColor = [UIColor lightGrayColor];
             titlelabel.font = [UIFont systemFontOfSize:12];
@@ -730,13 +808,18 @@
             CGFloat num22 = [today_gencap_income[1] floatValue];
             CGFloat num222 = [today_gencap_income[0] floatValue];
             self.fadianliang.text = [NSString stringWithFormat:@"%.2fMW·h/%.2f元",num222,num22];
-            self.shangwangdianliang.text = [NSString stringWithFormat:@"%@MW·h/%@元",today_up_ele_income[0],today_up_ele_income[1]];
+            CGFloat num2233 = [today_up_ele_income[0] floatValue];
+            CGFloat num22233 = [today_up_ele_income[1] floatValue];
+            self.shangwangdianliang.text = [NSString stringWithFormat:@"%.2fMW·h/%.2f元",num2233,num22233];
             CGFloat num33 = [today_self_occupied[0] floatValue];
             CGFloat num44 = [today_self_occupied[1] floatValue];
             self.zifaziyong.text = [NSString stringWithFormat:@"%.2fMW·h/%.2f元",num33,num44];
             CGFloat num3 = [power[0] floatValue] /1000;
             CGFloat num4 = [power[1] floatValue] /1000;
             self.pingjungonglv.text = [NSString stringWithFormat:@"%.2fKW/%.2fKW",num3,num4];
+            if (_table.mj_header.isRefreshing) {
+                [_table.mj_header endRefreshing];
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -821,6 +904,9 @@
             self.weichuliLabel.text =[NSString stringWithFormat:@"%@条",noHandled];
             self.chulizhongLabel.text = [NSString stringWithFormat:@"%@条",inHandled];
             self.yichuliLabel.text = [NSString stringWithFormat:@"%@条",Handled];
+            if (_table.mj_header.isRefreshing) {
+                [_table.mj_header endRefreshing];
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -857,6 +943,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
+            NSNumber *onLine = responseObject[@"content"][@"onLine"];
             NSNumber *normal = responseObject[@"content"][@"normal"];
             NSNumber *offLine = responseObject[@"content"][@"offLine"];
             NSNumber *abnormal = responseObject[@"content"][@"abnormal"];
@@ -865,6 +952,10 @@
             self.lixianLabel.text = [NSString stringWithFormat:@"%@户",offLine];
             self.yichangLabel.text = [NSString stringWithFormat:@"%@户",abnormal];
             self.guzhangLabel.text = [NSString stringWithFormat:@"%@户",fault];
+            self.zaixianLabel.text = [NSString stringWithFormat:@"%@户",onLine];
+            if (_table.mj_header.isRefreshing) {
+                [_table.mj_header endRefreshing];
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
