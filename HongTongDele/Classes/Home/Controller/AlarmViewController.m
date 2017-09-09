@@ -563,7 +563,9 @@
     }
     return count;
 }
-
+- (void)refresh{
+    [self requestAlarmData];
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *ID = @"SecondTwoTableViewCell";
@@ -812,29 +814,29 @@
                     [MBProgressHUD showText:str];
                 }
             }else{
-                [self.dataArr removeAllObjects];
-                [self.dataArr1 removeAllObjects];
-                [self.dataArr2 removeAllObjects];
-                [self.dataArr3 removeAllObjects];
                 if (i==0) {
+                    [self.dataArr removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
                         _model = [[AlarmListModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
                     [self.table reloadData];
                 }else if (i==1){
+                    [self.dataArr1 removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
                         _model = [[AlarmListModel alloc] initWithDictionary:dic];
                         [self.dataArr1 addObject:_model];
                     }
                     [self.table1 reloadData];
                 }else if (i==2){
+                    [self.dataArr2 removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
                         _model = [[AlarmListModel alloc] initWithDictionary:dic];
                         [self.dataArr2 addObject:_model];
                     }
                     [self.table2 reloadData];
                 }else if (i==3){
+                    [self.dataArr3 removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"][@"data"]) {
                         _model = [[AlarmListModel alloc] initWithDictionary:dic];
                         [self.dataArr3 addObject:_model];
@@ -844,6 +846,19 @@
                 
                 
             }
+            if (_table.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table1.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table2.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table3.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            
             [self requestAddListData];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"失败%@",error);

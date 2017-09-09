@@ -88,6 +88,7 @@
     
 }
 - (void)setUI{
+    
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 44, KWidth, KHeight)];
     self.bgScrollView.delegate = self;
     self.bgScrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -233,6 +234,7 @@
         self.city = @"";
         self.town = @"";
         self.address = @"";
+        self.grade = @"city";
         [self.cityArr removeAllObjects];
         [self.townArr removeAllObjects];
         [self.addressArr removeAllObjects];
@@ -919,6 +921,7 @@
                 }
                 if (self.provinceArr.count>0) {
                     [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -932,6 +935,7 @@
                 }
                 if (self.cityArr.count>0) {
                     [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -946,6 +950,7 @@
                 }
                 if (self.townArr.count>0) {
                     [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateNormal];
+                     [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -959,6 +964,7 @@
                 }
                 if (self.addressArr.count>0) {
                     [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateSelected];
                 }
                 //                _filterController.dataList = [self packageDataList];
             }

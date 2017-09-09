@@ -57,29 +57,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //    self.dataArr = @[@{@"home":@"1", @"nature":@"正常"},@{@"home":@"2", @"nature":@"正常"}];
-    for (int i=0; i<2; i++) {
-        _model = [[StationListModel alloc] init];
-        if (i==0) {
-            _model.nature = @"正常";
-            _model.home = @"1";
-        }else{
-            _model.nature = @"正常";
-            _model.home = @"2";
-        }
-        [self.dataArr addObject:_model];
-    }
-    for (int i=0; i<2; i++) {
-        _model = [[StationListModel alloc] init];
-        if (i==0) {
-            _model.nature = @"正常";
-            _model.home = @"1";
-        }else{
-            _model.nature = @"正常";
-            _model.home = @"2";
-        }
-        [self.dataArr1 addObject:_model];
-    }
     self.grade = @"province";
     [self requestShaiXuanData];
     [self createSegmentMenu];
@@ -397,7 +374,7 @@
         
         
     }
-    //    [self requestStationData];
+        [self requestStationData];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger count  ;
@@ -430,38 +407,52 @@
         if (tableView==self.table) {
             if (_dataArr.count>0) {
                 _model = _dataArr[indexPath.row];
+                cell.huhaoLabel.text = _model.home;
+                cell.statusLabel.text = _model.nature;
+                if ([_model.nature isEqualToString:@"正常"]) {
+                    cell.statusLabel.textColor = [UIColor greenColor];
+                }else if ([_model.nature isEqualToString:@"异常"]){
+                    cell.statusLabel.textColor = [UIColor yellowColor];
+                }else if ([_model.nature isEqualToString:@"故障"]){
+                    cell.statusLabel.textColor = [UIColor redColor];
+                }else if ([_model.nature isEqualToString:@"离线"]){
+                    cell.statusLabel.textColor = [UIColor grayColor];
+                }else{
+                    cell.statusLabel.textColor = [UIColor greenColor];
+                }
             }
         }else if (tableView == self.table1){
             if (_dataArr1.count>0) {
                 _model = _dataArr1[indexPath.row];
+                cell.huhaoLabel.text = _model.home;
+                cell.statusLabel.text = @"正常";
+                cell.statusLabel.textColor = [UIColor greenColor];
             }
         }else if (tableView == self.table2){
             if (_dataArr2.count>0) {
                 _model = _dataArr2[indexPath.row];
+                cell.huhaoLabel.text = _model.home;
+                cell.statusLabel.text = @"离线";
+                cell.statusLabel.textColor = [UIColor grayColor];
             }
         }else if (tableView == self.table3){
             if (_dataArr3.count>0) {
                 _model = _dataArr3[indexPath.row];
+                cell.huhaoLabel.text = _model.home;
+                cell.statusLabel.text = @"异常";
+                cell.statusLabel.textColor = [UIColor yellowColor];
             }
         }else{
             if (_dataArr4.count>0) {
                 _model = _dataArr4[indexPath.row];
+                cell.huhaoLabel.text = _model.home;
+                cell.statusLabel.text = @"故障";
+                cell.statusLabel.textColor = [UIColor redColor];
             }
         }
         
-        cell.huhaoLabel.text = _model.home;
-        cell.statusLabel.text = _model.nature;
-        if ([_model.nature isEqualToString:@"正常"]) {
-            cell.statusLabel.textColor = [UIColor greenColor];
-        }else if ([_model.nature isEqualToString:@"异常"]){
-            cell.statusLabel.textColor = [UIColor yellowColor];
-        }else if ([_model.nature isEqualToString:@"故障"]){
-            cell.statusLabel.textColor = [UIColor redColor];
-        }else if ([_model.nature isEqualToString:@"离线"]){
-            cell.statusLabel.textColor = [UIColor grayColor];
-        }else{
-            cell.statusLabel.textColor = [UIColor greenColor];
-        }
+        
+        
     }
     return cell;
     
@@ -480,6 +471,10 @@
     //设置Bar的移动位置
     [TwoScrollView setViewIndex:index];
     [self.scroView setlineFrame:index];
+}
+
+- (void)refresh{
+    [self requestStationData];
 }
 #pragma mark - 模拟数据源
 - (NSArray *)packageDataList {
@@ -579,22 +574,22 @@
         }else{
             [parameters setValue:@"异常" forKey:@"nature"];
         }
-        //        if (self.grade.length>0) {
-        //            [parameters setValue:self.grade forKey:@"grade"];
-        //        }
-        //        if ([self.grade isEqualToString:@"address"] ) {
-        //            [parameters setValue:self.town forKey:@"area"];
+                if (self.grade.length>0) {
+                    [parameters setValue:self.grade forKey:@"grade"];
+                }
+                if ([self.grade isEqualToString:@"address"] ) {
+                    [parameters setValue:self.town forKey:@"area"];
         
-        //        }else if ([self.grade isEqualToString:@"town"] ) {
-        //            [parameters setValue:self.city forKey:@"area"];
-        //        }else if ([self.grade isEqualToString:@"city"] ) {
-        //            [parameters setValue:self.province forKey:@"area"];
-        //        }else if ([self.grade isEqualToString:@"province"] ) {
-        //            [parameters setValue:self.address forKey:@"area"];
-        //        }
-        if (self.address.length>0) {
-            [parameters setValue:self.address forKey:@"area"];
-        }
+                }else if ([self.grade isEqualToString:@"town"] ) {
+                    [parameters setValue:self.city forKey:@"area"];
+                }else if ([self.grade isEqualToString:@"city"] ) {
+                    [parameters setValue:self.province forKey:@"area"];
+                }else if ([self.grade isEqualToString:@"province"] ) {
+                    [parameters setValue:self.address forKey:@"area"];
+                }
+//        if (self.address.length>0) {
+//            [parameters setValue:self.address forKey:@"area"];
+//        }
         NSLog(@"%@",parameters)
         [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -614,13 +609,24 @@
                     [MBProgressHUD showText:str];
                 }
             }else{
-                [self.dataArr removeAllObjects];
-                [self.dataArr1 removeAllObjects];
-                [self.dataArr2 removeAllObjects];
-                [self.dataArr3 removeAllObjects];
+                
+               
                 if (i==0) {
-                    
+                    [self.dataArr removeAllObjects];
+                 
                     for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    for (NSDictionary *dic in responseObject[@"content"][@"offLine"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    for (NSDictionary *dic in responseObject[@"content"][@"abnormal"]) {
+                        _model = [[StationListModel alloc] initWithDictionary:dic];
+                        [self.dataArr addObject:_model];
+                    }
+                    for (NSDictionary *dic in responseObject[@"content"][@"fault"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr addObject:_model];
                     }
@@ -629,7 +635,7 @@
                     
                     [self.table reloadData];
                 }else if (i==1){
-                    
+                    [self.dataArr1 removeAllObjects];
                     for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr1 addObject:_model];
@@ -638,24 +644,24 @@
                     _filterController.dataList = [self packageDataList];
                     [self.table1 reloadData];
                 }else if (i==2){
-                    
-                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                    [self.dataArr2 removeAllObjects];
+                    for (NSDictionary *dic in responseObject[@"content"][@"offLine"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr2 addObject:_model];
                     }
                     _filterController.dataList = [self packageDataList];
                     [self.table2 reloadData];
                 }else if (i==3){
-                    
-                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                    [self.dataArr3 removeAllObjects];
+                    for (NSDictionary *dic in responseObject[@"content"][@"abnormal"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr3 addObject:_model];
                     }
                     _filterController.dataList = [self packageDataList];
                     [self.table3 reloadData];
                 }else{
-                    
-                    for (NSDictionary *dic in responseObject[@"content"][@"normal"]) {
+                    [self.dataArr4 removeAllObjects];
+                    for (NSDictionary *dic in responseObject[@"content"][@"fault"]) {
                         _model = [[StationListModel alloc] initWithDictionary:dic];
                         [self.dataArr4 addObject:_model];
                     }
@@ -666,7 +672,21 @@
                 
             }
             [_filterController.mainTableView reloadData];
-            
+            if (_table.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table1.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table2.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table3.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table4.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"失败%@",error);
             //        [MBProgressHUD showText:@"%@",error[@"error"]];
