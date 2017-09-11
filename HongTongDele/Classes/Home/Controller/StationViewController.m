@@ -149,9 +149,9 @@
     [self.view addSubview:_scroView];
     
     //设置默认值
-    //    [TwoScrollView setViewIndex:[_index integerValue]];
-    
-    
+//        [TwoScrollView setViewIndex:[_index integerValue]];
+//    
+//    
     //TabBar回调
     [_scroView getViewIndex:^(NSString *title, NSInteger index) {
         
@@ -458,11 +458,14 @@
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSInteger index = scrollView.contentOffset.x / Bound_Width;
-    
-    //设置Bar的移动位置
-    [TwoScrollView setViewIndex:index];
-    [self.scroView setlineFrame:index];
+
+    if (scrollView ==_scrollView) {
+        //scrollView
+        NSInteger index = scrollView.contentOffset.x / Bound_Width;
+        //设置Bar的移动位置
+        [TwoScrollView setViewIndex:index];
+        [self.scroView setlineFrame:index];
+    }
 }
 
 - (void)refresh{

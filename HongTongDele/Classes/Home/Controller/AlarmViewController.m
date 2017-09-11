@@ -609,11 +609,14 @@
 
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSInteger index = scrollView.contentOffset.x / Bound_Width;
-    
-    //设置Bar的移动位置
-    [OneScrollViewBar setViewIndex:index];
-    [self.scroView setlineFrame:index];
+
+    if (scrollView ==_scrollView) {
+        //scrollView
+        NSInteger index = scrollView.contentOffset.x / Bound_Width;
+        //设置Bar的移动位置
+        [OneScrollViewBar setViewIndex:index];
+        [self.scroView setlineFrame:index];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -850,13 +853,13 @@
                 [_table.mj_header endRefreshing];
             }
             if (_table1.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table1.mj_header endRefreshing];
             }
             if (_table2.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table2.mj_header endRefreshing];
             }
             if (_table3.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
+                [_table3.mj_header endRefreshing];
             }
             
             [self requestAddListData];

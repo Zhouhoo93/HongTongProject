@@ -423,7 +423,7 @@
         if (i==0) {
             UIImageView *imagePic = [[UIImageView alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake((KWidth/5*2-100)/3*(i+1)+50*i, 40, 50, 50)];
-            imagePic.image = [UIImage imageNamed:@"正常"];
+            imagePic.image = [UIImage imageNamed:@"在线"];
             self.zaixianLabel = [[UILabel alloc] initWithFrame:CGRectMake((KWidth/5*2-140)/3*(i+1)+70*i, 95,70, 20)];
             self.zaixianLabel.textAlignment = NSTextAlignmentCenter;
             self.zaixianLabel.textColor = RGBColor(35, 134, 2);

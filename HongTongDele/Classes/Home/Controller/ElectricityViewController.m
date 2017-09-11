@@ -38,6 +38,8 @@
 @property (nonatomic ,strong)MenuView      *menu;
 @property (nonatomic,strong)ElectricityModel *model;
 @property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)NSMutableArray *dataArr2;
+@property (nonatomic,strong)NSMutableArray *dataArr3;
 @property (nonatomic,strong)LeftMenuViewDemo *demo;
 @property (nonatomic,copy) NSString *timeBtn;
 @property (nonatomic,strong) UIButton *timeSelectBtn;
@@ -70,8 +72,6 @@
                       :kColor(16, 16, 16) SelectColor
                       :[UIColor whiteColor] Font
                       :[UIFont systemFontOfSize:15]];
-    
-    
     [self.view addSubview:_scroView];
     
     //设置默认值
@@ -488,8 +488,14 @@
     }
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView==self.table) {
+        return _dataArr.count;
+    }else if (tableView==self.table1){
+        return _dataArr2.count;
+    }else{
+         return _dataArr3.count;
+    }
     
-    return _dataArr.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -501,7 +507,14 @@
         NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"SecondTableViewCell" owner:nil options:nil];
         cell = [nibs lastObject];
         cell.backgroundColor = [UIColor clearColor];
-        _model = _dataArr[indexPath.row];
+        if (tableView==self.table) {
+            _model = _dataArr[indexPath.row];
+        }else if (tableView==self.table1){
+            _model = _dataArr2[indexPath.row];
+        }else{
+             _model = _dataArr3[indexPath.row];
+        }
+        
         cell.houseID.text = [NSString stringWithFormat:@"%@",_model.house_id];
         CGFloat fadianliang = [_model.gen_cap floatValue];
         CGFloat shouyi = [_model.gen_fee floatValue];
@@ -524,12 +537,25 @@
     return 34;
 }
 
-
+- (void)refresh{
+    [self requestData];
+}
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSInteger index = scrollView.contentOffset.x / Bound_Width;
-    //设置Bar的移动位置
-    [CJScroViewBar setViewIndex:index];
-    [self.scroView setlineFrame:index];
+    if ([scrollView isKindOfClass:[UITableView class]]){
+        //UITableView
+    }
+    if (scrollView ==_scrollView) {
+        //scrollView
+        NSInteger index = scrollView.contentOffset.x / Bound_Width;
+        //设置Bar的移动位置
+        [CJScroViewBar setViewIndex:index];
+        [self.scroView setlineFrame:index];
+    }
+//    NSInteger index = scrollView.contentOffset.x / Bound_Width;
+//    //设置Bar的移动位置
+//    [CJScroViewBar setViewIndex:index];
+//    [self.scroView setlineFrame:index];
+ 
 }
 
 -(void)requestData{
@@ -593,25 +619,35 @@
                     [self.table reloadData];
                 }else if (i==1){
                     NSLog(@"获取全额信息正确%@",responseObject);
-                    [self.dataArr removeAllObjects];
+                    [self.dataArr2 removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"]) {
                         _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                        [self.dataArr addObject:_model];
+                        [self.dataArr2 addObject:_model];
                     }
                     
                     [self.table1 reloadData];
                 }else if(i==2){
                     NSLog(@"获取余电信息正确%@",responseObject);
-                    [self.dataArr removeAllObjects];
+                    [self.dataArr3 removeAllObjects];
                     for (NSMutableDictionary *dic in responseObject[@"content"]) {
                         _model = [[ElectricityModel alloc] initWithDictionary:dic];
-                        [self.dataArr addObject:_model];
+                        [self.dataArr3 addObject:_model];
                     }
                     
                     [self.table2 reloadData];
                     
                 }
                 
+                
+            }
+            if (_table.mj_header.isRefreshing ) {
+                [_table.mj_header endRefreshing];
+            }
+            if (_table1.mj_header.isRefreshing ) {
+                [_table1.mj_header endRefreshing];
+            }
+            if (_table2.mj_header.isRefreshing ) {
+                [_table2.mj_header endRefreshing];
             }
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -657,6 +693,18 @@
         _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return  _dataArr;
+}
+-(NSMutableArray *)dataArr2{
+    if (!_dataArr2) {
+        _dataArr2 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr2;
+}
+-(NSMutableArray *)dataArr3{
+    if (!_dataArr3) {
+        _dataArr3 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr3;
 }
 
 -(ElectricityModel *)model{
