@@ -26,11 +26,13 @@
 }
 @property (nonatomic,copy)NSString *roomID;
 @property (nonatomic,copy)NSString *roomWord;
+@property (nonatomic,assign)BOOL isTuiSong;
 @property (nonatomic,copy)NSString *NickName;
 @property (nonatomic,strong)UICollectionView *collectionView;
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)liveListModel *model;
 @property (nonatomic,strong)UIImageView *noDataIMG;
+@property (nonatomic,copy)NSString *userName;
 @end
 
 @implementation LiveViewController
@@ -38,11 +40,62 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setUI];
+    [self requestData];
     [self kaiqizhibo];
     //规定按钮的位置
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *roomID= [NSString stringWithFormat:@"%@",[userDefaults valueForKey:@"roomID"]];
+    NSString *ps= [NSString stringWithFormat:@"%@",[userDefaults valueForKey:@"ps"]];
+    if ([roomID isEqual:[NSNull class]]) {
+        self.isTuiSong = YES;
+        _roomID = roomID;
+        _roomWord = ps;
+        [self CreatLive];
+        [userDefaults setValue:nil forKey:@"roomID"];
+        [userDefaults setValue:nil forKey:@"ps"];
+    }
     //    [self CreatLive];
     //
+    
+    
+}
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/agent/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取个人信息正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            self.userName = responseObject[@"content"][@"username"];
+         
+            
+            
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
     
     
 }
@@ -278,11 +331,15 @@
     [GLCore setDebugLogEnabled:YES];
 #endif
     [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088" accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148" companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
-    _roomID = _model.roomId;
-    _roomWord = _model.userPwd;
+    if (self.isTuiSong) {
+        self.isTuiSong = NO;
+    }else{
+        _roomID = _model.roomId;
+        _roomWord = _model.userPwd;
+    }
     NSString *roomId = _roomID;
     NSString *pwd = _roomWord;
-    NSString *nickname = @"asd";
+    NSString *nickname = _userName;
     
     //    if (roomId.length == 0 || pwd.length == 0 || nickname.length == 0) {
     //        return;
@@ -302,7 +359,7 @@
         
         [GotyeLiveConfig config].roomId = strong_self->_roomID;
         [GotyeLiveConfig config].password = strong_self->_roomWord;
-        [GotyeLiveConfig config].nickname = @"咖喱给给";
+        [GotyeLiveConfig config].nickname = strong_self->_userName;
         
         strong_self->_authToken = authToken;
         if (strong_self->_authToken.role == GLAuthTokenRolePresenter) {
@@ -473,7 +530,7 @@
     [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088" accessSecret:@"049e345fd39f442cb20b7fb0c2cc5148" companyId:@"a2a1ed5eb8414c688fb3d060acf5dcd1"];
     NSString *roomId = _roomID;
     NSString *pwd = _roomWord;
-    NSString *nickname = @"主播";
+    NSString *nickname = _userName;
     
     //    if (roomId.length == 0 || pwd.length == 0 || nickname.length == 0) {
     //        return;
@@ -493,7 +550,7 @@
         
         [GotyeLiveConfig config].roomId = strong_self->_roomID;
         [GotyeLiveConfig config].password = strong_self->_roomWord;
-        [GotyeLiveConfig config].nickname = @"咖喱给给";
+        [GotyeLiveConfig config].nickname = strong_self->_userName;
         
         strong_self->_authToken = authToken;
         if (strong_self->_authToken.role == GLAuthTokenRolePresenter) {

@@ -126,6 +126,7 @@
 - (void)CreatPopView{
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"AlarmPopView" owner:nil options:nil];
     self.popView = [nibContents lastObject];
+    self.popView.frame = CGRectMake(0, 0, KWidth, KHeight);
     self.popView.delegate = self;
     [self.view addSubview:self.popView];
     self.popView.hidden = YES;

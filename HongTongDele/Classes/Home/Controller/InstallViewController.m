@@ -26,11 +26,7 @@
 @property (nonatomic,strong)NSMutableArray *cityArr;
 @property (nonatomic,strong)NSMutableArray *townArr;
 @property (nonatomic,strong)NSMutableArray *addressArr;
-@property (nonatomic,copy) NSString *province;
-@property (nonatomic,copy) NSString *city;
-@property (nonatomic,copy) NSString *town;
-@property (nonatomic,copy) NSString *address;
-@property (nonatomic,copy) NSString *grade;
+
 @end
 
 @implementation InstallViewController
@@ -140,17 +136,20 @@
         }else {
             self.selectIndex = 4;
             vc.dataArr = self.addressArr;
+            [self requestData];
         }
         vc.hidesBottomBarWhenPushed = YES;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        self.selectBtn3.titleLabel.text = @"";
-        self.selectBtn4.titleLabel.text = @"";
-        self.selectBtn5.titleLabel.text = @"";
+        self.selectBtn2.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn3.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn4.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn5.titleLabel.textColor = [UIColor grayColor];
         self.city = @"";
         self.town = @"";
         self.address = @"";
+        self.grade = @"city";
         [self.cityArr removeAllObjects];
         [self.townArr removeAllObjects];
         [self.addressArr removeAllObjects];
@@ -161,22 +160,30 @@
 {
     if(self.selectIndex==1){
         [self.selectBtn2 setTitle:string forState:0];
+        [self.selectBtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"city";
         self.province = string;
         [self requestShaiXuanData];
     }else if(self.selectIndex==2){
         [self.selectBtn3 setTitle:string forState:0];
+        [self.selectBtn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn3 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"town";
         self.city = string;
         [self requestShaiXuanData];
     }else if (self.selectIndex ==3){
         [self.selectBtn4 setTitle:string forState:0];
+        [self.selectBtn4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn4 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.town = string;
         self.grade = @"address";
         [self requestShaiXuanData];
     }else if (self.selectIndex ==4){
         self.address = string;
         [self.selectBtn5 setTitle:string forState:0];
+        [self.selectBtn5 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn5 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"province";
         //        [self requestShaiXuanData];
     }}
@@ -224,7 +231,9 @@
     self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
     
 }
-
+- (void)refresh{
+    [self requestData];
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataArr.count;
 }
@@ -280,8 +289,21 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
-    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    if (self.province.length>0) {
+        [parameters setValue:self.province forKey:@"province"];
+    }
+    if (self.city.length>0) {
+        [parameters setValue:self.city forKey:@"city"];
+    }
+    if (self.town.length>0) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    if (self.address.length>0) {
+        [parameters setValue:self.address forKey:@"village"];
+    }
+
+    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -309,6 +331,9 @@
             }
             
             [self.table reloadData];
+            if ([self.table.mj_header isRefreshing]) {
+                [self.table.mj_header endRefreshing];
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -365,6 +390,10 @@
                 }
                 if (self.provinceArr.count>0) {
                     [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn2 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn2 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+                    
+                    [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -378,6 +407,9 @@
                 }
                 if (self.cityArr.count>0) {
                     [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn3 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn3 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+                    [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -392,6 +424,9 @@
                 }
                 if (self.townArr.count>0) {
                     [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateSelected];
+                    [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -405,12 +440,14 @@
                 }
                 if (self.addressArr.count>0) {
                     [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateSelected];
+                    [self.selectBtn5 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn5 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                 }
                 //                _filterController.dataList = [self packageDataList];
             }
             //            [_filterController.mainTableView reloadData];
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"失败%@",error);
         //        [MBProgressHUD showText:@"%@",error[@"error"]];

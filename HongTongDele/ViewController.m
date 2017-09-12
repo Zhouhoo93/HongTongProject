@@ -57,7 +57,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoLive:) name:@"Live" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(InfoNotificationAction:) name:@"InfoNotification" object:nil];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top"] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -78,7 +78,12 @@
     
     // Do any additional setup after loading the view, typically from a nib.
 }
-
+- (void)gotoLive:(NSNotification *)text{
+    NSLog(@"接收直播推送:%@",text);
+    self.tabBarController.selectedIndex = 3;
+//    NSNotification *notice = [NSNotification notificationWithName:@"OpenLive" object:text];
+//    [[NSNotificationCenter defaultCenter] postNotification:notice];
+}
 - (void)refresh{
     [self requestData];
     [self requestAlarmData];
@@ -231,23 +236,28 @@
             vc.dataArr = self.provinceArr;
         }else if (sender.tag == 10002) {
             self.selectIndex  = 2;
+            self.selectBtn3.titleLabel.textColor = [UIColor blackColor];
+           
             //            vc.dataArr = @[@"杭州江干",@"杭州下城",@"杭州拱墅",@"杭州滨江",@"杭州萧山",@"杭州西湖"];
             vc.dataArr = self.cityArr;
         }else if (sender.tag == 10003) {
             self.selectIndex  = 3;
             //            vc.dataArr = @[@"白杨街道",@"下沙街道",@"啊啊街道",@"啊啊街道",@"啊啊街道",@"没有街道"];
             vc.dataArr = self.townArr;
+            self.selectBtn4.titleLabel.textColor = [UIColor blackColor];
         }else {
             self.selectIndex = 4;
+            self.selectBtn5.titleLabel.textColor = [UIColor blackColor];
             vc.dataArr = self.addressArr;
         }
         vc.hidesBottomBarWhenPushed = YES;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        self.selectBtn3.titleLabel.text = @"";
-        self.selectBtn4.titleLabel.text = @"";
-        self.selectBtn5.titleLabel.text = @"";
+        self.selectBtn2.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn3.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn4.titleLabel.textColor = [UIColor grayColor];
+        self.selectBtn5.titleLabel.textColor = [UIColor grayColor];
         self.city = @"";
         self.town = @"";
         self.address = @"";
@@ -262,24 +272,34 @@
 {
     if(self.selectIndex==1){
         [self.selectBtn2 setTitle:string forState:0];
+        [self.selectBtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"city";
         self.province = string;
         [self requestShaiXuanData];
     }else if(self.selectIndex==2){
         [self.selectBtn3 setTitle:string forState:0];
+        [self.selectBtn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn3 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"town";
         self.city = string;
         [self requestShaiXuanData];
     }else if (self.selectIndex ==3){
         [self.selectBtn4 setTitle:string forState:0];
+        [self.selectBtn4 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn4 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.town = string;
         self.grade = @"address";
         [self requestShaiXuanData];
     }else if (self.selectIndex ==4){
         self.address = string;
         [self.selectBtn5 setTitle:string forState:0];
+        [self.selectBtn5 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.selectBtn5 setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
         self.grade = @"province";
         //        [self requestShaiXuanData];
+        [self refresh];
+        
     }}
 - (void)setUITwo{
     UIImageView *bgImage1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 150, KWidth, 150)];
@@ -302,7 +322,8 @@
     topLabel.font = [UIFont systemFontOfSize:14];
     topLabel.textAlignment = NSTextAlignmentCenter;
     [bgImage1 addSubview:topLabel];
-    self.fadianliang = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 20)];
+    self.fadianliang = [[UILabel alloc] initWithFrame:CGRectMake(50, 75, KWidth/2-50, 40)];
+    self.fadianliang.numberOfLines = 0;
     self.fadianliang.text = @" MW·h/ 元";
     self.fadianliang.font = [UIFont systemFontOfSize:14];
     self.fadianliang.textAlignment = NSTextAlignmentCenter;
@@ -338,6 +359,18 @@
 - (void)FirstBtnClick{
     InstallViewController *vc = [[InstallViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
+    if (self.province.length>0) {
+        vc.province = self.province;
+    }
+    if (self.city.length>0) {
+        vc.city = self.city;
+    }
+    if (self.town.length>0) {
+        vc.town = self.town;
+    }
+    if (self.address.length>0) {
+        vc.address = self.address;
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -705,7 +738,7 @@
     //    imageView.image = [UIImage imageNamed:@"首页背景框"];
     [self.bgScrollView addSubview:imageView];
     
-    UIScrollView *Table = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-211)];
+    UIScrollView *Table = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 300)];
     Table.bounces = NO;
     [imageView addSubview:Table];
     
@@ -772,8 +805,23 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
-    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+
+    if (self.province.length>0) {
+        [parameters setValue:self.province forKey:@"province"];
+    }
+    if (self.city.length>0) {
+        [parameters setValue:self.city forKey:@"city"];
+    }
+    if (self.town.length>0) {
+        [parameters setValue:self.town forKey:@"town"];
+    }
+    if (self.address.length>0) {
+        [parameters setValue:self.address forKey:@"village"];
+    }
+    NSLog(@"time:%@",parameters);
+
+    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -1012,6 +1060,9 @@
                 }
                 if (self.provinceArr.count>0) {
                     [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn2 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn2 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+                    
                     [self.selectBtn2 setTitle:self.provinceArr[0] forState:UIControlStateSelected];
                 }
                 
@@ -1026,6 +1077,8 @@
                 }
                 if (self.cityArr.count>0) {
                     [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateNormal];
+                    [self.selectBtn3 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn3 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                     [self.selectBtn3 setTitle:self.cityArr[0] forState:UIControlStateSelected];
                 }
                 
@@ -1042,6 +1095,8 @@
                 if (self.townArr.count>0) {
                     [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateNormal];
                      [self.selectBtn4 setTitle:self.townArr[0] forState:UIControlStateSelected];
+                    [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                 }
                 
                 //                [self requestShaiXuanData];
@@ -1056,6 +1111,8 @@
                 if (self.addressArr.count>0) {
                     [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateNormal];
                     [self.selectBtn5 setTitle:self.addressArr[0] forState:UIControlStateSelected];
+                    [self.selectBtn5 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                    [self.selectBtn5 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                 }
                 //                _filterController.dataList = [self packageDataList];
             }

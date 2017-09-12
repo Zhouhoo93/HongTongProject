@@ -62,7 +62,20 @@
     
     [defaultCenter addObserver:self selector:@selector(networkDidLogin:) name:kJPFNetworkDidLoginNotification object:nil];
 
-    
+    NSDictionary *userInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSLog(@"userInfo:%@",userInfo);
+    NSDictionary *remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if ([userInfo[@"tip"] isEqualToString:@"Live"]) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        NSString *roomID = userInfo[@"roomid"];
+        NSString *ps = userInfo[@"ps"];
+        [userDefaults setValue:roomID forKey:@"roomID"];
+        [userDefaults setValue:ps forKey:@"ps"];
+        [userDefaults synchronize];
+        NSNotification *notice = [NSNotification notificationWithName:@"Live" object:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotification:notice];
+    }
     
     //-------------亲加直播------------
     [GLCore registerWithAppKey:@"f26f2370069d4bac816fc73584e35088"
@@ -123,7 +136,9 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *subtitle = content.subtitle;  // 推送消息的副标题
     NSString *title = content.title;  // 推送消息的标题
     NSMutableArray *attachments = [[NSMutableArray alloc] initWithCapacity:0];
-    NSLog(@"%@,%@",notification,userInfo);
+ 
+    
+ 
 
     
     // Required
@@ -143,6 +158,28 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
+    
+    
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+        
+        //        [rootViewController addNotificationCount];
+        //判断app是不是在前台运行，有三个状态(如果不进行判断处理，当你的app在前台运行时，收到推送时，通知栏不会弹出提示的)
+        // UIApplicationStateActive, 在前台运行
+        // UIApplicationStateInactive,未启动app
+        //UIApplicationStateBackground    app在后台
+        if ([userInfo[@"tip"] isEqualToString:@"Live"]) {
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            
+            NSString *roomID = userInfo[@"roomid"];
+            NSString *ps = userInfo[@"ps"];
+            [userDefaults setValue:roomID forKey:@"roomID"];
+            [userDefaults setValue:ps forKey:@"ps"];
+            [userDefaults synchronize];
+            NSNotification *notice = [NSNotification notificationWithName:@"Live" object:userInfo];
+            [[NSNotificationCenter defaultCenter] postNotification:notice];
+        }
+    }
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
@@ -150,8 +187,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    
-    // Required, iOS 7 Support
+        // Required, iOS 7 Support
     [JPUSHService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
