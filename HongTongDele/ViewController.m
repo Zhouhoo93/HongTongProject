@@ -51,6 +51,8 @@
 @property (nonatomic,copy) NSString *address;
 @property (nonatomic,copy) NSString *grade;
 @property (nonatomic,strong)UITableView *table;
+@property (nonatomic,strong)UIImageView *imageHeader;
+@property (nonatomic,strong)UIImageView *imageView;
 @end
 
 @implementation ViewController
@@ -74,9 +76,15 @@
     [self setUISix];
     [self getRongYunToken];
     [self requestShaiXuanData];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jinru:) name:@"jinru" object:nil];
     
     // Do any additional setup after loading the view, typically from a nib.
+}
+- (void)jinru:(NSNotification *)text{
+//    [self refresh];
+    [self.imageView removeFromSuperview];
+    [self.imageHeader removeFromSuperview];
+    [self setUISix];
 }
 - (void)gotoLive:(NSNotification *)text{
     NSLog(@"接收直播推送:%@",text);
@@ -722,25 +730,25 @@
 }
 
 - (void)setUISix{
-    UIImageView *imageHeader = [[UIImageView alloc] initWithFrame:CGRectMake(8, 690, 100, 20)];
-    imageHeader.image = [UIImage imageNamed:@"圆角矩形-4"];
-    [self.bgScrollView addSubview:imageHeader];
+    self.imageHeader = [[UIImageView alloc] initWithFrame:CGRectMake(8, 690, 100, 20)];
+    self.imageHeader.image = [UIImage imageNamed:@"圆角矩形-4"];
+    [self.bgScrollView addSubview:self.imageHeader];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
     titleLabel.text = @"运维工作排名表";
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = [UIFont systemFontOfSize:14];
-    [imageHeader addSubview:titleLabel];
+    [self.imageHeader addSubview:titleLabel];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 715, KWidth, 120)];
-    imageView.userInteractionEnabled = YES;
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 715, KWidth, 120)];
+    self.imageView.userInteractionEnabled = YES;
     //    imageView.image = [UIImage imageNamed:@"首页背景框"];
-    [self.bgScrollView addSubview:imageView];
+    [self.bgScrollView addSubview:self.imageView];
     
     UIScrollView *Table = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 300)];
     Table.bounces = NO;
-    [imageView addSubview:Table];
+    [self.imageView addSubview:Table];
     
     UIView *blueView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, KWidth-30, 34)];
     blueView.backgroundColor = RGBColor(10, 68, 132);
@@ -925,7 +933,20 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    if (self.grade.length>0) {
+        [parameters setValue:self.grade forKey:@"grade"];
+    }
+    if ([self.grade isEqualToString:@"address"] ) {
+        [parameters setValue:self.town forKey:@"area"];
+        
+    }else if ([self.grade isEqualToString:@"town"] ) {
+        [parameters setValue:self.city forKey:@"area"];
+    }else if ([self.grade isEqualToString:@"city"] ) {
+        [parameters setValue:self.province forKey:@"area"];
+    }else if ([self.grade isEqualToString:@"province"] ) {
+        [parameters setValue:self.address forKey:@"area"];
+    }
     [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -973,7 +994,20 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    if (self.grade.length>0) {
+        [parameters setValue:self.grade forKey:@"grade"];
+    }
+    if ([self.grade isEqualToString:@"address"] ) {
+        [parameters setValue:self.town forKey:@"area"];
+        
+    }else if ([self.grade isEqualToString:@"town"] ) {
+        [parameters setValue:self.city forKey:@"area"];
+    }else if ([self.grade isEqualToString:@"city"] ) {
+        [parameters setValue:self.province forKey:@"area"];
+    }else if ([self.grade isEqualToString:@"province"] ) {
+        [parameters setValue:self.address forKey:@"area"];
+    }
     [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -1098,9 +1132,7 @@
                     [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
                     [self.selectBtn4 setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
                 }
-                
-                //                [self requestShaiXuanData];
-                //                _filterController.dataList = [self packageDataList];
+
             }else if ([self.grade isEqualToString:@"address"]){
                 [self.addressArr removeAllObjects];
                 NSArray *arr = responseObject[@"content"];

@@ -15,5 +15,6 @@
 @property (nonatomic,copy) NSString *pic;
 @property (nonatomic,copy) NSString *roomId;
 @property (nonatomic,copy) NSString *status;
+@property (nonatomic,copy) NSString *role;
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end

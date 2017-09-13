@@ -77,7 +77,8 @@
     [self CreatPopView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeAddress:) name:@"changeAddress" object:nil];
     // Do any additional setup after loading the view.
-    
+
+
 }
 
 - (void)setMenu{
@@ -850,18 +851,7 @@
                 
                 
             }
-            if (_table.mj_header.isRefreshing ) {
-                [_table.mj_header endRefreshing];
-            }
-            if (_table1.mj_header.isRefreshing ) {
-                [_table1.mj_header endRefreshing];
-            }
-            if (_table2.mj_header.isRefreshing ) {
-                [_table2.mj_header endRefreshing];
-            }
-            if (_table3.mj_header.isRefreshing ) {
-                [_table3.mj_header endRefreshing];
-            }
+            
             
             [self requestAddListData];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -900,6 +890,7 @@
             }
         }else{
             [MBProgressHUD showText:@"修改成功"];
+            [self refresh];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -968,6 +959,21 @@
 }
 
 - (void)requestAddListData{
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    //如果设置此属性则当前的view置于后台
+    HUD.dimBackground = YES;
+    //设置对话框文字
+    HUD.labelText = @"请稍等";
+    //显示对话框
+    [HUD showAnimated:YES whileExecutingBlock:^{
+        //对话框显示时需要执行的操作
+        sleep(3);
+    } completionBlock:^{
+        //操作执行完后取消对话框
+        [HUD removeFromSuperview];
+        //        HUD = nil;
+    }];
     for (int i=0; i<4; i++) {
         if (i==0) {
             for (int i=0; i<self.dataArr.count; i++) {
@@ -1143,7 +1149,18 @@
                         self.addmodel.position = position;
                         [self.addressArr3 addObject:_addmodel];
                     }
-                    
+                    if (_table.mj_header.isRefreshing ) {
+                        [_table.mj_header endRefreshing];
+                    }
+                    if (_table1.mj_header.isRefreshing ) {
+                        [_table1.mj_header endRefreshing];
+                    }
+                    if (_table2.mj_header.isRefreshing ) {
+                        [_table2.mj_header endRefreshing];
+                    }
+                    if (_table3.mj_header.isRefreshing ) {
+                        [_table3.mj_header endRefreshing];
+                    }
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                     NSLog(@"失败%@",error);
                     //        [MBProgressHUD showText:@"%@",error[@"error"]];

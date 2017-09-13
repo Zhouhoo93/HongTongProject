@@ -253,10 +253,16 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 
+
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"--进入前台-applicationDidBecomeActive----");
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"jinru" object:nil userInfo:nil];
+    //通过通知中心发送通知
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    // 进入前台
 }
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

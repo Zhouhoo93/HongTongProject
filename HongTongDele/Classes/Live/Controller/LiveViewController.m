@@ -56,8 +56,11 @@
     }
     //    [self CreatLive];
     //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jinru:) name:@"jinru" object:nil];
     
-    
+}
+- (void)jinru:(NSNotification *)text{
+    [self refresh];
 }
 -(void)requestData{
     NSString *URL = [NSString stringWithFormat:@"%@/agent/index",kUrl];
@@ -262,7 +265,7 @@
     LiveCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"live" forIndexPath:indexPath];
     _model = _dataArr[indexPath.row];
     cell.nameLabel.text = _model.creator;
-    cell.typelabel.text = @"小代";
+    cell.typelabel.text = _model.role;
     cell.numbeiLabel.text = [NSString stringWithFormat:@"%@",_model.onlineNum];
     NSString *picURL = _model.pic;
     NSString *status = [NSString stringWithFormat:@"%@",_model.status];
@@ -291,7 +294,12 @@
     //    viewController.roomWord = _model.assistPwd;
     //    viewController.hidesBottomBarWhenPushed = YES;
     //    [self.navigationController pushViewController:viewController animated:YES];
-    [self CreatLive];
+    NSString *str = [NSString stringWithFormat:@"%@",_model.status];
+    if ([str isEqualToString:@"0"]) {
+        [MBProgressHUD showText:@"未开启直播"];
+    }else{
+        [self CreatLive];
+    }
 }
 
 

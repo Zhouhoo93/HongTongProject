@@ -296,7 +296,12 @@
         }else{
                 self.userName = responseObject[@"content"][@"username"];
                 NSString *nameText = responseObject[@"content"][@"username"];
+            if (nameText.length>0) {
                 [self.nameBtn setTitle:nameText forState:UIControlStateNormal];
+            }else{
+               [self.nameBtn setTitle:@"未设定昵称" forState:UIControlStateNormal];
+            }
+            
                 NSString *tel = responseObject[@"content"][@"tel"];
                 self.phoneLabel.text = [NSString stringWithFormat:@"手机:%@",tel];
                 NSString *picURL = responseObject[@"content"][@"pic"];

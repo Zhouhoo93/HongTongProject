@@ -26,9 +26,10 @@
     [RCIM sharedRCIM].groupMemberDataSource = self;
     // 设置消息体内是否携带用户信息
     [RCIM sharedRCIM].enableMessageAttachUserInfo = YES;
-    
     // Do any additional setup after loading the view.
+    [self.pluginBoardView removeItemAtIndex:2];
 }
+
 - (void)getAllMembersOfGroup:(NSString *)groupId
                       result:(void (^)(NSArray<NSString *> *userIdList))resultBlock{
     NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,groupId];
