@@ -27,6 +27,9 @@
 @property (nonatomic,strong) NSMutableArray *greenArr;
 @property (nonatomic,strong) NSMutableArray *redArr;
 @property (nonatomic,strong) NSMutableArray *yellowArr;
+@property (nonatomic,copy) NSString *state;
+@property (nonatomic,copy) NSString *username;
+//@property (nonatomic,copy) NSString *tel;
 @end
 
 @implementation InstallStationViewController
@@ -36,11 +39,13 @@
     
 }
 - (void)viewDidLoad {
+    [self setUI];
     [super viewDidLoad];
+    [self requestData];
     [self requestFirstChart];
     [self requestSecondChart];
     self.title = @"电站详情";
-    [self setUI];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -86,10 +91,10 @@
             cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.house_id];
         }else if(indexPath.row==1){
             cell.LeftLabel.text = @"姓名";
-            cell.rightLabel.text = @"";
+            cell.rightLabel.text = self.username;
         }else if(indexPath.row==2){
             cell.LeftLabel.text = @"电话";
-            cell.rightLabel.text = @"";
+            cell.rightLabel.text = self.tel;
         }else if(indexPath.row==3){
             cell.LeftLabel.text = @"地址";
             cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.address];
@@ -110,7 +115,15 @@
             cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.install_time];
         }else if(indexPath.row==7){
             cell.LeftLabel.text = @"状态";
-            cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.use_ele_way];
+            cell.rightLabel.text = self.state;
+//            NSString *str = [NSString stringWithFormat:@"%@",self.use_ele_way];
+//            if ([str isEqualToString:@"0"]) {
+//                 cell.rightLabel.text = @"正常";
+//            }else if([str isEqualToString:@"1"]){
+//                 cell.rightLabel.text = @"异常";
+//            }else if([str isEqualToString:@"2"]){
+//                cell.rightLabel.text = @"故障";
+//            }
         }
         
         
@@ -504,6 +517,35 @@
     //    [self addTimer];
     
 }
+// 曲线图数据
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/sites/get-site-info-by-bid",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSLog(@"token is :%@",token);
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.bid forKey:@"bid"];
+    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"电站详情%@",responseObject);
+        self.state = responseObject[@"content"][@"status"];
+        self.username = responseObject[@"content"][@"username"];
+        self.tel = responseObject[@"content"][@"tel"];
+        if (self.table) {
+            [self.table reloadData];
+        }
+    }
+     
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+             NSLog(@"%@",error);  //这里打印错误信息
+         }];
+    
+    
+}
+
 
 // 曲线图数据
 -(void)requestFirstChart{

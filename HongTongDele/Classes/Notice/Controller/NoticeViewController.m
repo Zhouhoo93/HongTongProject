@@ -16,6 +16,7 @@
 @property (nonatomic,assign)int page;
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong)NoticeModel *noticeModel;
+@property (nonatomic,strong)UIImageView *noDataIMG;
 @end
 
 @implementation NoticeViewController
@@ -62,6 +63,9 @@
     UIView *footView = [UIView new];
     self.table.tableFooterView = footView;
     
+    self.noDataIMG = [[UIImageView alloc] initWithFrame: CGRectMake(0,0 , KWidth, KHeight-64-44)];
+    self.noDataIMG.image = [UIImage imageNamed:@"发现列表 - 空"];
+    [self.table addSubview:self.noDataIMG];
 }
 - (void)refresh{
     self.page = 1;
@@ -84,8 +88,9 @@
     [self requestData];
     
 }
+
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/select-article",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/select-app-article",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     //    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     //    NSString *token = [userDefaults valueForKey:@"token"];
@@ -132,7 +137,11 @@
             if (self.table) {
                 [self.table.mj_header endRefreshing];
             }
-            
+            if (self.dataArr.count>0) {
+                self.noDataIMG.hidden = YES;
+            }else{
+                self.noDataIMG.hidden = NO;
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -142,6 +151,7 @@
     
     
 }
+
 - (void)newLogin{
     [MBProgressHUD showText:@"请重新登录"];
     [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
@@ -179,7 +189,7 @@
     cell = [tableView dequeueReusableCellWithIdentifier:@"myCell"];
     cell.titleLabel.text = model.title;
     cell.creatTimelabel.text = model.created_at;
-    cell.descLabel.text = model.desc;
+    cell.descLabel.text = model.subtitle;
     NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.thumbnail]];
     
     //然后就是添加照片语句，这次不是`imageWithName`了，是 imageWithData。

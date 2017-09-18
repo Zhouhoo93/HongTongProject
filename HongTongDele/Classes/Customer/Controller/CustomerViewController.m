@@ -219,7 +219,7 @@
     conversationVC.nicheng = self.nicheng;
     conversationVC.touxiang = self.touxiang;
     if (model.conversationType ==1) {
-        conversationVC.title = self.nicheng;
+//        conversationVC.title = self.nicheng;
     }else{
 //        conversationVC.title = self.groupNicheng;
     }

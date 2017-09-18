@@ -41,7 +41,6 @@
     _shapeLayer.lineWidth = self.frame.size.width;
     _shapeLayer.strokeColor = _fillColor.CGColor;
     _shapeLayer.fillColor = [UIColor clearColor].CGColor;
-//
     _shapeLayer.borderColor = [UIColor clearColor].CGColor;
     [self.layer addSublayer:_shapeLayer];
     
