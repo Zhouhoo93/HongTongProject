@@ -17,7 +17,11 @@
 @end
 
 @implementation LoginOneViewController
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_phoneTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -72,8 +76,12 @@
             [self goHomeController];
             
         }else{
-            [MBProgressHUD showText:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"errorMsg"]]];
-            NSLog(@"%@",responseObject[@"result"][@"errorMsg"]);
+//            [MBProgressHUD showText:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"errorMsg"]]];
+//            NSLog(@"%@",responseObject[@"result"][@"errorMsg"]);
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.label.text =responseObject[@"result"][@"errorMsg"];
+            [hud hideAnimated:YES afterDelay:2.f];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

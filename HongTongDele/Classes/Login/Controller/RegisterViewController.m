@@ -26,6 +26,13 @@
     [super viewDidAppear:YES ];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [_phoneTextField resignFirstResponder];
+    [_codeTextfIELD resignFirstResponder];
+    [_passWordTextField resignFirstResponder];
+    [_passWordTwoTextField resignFirstResponder];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -196,6 +203,7 @@ static NSInteger count = 0;
 //    [parameters setValue:regis forKey:@"register_id"];
     NSLog(@"登陆参数:%@",parameters);
     [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
 //            NSString *token = [NSString stringWithFormat:@"%@",responseObject[@"content"]];
 //            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -207,8 +215,12 @@ static NSInteger count = 0;
             [self.navigationController popViewControllerAnimated:YES];
             [MBProgressHUD showText:@"请等待审核"];
         }else{
-            [MBProgressHUD showText:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"errorMsg"]]];
-            NSLog(@"%@",responseObject[@"result"][@"errorMsg"]);
+//            [MBProgressHUD showText:[NSString stringWithFormat:@"%@",responseObject[@"result"][@"errorMsg"]]];
+//            NSLog(@"%@",responseObject[@"result"][@"errorMsg"]);
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.label.text =responseObject[@"result"][@"errorMsg"];
+            [hud hideAnimated:YES afterDelay:2.f];
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

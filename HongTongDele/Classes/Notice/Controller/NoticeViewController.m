@@ -41,7 +41,7 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 -(void)setUI{
-    self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64-44) style:UITableViewStylePlain];
+    self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-108-44) style:UITableViewStylePlain];
     self.table.delegate = self;
     self.table.dataSource = self;
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -112,7 +112,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+            if ([errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{

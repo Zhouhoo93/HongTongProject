@@ -29,6 +29,7 @@
 		3811B3A71F39A66C001B1AE6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3A61F39A66C001B1AE6 /* AdSupport.framework */; };
 		3811B3A91F39A673001B1AE6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3A81F39A673001B1AE6 /* UserNotifications.framework */; };
 		3811B3AB1F39A684001B1AE6 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3811B3AA1F39A684001B1AE6 /* libresolv.tbd */; };
+		382810FB1F94A77000391CD7 /* ServiceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382810FA1F94A77000391CD7 /* ServiceListViewController.m */; };
 		383CABED1F4D513F001B3034 /* AlarmListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEC1F4D513F001B3034 /* AlarmListModel.m */; };
 		383CABF01F4D5BA2001B3034 /* AlarmPopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */; };
 		383CABF61F4D7F43001B3034 /* StationListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABF51F4D7F43001B3034 /* StationListModel.m */; };
@@ -306,6 +307,8 @@
 		3811B3A81F39A673001B1AE6 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		3811B3AA1F39A684001B1AE6 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		3811B3AC1F39A902001B1AE6 /* HongTongDele.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HongTongDele.entitlements; sourceTree = "<group>"; };
+		382810F91F94A77000391CD7 /* ServiceListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServiceListViewController.h; sourceTree = "<group>"; };
+		382810FA1F94A77000391CD7 /* ServiceListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServiceListViewController.m; sourceTree = "<group>"; };
 		383CABEB1F4D513F001B3034 /* AlarmListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmListModel.h; sourceTree = "<group>"; };
 		383CABEC1F4D513F001B3034 /* AlarmListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmListModel.m; sourceTree = "<group>"; };
 		383CABEE1F4D5BA2001B3034 /* AlarmPopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmPopModel.h; sourceTree = "<group>"; };
@@ -1929,6 +1932,8 @@
 		38C9EB2B1F42C3BA00DB41B4 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				382810F91F94A77000391CD7 /* ServiceListViewController.h */,
+				382810FA1F94A77000391CD7 /* ServiceListViewController.m */,
 				38C9EB2C1F42C3BA00DB41B4 /* Controller */,
 				38C9EB321F42C3BA00DB41B4 /* Model */,
 				38C9EB351F42C3BA00DB41B4 /* View */,
@@ -2377,6 +2382,7 @@
 				3876920C1F4ABBAD001B7E82 /* ZYSideSlipFilterRegionModel.m in Sources */,
 				380494BE1F32BA3700AA0DBC /* main.m in Sources */,
 				38755C4F1F3D9F350081CF4D /* IQUIView+Hierarchy.m in Sources */,
+				382810FB1F94A77000391CD7 /* ServiceListViewController.m in Sources */,
 				387692091F4ABBAD001B7E82 /* ZYSideSlipFilterConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

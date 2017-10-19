@@ -80,7 +80,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+            if ([errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{
@@ -116,25 +116,25 @@
     
 }
 - (void)setUI{
-    UIImageView *topView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 64)];
-    topView.image = [UIImage imageNamed:@"top"];
-    topView.userInteractionEnabled = YES;
-    //    topView.backgroundColor = [UIColor blueColor];
-    [self.view addSubview:topView];
-    UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(KWidth/2-50, 22, 100, 20)];
-    topLabel.text = @"直播列表";
-    topLabel.textColor = [UIColor whiteColor];
-    topLabel.textAlignment = NSTextAlignmentCenter;
-    [topView addSubview:topLabel];
-    
-    UIButton *leftbutton=[[UIButton alloc]initWithFrame:CGRectMake(KWidth-80, 20, 80, 44)];
-    
-    //[leftbutton setBackgroundColor:[UIColor blackColor]];
-    
-    //    [leftbutton setTitle:@"创建" forState:UIControlStateNormal];
-    [leftbutton addTarget:self action:@selector(creatBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [leftbutton setImage:[UIImage imageNamed:@"添加直播"] forState:UIControlStateNormal];
-    [topView addSubview:leftbutton];
+//    UIImageView *topView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 64)];
+//    topView.image = [UIImage imageNamed:@"top"];
+//    topView.userInteractionEnabled = YES;
+//    //    topView.backgroundColor = [UIColor blueColor];
+//    [self.view addSubview:topView];
+//    UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(KWidth/2-50, 22, 100, 20)];
+//    topLabel.text = @"直播列表";
+//    topLabel.textColor = [UIColor whiteColor];
+//    topLabel.textAlignment = NSTextAlignmentCenter;
+//    [topView addSubview:topLabel];
+//
+//    UIButton *leftbutton=[[UIButton alloc]initWithFrame:CGRectMake(KWidth-80, 20, 80, 44)];
+//
+//    //[leftbutton setBackgroundColor:[UIColor blackColor]];
+//
+//    //    [leftbutton setTitle:@"创建" forState:UIControlStateNormal];
+//    [leftbutton addTarget:self action:@selector(creatBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [leftbutton setImage:[UIImage imageNamed:@"添加直播"] forState:UIControlStateNormal];
+//    [topView addSubview:leftbutton];
     
     
 //    UIImageView *topImg = [[UIImageView alloc] initWithFrame: CGRectMake(20, 74, 20, 10)];
@@ -152,7 +152,7 @@
     //设置布局方向为垂直流布局
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     //创建collectionView 通过一个布局策略layout来创建
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, [UIScreen mainScreen].bounds.size.width, KHeight-64) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, KHeight-108-44) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.tag= 10001;
     //    _collectionView.backgroundColor =[UIColor whiteColor];
@@ -172,7 +172,7 @@
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"live"];
     [self.view addSubview:_collectionView];
     
-    self.noDataIMG = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, KWidth, KHeight-64)];
+    self.noDataIMG = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, KWidth, KHeight-108-44)];
     self.noDataIMG.image = [UIImage imageNamed:@"直播列表 - 空"];
     [self.collectionView addSubview:self.noDataIMG];
 }
@@ -203,7 +203,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+            if ([errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{
@@ -510,7 +510,7 @@
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];
-            if ([errorcode isEqualToString:@"4100"]||[errorcode isEqualToString:@"3100"])  {
+            if ([errorcode isEqualToString:@"3100"])  {
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{

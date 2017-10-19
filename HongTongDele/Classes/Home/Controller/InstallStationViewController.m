@@ -266,6 +266,7 @@
         NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse*6];
         self.lineChart.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
     }else{
+        CGFloat six = 1/6;
         if (bei>6) {
             NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse];
             NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse*2];
@@ -273,6 +274,14 @@
             NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse*4];
             NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse*5];
             NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse*6];
+            self.lineChart.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else if (bei<1/6){
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse/6];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse/6*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse/6*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse/6*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse/6*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse/6*6];
             self.lineChart.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
         }else{
             if (da>0) {
@@ -344,12 +353,20 @@
         self.lineChart2.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
     }else{
         if (bei1>6) {
-            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse];
-            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse*2];
-            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse*3];
-            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse*4];
-            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse*5];
-            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse*6];
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen*6];
+            self.lineChart2.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else if (bei1<1/6){
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen/6];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen/6*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen/6*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen/6*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen/6*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen/6*6];
             self.lineChart2.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
         }else{
             if (da>0) {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -338,7 +338,7 @@
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COi-2D-nk7" userLabel="midview">
                     <rect key="frame" x="0.0" y="333" width="375" height="1"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="ytz-UN-skX"/>
                     </constraints>
@@ -450,9 +450,9 @@
         <image name="popBgvIEW" width="261" height="308"/>
         <image name="图层-1" width="360" height="640"/>
         <image name="图层-5" width="13" height="13"/>
-        <image name="图层-6" width="14" height="12"/>
+        <image name="图层-6" width="14" height="14"/>
         <image name="圆角矩形-2-拷贝" width="47" height="16"/>
-        <image name="圆角矩形-2-拷贝-2" width="47" height="16"/>
+        <image name="圆角矩形-2-拷贝-2" width="350" height="240"/>
         <image name="圆角矩形-3-拷贝" width="49" height="19"/>
         <image name="导航小图标" width="11" height="15"/>
     </resources>

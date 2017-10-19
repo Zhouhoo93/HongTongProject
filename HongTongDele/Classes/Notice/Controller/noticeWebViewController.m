@@ -25,13 +25,14 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self setUI];
     // Do any additional setup after loading the view.
 }
 - (void)setUI{
 
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64)];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64-44)];
     // 2.创建URL
     NSString *str = [NSString stringWithFormat:@"http://agent.xinyuntec.com/admin/comment#/article_show/%@",self.ID];
     NSURL *url = [NSURL URLWithString:str];
