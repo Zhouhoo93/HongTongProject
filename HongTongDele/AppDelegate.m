@@ -28,9 +28,22 @@
 
 @implementation AppDelegate
 
+- (void)setNav
+{
+    UINavigationBar *bar = [UINavigationBar appearance];
+    //设置显示的颜色
+    bar.barTintColor = RGBColor(91, 202, 255);
+    //设置字体颜色
+    bar.tintColor = [UIColor whiteColor];
+    [bar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    //或者用这个都行
+    //    [bar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
+    
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [self setNav];
     //Required
     //notice: 3.0.0及以后版本注册可以这样写，也可以继续用之前的注册方式
     JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];

@@ -241,6 +241,11 @@
 		38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB371F42C3BA00DB41B4 /* NoticeTableViewCell.m */; };
 		38C9EB3E1F42C3BA00DB41B4 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */; };
 		38DD9DC91F458A5B0028D73E /* ElectricityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38DD9DC81F458A5B0028D73E /* ElectricityModel.m */; };
+		38E202F31FB43B3000F35121 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E202F21FB43B3000F35121 /* HomeViewController.m */; };
+		38E202F71FB43FB800F35121 /* HomeOneTabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E202F61FB43FB800F35121 /* HomeOneTabel.xib */; };
+		38E202F91FB4434C00F35121 /* HomeTwoTabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E202F81FB4434C00F35121 /* HomeTwoTabel.xib */; };
+		38E202FB1FB4461D00F35121 /* HomeThreeTabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E202FA1FB4461D00F35121 /* HomeThreeTabel.xib */; };
+		38E202FD1FB44B9800F35121 /* HomeFourTabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E202FC1FB44B9800F35121 /* HomeFourTabel.xib */; };
 		38EEA7BA1F37FCAE00034F01 /* OneScrollViewBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */; };
 		38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7BC1F37FD8F00034F01 /* TwoScrollView.m */; };
 		38EEA7BF1F38045100034F01 /* StationTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7BE1F38045100034F01 /* StationTableHeader.xib */; };
@@ -704,6 +709,12 @@
 		38C9EB381F42C3BA00DB41B4 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
 		38DD9DC71F458A5B0028D73E /* ElectricityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricityModel.h; sourceTree = "<group>"; };
 		38DD9DC81F458A5B0028D73E /* ElectricityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElectricityModel.m; sourceTree = "<group>"; };
+		38E202F11FB43B3000F35121 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		38E202F21FB43B3000F35121 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		38E202F61FB43FB800F35121 /* HomeOneTabel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeOneTabel.xib; sourceTree = "<group>"; };
+		38E202F81FB4434C00F35121 /* HomeTwoTabel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTwoTabel.xib; sourceTree = "<group>"; };
+		38E202FA1FB4461D00F35121 /* HomeThreeTabel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeThreeTabel.xib; sourceTree = "<group>"; };
+		38E202FC1FB44B9800F35121 /* HomeFourTabel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeFourTabel.xib; sourceTree = "<group>"; };
 		38EEA7B81F37FCAE00034F01 /* OneScrollViewBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneScrollViewBar.h; sourceTree = "<group>"; };
 		38EEA7B91F37FCAE00034F01 /* OneScrollViewBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneScrollViewBar.m; sourceTree = "<group>"; };
 		38EEA7BB1F37FD8F00034F01 /* TwoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoScrollView.h; sourceTree = "<group>"; };
@@ -1856,6 +1867,12 @@
 				389A9FF21F45769600B55BAC /* JHChart */,
 				380494C21F32BA3700AA0DBC /* ViewController.h */,
 				380494C31F32BA3700AA0DBC /* ViewController.m */,
+				38E202F11FB43B3000F35121 /* HomeViewController.h */,
+				38E202F21FB43B3000F35121 /* HomeViewController.m */,
+				38E202F61FB43FB800F35121 /* HomeOneTabel.xib */,
+				38E202F81FB4434C00F35121 /* HomeTwoTabel.xib */,
+				38E202FA1FB4461D00F35121 /* HomeThreeTabel.xib */,
+				38E202FC1FB44B9800F35121 /* HomeFourTabel.xib */,
 				38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */,
 				38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */,
 				38B2D3E61F34156F00038F47 /* InstallViewController.h */,
@@ -2127,6 +2144,7 @@
 				38755C5A1F3D9F350081CF4D /* IQKeyboardManager.bundle in Resources */,
 				38BACA7C1F53DE990041EDD0 /* LiveCollectionViewCell.xib in Resources */,
 				3883A3281F41A084007967DF /* ForgetViewController.xib in Resources */,
+				38E202F91FB4434C00F35121 /* HomeTwoTabel.xib in Resources */,
 				387D31DF1F3AAFBA0066E762 /* WalletResource.bundle in Resources */,
 				3883A3341F41AD1C007967DF /* SettingViewController.xib in Resources */,
 				387692441F4ABDA4001B7E82 /* SideSlipAllCategoryTableViewCell.xib in Resources */,
@@ -2138,6 +2156,7 @@
 				387D31D01F3AAFBA0066E762 /* Emoji.plist in Resources */,
 				389392F21F59439000EDF535 /* CustomerListTableViewCell.xib in Resources */,
 				38B2D3F51F344D0100038F47 /* TableTipView.xib in Resources */,
+				38E202FB1FB4461D00F35121 /* HomeThreeTabel.xib in Resources */,
 				384AB7001F3C4C0F005AFE7A /* LivePlayerViewController.xib in Resources */,
 				387D31DB1F3AAFBA0066E762 /* jrmf.cer in Resources */,
 				38C9EB2A1F42C17600DB41B4 /* ChanggeWordViewController.xib in Resources */,
@@ -2157,6 +2176,8 @@
 				380494C91F32BA3700AA0DBC /* Assets.xcassets in Resources */,
 				387D31D21F3AAFBA0066E762 /* RongCloud.bundle in Resources */,
 				384AB7091F3C4C0F005AFE7A /* CollectionViewCellRoomMember.xib in Resources */,
+				38E202F71FB43FB800F35121 /* HomeOneTabel.xib in Resources */,
+				38E202FD1FB44B9800F35121 /* HomeFourTabel.xib in Resources */,
 				387692401F4ABDA4001B7E82 /* FilterCommonCollectionViewCell.xib in Resources */,
 				38EEA7BF1F38045100034F01 /* StationTableHeader.xib in Resources */,
 				387D31D11F3AAFBA0066E762 /* RongCloudKit.strings in Resources */,
@@ -2348,6 +2369,7 @@
 				38755C571F3D9F350081CF4D /* IQTitleBarButtonItem.m in Sources */,
 				38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */,
 				389AA0171F45769600B55BAC /* JHShowInfoView.m in Sources */,
+				38E202F31FB43B3000F35121 /* HomeViewController.m in Sources */,
 				38755C561F3D9F350081CF4D /* IQPreviousNextView.m in Sources */,
 				38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */,
 				38B2D3FD1F34556000038F47 /* AlarmViewController.m in Sources */,
