@@ -7,10 +7,16 @@
 //
 
 #import "HomeViewController.h"
-
-@interface HomeViewController ()<UIScrollViewDelegate>
+#import "HomeOneView.h"
+#import "SelectFenGongSiViewController.h"
+@interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
+@property (nonatomic,strong)UIActionSheet *actionSheet;
+@property (nonatomic,strong)UIActionSheet *actionSheet1;
+@property (nonatomic,strong) UIButton *zonggongsibtn;
+@property (nonatomic,strong) UIButton *fengongsibtn;
+@property (nonatomic,strong) UIButton *yunweixiaozubtn;
 @end
 
 @implementation HomeViewController
@@ -42,24 +48,39 @@
     [self.table addSubview:self.bgScrollView];
     
     for (int i=0; i<3; i++) {
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+        
         if (i==0) {
-            [btn setTitle:@"总公司" forState:UIControlStateNormal];
+            self.zonggongsibtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+            [self.zonggongsibtn setTitle:@"总公司" forState:UIControlStateNormal];
+            [self.zonggongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+            [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
+            [self.bgScrollView addSubview:self.zonggongsibtn];
         }else if(i==1){
-            [btn setTitle:@"分公司" forState:UIControlStateNormal];
+             self.fengongsibtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+            [self.fengongsibtn setTitle:@"分公司" forState:UIControlStateNormal];
+            [self.fengongsibtn addTarget:self action:@selector(fenfongsiBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [self.fengongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+            [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
+            [self.bgScrollView addSubview:self.fengongsibtn];
         }else{
-            [btn setTitle:@"运维小组" forState:UIControlStateNormal];
+            self.yunweixiaozubtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+            [self.yunweixiaozubtn setTitle:@"运维小组" forState:UIControlStateNormal];
+            [self.yunweixiaozubtn addTarget:self action:@selector(yunweiBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+            [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
+            [self.bgScrollView addSubview:self.yunweixiaozubtn];
         }
-        [btn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
-        [self.bgScrollView addSubview:btn];
+       
     }
     
-    UIView *view = [[[NSBundle mainBundle]loadNibNamed:@"HomeOneTabel" owner:self options:nil]objectAtIndex:0];
+    HomeOneView *view = [[[NSBundle mainBundle]loadNibNamed:@"HomeOneTabel" owner:self options:nil]objectAtIndex:0];
+    view.Topdelegate = self;
     view.frame = CGRectMake(0, KHeight/667*55, KWidth, KHeight/667*120);
     [self.bgScrollView addSubview:view];
     
     UIView *view1 = [[[NSBundle mainBundle]loadNibNamed:@"HomeTwoTabel" owner:self options:nil]objectAtIndex:0];
     view1.frame = CGRectMake(0, KHeight/667*185, KWidth, KHeight/667*120);
+    
     [self.bgScrollView addSubview:view1];
     
     UIView *view2 = [[[NSBundle mainBundle]loadNibNamed:@"HomeThreeTabel" owner:self options:nil]objectAtIndex:0];
@@ -70,9 +91,87 @@
     view3.frame = CGRectMake(0, KHeight/667*435, KWidth, KHeight/667*120);
     [self.bgScrollView addSubview:view3];
 }
+//执行协议方法
+- (void)transButIndex
+{
+    SelectFenGongSiViewController *vc = [[SelectFenGongSiViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
 
 - (void)refresh{
     [self.table.mj_header endRefreshing];
+}
+
+- (void)fenfongsiBtnClick{
+     self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"分公司1" otherButtonTitles:@"分公司2",@"分公司3", nil];
+    //这里的actionSheetStyle也可以不设置；
+    self.actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [self.actionSheet showInView:self.view];
+}
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (actionSheet==self.actionSheet) {
+        //按照按钮的顺序0-N；
+        switch (buttonIndex) {
+            case 0:
+                NSLog(@"点击了分公司1");
+                [self.fengongsibtn setTitle:@"分公司1" forState:UIControlStateNormal];
+                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+                
+            case 1:
+                NSLog(@"点击了分公司2");
+                [self.fengongsibtn setTitle:@"分公司2" forState:UIControlStateNormal];
+                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+                
+            case 2:
+                NSLog(@"点击了分公司3");
+                [self.fengongsibtn setTitle:@"分公司3" forState:UIControlStateNormal];
+                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+            default:
+                break;
+        }
+    }else{
+        //按照按钮的顺序0-N；
+        switch (buttonIndex) {
+            case 0:
+                NSLog(@"点击了运维小组1");
+                [self.fengongsibtn setTitle:@"运维小组1" forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+                
+            case 1:
+                NSLog(@"点击了运维小组2");
+                [self.fengongsibtn setTitle:@"运维小组2" forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+                
+            case 2:
+                NSLog(@"点击了运维小组3");
+                [self.fengongsibtn setTitle:@"运维小组3" forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    
+}
+- (void)yunweiBtnClick{
+    self.actionSheet1 = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"运维小组1" otherButtonTitles:@"运维小组2",@"运维小组3", nil];
+    //这里的actionSheetStyle也可以不设置；
+    self.actionSheet1.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [self.actionSheet1 showInView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {

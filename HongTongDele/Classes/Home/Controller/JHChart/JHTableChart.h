@@ -15,12 +15,17 @@
 
 
 #import "JHChart.h"
+@protocol TableButDelegate <NSObject>//协议
 
+- (void)transButIndex:(NSInteger)index;//协议方法
+
+@end
 @interface JHTableChart : JHChart
 /**
  *  Table name, if it is empty, does not display a table name
  */
 @property (nonatomic, copy) NSString * tableTitleString;
+@property (nonatomic, assign) id<TableButDelegate>delegate;//代理属性
 
 /**
  *  Table header row height, default 50
@@ -88,5 +93,5 @@
  *  According to the current data source to determine the desired table view
  */
 - (CGFloat)heightFromThisDataSource;
-
+- (void)ClickBut:(UIButton *)sender;//此方法执行时判断协议方法的执行情况
 @end
