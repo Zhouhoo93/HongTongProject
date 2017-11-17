@@ -12,7 +12,8 @@
 #import "HistogramView.h"
 #import "AppDelegate.h"
 #import "LoginOneViewController.h"
-@interface InstallStationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+#import "StationTextView.h"
+@interface InstallStationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,TopButDelegate>
 
 @property (nonatomic,strong)UITableView *table;
 @property (nonatomic,strong)UIScrollView *bgScrollView;
@@ -29,6 +30,9 @@
 @property (nonatomic,strong) NSMutableArray *yellowArr;
 @property (nonatomic,copy) NSString *state;
 @property (nonatomic,copy) NSString *username;
+@property (nonatomic,strong) UIImageView *bg;
+@property (nonatomic,strong) UIImageView *bg1;
+@property (nonatomic,strong)StationTextView *StationTextview;
 //@property (nonatomic,copy) NSString *tel;
 @end
 
@@ -53,134 +57,130 @@
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight)];
     _bgScrollView.delegate = self;
     _bgScrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.bgScrollView.contentSize = CGSizeMake(KWidth, 900);
+    self.bgScrollView.contentSize = CGSizeMake(KWidth, 860);
     [self.view addSubview:_bgScrollView];
     
-    self.table = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, KWidth, 44*8) style:UITableViewStylePlain];
-    self.table.backgroundColor = [UIColor whiteColor];
-    self.table.delegate = self;
-    self.table.dataSource = self;
-    self.table.bounces = NO;
-    [self.bgScrollView addSubview:self.table];
+    self.StationTextview = [[[NSBundle mainBundle]loadNibNamed:@"StationTextView" owner:self options:nil]objectAtIndex:0];
+    self.StationTextview.delegate = self;
+    self.StationTextview.frame = CGRectMake(0, 0, KWidth, 390);
     
-    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
-    // 隐藏时间
-    header.lastUpdatedTimeLabel.hidden = YES;
-    // 隐藏状态
-    //    header.stateLabel.hidden = YES;
-    self.table.mj_header = header;
-    self.table.mj_header.ignoredScrollViewContentInsetTop = self.table.contentInset.top;
+    self.StationTextview.viewToTopMas.constant = 34;
+    self.StationTextview.wuding1.hidden = YES;
+    self.StationTextview.wuding2.hidden = YES;
+    self.StationTextview.zhuangji1.hidden = YES;
+    self.StationTextview.zhuangji2.hidden = YES;
+    self.StationTextview.chaoxiang1.hidden = YES;
+    self.StationTextview.chaoxiang2.hidden = YES;
+    self.StationTextview.jiaodu1.hidden = YES;
+    self.StationTextview.jiaodu2.hidden = YES;
+    self.StationTextview.taiqu1.hidden = YES;
+    self.StationTextview.taiqu2.hidden = YES;
+    self.StationTextview.xianlu1.hidden = YES;
+    self.StationTextview.xianlu2.hidden = YES;
+    self.StationTextview.ganhao1.hidden = YES;
+    self.StationTextview.ganhao2.hidden = YES;
+    self.StationTextview.zujian1.hidden = YES;
+    self.StationTextview.zujian2.hidden = YES;
+    self.StationTextview.guige1.hidden = YES;
+    self.StationTextview.guige2.hidden = YES;
+    self.StationTextview.shuliang1.hidden = YES;
+    self.StationTextview.shuliang2.hidden = YES;
+    self.StationTextview.nibianqi1.hidden = YES;
+    self.StationTextview.nibianqi2.hidden = YES;
+    self.StationTextview.guige3.hidden = YES;
+    self.StationTextview.guige4.hidden = YES;
+    self.StationTextview.taishu1.hidden = YES;
+    self.StationTextview.taishu2.hidden = YES;
+    self.StationTextview.bingwang1.hidden = YES;
+    self.StationTextview.bingwang2.hidden = YES;
+    self.StationTextview.bingwangfangshi1.hidden = YES;
+    self.StationTextview.bingwangfangshi2.hidden = YES;
+    self.StationTextview.canshuView.hidden = YES;
+    
+    [self.bgScrollView addSubview:self.StationTextview];
+    
     
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+//执行协议方法
+- (void)transButIndex
+{
+    NSLog(@"代理方法");
+    if (self.StationTextview.wuding1.hidden) {
+        
+        self.bg.frame = CGRectMake(0, 550, KWidth-14, KHeight/667*211);
+        self.bg1.frame = CGRectMake(0, 750, KWidth-14,KHeight/667*211);
+        self.bgScrollView.contentSize = CGSizeMake(KWidth, 1000);
+        self.StationTextview.frame = CGRectMake(0, 0, KWidth, 530);
+    }else{
+        self.bg.frame = CGRectMake(0, 410, KWidth-14, KHeight/667*211);
+        self.bg1.frame = CGRectMake(0, 610, KWidth-14,KHeight/667*211);
+        self.bgScrollView.contentSize = CGSizeMake(KWidth, 860);
+        self.StationTextview.frame = CGRectMake(0, 0, KWidth, 390);
+    }
+    
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *ID = @"InstallStationTableViewCell";
-    // 2.从缓存池中取出cell
-    InstallStationTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    // 3.如果缓存池中没有cell
-    if (cell == nil) {
-        NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"InstallStationTableViewCell" owner:nil options:nil];
-        cell = [nibs lastObject];
-        cell.backgroundColor = [UIColor clearColor];
-        if(indexPath.row==0){
-            cell.LeftLabel.text = @"户号";
-            cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.house_id];
-        }else if(indexPath.row==1){
-            cell.LeftLabel.text = @"姓名";
-            cell.rightLabel.text = self.username;
-        }else if(indexPath.row==2){
-            cell.LeftLabel.text = @"电话";
-            cell.rightLabel.text = self.tel;
-        }else if(indexPath.row==3){
-            cell.LeftLabel.text = @"地址";
-            cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.address];
-        }else if(indexPath.row==4){
-            cell.LeftLabel.text = @"装机容量";
-            NSInteger num = [self.installed_gross_capacity integerValue];
-            cell.rightLabel.text = [NSString stringWithFormat:@"%zdkw/h",num/1000];
-        }else if(indexPath.row==5){
-            cell.LeftLabel.text = @"并网方式";
-            if ([self.access_way integerValue] ==0) {
-                cell.rightLabel.text = @"全额上网";
-            }else{
-                cell.rightLabel.text = @"余电上网";
-            }
-            
-        }else if(indexPath.row==6){
-            cell.LeftLabel.text = @"并网时间";
-            cell.rightLabel.text = [NSString stringWithFormat:@"%@",self.install_time];
-        }else if(indexPath.row==7){
-            cell.LeftLabel.text = @"状态";
-            cell.rightLabel.text = self.state;
-//            NSString *str = [NSString stringWithFormat:@"%@",self.use_ele_way];
-//            if ([str isEqualToString:@"0"]) {
-//                 cell.rightLabel.text = @"正常";
-//            }else if([str isEqualToString:@"1"]){
-//                 cell.rightLabel.text = @"异常";
-//            }else if([str isEqualToString:@"2"]){
-//                cell.rightLabel.text = @"故障";
-//            }
-        }
-        
-        
-    }
-    return cell;
+- (void)xinxiBtnClick:(NSString *)tel{
+    NSString *telLabel = [NSString stringWithFormat:@"sms://%@",tel];
+    NSURL *url = [NSURL URLWithString:telLabel];
     
+    [[UIApplication sharedApplication] openURL:url];
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+
+- (void)bohaoBtnClick:(NSString *)tel{
+    NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:%@",tel];
+    UIWebView *callWebview = [[UIWebView alloc] init];
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [self.view addSubview:callWebview];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 - (void)setFirstChart{
     
-    UIImageView *bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 400, KWidth-14, KHeight/667*211)];
-    bg.image = [UIImage imageNamed:@"biaogebg"];
-    [self.bgScrollView addSubview:bg];
+    self.bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 410, KWidth-14, KHeight/667*211)];
+    self.bg.image = [UIImage imageNamed:@"biaogebg"];
+    [self.bgScrollView addSubview:self.bg];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
     titleLabel.text = @"今日发、用电功率曲线图";
     titleLabel.textColor = RGBColor(2, 28, 106);
     titleLabel.font = [UIFont systemFontOfSize:16];
-    [bg addSubview:titleLabel];
+    [self.bg addSubview:titleLabel];
     
     UILabel *waLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 25, 10)];
     waLabel.text = @"(kW)";
     waLabel.textColor = RGBColor(0, 60, 255);
     waLabel.font = [UIFont systemFontOfSize:11];
-    [bg addSubview:waLabel];
+    [self.bg addSubview:waLabel];
     UILabel *waLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-38, 25, 25, 10)];
     waLabel1.text = @"(kW)";
     waLabel1.textColor = RGBColor(255, 0, 0);
     waLabel1.font = [UIFont systemFontOfSize:11];
-    [bg addSubview:waLabel1];
+    [self.bg addSubview:waLabel1];
     UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
     shiLabel.text = @"(h)";
     shiLabel.textColor = [UIColor darkGrayColor];
     shiLabel.font = [UIFont systemFontOfSize:11];
-    [bg addSubview:shiLabel];
+    [self.bg addSubview:shiLabel];
     
     UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 10, 50, 20)];
     rightTopLabel.text = @"发电功率";
     rightTopLabel.font = [UIFont systemFontOfSize:8];
-    [bg addSubview:rightTopLabel];
+    [self.bg addSubview:rightTopLabel];
     UIImageView *topImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 15, 10, 10)];
     topImg.image = [UIImage imageNamed:@"椭圆-6"];
-    [bg addSubview:topImg];
+    [self.bg addSubview:topImg];
     
     UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 25, 50, 20)];
     rightDownLabel.text = @"用电功率";
     rightDownLabel.font = [UIFont systemFontOfSize:8];
-    [bg addSubview:rightDownLabel];
+    [self.bg addSubview:rightDownLabel];
     UIImageView *downImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 30, 10, 10)];
     downImg.image = [UIImage imageNamed:@"椭圆-6-拷贝"];
-    [bg addSubview:downImg];
+    [self.bg addSubview:downImg];
     
     NSInteger count = 1;
     for (int i=0; i<self.FirstChartgenArr.count; i++) {
@@ -240,7 +240,7 @@
     self.lineChart.pathCurve = YES;
     /*        Set fill color array         */
     //    lineChart.contentFillColorArr = @[[UIColor colorWithRed:0 green:1 blue:0 alpha:0.468],[UIColor colorWithRed:1 green:0 blue:0 alpha:0.468]];
-    [bg addSubview:self.lineChart];
+    [self.bg addSubview:self.lineChart];
     CGFloat maxUse = 0;
     for (int i=0; i<_FirstChartgenArr.count; i++) {
         CGFloat num = [_FirstChartgenArr[i] floatValue];
@@ -339,7 +339,7 @@
     self.lineChart2.pathCurve = YES;
     /*        Set fill color array         */
     //    lineChart.contentFillColorArr = @[[UIColor colorWithRed:0 green:1 blue:0 alpha:0.468],[UIColor colorWithRed:1 green:0 blue:0 alpha:0.468]];
-    [bg addSubview:self.lineChart2];
+    [self.bg addSubview:self.lineChart2];
     /*       Start animation        */
     
     CGFloat bei1 = maxUse/maxGen;
@@ -396,15 +396,15 @@
 
 - (void)setZhuzhuang{
     
-    UIImageView *bg1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 630, KWidth-14,KHeight/667*211)];
-    bg1.image = [UIImage imageNamed:@"biaogebg"];
-    [self.bgScrollView addSubview:bg1];
+    self.bg1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 610, KWidth-14,KHeight/667*211)];
+    self.bg1.image = [UIImage imageNamed:@"biaogebg"];
+    [self.bgScrollView addSubview:self.bg1];
     
     UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
     secondLabel.text = @"今日发、用电量柱状图";
     secondLabel.textColor = RGBColor(2, 28, 106);
     secondLabel.font = [UIFont systemFontOfSize:16];
-    [bg1 addSubview:secondLabel];
+    [self.bg1 addSubview:secondLabel];
     
     UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
     dianLabel.text = @"(kW·h)";
@@ -412,47 +412,47 @@
     
     dianLabel.textColor = RGBColor(0, 60, 255);
     dianLabel.font = [UIFont systemFontOfSize:11];
-    [bg1 addSubview:dianLabel];
+    [self.bg1 addSubview:dianLabel];
     
     UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
     shiLabel1.text = @"(h)";
     shiLabel1.textColor = [UIColor darkGrayColor];
     shiLabel1.font = [UIFont systemFontOfSize:11];
-    [bg1 addSubview:shiLabel1];
+    [self.bg1 addSubview:shiLabel1];
     
     UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
     leftTopLabel.text = @"上网";
     leftTopLabel.font = [UIFont systemFontOfSize:8];
-    [bg1 addSubview:leftTopLabel];
+    [self.bg1 addSubview:leftTopLabel];
     
     UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
     leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
-    [bg1 addSubview:leftTopImg];
+    [self.bg1 addSubview:leftTopImg];
     
     UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
     leftDownLabel.text = @"峰电";
     leftDownLabel.font = [UIFont systemFontOfSize:8];
-    [bg1 addSubview:leftDownLabel];
+    [self.bg1 addSubview:leftDownLabel];
     
     UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
     leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
-    [bg1 addSubview:leftDownImg];
+    [self.bg1 addSubview:leftDownImg];
     
     UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
     rightTopLabel1.text = @"自用";
     rightTopLabel1.font = [UIFont systemFontOfSize:8];
-    [bg1 addSubview:rightTopLabel1];
+    [self.bg1 addSubview:rightTopLabel1];
     UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
     rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
-    [bg1 addSubview:rightTopImg];
+    [self.bg1 addSubview:rightTopImg];
     
     UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
     rightDownLabel1.text = @"谷电";
     rightDownLabel1.font = [UIFont systemFontOfSize:8];
-    [bg1 addSubview:rightDownLabel1];
+    [self.bg1 addSubview:rightDownLabel1];
     UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
     rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
-    [bg1 addSubview:rightDownImg];
+    [self.bg1 addSubview:rightDownImg];
     
     self.lineChart1 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
     self.lineChart1.isShowRight = NO;
@@ -474,7 +474,7 @@
     /* XY axis scale color */
     self.lineChart1.xAndYNumberColor = [UIColor darkGrayColor];
     self.lineChart1.backgroundColor = [UIColor clearColor];
-    [bg1 addSubview:self.lineChart1];
+    [self.bg1 addSubview:self.lineChart1];
     NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
     NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
     NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
@@ -529,7 +529,7 @@
     //    self.zhuView.arr4 = self.redArr;
     //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
     //    view.maxAll = self.maxAll;
-    [bg1 addSubview:self.zhuView];
+    [self.bg1 addSubview:self.zhuView];
     //    self.page=0;
     //    [self addTimer];
     
