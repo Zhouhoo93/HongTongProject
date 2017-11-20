@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "LoginOneViewController.h"
 #import "StationTextView.h"
+#import "GuZhangListViewController.h"
 @interface InstallStationViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,TopButDelegate>
 
 @property (nonatomic,strong)UITableView *table;
@@ -132,6 +133,21 @@
     UIWebView *callWebview = [[UIWebView alloc] init];
     [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
     [self.view addSubview:callWebview];
+}
+
+- (void)zhengchangBtnClick{
+    
+}
+
+- (void)lixianBtnClick{
+    
+}
+- (void)yichangBtnClick{
+    
+}
+- (void)guzhangBtnClick{
+    GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

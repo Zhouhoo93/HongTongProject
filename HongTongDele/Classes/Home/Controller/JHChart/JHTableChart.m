@@ -98,6 +98,223 @@
  *  @param rect
  */
 -(void)drawRect:(CGRect)rect{
+    if (_typeCount==87) {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        /*        表格四周线条         */
+        
+        //        /*        上         */
+        //        [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, 0) andEndPoint:P_M(CGRectGetWidth(self.frame) - _beginSpace , 0) andIsDottedLine:NO andColor:_lineColor];
+        //
+        //        /*        下         */
+        //        [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, 0 + _tableHeight) andEndPoint:P_M(CGRectGetWidth(self.frame) - _beginSpace ,0 + _tableHeight) andIsDottedLine:NO andColor:_lineColor];
+        //
+        //
+        //        /*        左         */
+        //        [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, 0) andEndPoint:P_M(_beginSpace,  0 + _tableHeight) andIsDottedLine:NO andColor:_lineColor];
+        //
+        //        /*        右         */
+        //        [self drawLineWithContext:context andStarPoint:P_M(CGRectGetWidth(self.frame) - _beginSpace, 0) andEndPoint:P_M(CGRectGetWidth(self.frame) - _beginSpace,  0 + _tableHeight) andIsDottedLine:NO andColor:_lineColor];
+        
+        /*        表头         */
+        if (_tableTitleString.length>0) {
+            [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, 0 +_tableChartTitleItemsHeight) andEndPoint:P_M(CGRectGetWidth(self.frame) - _beginSpace , 0+_tableChartTitleItemsHeight) andIsDottedLine:NO andColor:_lineColor];
+            
+            CGSize size = [self sizeOfStringWithMaxSize:CGSizeMake(_tableWidth, _tableChartTitleItemsHeight) textFont:_tableTitleFont.pointSize aimString:_tableTitleString];
+            if (self.isRed) {
+                [self drawText:_tableTitleString context:context atPoint:CGRectMake(CGRectGetWidth(self.frame)/2.0 - size.width / 2, _beginSpace + _tableChartTitleItemsHeight/2 - size.height / 2.0, _tableWidth, _tableChartTitleItemsHeight) WithColor:[UIColor redColor] font:_tableTitleFont];
+            }else{
+                if (self.isRed) {
+                    [self drawText:_tableTitleString context:context atPoint:CGRectMake(CGRectGetWidth(self.frame)/2.0 - size.width / 2, _beginSpace + _tableChartTitleItemsHeight/2 - size.height / 2.0, _tableWidth, _tableChartTitleItemsHeight) WithColor:[UIColor redColor] font:_tableTitleFont];
+                }else{
+                    [self drawText:_tableTitleString context:context atPoint:CGRectMake(CGRectGetWidth(self.frame)/2.0 - size.width / 2, _beginSpace + _tableChartTitleItemsHeight/2 - size.height / 2.0, _tableWidth, _tableChartTitleItemsHeight) WithColor:[UIColor blackColor] font:_tableTitleFont];
+                }
+                
+            }
+            _lastY = _beginSpace + _tableChartTitleItemsHeight;
+        }
+        
+        
+        /*        绘制列的分割线         */
+        if (_colTitleArr.count>0) {
+            
+            BOOL hasSetColWidth = 0;
+            /*        如果指定了列的宽度         */
+            if (_colTitleArr.count == _colWidthArr.count) {
+                
+                hasSetColWidth = YES;
+                
+            }else{
+                hasSetColWidth = NO;
+            }
+            
+            CGFloat lastX = _beginSpace;
+            for (NSInteger i = 0; i<_colTitleArr.count; i++) {
+                
+                
+                
+                CGFloat wid = (hasSetColWidth?[_colWidthArr[i] floatValue]:_tableWidth / _colTitleArr.count);
+                
+                
+                CGSize size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:14 aimString:_colTitleArr[i]];
+                
+                
+                if (i==0) {
+                    
+                    NSArray *firArr = [_colTitleArr[0] componentsSeparatedByString:@"|"];
+                    if (firArr.count>=2) {
+                        [self drawLineWithContext:context andStarPoint:P_M(lastX, _lastY) andEndPoint:P_M(lastX + wid, _lastY + _minHeightItems) andIsDottedLine:NO andColor:_lineColor];
+                        if (KWidth>374) {
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:14 aimString:firArr[0]];
+                        }else{
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:13 aimString:firArr[0]];
+                        }
+                        
+                        
+                        [self drawText:firArr[0] context:context atPoint:CGRectMake(lastX + wid / 2.0 + wid / 4.0 - size.width / 2, _lastY + _minHeightItems / 4.0 -size.height / 2.0, wid, _minHeightItems / 2.0) WithColor:_bodyTextColor font:_tableTitleFont];
+                        if (KWidth>374) {
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:14 aimString:firArr[1]];
+                        }else{
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:13 aimString:firArr[1]];
+                        }
+                        
+                        
+                        [self drawText:firArr[1] context:context atPoint:CGRectMake(lastX + wid / 4.0 - size.width / 2.0, _lastY + _minHeightItems / 2.0 + _minHeightItems / 4.0 - size.height / 2.0, size.width+5, _minHeightItems / 2.0) WithColor:_bodyTextColor font:_tableTitleFont];
+                    }else{
+                        if (self.isRed) {
+                            if (KWidth>374) {
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, size.height) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
+                            }else{
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, size.height) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:13]];
+                            }
+                            
+                        }else{
+                            if (KWidth>364) {
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, size.height) WithColor:_bodyTextColor font:[UIFont systemFontOfSize:14]];
+                            }else{
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, size.height) WithColor:_bodyTextColor font:[UIFont systemFontOfSize:13]];
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    
+                }else{
+                    if (self.isRed) {
+                        if (KWidth>374) {
+                            [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
+                        }else{
+                            [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:13]];
+                        }
+                        
+                    }else{
+                        if (KWidth>374) {
+                            if ([_colTitleArr[i] isEqualToString:@"异常"]) {
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor yellowColor] font:[UIFont systemFontOfSize:14]];
+                            }else if([_colTitleArr[i] isEqualToString:@"故障"]){
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
+                            }else{
+                               [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor blackColor] font:[UIFont systemFontOfSize:14]];
+                            }
+                        }else{
+                            if ([_colTitleArr[i] isEqualToString:@"异常"]) {
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor yellowColor] font:[UIFont systemFontOfSize:14]];
+                            }else if([_colTitleArr[i] isEqualToString:@"故障"]){
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
+                            }else{
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor blackColor] font:[UIFont systemFontOfSize:13]];
+                            }
+                        }
+                        
+                    }
+                    
+                }
+                lastX += wid;
+                if (i==_colTitleArr.count - 1) {
+                    
+                }else
+                    [self drawLineWithContext:context andStarPoint:P_M(lastX, _lastY) andEndPoint:P_M(lastX, _lastY + _bodyHeight) andIsDottedLine:NO andColor:_lineColor];
+                
+            }
+            
+            _lastY += _minHeightItems;
+        }
+        /*        列名分割线         */
+        [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, _lastY ) andEndPoint:P_M(_beginSpace + _tableWidth, _lastY ) andIsDottedLine:NO andColor:_lineColor];
+        
+        
+        
+        
+        BOOL hasSetColWidth = 0;
+        /*        如果指定了列的宽度         */
+        if (_colTitleArr.count == _colWidthArr.count && _colTitleArr.count>0) {
+            
+            hasSetColWidth = YES;
+            
+        }else{
+            hasSetColWidth = NO;
+        }
+        
+        /*        绘制具体的行数据         */
+        
+        for (NSInteger i = 0; i<_dataModelArr.count; i++) {
+            
+            JHTableDataRowModel *model = _dataModelArr[i];
+            
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(_beginSpace, _lastY-_minHeightItems, KWidth-20, _minHeightItems)];
+            btn.tag = i+1000;
+            [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:btn];
+            
+            [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, _lastY + model.maxCount * _minHeightItems) andEndPoint:P_M(_beginSpace + _tableWidth, _lastY + model.maxCount * _minHeightItems) andIsDottedLine:NO andColor:_lineColor];
+            
+            CGFloat lastX = _beginSpace;
+            
+            for (NSInteger j = 0; j< model.dataArr.count; j++) {
+                
+                
+                id rowItems = model.dataArr[j];
+                
+                
+                CGFloat wid = (hasSetColWidth?[_colWidthArr[j] floatValue]:_tableWidth / _colTitleArr.count);
+                if ([rowItems isKindOfClass:[NSArray class]]) {
+                    
+                    CGFloat perItemsHeightByMaxCount = model.maxCount * _minHeightItems / [rowItems count];
+                    /*       具体某一列有多个元素时       */
+                    for (NSInteger n = 0; n<[rowItems count]; n++) {
+                        
+                        [self drawLineWithContext:context andStarPoint:P_M(lastX, _lastY + (n+1) * perItemsHeightByMaxCount) andEndPoint:P_M(lastX + wid, _lastY + (n+1) * perItemsHeightByMaxCount) andIsDottedLine:NO andColor:_lineColor];
+                        CGSize size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, perItemsHeightByMaxCount) textFont:_tableTitleFont.pointSize aimString:rowItems[n]];
+                        //                    P_M(lastX + wid / 2 - size.width / 2.0, _lastY + (n+1) * perItemsHeightByMaxCount - perItemsHeightByMaxCount / 2.0 - size.height / 2.0)
+                        [self drawText:rowItems[n] context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0, _lastY + (n+1) * perItemsHeightByMaxCount - perItemsHeightByMaxCount / 2.0 - size.height / 2.0, size.width, size.height) WithColor:_bodyTextColor font:_tableTitleFont];
+                    }
+                    
+                }else{
+                    
+                    CGSize size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, model.maxCount * _minHeightItems) textFont:_tableTitleFont.pointSize aimString:rowItems];
+                    if (self.isRed) {
+                        [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor redColor] font:_tableTitleFont];
+                    }else{
+                        if ([rowItems isEqualToString:@"异常"]) {
+                             [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor yellowColor] font:_tableTitleFont];
+                        }else if([rowItems isEqualToString:@"故障"]){
+                            [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor redColor] font:_tableTitleFont];
+                        }else{
+                            [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:_bodyTextColor font:_tableTitleFont];
+                        }
+                    }
+                }
+                lastX += wid;
+                
+                
+            }
+            _lastY += model.maxCount * _minHeightItems;
+            
+            
+            
+        }
+    }//用电故障列表
+    
     if (_typeCount==88) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         /*        表格四周线条         */

@@ -198,6 +198,11 @@
 		389392F11F59439000EDF535 /* CustomerListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 389392EF1F59439000EDF535 /* CustomerListTableViewCell.m */; };
 		389392F21F59439000EDF535 /* CustomerListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 389392F01F59439000EDF535 /* CustomerListTableViewCell.xib */; };
 		3895B6FB1F6029B30061ABC3 /* GroupCusomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3895B6FA1F6029B30061ABC3 /* GroupCusomerViewController.m */; };
+		3898C6A31FC27A3200B508FB /* GuZhangListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898C6A21FC27A3200B508FB /* GuZhangListViewController.m */; };
+		3898C6A61FC2B3AB00B508FB /* GuZhangLiShiListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898C6A51FC2B3AB00B508FB /* GuZhangLiShiListViewController.m */; };
+		3898C6A91FC2C6F900B508FB /* HomeTwoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898C6A81FC2C6F900B508FB /* HomeTwoView.m */; };
+		3898C6AC1FC2C87E00B508FB /* ZhuangTaiListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898C6AB1FC2C87E00B508FB /* ZhuangTaiListViewController.m */; };
+		3898C6AF1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */; };
 		389945E71FBD77F200793718 /* SelectYunWeiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 389945E61FBD77F200793718 /* SelectYunWeiViewController.m */; };
 		389945EA1FBD8E4600793718 /* StationTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389945E91FBD8E4600793718 /* StationTextView.m */; };
 		389945EC1FBD8E6200793718 /* StationTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 389945EB1FBD8E6200793718 /* StationTextView.xib */; };
@@ -642,6 +647,16 @@
 		389392F01F59439000EDF535 /* CustomerListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomerListTableViewCell.xib; sourceTree = "<group>"; };
 		3895B6F91F6029B30061ABC3 /* GroupCusomerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupCusomerViewController.h; sourceTree = "<group>"; };
 		3895B6FA1F6029B30061ABC3 /* GroupCusomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupCusomerViewController.m; sourceTree = "<group>"; };
+		3898C6A11FC27A3200B508FB /* GuZhangListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuZhangListViewController.h; sourceTree = "<group>"; };
+		3898C6A21FC27A3200B508FB /* GuZhangListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuZhangListViewController.m; sourceTree = "<group>"; };
+		3898C6A41FC2B3AB00B508FB /* GuZhangLiShiListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuZhangLiShiListViewController.h; sourceTree = "<group>"; };
+		3898C6A51FC2B3AB00B508FB /* GuZhangLiShiListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuZhangLiShiListViewController.m; sourceTree = "<group>"; };
+		3898C6A71FC2C6F900B508FB /* HomeTwoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeTwoView.h; sourceTree = "<group>"; };
+		3898C6A81FC2C6F900B508FB /* HomeTwoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeTwoView.m; sourceTree = "<group>"; };
+		3898C6AA1FC2C87E00B508FB /* ZhuangTaiListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZhuangTaiListViewController.h; sourceTree = "<group>"; };
+		3898C6AB1FC2C87E00B508FB /* ZhuangTaiListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZhuangTaiListViewController.m; sourceTree = "<group>"; };
+		3898C6AD1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZhuangtaiListZongViewController.h; sourceTree = "<group>"; };
+		3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZhuangtaiListZongViewController.m; sourceTree = "<group>"; };
 		389945E51FBD77F200793718 /* SelectYunWeiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectYunWeiViewController.h; sourceTree = "<group>"; };
 		389945E61FBD77F200793718 /* SelectYunWeiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectYunWeiViewController.m; sourceTree = "<group>"; };
 		389945E81FBD8E4600793718 /* StationTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StationTextView.h; sourceTree = "<group>"; };
@@ -926,6 +941,10 @@
 			children = (
 				380E975D1FBBDF29003D50BB /* BaoJingLiShiViewController.h */,
 				380E975E1FBBDF29003D50BB /* BaoJingLiShiViewController.m */,
+				3898C6AD1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.h */,
+				3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */,
+				3898C6AA1FC2C87E00B508FB /* ZhuangTaiListViewController.h */,
+				3898C6AB1FC2C87E00B508FB /* ZhuangTaiListViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1859,6 +1878,53 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		3898C69D1FC2734100B508FB /* DianZhanJiBen */ = {
+			isa = PBXGroup;
+			children = (
+				3898C69E1FC2734100B508FB /* Controller */,
+				3898C69F1FC2734100B508FB /* Model */,
+				3898C6A01FC2734100B508FB /* View */,
+			);
+			path = DianZhanJiBen;
+			sourceTree = "<group>";
+		};
+		3898C69E1FC2734100B508FB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				38630FA61FB9335D001997CD /* SelectFenGongSiViewController.h */,
+				38630FA71FB9335D001997CD /* SelectFenGongSiViewController.m */,
+				389945E51FBD77F200793718 /* SelectYunWeiViewController.h */,
+				389945E61FBD77F200793718 /* SelectYunWeiViewController.m */,
+				380F36E11FB970540081F567 /* SlectListViewController.h */,
+				380F36E21FB970540081F567 /* SlectListViewController.m */,
+				3898C6A11FC27A3200B508FB /* GuZhangListViewController.h */,
+				3898C6A21FC27A3200B508FB /* GuZhangListViewController.m */,
+				3898C6A41FC2B3AB00B508FB /* GuZhangLiShiListViewController.h */,
+				3898C6A51FC2B3AB00B508FB /* GuZhangLiShiListViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		3898C69F1FC2734100B508FB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3898C6A01FC2734100B508FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				389945E81FBD8E4600793718 /* StationTextView.h */,
+				389945E91FBD8E4600793718 /* StationTextView.m */,
+				389945EB1FBD8E6200793718 /* StationTextView.xib */,
+				38630FA91FB9373B001997CD /* SelectCollectionViewCell.h */,
+				38630FAA1FB9373B001997CD /* SelectCollectionViewCell.m */,
+				38630FAB1FB9373B001997CD /* SelectCollectionViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		389A9FF21F45769600B55BAC /* JHChart */ = {
 			isa = PBXGroup;
 			children = (
@@ -1896,6 +1962,7 @@
 		38B2D3DE1F340A4200038F47 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3898C69D1FC2734100B508FB /* DianZhanJiBen */,
 				380E97591FBBDF06003D50BB /* BaoJing */,
 				38C9EB2B1F42C3BA00DB41B4 /* Notice */,
 				3883A3291F41A68B007967DF /* Mine */,
@@ -1932,17 +1999,10 @@
 				38396B341FB58AA2009E6F1F /* HomeOneView.h */,
 				38396B351FB58AA2009E6F1F /* HomeOneView.m */,
 				38E202F81FB4434C00F35121 /* HomeTwoTabel.xib */,
+				3898C6A71FC2C6F900B508FB /* HomeTwoView.h */,
+				3898C6A81FC2C6F900B508FB /* HomeTwoView.m */,
 				38E202FA1FB4461D00F35121 /* HomeThreeTabel.xib */,
 				38E202FC1FB44B9800F35121 /* HomeFourTabel.xib */,
-				38630FA61FB9335D001997CD /* SelectFenGongSiViewController.h */,
-				38630FA71FB9335D001997CD /* SelectFenGongSiViewController.m */,
-				389945E51FBD77F200793718 /* SelectYunWeiViewController.h */,
-				389945E61FBD77F200793718 /* SelectYunWeiViewController.m */,
-				38630FA91FB9373B001997CD /* SelectCollectionViewCell.h */,
-				38630FAA1FB9373B001997CD /* SelectCollectionViewCell.m */,
-				38630FAB1FB9373B001997CD /* SelectCollectionViewCell.xib */,
-				380F36E11FB970540081F567 /* SlectListViewController.h */,
-				380F36E21FB970540081F567 /* SlectListViewController.m */,
 				38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */,
 				38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */,
 				38B2D3E61F34156F00038F47 /* InstallViewController.h */,
@@ -1985,9 +2045,6 @@
 		38B2D3E21F340A4200038F47 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				389945E81FBD8E4600793718 /* StationTextView.h */,
-				389945E91FBD8E4600793718 /* StationTextView.m */,
-				389945EB1FBD8E6200793718 /* StationTextView.xib */,
 				38EEA7D71F38424200034F01 /* AlarmPopView.h */,
 				38EEA7D81F38424200034F01 /* AlarmPopView.m */,
 				38EEA7DA1F38425000034F01 /* AlarmPopView.xib */,
@@ -2350,6 +2407,7 @@
 				38B2D3F91F34519900038F47 /* SecondTableViewCell.m in Sources */,
 				38755C4D1F3D9F350081CF4D /* IQUIScrollView+Additions.m in Sources */,
 				38C9EB1F1F42986900DB41B4 /* MineCenterViewController.m in Sources */,
+				3898C6A61FC2B3AB00B508FB /* GuZhangLiShiListViewController.m in Sources */,
 				380494C41F32BA3700AA0DBC /* ViewController.m in Sources */,
 				38C9EB291F42C17600DB41B4 /* ChanggeWordViewController.m in Sources */,
 				38755C8B1F3D9F4B0081CF4D /* MJRefreshBackFooter.m in Sources */,
@@ -2390,6 +2448,7 @@
 				384AB7031F3C4C0F005AFE7A /* QRCodeController.m in Sources */,
 				3876920D1F4ABBAD001B7E82 /* NSString+Utils.m in Sources */,
 				3876923F1F4ABDA4001B7E82 /* FilterCommonCollectionViewCell.m in Sources */,
+				3898C6A31FC27A3200B508FB /* GuZhangListViewController.m in Sources */,
 				384AB6FF1F3C4C0F005AFE7A /* LivePlayerViewController.m in Sources */,
 				389AA0151F45769600B55BAC /* JHRingChart.m in Sources */,
 				384AB70A1F3C4C0F005AFE7A /* DragButton.m in Sources */,
@@ -2419,6 +2478,7 @@
 				3876923D1F4ABDA4001B7E82 /* PriceRangeModel.m in Sources */,
 				38BACA7F1F53E1F60041EDD0 /* liveListModel.m in Sources */,
 				38B2D3E51F340A6400038F47 /* HomeSelectViewController.m in Sources */,
+				3898C6AF1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m in Sources */,
 				38755C591F3D9F350081CF4D /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				38EEA7BA1F37FCAE00034F01 /* OneScrollViewBar.m in Sources */,
 				38755C8C1F3D9F4B0081CF4D /* MJRefreshComponent.m in Sources */,
@@ -2445,6 +2505,7 @@
 				3876920F1F4ABBAD001B7E82 /* UIView+Utils.m in Sources */,
 				384AB70E1F3C4C0F005AFE7A /* UIView+Extension.m in Sources */,
 				389AA0161F45769600B55BAC /* JHScatterChart.m in Sources */,
+				3898C6A91FC2C6F900B508FB /* HomeTwoView.m in Sources */,
 				38755C571F3D9F350081CF4D /* IQTitleBarButtonItem.m in Sources */,
 				38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */,
 				389AA0171F45769600B55BAC /* JHShowInfoView.m in Sources */,
@@ -2456,6 +2517,7 @@
 				38755C9D1F3D9F4B0081CF4D /* UIView+MJExtension.m in Sources */,
 				389AA0121F45769600B55BAC /* JHPieForeBGView.m in Sources */,
 				387692431F4ABDA4001B7E82 /* SideSlipAllCategoryTableViewCell.m in Sources */,
+				3898C6AC1FC2C87E00B508FB /* ZhuangTaiListViewController.m in Sources */,
 				38B2D4031F34584500038F47 /* SecondTwoTableViewCell.m in Sources */,
 				387692471F4ABDA4001B7E82 /* SideSlipPriceTableViewCell.m in Sources */,
 				38B2D3E81F34156F00038F47 /* InstallViewController.m in Sources */,

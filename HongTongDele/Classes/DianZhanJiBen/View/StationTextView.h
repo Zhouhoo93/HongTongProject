@@ -12,6 +12,10 @@
 - (void)transButIndex;//协议方法
 - (void)xinxiBtnClick:(NSString *)tel;
 - (void)bohaoBtnClick:(NSString *)tel;
+- (void)zhengchangBtnClick;
+- (void)lixianBtnClick;
+- (void)yichangBtnClick;
+- (void)guzhangBtnClick;
 @end
 @interface StationTextView : UIView
 @property (nonatomic, assign) id<TopButDelegate>delegate;//代理属性

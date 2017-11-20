@@ -101,6 +101,30 @@
 }
 - (IBAction)daohangBtnClick:(id)sender {
 }
+- (IBAction)zhengchangBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(zhengchangBtnClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate zhengchangBtnClick];
+    }
+}
+- (IBAction)lixianBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(lixianBtnClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate lixianBtnClick];
+    }
+}
+- (IBAction)yichangBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(yichangBtnClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate yichangBtnClick];
+    }
+}
+- (IBAction)guzhangBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(guzhangBtnClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate guzhangBtnClick];
+    }
+}
 
 
 /*
