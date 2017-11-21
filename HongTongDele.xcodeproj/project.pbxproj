@@ -225,6 +225,7 @@
 		389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00B1F45769600B55BAC /* JHTableDataRowModel.m */; };
 		389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA00D1F45769600B55BAC /* JHWaveChart.m */; };
 		389AA01D1F457A4D00B55BAC /* HistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = 389AA01C1F457A4D00B55BAC /* HistogramView.m */; };
+		38B057F61FC4031100FEE429 /* ZhuangtaiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B057F51FC4031100FEE429 /* ZhuangtaiViewController.m */; };
 		38B166E71F622D3900C0E3E4 /* ChangePassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B166E51F622D3900C0E3E4 /* ChangePassViewController.m */; };
 		38B166E81F622D3900C0E3E4 /* ChangePassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B166E61F622D3900C0E3E4 /* ChangePassViewController.xib */; };
 		38B2D3E51F340A6400038F47 /* HomeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */; };
@@ -700,6 +701,8 @@
 		389AA00D1F45769600B55BAC /* JHWaveChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHWaveChart.m; sourceTree = "<group>"; };
 		389AA01B1F457A4D00B55BAC /* HistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistogramView.h; sourceTree = "<group>"; };
 		389AA01C1F457A4D00B55BAC /* HistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistogramView.m; sourceTree = "<group>"; };
+		38B057F41FC4031100FEE429 /* ZhuangtaiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZhuangtaiViewController.h; sourceTree = "<group>"; };
+		38B057F51FC4031100FEE429 /* ZhuangtaiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZhuangtaiViewController.m; sourceTree = "<group>"; };
 		38B166E41F622D3900C0E3E4 /* ChangePassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePassViewController.h; sourceTree = "<group>"; };
 		38B166E51F622D3900C0E3E4 /* ChangePassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePassViewController.m; sourceTree = "<group>"; };
 		38B166E61F622D3900C0E3E4 /* ChangePassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePassViewController.xib; sourceTree = "<group>"; };
@@ -945,6 +948,8 @@
 				3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */,
 				3898C6AA1FC2C87E00B508FB /* ZhuangTaiListViewController.h */,
 				3898C6AB1FC2C87E00B508FB /* ZhuangTaiListViewController.m */,
+				38B057F41FC4031100FEE429 /* ZhuangtaiViewController.h */,
+				38B057F51FC4031100FEE429 /* ZhuangtaiViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2430,6 +2435,7 @@
 				387692411F4ABDA4001B7E82 /* AddressTableViewCell.m in Sources */,
 				38755C901F3D9F4B0081CF4D /* MJRefreshAutoNormalFooter.m in Sources */,
 				38755C9A1F3D9F4B0081CF4D /* NSBundle+MJRefresh.m in Sources */,
+				38B057F61FC4031100FEE429 /* ZhuangtaiViewController.m in Sources */,
 				38755C8A1F3D9F4B0081CF4D /* MJRefreshAutoFooter.m in Sources */,
 				384AB72C1F3C6CF4005AFE7A /* LoginOneViewController.m in Sources */,
 				38755C531F3D9F350081CF4D /* IQKeyboardReturnKeyHandler.m in Sources */,

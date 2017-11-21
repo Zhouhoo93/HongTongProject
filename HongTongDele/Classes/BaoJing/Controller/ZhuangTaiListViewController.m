@@ -8,6 +8,7 @@
 
 #import "ZhuangTaiListViewController.h"
 #import "JHTableChart.h"
+#import "ZhuangtaiViewController.h"
 @interface ZhuangTaiListViewController ()<TableButDelegate>
 @property (nonatomic,strong)JHTableChart *table;
 @property (nonatomic,strong)JHTableChart *table1;
@@ -123,8 +124,8 @@
 - (void)transButIndex:(NSInteger)index
 {
     NSLog(@"代理方法%ld",index);
-//    InstallStationViewController *vc = [[InstallStationViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    ZhuangtaiViewController *vc = [[ZhuangtaiViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 /*
 #pragma mark - Navigation
