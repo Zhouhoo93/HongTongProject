@@ -245,6 +245,8 @@
 		38BACA7B1F53DE990041EDD0 /* LiveCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BACA791F53DE990041EDD0 /* LiveCollectionViewCell.m */; };
 		38BACA7C1F53DE990041EDD0 /* LiveCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38BACA7A1F53DE990041EDD0 /* LiveCollectionViewCell.xib */; };
 		38BACA7F1F53E1F60041EDD0 /* liveListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BACA7E1F53E1F60041EDD0 /* liveListModel.m */; };
+		38BB34251FC55598003A1A29 /* BaoJingYunWeiListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BB34241FC55598003A1A29 /* BaoJingYunWeiListViewController.m */; };
+		38BB34281FC555CE003A1A29 /* HomeThreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BB34271FC555CE003A1A29 /* HomeThreeView.m */; };
 		38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB181F428C6900DB41B4 /* AboutViewController.m */; };
 		38C9EB1B1F428C6900DB41B4 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38C9EB191F428C6900DB41B4 /* AboutViewController.xib */; };
 		38C9EB1F1F42986900DB41B4 /* MineCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C9EB1D1F42986900DB41B4 /* MineCenterViewController.m */; };
@@ -734,6 +736,10 @@
 		38BACA7A1F53DE990041EDD0 /* LiveCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveCollectionViewCell.xib; sourceTree = "<group>"; };
 		38BACA7D1F53E1F60041EDD0 /* liveListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = liveListModel.h; sourceTree = "<group>"; };
 		38BACA7E1F53E1F60041EDD0 /* liveListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = liveListModel.m; sourceTree = "<group>"; };
+		38BB34231FC55598003A1A29 /* BaoJingYunWeiListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaoJingYunWeiListViewController.h; sourceTree = "<group>"; };
+		38BB34241FC55598003A1A29 /* BaoJingYunWeiListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaoJingYunWeiListViewController.m; sourceTree = "<group>"; };
+		38BB34261FC555CE003A1A29 /* HomeThreeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeThreeView.h; sourceTree = "<group>"; };
+		38BB34271FC555CE003A1A29 /* HomeThreeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeThreeView.m; sourceTree = "<group>"; };
 		38C9EB171F428C6900DB41B4 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		38C9EB181F428C6900DB41B4 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		38C9EB191F428C6900DB41B4 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
@@ -944,6 +950,8 @@
 			children = (
 				380E975D1FBBDF29003D50BB /* BaoJingLiShiViewController.h */,
 				380E975E1FBBDF29003D50BB /* BaoJingLiShiViewController.m */,
+				38BB34231FC55598003A1A29 /* BaoJingYunWeiListViewController.h */,
+				38BB34241FC55598003A1A29 /* BaoJingYunWeiListViewController.m */,
 				3898C6AD1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.h */,
 				3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */,
 				3898C6AA1FC2C87E00B508FB /* ZhuangTaiListViewController.h */,
@@ -2007,6 +2015,8 @@
 				3898C6A71FC2C6F900B508FB /* HomeTwoView.h */,
 				3898C6A81FC2C6F900B508FB /* HomeTwoView.m */,
 				38E202FA1FB4461D00F35121 /* HomeThreeTabel.xib */,
+				38BB34261FC555CE003A1A29 /* HomeThreeView.h */,
+				38BB34271FC555CE003A1A29 /* HomeThreeView.m */,
 				38E202FC1FB44B9800F35121 /* HomeFourTabel.xib */,
 				38B2D3E31F340A6400038F47 /* HomeSelectViewController.h */,
 				38B2D3E41F340A6400038F47 /* HomeSelectViewController.m */,
@@ -2461,6 +2471,7 @@
 				38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */,
 				38B166E71F622D3900C0E3E4 /* ChangePassViewController.m in Sources */,
 				3864832F1F3C3233000A8EB1 /* LiveViewController.m in Sources */,
+				38BB34251FC55598003A1A29 /* BaoJingYunWeiListViewController.m in Sources */,
 				38630FA81FB9335D001997CD /* SelectFenGongSiViewController.m in Sources */,
 				384AB7071F3C4C0F005AFE7A /* GotyeLiveConfig.m in Sources */,
 				384AB7011F3C4C0F005AFE7A /* LoginViewController.m in Sources */,
@@ -2544,6 +2555,7 @@
 				389A9FE91F45653300B55BAC /* InstallModel.m in Sources */,
 				38755C951F3D9F4B0081CF4D /* MJRefreshGifHeader.m in Sources */,
 				38EEA7D51F383E8D00034F01 /* MenuTableViewCell.m in Sources */,
+				38BB34281FC555CE003A1A29 /* HomeThreeView.m in Sources */,
 				384AB70D1F3C4C0F005AFE7A /* MessageCell.m in Sources */,
 				38755C971F3D9F4B0081CF4D /* MJRefreshStateHeader.m in Sources */,
 				3883A3271F41A084007967DF /* ForgetViewController.m in Sources */,
