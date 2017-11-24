@@ -274,6 +274,7 @@
 		38EEA7D61F383E8D00034F01 /* MenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7D21F383E8D00034F01 /* MenuTableViewCell.xib */; };
 		38EEA7D91F38424200034F01 /* AlarmPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7D81F38424200034F01 /* AlarmPopView.m */; };
 		38EEA7DB1F38425000034F01 /* AlarmPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7DA1F38425000034F01 /* AlarmPopView.xib */; };
+		38F9DCE61FC7C88800B2B07F /* ShaiXuanKuang.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */; };
 		38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */; };
 		D237A9353E650F031D4FCBEE /* libPods-HongTongDele.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */; };
 /* End PBXBuildFile section */
@@ -782,6 +783,7 @@
 		38EEA7D71F38424200034F01 /* AlarmPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmPopView.h; sourceTree = "<group>"; };
 		38EEA7D81F38424200034F01 /* AlarmPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmPopView.m; sourceTree = "<group>"; };
 		38EEA7DA1F38425000034F01 /* AlarmPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlarmPopView.xib; sourceTree = "<group>"; };
+		38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaiXuanKuang.xib; sourceTree = "<group>"; };
 		38FA5DFB1F5FF3D300FD7888 /* addPosListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addPosListModel.h; sourceTree = "<group>"; };
 		38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addPosListModel.m; sourceTree = "<group>"; };
 		7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HongTongDele.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -958,6 +960,7 @@
 				3898C6AB1FC2C87E00B508FB /* ZhuangTaiListViewController.m */,
 				38B057F41FC4031100FEE429 /* ZhuangtaiViewController.h */,
 				38B057F51FC4031100FEE429 /* ZhuangtaiViewController.m */,
+				38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2295,6 +2298,7 @@
 				387692441F4ABDA4001B7E82 /* SideSlipAllCategoryTableViewCell.xib in Resources */,
 				38B2D3FF1F34577400038F47 /* TableTipViewTwo.xib in Resources */,
 				3876920B1F4ABBAD001B7E82 /* Localizable.strings in Resources */,
+				38F9DCE61FC7C88800B2B07F /* ShaiXuanKuang.xib in Resources */,
 				3876924A1F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.xib in Resources */,
 				384AB7051F3C4C0F005AFE7A /* UseIdLoginController.xib in Resources */,
 				384AB7241F3C5E8F005AFE7A /* LoginOneViewController.xib in Resources */,
