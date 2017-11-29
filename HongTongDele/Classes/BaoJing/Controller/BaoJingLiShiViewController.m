@@ -8,7 +8,8 @@
 
 #import "BaoJingLiShiViewController.h"
 #import "JHTableChart.h"
-@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate>
+#import "ShaiXuanKuangView.h"
+@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIView *leftView;
 @property (nonatomic,strong)UIView *rightView;
@@ -16,6 +17,7 @@
 @property (nonatomic,strong)JHTableChart *table11;
 @property (nonatomic,strong)JHTableChart *table3;
 @property (nonatomic,strong)JHTableChart *table33;
+@property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
 @end
 
 @implementation BaoJingLiShiViewController
@@ -94,6 +96,7 @@
     
     UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
     [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.leftView addSubview:shaixuanBtn1];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
@@ -179,6 +182,17 @@
     
 }
 
+- (void)shaixuanBtnClick{
+    self.shaixuanView = [[[NSBundle mainBundle]loadNibNamed:@"ShaiXuanKuang" owner:self options:nil]objectAtIndex:0];
+    self.shaixuanView.frame = CGRectMake(0, 0, KWidth, KHeight);
+    self.shaixuanView.delegate = self;
+    [self.view addSubview:self.shaixuanView];
+}
+
+- (void)CloseClick{
+    [self.shaixuanView removeFromSuperview];
+}
+
 - (void)setRightTable{
     UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 16, 12, 17)];
     rightImg.image = [UIImage imageNamed:@"定位"];
@@ -192,6 +206,7 @@
     
     UIButton *shaixuanBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
     [shaixuanBtn3 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn3 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.rightView addSubview:shaixuanBtn3];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];

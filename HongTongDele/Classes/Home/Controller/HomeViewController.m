@@ -10,9 +10,11 @@
 #import "HomeOneView.h"
 #import "HomeTwoView.h"
 #import "HomeThreeView.h"
+#import "HomeFourView.h"
 #import "SelectFenGongSiViewController.h"
 #import "ZhuangtaiListZongViewController.h"
 #import "BaoJingYunWeiListViewController.h"
+#import "XiaoLvYunWeiViewController.h"
 @interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
@@ -92,7 +94,8 @@
     view2.frame = CGRectMake(0, KHeight/667*310, KWidth, KHeight/667*120);
     [self.bgScrollView addSubview:view2];
     
-    UIView *view3 = [[[NSBundle mainBundle]loadNibNamed:@"HomeFourTabel" owner:self options:nil]objectAtIndex:0];
+    HomeFourView *view3 = [[[NSBundle mainBundle]loadNibNamed:@"HomeFourTabel" owner:self options:nil]objectAtIndex:0];
+    view3.Topdelegate = self;
     view3.frame = CGRectMake(0, KHeight/667*435, KWidth, KHeight/667*120);
     [self.bgScrollView addSubview:view3];
 }
@@ -115,6 +118,14 @@
 - (void)transButIndex3
 {
     BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+- (void)transButIndex4
+{
+    XiaoLvYunWeiViewController *vc = [[XiaoLvYunWeiViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     

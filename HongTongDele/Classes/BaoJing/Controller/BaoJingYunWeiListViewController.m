@@ -9,8 +9,11 @@
 #import "BaoJingYunWeiListViewController.h"
 #import "JHTableChart.h"
 #import "BaoJingLiShiViewController.h"
-@interface BaoJingYunWeiListViewController ()<UIScrollViewDelegate,TableButDelegate>
+#import "ShaiXuanKuangView.h"
+@interface BaoJingYunWeiListViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
+@property (nonatomic,strong)UIScrollView *bgscrollview1;
+@property (nonatomic,strong)UIScrollView *bg;
 @property (nonatomic,strong)UIView *leftView;
 @property (nonatomic,strong)UIView *rightView;
 @property (nonatomic,strong)JHTableChart *table1;
@@ -21,6 +24,7 @@
 @property (nonatomic,strong)JHTableChart *table33;
 @property (nonatomic,strong)JHTableChart *table4;
 @property (nonatomic,strong)JHTableChart *table44;
+@property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
 @end
 
 @implementation BaoJingYunWeiListViewController
@@ -59,31 +63,61 @@
 }
 
 - (void)setScroll{
-    self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 94, KWidth, KHeight-94)];
+    self.bg = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 94, KWidth, KHeight-94)];
+    self.bg.delegate = self;
+    //    self.bgscrollview.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    self.bg.pagingEnabled = YES;
+    self.bg.contentSize = CGSizeMake(KWidth*2, KHeight-94);
+    [self.view addSubview:self.bg];
+    
+    UIImageView *leftbg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-94)];
+    leftbg.image = [UIImage imageNamed:@"未处理1"];
+    leftbg.userInteractionEnabled = YES;
+    [self.bg addSubview:leftbg];
+    
+    UIImageView *rightbg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, KHeight-94)];
+    rightbg.image = [UIImage imageNamed:@"处理中1"];
+    rightbg.userInteractionEnabled = YES;
+    [self.bg addSubview:rightbg];
+    
+    self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-94)];
     self.bgscrollview.delegate = self;
-//    self.bgscrollview.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.bgscrollview.pagingEnabled = YES;
-    self.bgscrollview.contentSize = CGSizeMake(KWidth*2, 900);
-    [self.view addSubview:_bgscrollview];
+    self.bgscrollview.backgroundColor = [UIColor clearColor];
+    self.bgscrollview.pagingEnabled = NO;
+    self.bgscrollview.contentSize = CGSizeMake(KWidth, 900);
+    [self.bg addSubview:self.bgscrollview];
+    
+    self.bgscrollview1 = [[UIScrollView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, KHeight-94)];
+    self.bgscrollview1.delegate = self;
+    self.bgscrollview1.backgroundColor = [UIColor clearColor];
+    self.bgscrollview1.pagingEnabled = NO;
+    self.bgscrollview1.contentSize = CGSizeMake(KWidth, 900);
+    [self.bg addSubview:self.bgscrollview1];
     
     self.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
     self.leftView.backgroundColor = [UIColor clearColor];
-    [self.bgscrollview addSubview:self.leftView];
+    [self.bg addSubview:self.leftView];
     
-    UIImageView *leftbg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
-    leftbg.image = [UIImage imageNamed:@"未处理1"];
-    [self.leftView addSubview:leftbg];
+   
     
-    self.rightView = [[UIView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, 900)];
+    self.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
     self.rightView.backgroundColor = [UIColor clearColor];
-    [self.bgscrollview addSubview:self.rightView];
+    [self.bgscrollview1 addSubview:self.rightView];
     
-    UIImageView *rightbg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
-    rightbg.image = [UIImage imageNamed:@"处理中1"];
-    [self.rightView addSubview:rightbg];
+    
     
     [self setLeftTable];
     [self setRightTable];
+}
+- (void)shaixuanBtnClick{
+    self.shaixuanView = [[[NSBundle mainBundle]loadNibNamed:@"ShaiXuanKuang" owner:self options:nil]objectAtIndex:0];
+    self.shaixuanView.frame = CGRectMake(0, 0, KWidth, KHeight);
+    self.shaixuanView.delegate = self;
+    [self.view addSubview:self.shaixuanView];
+}
+
+- (void)CloseClick{
+    [self.shaixuanView removeFromSuperview];
 }
 
 - (void)setLeftTable{
@@ -99,6 +133,7 @@
     
     UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 14, 80, 30)];
     [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.leftView addSubview:shaixuanBtn1];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
@@ -194,6 +229,7 @@
     
     UIButton *shaixuanBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 452, 80, 30)];
     [shaixuanBtn2 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn2 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.leftView addSubview:shaixuanBtn2];
     
     UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
@@ -291,6 +327,7 @@
     
     UIButton *shaixuanBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 14, 80, 30)];
     [shaixuanBtn3 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn3 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.rightView addSubview:shaixuanBtn3];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
@@ -386,6 +423,7 @@
     
     UIButton *shaixuanBtn4 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 452, 80, 30)];
     [shaixuanBtn4 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+    [shaixuanBtn4 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.rightView addSubview:shaixuanBtn4];
     
     UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
