@@ -279,6 +279,12 @@
 		38EEA7D61F383E8D00034F01 /* MenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7D21F383E8D00034F01 /* MenuTableViewCell.xib */; };
 		38EEA7D91F38424200034F01 /* AlarmPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EEA7D81F38424200034F01 /* AlarmPopView.m */; };
 		38EEA7DB1F38425000034F01 /* AlarmPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EEA7DA1F38425000034F01 /* AlarmPopView.xib */; };
+		38F8EE3A1FCFDCA4008E783B /* JXAlertview.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8EE391FCFDCA4008E783B /* JXAlertview.m */; };
+		38F8EE3D1FCFDD4B008E783B /* CustomDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8EE3C1FCFDD4A008E783B /* CustomDatePicker.m */; };
+		38F8EE3F1FCFE638008E783B /* ErrorListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F8EE3E1FCFE638008E783B /* ErrorListView.xib */; };
+		38F8EE421FCFEABA008E783B /* ErrorList.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8EE411FCFEABA008E783B /* ErrorList.m */; };
+		38F8EE441FCFEBCB008E783B /* ErrorListTwoList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F8EE431FCFEBCB008E783B /* ErrorListTwoList.xib */; };
+		38F8EE471FCFED6C008E783B /* ErrorListtwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8EE461FCFED6C008E783B /* ErrorListtwo.m */; };
 		38F9DCE61FC7C88800B2B07F /* ShaiXuanKuang.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */; };
 		38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */; };
 		D237A9353E650F031D4FCBEE /* libPods-HongTongDele.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */; };
@@ -798,6 +804,16 @@
 		38EEA7D71F38424200034F01 /* AlarmPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmPopView.h; sourceTree = "<group>"; };
 		38EEA7D81F38424200034F01 /* AlarmPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmPopView.m; sourceTree = "<group>"; };
 		38EEA7DA1F38425000034F01 /* AlarmPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlarmPopView.xib; sourceTree = "<group>"; };
+		38F8EE381FCFDCA3008E783B /* JXAlertview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXAlertview.h; sourceTree = "<group>"; };
+		38F8EE391FCFDCA4008E783B /* JXAlertview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXAlertview.m; sourceTree = "<group>"; };
+		38F8EE3B1FCFDD4A008E783B /* CustomDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDatePicker.h; sourceTree = "<group>"; };
+		38F8EE3C1FCFDD4A008E783B /* CustomDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDatePicker.m; sourceTree = "<group>"; };
+		38F8EE3E1FCFE638008E783B /* ErrorListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorListView.xib; sourceTree = "<group>"; };
+		38F8EE401FCFEABA008E783B /* ErrorList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorList.h; sourceTree = "<group>"; };
+		38F8EE411FCFEABA008E783B /* ErrorList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorList.m; sourceTree = "<group>"; };
+		38F8EE431FCFEBCB008E783B /* ErrorListTwoList.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ErrorListTwoList.xib; sourceTree = "<group>"; };
+		38F8EE451FCFED6C008E783B /* ErrorListtwo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ErrorListtwo.h; sourceTree = "<group>"; };
+		38F8EE461FCFED6C008E783B /* ErrorListtwo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ErrorListtwo.m; sourceTree = "<group>"; };
 		38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaiXuanKuang.xib; sourceTree = "<group>"; };
 		38FA5DFB1F5FF3D300FD7888 /* addPosListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addPosListModel.h; sourceTree = "<group>"; };
 		38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addPosListModel.m; sourceTree = "<group>"; };
@@ -978,6 +994,13 @@
 				38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */,
 				3890AC4F1FCE965C00A5AAE3 /* ShaiXuanKuangView.h */,
 				3890AC501FCE965C00A5AAE3 /* ShaiXuanKuangView.m */,
+				38F8EE381FCFDCA3008E783B /* JXAlertview.h */,
+				38F8EE391FCFDCA4008E783B /* JXAlertview.m */,
+				38F8EE3B1FCFDD4A008E783B /* CustomDatePicker.h */,
+				38F8EE3C1FCFDD4A008E783B /* CustomDatePicker.m */,
+				38F8EE3E1FCFE638008E783B /* ErrorListView.xib */,
+				38F8EE401FCFEABA008E783B /* ErrorList.h */,
+				38F8EE411FCFEABA008E783B /* ErrorList.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1847,6 +1870,9 @@
 				3890AC571FCEA02F00A5AAE3 /* XiaoLvYunWeiViewController.m */,
 				3890AC5C1FCEA89900A5AAE3 /* XiaoLvHuViewController.h */,
 				3890AC5D1FCEA89900A5AAE3 /* XiaoLvHuViewController.m */,
+				38F8EE431FCFEBCB008E783B /* ErrorListTwoList.xib */,
+				38F8EE451FCFED6C008E783B /* ErrorListtwo.h */,
+				38F8EE461FCFED6C008E783B /* ErrorListtwo.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2348,6 +2374,7 @@
 				387692481F4ABDA4001B7E82 /* SideSlipPriceTableViewCell.xib in Resources */,
 				38755C5A1F3D9F350081CF4D /* IQKeyboardManager.bundle in Resources */,
 				38C9F4B61FCBE0430029C33A /* JResource.bundle in Resources */,
+				38F8EE3F1FCFE638008E783B /* ErrorListView.xib in Resources */,
 				38BACA7C1F53DE990041EDD0 /* LiveCollectionViewCell.xib in Resources */,
 				38C9F4AE1FCBE0430029C33A /* RongCloud.bundle in Resources */,
 				3883A3281F41A084007967DF /* ForgetViewController.xib in Resources */,
@@ -2399,6 +2426,7 @@
 				380494C71F32BA3700AA0DBC /* Main.storyboard in Resources */,
 				38C9F4AD1FCBE0430029C33A /* RongCloudKit.strings in Resources */,
 				38755C981F3D9F4B0081CF4D /* MJRefresh.bundle in Resources */,
+				38F8EE441FCFEBCB008E783B /* ErrorListTwoList.xib in Resources */,
 				38C9EB201F42986900DB41B4 /* MineCenterViewController.xib in Resources */,
 				387692421F4ABDA4001B7E82 /* AddressTableViewCell.xib in Resources */,
 				38B2D3ED1F341F9B00038F47 /* InstallTableViewCell.xib in Resources */,
@@ -2488,6 +2516,7 @@
 				38C9EB291F42C17600DB41B4 /* ChanggeWordViewController.m in Sources */,
 				38755C8B1F3D9F4B0081CF4D /* MJRefreshBackFooter.m in Sources */,
 				38755C941F3D9F4B0081CF4D /* MJRefreshBackStateFooter.m in Sources */,
+				38F8EE3D1FCFDD4B008E783B /* CustomDatePicker.m in Sources */,
 				3883A32F1F41A6CC007967DF /* MineViewController.m in Sources */,
 				38755C581F3D9F350081CF4D /* IQToolbar.m in Sources */,
 				38755C9B1F3D9F4B0081CF4D /* UIScrollView+MJExtension.m in Sources */,
@@ -2606,12 +2635,14 @@
 				38B2D3E81F34156F00038F47 /* InstallViewController.m in Sources */,
 				38755C221F3D9F2B0081CF4D /* AFNetworkReachabilityManager.m in Sources */,
 				387692101F4ABBAD001B7E82 /* SideSlipBaseTableViewCell.m in Sources */,
+				38F8EE471FCFED6C008E783B /* ErrorListtwo.m in Sources */,
 				38EEA7D31F383E8D00034F01 /* LeftMenuViewDemo.m in Sources */,
 				380E975F1FBBDF29003D50BB /* BaoJingLiShiViewController.m in Sources */,
 				38BACA7B1F53DE990041EDD0 /* LiveCollectionViewCell.m in Sources */,
 				3876923B1F4ABDA4001B7E82 /* AddressModel.m in Sources */,
 				380F36E31FB970540081F567 /* SlectListViewController.m in Sources */,
 				38755C551F3D9F350081CF4D /* IQBarButtonItem.m in Sources */,
+				38F8EE3A1FCFDCA4008E783B /* JXAlertview.m in Sources */,
 				384AB7041F3C4C0F005AFE7A /* UseIdLoginController.m in Sources */,
 				38C9EB1A1F428C6900DB41B4 /* AboutViewController.m in Sources */,
 				38755C9C1F3D9F4B0081CF4D /* UIScrollView+MJRefresh.m in Sources */,
@@ -2624,6 +2655,7 @@
 				38BB34281FC555CE003A1A29 /* HomeThreeView.m in Sources */,
 				384AB70D1F3C4C0F005AFE7A /* MessageCell.m in Sources */,
 				38755C971F3D9F4B0081CF4D /* MJRefreshStateHeader.m in Sources */,
+				38F8EE421FCFEABA008E783B /* ErrorList.m in Sources */,
 				3883A3271F41A084007967DF /* ForgetViewController.m in Sources */,
 				38755C501F3D9F350081CF4D /* IQUIViewController+Additions.m in Sources */,
 				384AB70B1F3C4C0F005AFE7A /* ZqwHorizontalTableView.m in Sources */,

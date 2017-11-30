@@ -10,7 +10,14 @@
 #import "JHTableChart.h"
 #import "BaoJingLiShiViewController.h"
 #import "ShaiXuanKuangView.h"
-@interface BaoJingYunWeiListViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate>
+#import "JXAlertview.h"
+#import "CustomDatePicker.h"
+@interface BaoJingYunWeiListViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,CustomAlertDelegete>
+{
+    CustomDatePicker *Dpicker;
+    
+}
+@property (nonatomic,assign)NSInteger timeselect;
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIScrollView *bgscrollview1;
 @property (nonatomic,strong)UIScrollView *bg;
@@ -34,7 +41,7 @@
     self.title = @"报警信息列表";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setTop];
-    
+    Dpicker = [[CustomDatePicker alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width-20, 200)];
     // Do any additional setup after loading the view.
 }
 
@@ -60,6 +67,41 @@
     [self.view addSubview:line];
     
     [self setScroll];
+}
+
+-(void)LeftClick{
+    JXAlertview *alert = [[JXAlertview alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height-260)/2, self.view.frame.size.width-20, 260)];
+    //alert.image = [UIImage imageNamed:@"dikuang"];
+    alert.delegate = self;
+    [alert initwithtitle:@"请选择日期" andmessage:@"" andcancelbtn:@"取消" andotherbtn:@"确定"];
+    self.timeselect = 0;
+    //我把Dpicker添加到一个弹出框上展现出来 当然大家还是可以以任何其他动画形式展现
+    [alert addSubview:Dpicker];
+    [alert show];
+}
+
+-(void)RightClick{
+    JXAlertview *alert = [[JXAlertview alloc] initWithFrame:CGRectMake(10, (self.view.frame.size.height-260)/2, self.view.frame.size.width-20, 260)];
+    //alert.image = [UIImage imageNamed:@"dikuang"];
+    alert.delegate = self;
+    self.timeselect = 1;
+    [alert initwithtitle:@"请选择日期" andmessage:@"" andcancelbtn:@"取消" andotherbtn:@"确定"];
+    //我把Dpicker添加到一个弹出框上展现出来 当然大家还是可以以任何其他动画形式展现
+    [alert addSubview:Dpicker];
+    [alert show];
+}
+
+-(void)btnindex:(int)index :(int)tag
+{
+    if (index==2) {
+        if (self.timeselect==0) {
+            [self.shaixuanView.leftTimeBtn setTitle:[NSString stringWithFormat:@"%d-%d-%d",Dpicker.year,Dpicker.month,Dpicker.day] forState:UIControlStateNormal];
+        }else{
+            [self.shaixuanView.rightTimeBtn setTitle:[NSString stringWithFormat:@"%d-%d-%d",Dpicker.year,Dpicker.month,Dpicker.day] forState:UIControlStateNormal];
+        }
+        
+    }
+    
 }
 
 - (void)setScroll{

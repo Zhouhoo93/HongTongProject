@@ -8,6 +8,7 @@
 
 #import "XiaoLvHuViewController.h"
 #import "JHTableChart.h"
+#import "ErrorListtwo.h"
 @interface XiaoLvHuViewController ()<UIScrollViewDelegate,TableButDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIScrollView *bgscrollview1;
@@ -481,9 +482,10 @@
 - (void)transButIndex:(NSInteger)index
 {
     NSLog(@"代理方法%ld",index);
-    //    self.navigationController.navigationBar.hidden = NO;
-//    XiaoLvHuViewController *vc = [[XiaoLvHuViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    ErrorListtwo *view = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListTwoList" owner:self options:nil]objectAtIndex:0];
+    //    view.Topdelegate = self;
+    view.frame = CGRectMake(0, 64, KWidth, KHeight);
+    [self.view addSubview:view];
 }
 
 

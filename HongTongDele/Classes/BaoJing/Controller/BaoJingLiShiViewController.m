@@ -9,6 +9,7 @@
 #import "BaoJingLiShiViewController.h"
 #import "JHTableChart.h"
 #import "ShaiXuanKuangView.h"
+#import "ErrorList.h"
 @interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIView *leftView;
@@ -296,6 +297,14 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)transButIndex:(NSInteger)index
+{
+    ErrorList *view = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListView" owner:self options:nil]objectAtIndex:0];
+//    view.Topdelegate = self;
+    view.frame = CGRectMake(0, 0, KWidth, KHeight);
+    [self.view addSubview:view];
 }
 
 /*
