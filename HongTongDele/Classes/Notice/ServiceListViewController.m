@@ -110,8 +110,8 @@
     
     _button.frame = CGRectMake(KWidth - 80, KHeight - 140, 60, 60);
     
-    [_button setBackgroundImage:[UIImage imageNamed:@"recordLive"] forState:UIControlStateNormal];
-    _button.backgroundColor = [UIColor redColor];
+    [_button setBackgroundImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
+//    _button.backgroundColor = [UIColor redColor];
     [_button addTarget:self action:@selector(onTapLiveBtn) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:_button];

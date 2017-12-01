@@ -109,15 +109,19 @@
 
 
 - (void)setLeftTable{
-    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 16, 12, 17)];
-    leftImg.image = [UIImage imageNamed:@"定位"];
-    [self.leftView addSubview:leftImg];
+    UIImageView *topTable = [[UIImageView alloc] initWithFrame:CGRectMake(15, 17, KWidth-100, 30)];
+    topTable.image = [UIImage imageNamed:@"发电bgt"];
+    [self.leftView addSubview:topTable];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
+    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 4, 12, 17)];
+    leftImg.image = [UIImage imageNamed:@"tbx"];
+    [topTable addSubview:leftImg];
+    
+    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
     toplabel.font = [UIFont systemFontOfSize:15];
     toplabel.textColor = [UIColor darkGrayColor];
     toplabel.text = @"镇海镇:10户 平均降效比:30%";
-    [self.leftView addSubview:toplabel];
+    [topTable addSubview:toplabel];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
     biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -200,15 +204,19 @@
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
     self.table11.frame = CGRectMake(0, 0, KWidth, [self.table11 heightFromThisDataSource]);
     
-    UIImageView *leftImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(25, 456, 12, 17)];
-    leftImg1.image = [UIImage imageNamed:@"定位"];
-    [self.leftView addSubview:leftImg1];
+    UIImageView *topTable1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 454, KWidth-100, 30)];
+    topTable1.image = [UIImage imageNamed:@"发电bgt"];
+    [self.leftView addSubview:topTable1];
     
-    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(50, 454, KWidth-70, 24)];
+    UIImageView *leftImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 2, 12, 17)];
+    leftImg1.image = [UIImage imageNamed:@"tbx"];
+    [topTable1 addSubview:leftImg1];
+    
+    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
     toplabel1.font = [UIFont systemFontOfSize:15];
     toplabel1.textColor = [UIColor darkGrayColor];
     toplabel1.text = @"龙山镇:10户 平均降效比:30%";
-    [self.leftView addSubview:toplabel1];
+    [topTable1 addSubview:toplabel1];
     
     UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
     biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
@@ -295,15 +303,19 @@
 
 
 - (void)setRightTable{
-    UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 16, 12, 17)];
-    rightImg.image = [UIImage imageNamed:@"定位"];
-    [self.rightView addSubview:rightImg];
+    UIImageView *topTable = [[UIImageView alloc] initWithFrame:CGRectMake(15, 17, KWidth-100, 30)];
+    topTable.image = [UIImage imageNamed:@"发电bgt"];
+    [self.rightView addSubview:topTable];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
+    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 4, 12, 17)];
+    leftImg.image = [UIImage imageNamed:@"tbx"];
+    [topTable addSubview:leftImg];
+    
+    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
     toplabel.font = [UIFont systemFontOfSize:15];
     toplabel.textColor = [UIColor darkGrayColor];
     toplabel.text = @"镇海镇:10户 平均降效比:30%";
-    [self.rightView addSubview:toplabel];
+    [topTable addSubview:toplabel];
     
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
@@ -387,15 +399,19 @@
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
     self.table33.frame = CGRectMake(0, 0, KWidth, [self.table33 heightFromThisDataSource]);
     
-    UIImageView *rightImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(25, 456, 12, 17)];
-    rightImg1.image = [UIImage imageNamed:@"定位"];
-    [self.rightView addSubview:rightImg1];
+    UIImageView *topTable1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 454, KWidth-100, 30)];
+    topTable1.image = [UIImage imageNamed:@"发电bgt"];
+    [self.rightView addSubview:topTable1];
     
-    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(50, 454, KWidth-70, 24)];
+    UIImageView *leftImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 2, 12, 17)];
+    leftImg1.image = [UIImage imageNamed:@"tbx"];
+    [topTable1 addSubview:leftImg1];
+    
+    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
     toplabel1.font = [UIFont systemFontOfSize:15];
     toplabel1.textColor = [UIColor darkGrayColor];
     toplabel1.text = @"龙山镇:10户 平均降效比:30%";
-    [self.rightView addSubview:toplabel1];
+    [topTable1 addSubview:toplabel1];
     
     UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
     biaogeBg1.image = [UIImage imageNamed:@"表格bg"];

@@ -138,6 +138,9 @@
                     <state key="normal" title="历史数据" backgroundImage="历史">
                         <color key="titleColor" red="0.058823529409999999" green="0.69411764710000001" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="lishiBtnClick:" destination="dqq-W4-Ljf" eventType="touchUpInside" id="3Ng-QT-p53"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cnx-vO-CdQ">
                     <rect key="frame" x="10" y="20" width="354" height="91"/>

@@ -228,52 +228,58 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcm-0b-3px">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wcm-0b-3px">
                     <rect key="frame" x="215" y="166" width="60" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="5vc-qD-OUN"/>
                         <constraint firstAttribute="width" constant="60" id="b0J-1C-j9G"/>
                     </constraints>
-                    <state key="normal" title="拨号"/>
+                    <state key="normal" title="拨号" image="拨号"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTy-zF-EF4">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTy-zF-EF4">
                     <rect key="frame" x="285" y="166" width="60" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="Kh8-u0-o6h"/>
                         <constraint firstAttribute="height" constant="30" id="puk-ra-cO3"/>
                     </constraints>
-                    <state key="normal" title="信息"/>
+                    <state key="normal" title="信息" image="信息"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySf-2c-AmD">
-                    <rect key="frame" x="267" y="195" width="64" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySf-2c-AmD">
+                    <rect key="frame" x="267" y="199" width="64" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="8FR-hn-zuX"/>
                         <constraint firstAttribute="width" constant="64" id="KLy-dV-vfE"/>
                     </constraints>
-                    <state key="normal" title="一键导航"/>
+                    <state key="normal" title="一键导航" image="导航"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyK-M3-DVL">
                     <rect key="frame" x="103" y="369" width="54" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="cMb-jC-DK9"/>
                     </constraints>
-                    <state key="normal" title="未处理"/>
+                    <state key="normal" title="未处理" backgroundImage="处理中">
+                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12h-9y-Pa9">
                     <rect key="frame" x="182" y="370" width="54" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="IOC-tI-RKR"/>
                     </constraints>
-                    <state key="normal" title="处理中"/>
+                    <state key="normal" title="处理中" backgroundImage="处理中">
+                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-2a-nKQ">
                     <rect key="frame" x="261" y="370" width="54" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="kIY-nN-oTu"/>
                     </constraints>
-                    <state key="normal" title="已处理"/>
+                    <state key="normal" title="已处理" backgroundImage="处理中">
+                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kyv-mH-Gk7">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="意见栏" translatesAutoresizingMaskIntoConstraints="NO" id="Kyv-mH-Gk7">
                     <rect key="frame" x="99" y="403" width="225" height="97"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="97" id="750-FA-WjG"/>
@@ -358,7 +364,7 @@
                 <constraint firstItem="nuc-LK-a1H" firstAttribute="top" secondItem="iSf-Cf-NES" secondAttribute="top" constant="99" id="a8k-YK-a8N"/>
                 <constraint firstItem="74e-tZ-MzQ" firstAttribute="leading" secondItem="7dS-Zz-vgy" secondAttribute="trailing" constant="8" id="cJe-Wb-6xH"/>
                 <constraint firstItem="Ots-yM-mdi" firstAttribute="top" secondItem="Uap-mA-OyV" secondAttribute="bottom" constant="8" id="cnh-8P-EvE"/>
-                <constraint firstItem="ySf-2c-AmD" firstAttribute="top" secondItem="bUi-EK-MWD" secondAttribute="bottom" constant="32" id="dZj-mj-4lV"/>
+                <constraint firstItem="ySf-2c-AmD" firstAttribute="top" secondItem="bUi-EK-MWD" secondAttribute="bottom" constant="36" id="dZj-mj-4lV"/>
                 <constraint firstItem="lLe-KO-Zsk" firstAttribute="leading" secondItem="iSf-Cf-NES" secondAttribute="leading" constant="50" id="diq-Wf-GU2"/>
                 <constraint firstItem="12h-9y-Pa9" firstAttribute="width" secondItem="qyK-M3-DVL" secondAttribute="width" id="dxV-sP-NsU"/>
                 <constraint firstItem="UY3-DA-SUh" firstAttribute="top" secondItem="hqn-p2-AqW" secondAttribute="bottom" constant="40" id="fB2-JJ-NYe"/>
@@ -395,5 +401,10 @@
         <image name="bgh" width="375" height="666"/>
         <image name="del" width="29" height="29"/>
         <image name="popBgvIEW" width="261" height="308"/>
+        <image name="信息" width="63" height="32"/>
+        <image name="处理中" width="63" height="22"/>
+        <image name="导航" width="63" height="31"/>
+        <image name="意见栏" width="178" height="86"/>
+        <image name="拨号" width="63" height="31"/>
     </resources>
 </document>

@@ -19,6 +19,17 @@
         [self.Topdelegate transButIndex3];
     }
 }
+
+-(void)BaoJingClick:(UIButton *)sender{
+    if (self.Topdelegate && [self.Topdelegate respondsToSelector:@selector(BaoJinglishi)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.Topdelegate BaoJinglishi];
+    }
+}
+
+- (IBAction)lishiBtnClick:(id)sender {
+    [self BaoJingClick:sender];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

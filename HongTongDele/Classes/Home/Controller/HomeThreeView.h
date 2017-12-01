@@ -10,8 +10,10 @@
 @protocol TopButDelegate3 <NSObject>//协议
 
 - (void)transButIndex3;//协议方法
+- (void)BaoJinglishi;
 @end
 @interface HomeThreeView : UIView
 @property (nonatomic, assign) id<TopButDelegate3> Topdelegate;//代理属性
 - (void)ClickBut:(UIButton *)sender;//此方法执行时判断协议方法的执行情况
+- (void)BaoJingClick:(UIButton *)sender;//此方法执行时判断协议方法的执行情况
 @end

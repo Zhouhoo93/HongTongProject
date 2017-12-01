@@ -15,7 +15,9 @@
 #import "ZhuangtaiListZongViewController.h"
 #import "BaoJingYunWeiListViewController.h"
 #import "XiaoLvYunWeiViewController.h"
-@interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3>
+#import "BaoJingLiShiListViewController.h"
+#import "XiaoLvLishiViewController.h"
+@interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
 @property (nonatomic,strong)UIActionSheet *actionSheet;
@@ -121,6 +123,18 @@
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+-(void)BaoJinglishi{
+    BaoJingLiShiListViewController *vc = [[BaoJingLiShiListViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)XiaoLvlishi{
+    XiaoLvLishiViewController *vc = [[XiaoLvLishiViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)transButIndex4

@@ -287,6 +287,10 @@
 		38F8EE471FCFED6C008E783B /* ErrorListtwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F8EE461FCFED6C008E783B /* ErrorListtwo.m */; };
 		38F9DCE61FC7C88800B2B07F /* ShaiXuanKuang.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */; };
 		38FA5DFD1F5FF3D300FD7888 /* addPosListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */; };
+		38FCCDD61FD1044100EDE982 /* BaoJingLiShiListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDD51FD1044100EDE982 /* BaoJingLiShiListViewController.m */; };
+		38FCCDD91FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDD81FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m */; };
+		38FCCDDC1FD1253B00EDE982 /* XiaoLvLishiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDDB1FD1253B00EDE982 /* XiaoLvLishiViewController.m */; };
+		38FCCDDF1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDDE1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m */; };
 		D237A9353E650F031D4FCBEE /* libPods-HongTongDele.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */; };
 /* End PBXBuildFile section */
 
@@ -817,6 +821,14 @@
 		38F9DCE51FC7C88800B2B07F /* ShaiXuanKuang.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShaiXuanKuang.xib; sourceTree = "<group>"; };
 		38FA5DFB1F5FF3D300FD7888 /* addPosListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addPosListModel.h; sourceTree = "<group>"; };
 		38FA5DFC1F5FF3D300FD7888 /* addPosListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addPosListModel.m; sourceTree = "<group>"; };
+		38FCCDD41FD1044100EDE982 /* BaoJingLiShiListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaoJingLiShiListViewController.h; sourceTree = "<group>"; };
+		38FCCDD51FD1044100EDE982 /* BaoJingLiShiListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaoJingLiShiListViewController.m; sourceTree = "<group>"; };
+		38FCCDD71FD108B600EDE982 /* BaoJingLishiYunweiListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaoJingLishiYunweiListViewController.h; sourceTree = "<group>"; };
+		38FCCDD81FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaoJingLishiYunweiListViewController.m; sourceTree = "<group>"; };
+		38FCCDDA1FD1253B00EDE982 /* XiaoLvLishiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvLishiViewController.h; sourceTree = "<group>"; };
+		38FCCDDB1FD1253B00EDE982 /* XiaoLvLishiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvLishiViewController.m; sourceTree = "<group>"; };
+		38FCCDDD1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvLiShiYunweiViewController.h; sourceTree = "<group>"; };
+		38FCCDDE1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvLiShiYunweiViewController.m; sourceTree = "<group>"; };
 		7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HongTongDele.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772E9B9573D96B614B21027 /* Pods-HongTongDele.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.debug.xcconfig"; sourceTree = "<group>"; };
 		E90E5AEF5282315D8FAA1EC0 /* Pods-HongTongDele.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.release.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.release.xcconfig"; sourceTree = "<group>"; };
@@ -985,6 +997,10 @@
 				380E975E1FBBDF29003D50BB /* BaoJingLiShiViewController.m */,
 				38BB34231FC55598003A1A29 /* BaoJingYunWeiListViewController.h */,
 				38BB34241FC55598003A1A29 /* BaoJingYunWeiListViewController.m */,
+				38FCCDD41FD1044100EDE982 /* BaoJingLiShiListViewController.h */,
+				38FCCDD51FD1044100EDE982 /* BaoJingLiShiListViewController.m */,
+				38FCCDD71FD108B600EDE982 /* BaoJingLishiYunweiListViewController.h */,
+				38FCCDD81FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m */,
 				3898C6AD1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.h */,
 				3898C6AE1FC2CBDD00B508FB /* ZhuangtaiListZongViewController.m */,
 				3898C6AA1FC2C87E00B508FB /* ZhuangTaiListViewController.h */,
@@ -1870,6 +1886,10 @@
 				3890AC571FCEA02F00A5AAE3 /* XiaoLvYunWeiViewController.m */,
 				3890AC5C1FCEA89900A5AAE3 /* XiaoLvHuViewController.h */,
 				3890AC5D1FCEA89900A5AAE3 /* XiaoLvHuViewController.m */,
+				38FCCDDA1FD1253B00EDE982 /* XiaoLvLishiViewController.h */,
+				38FCCDDB1FD1253B00EDE982 /* XiaoLvLishiViewController.m */,
+				38FCCDDD1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.h */,
+				38FCCDDE1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m */,
 				38F8EE431FCFEBCB008E783B /* ErrorListTwoList.xib */,
 				38F8EE451FCFED6C008E783B /* ErrorListtwo.h */,
 				38F8EE461FCFED6C008E783B /* ErrorListtwo.m */,
@@ -2542,6 +2562,7 @@
 				38755C531F3D9F350081CF4D /* IQKeyboardReturnKeyHandler.m in Sources */,
 				389392EA1F59371000EDF535 /* CustomerListViewController.m in Sources */,
 				38755C931F3D9F4B0081CF4D /* MJRefreshBackNormalFooter.m in Sources */,
+				38FCCDDF1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m in Sources */,
 				387D32121F3AB3DB0066E762 /* CustomerViewController.m in Sources */,
 				389A9FEC1F45698E00B55BAC /* InstallStationViewController.m in Sources */,
 				38755C961F3D9F4B0081CF4D /* MJRefreshNormalHeader.m in Sources */,
@@ -2648,14 +2669,17 @@
 				38755C9C1F3D9F4B0081CF4D /* UIScrollView+MJRefresh.m in Sources */,
 				387692451F4ABDA4001B7E82 /* SideSlipCommonTableViewCell.m in Sources */,
 				389945E71FBD77F200793718 /* SelectYunWeiViewController.m in Sources */,
+				38FCCDD91FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m in Sources */,
 				38B2D3F31F34262E00038F47 /* ElectricityViewController.m in Sources */,
 				389A9FE91F45653300B55BAC /* InstallModel.m in Sources */,
 				38755C951F3D9F4B0081CF4D /* MJRefreshGifHeader.m in Sources */,
+				38FCCDDC1FD1253B00EDE982 /* XiaoLvLishiViewController.m in Sources */,
 				38EEA7D51F383E8D00034F01 /* MenuTableViewCell.m in Sources */,
 				38BB34281FC555CE003A1A29 /* HomeThreeView.m in Sources */,
 				384AB70D1F3C4C0F005AFE7A /* MessageCell.m in Sources */,
 				38755C971F3D9F4B0081CF4D /* MJRefreshStateHeader.m in Sources */,
 				38F8EE421FCFEABA008E783B /* ErrorList.m in Sources */,
+				38FCCDD61FD1044100EDE982 /* BaoJingLiShiListViewController.m in Sources */,
 				3883A3271F41A084007967DF /* ForgetViewController.m in Sources */,
 				38755C501F3D9F350081CF4D /* IQUIViewController+Additions.m in Sources */,
 				384AB70B1F3C4C0F005AFE7A /* ZqwHorizontalTableView.m in Sources */,

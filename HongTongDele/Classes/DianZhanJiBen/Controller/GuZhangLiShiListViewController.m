@@ -29,9 +29,9 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)setUI{
-    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-110, 78, 100, 34)];
-    [rightBtn setImage:[UIImage imageNamed:@"历史报警2"] forState:UIControlStateNormal];
-    [self.view addSubview:rightBtn];
+//    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-110, 78, 100, 34)];
+//    [rightBtn setImage:[UIImage imageNamed:@"历史报警2"] forState:UIControlStateNormal];
+//    [self.view addSubview:rightBtn];
     
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 84, KWidth-100, 34)];
     leftLabel.text = @"户号: 123456";

@@ -19,4 +19,16 @@
         [self.Topdelegate transButIndex4];
     }
 }
+
+-(void)XiaoLvClick:(UIButton *)sender{
+    if (self.Topdelegate && [self.Topdelegate respondsToSelector:@selector(XiaoLvlishi)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.Topdelegate XiaoLvlishi];
+    }
+}
+
+- (IBAction)lishiBtnClick:(id)sender {
+    [self XiaoLvClick:sender];
+    
+}
 @end
