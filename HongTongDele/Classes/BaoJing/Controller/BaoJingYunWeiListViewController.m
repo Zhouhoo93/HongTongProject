@@ -127,18 +127,18 @@
     self.bgscrollview.backgroundColor = [UIColor clearColor];
     self.bgscrollview.pagingEnabled = NO;
     self.bgscrollview.contentSize = CGSizeMake(KWidth, 900);
-    [self.bg addSubview:self.bgscrollview];
+    [leftbg addSubview:self.bgscrollview];
     
-    self.bgscrollview1 = [[UIScrollView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, KHeight-94)];
+    self.bgscrollview1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-94)];
     self.bgscrollview1.delegate = self;
     self.bgscrollview1.backgroundColor = [UIColor clearColor];
     self.bgscrollview1.pagingEnabled = NO;
     self.bgscrollview1.contentSize = CGSizeMake(KWidth, 900);
-    [self.bg addSubview:self.bgscrollview1];
+    [rightbg addSubview:self.bgscrollview1];
     
     self.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
     self.leftView.backgroundColor = [UIColor clearColor];
-    [self.bg addSubview:self.leftView];
+    [self.bgscrollview addSubview:self.leftView];
     
    
     
