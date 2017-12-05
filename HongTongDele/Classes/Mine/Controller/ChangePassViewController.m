@@ -53,15 +53,19 @@ static NSInteger count = 0;
 #pragma mark - 请求数据
 //请求数据,获取验证码
 - (void)requestData {
-    NSString *URLstring = [NSString stringWithFormat:@"%@/login/%@",kUrl,self.PhoneTextField.text];
+    NSString *URLstring = [NSString stringWithFormat:@"%@/user/edit_tel",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     //        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/html",  @"text/json",@"text/JavaScript", nil];
-
-    [manager GET:URLstring parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setValue:self.PhoneTextField.text forKey:@"tel"];
+    [parameters setValue:token forKey:@"token"];
+    [manager POST:URLstring parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

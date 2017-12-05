@@ -43,7 +43,7 @@
 }
 //验证账号密码
 - (void)requestPassWord {
-    NSString *URL = [NSString stringWithFormat:@"%@/login",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/login",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -55,10 +55,10 @@
 //        [parameters setValue:@"teacher" forKey:@"type"];
 //    }
     [parameters setValue:self.phoneTextField.text forKey:@"tel"];
-    [parameters setValue:self.passwordTextField.text forKey:@"pwd"];
+    [parameters setValue:self.passwordTextField.text forKey:@"password"];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *regis = [userDefaults valueForKey:@"registerid"];
-    [parameters setValue:regis forKey:@"register_id"];
+    [parameters setValue:regis forKey:@"registration_id"];
     NSLog(@"登陆参数:%@",parameters);
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         

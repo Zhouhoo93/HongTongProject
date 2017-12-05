@@ -37,7 +37,7 @@
 }
 //验证账号密码
 - (void)requestPassWord {
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/pwd",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/edit_pwd",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -45,9 +45,11 @@
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     
     [parameters setValue:self.OldWordText.text forKey:@"old_pwd"];
-    //    [parameters setValue:self.userNameText.text forKey:@"username"];
-    [parameters setValue:self.NewWordText.text forKey:@"pwd"];
-    [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [parameters setValue:token forKey:@"token"];
+    [parameters setValue:self.NewWordText.text forKey:@"new_pwd"];
+    [parameters setValue:self.NewWordTextTwo.text forKey:@"repwd"];
+    NSLog(@"修改密码参数:%@",parameters);
+    [manager POST:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"修改密码正确%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
 //            [MBProgressHUD showText:@"设置成功"];

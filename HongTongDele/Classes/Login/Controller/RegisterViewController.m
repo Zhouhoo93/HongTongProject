@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendBtn;
 @property (weak, nonatomic) IBOutlet UIButton *AgreeBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *SelectImage;
+@property (weak, nonatomic) IBOutlet UITextField *yaoqingma;
 @property (strong, nonatomic) NSTimer *timer;
 @end
 
@@ -28,9 +29,11 @@
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_phoneTextField resignFirstResponder];
-    [_codeTextfIELD resignFirstResponder];
     [_passWordTextField resignFirstResponder];
     [_passWordTwoTextField resignFirstResponder];
+    [_codeTextfIELD resignFirstResponder];
+    [_yaoqingma resignFirstResponder];
+    [_userNameTextField resignFirstResponder];
     
 }
 - (void)viewDidLoad {
@@ -92,7 +95,8 @@
 - (IBAction)registerBtnClick:(id)sender {
     if(self.AgreeBtn.selected){
         if([self.passWordTextField.text isEqualToString:self.passWordTwoTextField.text]){
-            [self checkCode];
+//            [self checkCode];
+            [self requestPassWord];
         }else{
             [MBProgressHUD showText:@"两次输入的密码不同"];
         }
@@ -104,14 +108,17 @@
 
 //请求数据,获取验证码
 - (void)requestData {
-    NSString *URLstring = [NSString stringWithFormat:@"%@/login/%@",kUrl,self.phoneTextField.text];
+    NSString *URLstring = [NSString stringWithFormat:@"%@/user/gettelcode",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     //        manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/html",  @"text/json",@"text/JavaScript", nil];
-    [manager GET:URLstring parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    [parameters setValue:self.phoneTextField.text forKey:@"tel"];
+    [manager POST:URLstring parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -176,15 +183,8 @@ static NSInteger count = 0;
 
 //验证账号密码
 - (void)requestPassWord {
-    NSString *URL = [[NSString alloc] init];
-    if ([self.typeBtn.titleLabel.text isEqualToString:@"小代"]) {
-        URL = [NSString stringWithFormat:@"%@/login/small_agents",kUrl];
-    }else if ([self.typeBtn.titleLabel.text isEqualToString:@"中代"]){
-        URL = [NSString stringWithFormat:@"%@/login/middle_agents",kUrl];
-    }else{
-        URL = [NSString stringWithFormat:@"%@/login/area_agents",kUrl];
-    }
-//    NSString *URL = [NSString stringWithFormat:@"%@/login/small_agent",kUrl];
+    
+    NSString *URL = [NSString stringWithFormat:@"%@/user/register",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -195,14 +195,15 @@ static NSInteger count = 0;
 //    }else{
 //        [parameters setValue:@"teacher" forKey:@"type"];
 //    }
-    [parameters setValue:self.userNameTextField.text forKey:@"username"];
+    [parameters setValue:self.userNameTextField.text forKey:@"nickname"];
     [parameters setValue:self.passWordTextField.text forKey:@"pwd"];
+    [parameters setValue:self.passWordTwoTextField.text forKey:@"repwd"];
     [parameters setValue:self.phoneTextField.text forKey:@"tel"];
-//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-//    NSString *regis = [userDefaults valueForKey:@"registerid"];
-//    [parameters setValue:regis forKey:@"register_id"];
-    NSLog(@"登陆参数:%@",parameters);
-    [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [parameters setValue:self.codeTextfIELD.text forKey:@"code"];
+    [parameters setValue:self.yaoqingma.text forKey:@"invite_code"];
+
+    NSLog(@"注册参数:%@",parameters);
+    [manager POST:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
 //            NSString *token = [NSString stringWithFormat:@"%@",responseObject[@"content"]];

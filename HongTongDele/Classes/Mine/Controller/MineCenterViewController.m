@@ -9,6 +9,7 @@
 #import "MineCenterViewController.h"
 #import "ChanggeWordViewController.h"
 #import "ChangePassViewController.h"
+#import "SexViewController.h"
 @interface MineCenterViewController ()<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *PassWordLabel;
@@ -37,6 +38,11 @@
     alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertview show];
 
+}
+- (IBAction)changgeSex:(id)sender {
+    
+    SexViewController *vc = [[SexViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)ChanggePassWordBtnClick:(id)sender {
     ChanggeWordViewController *vc = [[ChanggeWordViewController alloc] init];
@@ -92,17 +98,19 @@
 }
 
 -(void)requestNewUserName{
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/index/name",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/edit_nickname",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     NSLog(@"token:%@ ,%@",token,URL);
    
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-     [userDefaults synchronize];
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setValue:self.userName forKey:@"username"];
-    [manager PATCH:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [parameters setValue:self.userName forKey:@"nickname"];
+    [parameters setValue:token forKey:@"token"];
+    [userDefaults synchronize];
+    [manager POST:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"修改username%@",responseObject);
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
@@ -154,7 +162,7 @@
 }
 
 -(void)requestNewAddress{
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/addr",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/edit_address",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -162,8 +170,9 @@
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setValue:self.NewAddress forKey:@"addr"];
-    [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [parameters setValue:self.NewAddress forKey:@"address"];
+    [parameters setValue:token forKey:@"token"];
+    [manager POST:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
             NSString *errorcode = [NSString stringWithFormat:@"%@",code];

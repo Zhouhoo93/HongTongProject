@@ -40,7 +40,8 @@
 - (IBAction)LoginBtnClick:(id)sender {
     if ([self.passTextField.text isEqualToString:self.passTwoTextField.text]) {
         [MBProgressHUD showText:@"请稍候"];
-        [self checkCode];
+//        [self checkCode];
+        [self requestPassWord];
     }else{
         [MBProgressHUD showText:@"两次密码输入不一致"];
     }
@@ -59,14 +60,17 @@ static NSInteger count = 0;
 }
 //请求数据,获取验证码
 - (void)requestData {
-    NSString *URLstring = [NSString stringWithFormat:@"%@/login/%@",kUrl,self.phoneTextField.text];
+    NSString *URLstring = [NSString stringWithFormat:@"%@/user/forgetcode",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     //        manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/html",  @"text/json",@"text/JavaScript", nil];
-    [manager GET:URLstring parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setValue:self.phoneTextField.text forKey:@"tel"];
+    NSLog(@"忘记密码:%@",parameters);
+    [manager POST:URLstring parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -123,7 +127,9 @@ static NSInteger count = 0;
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     [parameters setValue:self.phoneTextField.text forKey:@"tel"];
-    [parameters setValue:self.passTextField.text forKey:@"pwd"];
+    [parameters setValue:self.passTextField.text forKey:@"new_pwd"];
+    [parameters setValue:self.passTwoTextField.text forKey:@"repwd"];
+    [parameters setValue:self.codeTextField.text forKey:@"code"];
 //    [parameters setValue:self.phoneTextField.text forKey:@"tel"];
     NSLog(@"忘记密码参数:%@",parameters);
     [manager PUT:URL parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
