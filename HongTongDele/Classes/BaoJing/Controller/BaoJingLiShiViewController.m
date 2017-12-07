@@ -10,7 +10,7 @@
 #import "JHTableChart.h"
 #import "ShaiXuanKuangView.h"
 #import "ErrorList.h"
-@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate>
+@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,yichangDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIView *leftView;
 @property (nonatomic,strong)UIView *rightView;
@@ -19,6 +19,7 @@
 @property (nonatomic,strong)JHTableChart *table3;
 @property (nonatomic,strong)JHTableChart *table33;
 @property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
+@property (nonatomic,strong)ErrorList *errorList;
 @end
 
 @implementation BaoJingLiShiViewController
@@ -64,32 +65,35 @@
     self.bgscrollview.contentSize = CGSizeMake(KWidth*2, 0);
     [self.view addSubview:_bgscrollview];
     
-    self.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
-    self.leftView.backgroundColor = [UIColor clearColor];
-    [self.bgscrollview addSubview:self.leftView];
-    
     UIImageView *leftbg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
+    leftbg.userInteractionEnabled = YES;
     leftbg.image = [UIImage imageNamed:@"未处理1"];
-    [self.leftView addSubview:leftbg];
+    [self.bgscrollview addSubview:leftbg];
     
-    self.rightView = [[UIView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, 900)];
-    self.rightView.backgroundColor = [UIColor clearColor];
-    [self.bgscrollview addSubview:self.rightView];
+    self.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, KWidth, 900)];
+    self.leftView.backgroundColor = [UIColor clearColor];
+    [leftbg addSubview:self.leftView];
     
-    UIImageView *rightbg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 900)];
+    
+    UIImageView *rightbg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth, 0, KWidth, 900)];
+    rightbg.userInteractionEnabled = YES;
     rightbg.image = [UIImage imageNamed:@"处理中1"];
-    [self.rightView addSubview:rightbg];
+    [self.bgscrollview addSubview:rightbg];
+    
+    self.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, KWidth, 900)];
+    self.rightView.backgroundColor = [UIColor clearColor];
+    [rightbg addSubview:self.rightView];
     
     [self setLeftTable];
     [self setRightTable];
 }
 
 - (void)setLeftTable{
-    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 16, 12, 17)];
+    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 12, 17)];
     leftImg.image = [UIImage imageNamed:@"定位"];
     [self.leftView addSubview:leftImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
+    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 14, KWidth-70, 24)];
     toplabel.font = [UIFont systemFontOfSize:14];
     toplabel.textColor = [UIColor darkGrayColor];
     toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
@@ -194,12 +198,22 @@
     [self.shaixuanView removeFromSuperview];
 }
 
+- (void)LeftClick {
+    [self.shaixuanView removeFromSuperview];
+}
+
+
+- (void)RightClick {
+    [self.shaixuanView removeFromSuperview];
+}
+
+
 - (void)setRightTable{
-    UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 16, 12, 17)];
+    UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 12, 17)];
     rightImg.image = [UIImage imageNamed:@"定位"];
     [self.rightView addSubview:rightImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
+    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 14, KWidth-70, 24)];
     toplabel.font = [UIFont systemFontOfSize:14];
     toplabel.textColor = [UIColor darkGrayColor];
     toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
@@ -301,20 +315,20 @@
 
 - (void)transButIndex:(NSInteger)index
 {
-    ErrorList *view = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListView" owner:self options:nil]objectAtIndex:0];
-//    view.Topdelegate = self;
-    view.frame = CGRectMake(0, 0, KWidth, KHeight);
-    [self.view addSubview:view];
+    self.errorList = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListView" owner:self options:nil]objectAtIndex:0];
+        self.errorList.delegate = self;
+    self.errorList.frame = CGRectMake(0, 0, KWidth, KHeight);
+    [self.view addSubview:self.errorList];
+}
+- (void)CloseClick1{
+    [self.errorList removeFromSuperview];
+}
+-(void)LeftClick1{
+    [self.errorList removeFromSuperview];
+}
+-(void)RightClick1{
+    [self.errorList removeFromSuperview];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -269,15 +269,16 @@
 }
 
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/index",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/getuserinformation",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-
-    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    [parameters setValue:token forKey:@"token"];
+    [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -296,6 +297,7 @@
         }else{
                 self.userName = responseObject[@"content"][@"username"];
                 NSString *nameText = responseObject[@"content"][@"username"];
+//            NSString *nameText = @"123";
             if (nameText.length>0) {
                 [self.nameBtn setTitle:nameText forState:UIControlStateNormal];
             }else{

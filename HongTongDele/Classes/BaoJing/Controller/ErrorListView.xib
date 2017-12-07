@@ -43,6 +43,9 @@
                     <state key="normal" title="取消">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="quxiaoBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="pr8-h5-pZd"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x7T-7Y-uoU">
                     <rect key="frame" x="299" y="99" width="46" height="30"/>
@@ -53,6 +56,9 @@
                     <state key="normal" title="完成">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="wanchengBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="3XV-bP-zt2"/>
+                    </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zb9-dD-27r">
                     <rect key="frame" x="30" y="133" width="315" height="1"/>
@@ -301,6 +307,9 @@
                         <constraint firstAttribute="height" constant="54" id="Zhd-2L-SNP"/>
                     </constraints>
                     <state key="normal" image="del"/>
+                    <connections>
+                        <action selector="closeBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="50D-bY-Irh"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="备注:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5y0-cO-UtS">
                     <rect key="frame" x="50" y="403" width="42" height="21"/>

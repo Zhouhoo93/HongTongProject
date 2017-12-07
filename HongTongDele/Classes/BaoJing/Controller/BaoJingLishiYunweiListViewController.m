@@ -54,11 +54,11 @@
 }
 
 - (void)setTabel{
-    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 66, 12, 17)];
+    UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(20, 66, 12, 17)];
     leftImg.image = [UIImage imageNamed:@"定位"];
     [self.bgscrollview addSubview:leftImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 64, KWidth-70, 24)];
+    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 64, KWidth-70, 24)];
     toplabel.font = [UIFont systemFontOfSize:14];
     toplabel.textColor = [UIColor darkGrayColor];
     toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";

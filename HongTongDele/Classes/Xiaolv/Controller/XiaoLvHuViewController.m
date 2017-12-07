@@ -9,7 +9,7 @@
 #import "XiaoLvHuViewController.h"
 #import "JHTableChart.h"
 #import "ErrorListtwo.h"
-@interface XiaoLvHuViewController ()<UIScrollViewDelegate,TableButDelegate>
+@interface XiaoLvHuViewController ()<UIScrollViewDelegate,TableButDelegate,yichangDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIScrollView *bgscrollview1;
 @property (nonatomic,strong)UIScrollView *bg;
@@ -23,6 +23,7 @@
 @property (nonatomic,strong)JHTableChart *table33;
 @property (nonatomic,strong)JHTableChart *table4;
 @property (nonatomic,strong)JHTableChart *table44;
+@property (nonatomic,strong)ErrorListtwo *errorList;
 @end
 
 @implementation XiaoLvHuViewController
@@ -77,14 +78,14 @@
     rightbg.userInteractionEnabled = YES;
     [self.bg addSubview:rightbg];
     
-    self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-94)];
+    self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 10, KWidth, KHeight-94)];
     self.bgscrollview.delegate = self;
     self.bgscrollview.backgroundColor = [UIColor clearColor];
     self.bgscrollview.pagingEnabled = NO;
     self.bgscrollview.contentSize = CGSizeMake(KWidth, 900);
     [leftbg addSubview:self.bgscrollview];
     
-    self.bgscrollview1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-94)];
+    self.bgscrollview1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 10, KWidth, KHeight-94)];
     self.bgscrollview1.delegate = self;
     self.bgscrollview1.backgroundColor = [UIColor clearColor];
     self.bgscrollview1.pagingEnabled = NO;
@@ -498,10 +499,11 @@
 - (void)transButIndex:(NSInteger)index
 {
     NSLog(@"代理方法%ld",index);
-    ErrorListtwo *view = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListTwoList" owner:self options:nil]objectAtIndex:0];
+    self.errorList = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListTwoList" owner:self options:nil]objectAtIndex:0];
     //    view.Topdelegate = self;
-    view.frame = CGRectMake(0, 64, KWidth, KHeight);
-    [self.view addSubview:view];
+    self.errorList.frame = CGRectMake(0, 64, KWidth, KHeight);
+    self.errorList.delegate = self;
+    [self.view addSubview:self.errorList];
 }
 
 
@@ -510,6 +512,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)CloseClick{
+    [self.errorList removeFromSuperview];
+}
+-(void)LeftClick{
+    [self.errorList removeFromSuperview];
+}
+-(void)RightClick{
+    [self.errorList removeFromSuperview];
+}
 /*
 #pragma mark - Navigation
 

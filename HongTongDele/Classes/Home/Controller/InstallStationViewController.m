@@ -136,14 +136,17 @@
 }
 
 - (void)zhengchangBtnClick{
-    
+    GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)lixianBtnClick{
-    
+    GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)yichangBtnClick{
-    
+    GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)guzhangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
