@@ -86,7 +86,7 @@
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvM-Sj-AYp">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvM-Sj-AYp">
                     <rect key="frame" x="23" y="82" width="42" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Iss-vP-b8m"/>
@@ -96,7 +96,7 @@
                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHo-rO-U0d">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHo-rO-U0d">
                     <rect key="frame" x="166" y="82" width="43" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="uWQ-2N-gwI"/>
@@ -106,7 +106,7 @@
                     <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olU-MS-TXP">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olU-MS-TXP">
                     <rect key="frame" x="304" y="82" width="42" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="42" id="L7F-Yc-df9"/>
@@ -191,6 +191,12 @@
                 <constraint firstItem="e3W-D9-csb" firstAttribute="top" secondItem="1cK-pI-aHG" secondAttribute="bottom" constant="5" id="yDj-Oc-yTO"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="baojingxinxi" destination="fHu-LX-J4J" id="W5r-ZF-8st"/>
+                <outlet property="chulizhong" destination="bHo-rO-U0d" id="4XT-RC-Sha"/>
+                <outlet property="weichuli" destination="cvM-Sj-AYp" id="43k-Ka-GWe"/>
+                <outlet property="yichuli" destination="olU-MS-TXP" id="ob1-Iw-K7i"/>
+            </connections>
             <point key="canvasLocation" x="144.5" y="80"/>
         </view>
     </objects>

@@ -145,6 +145,7 @@
 		387692491F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387692341F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.m */; };
 		3876924A1F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 387692351F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.xib */; };
 		3876924B1F4ABDA4001B7E82 /* SideSlipSpaceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387692371F4ABDA4001B7E82 /* SideSlipSpaceTableViewCell.m */; };
+		387B554D1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 387B554C1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m */; };
 		387D31E21F3AB0050066E762 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387D31E11F3AB0050066E762 /* AssetsLibrary.framework */; };
 		387D31E41F3AB0180066E762 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387D31E31F3AB0170066E762 /* AudioToolbox.framework */; };
 		387D31E61F3AB0230066E762 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 387D31E51F3AB0230066E762 /* AVFoundation.framework */; };
@@ -604,6 +605,8 @@
 		387692351F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideSlipServiceTableViewCell.xib; sourceTree = "<group>"; };
 		387692361F4ABDA4001B7E82 /* SideSlipSpaceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideSlipSpaceTableViewCell.h; sourceTree = "<group>"; };
 		387692371F4ABDA4001B7E82 /* SideSlipSpaceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideSlipSpaceTableViewCell.m; sourceTree = "<group>"; };
+		387B554B1FE0FF540019FF25 /* BaoJingZhuangTaiModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaoJingZhuangTaiModel.h; sourceTree = "<group>"; };
+		387B554C1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaoJingZhuangTaiModel.m; sourceTree = "<group>"; };
 		387D31E11F3AB0050066E762 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		387D31E31F3AB0170066E762 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		387D31E51F3AB0230066E762 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1029,6 +1032,8 @@
 		380E975B1FBBDF06003D50BB /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				387B554B1FE0FF540019FF25 /* BaoJingZhuangTaiModel.h */,
+				387B554C1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2639,6 +2644,7 @@
 				389AA0181F45769600B55BAC /* JHTableChart.m in Sources */,
 				389AA00F1F45769600B55BAC /* JHColumnChart.m in Sources */,
 				380494C11F32BA3700AA0DBC /* AppDelegate.m in Sources */,
+				387B554D1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m in Sources */,
 				38755C231F3D9F2B0081CF4D /* AFSecurityPolicy.m in Sources */,
 				38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */,
 				38755C521F3D9F350081CF4D /* IQKeyboardManager.m in Sources */,

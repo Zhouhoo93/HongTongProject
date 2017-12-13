@@ -10,6 +10,9 @@
 #import "CJScroViewBar.h"
 #import "JHTableChart.h"
 #import "InstallStationViewController.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "BaoJingZhuangTaiModel.h"
 #define Bound_Width  [[UIScreen mainScreen] bounds].size.width
 #define Bound_Height [[UIScreen mainScreen] bounds].size.height
 // 获得RGB颜色
@@ -26,6 +29,8 @@
 @property (nonatomic,strong)JHTableChart *table22;
 @property (nonatomic,strong)JHTableChart *table3;
 @property (nonatomic,strong)JHTableChart *table33;
+@property (nonatomic,strong)BaoJingZhuangTaiModel *model;
+@property (nonatomic,strong)NSMutableArray *dataArr;
 @end
 
 @implementation ZhuangtaiViewController
@@ -34,6 +39,7 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
     [self createSegmentMenu];
+    [self requestData];
     // Do any additional setup after loading the view.
 }
 - (void)createSegmentMenu{
@@ -116,7 +122,8 @@
             UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
             toplabel.font = [UIFont systemFontOfSize:15];
             toplabel.textColor = [UIColor darkGrayColor];
-            toplabel.text = @"XX公司(分公司)运维小组1 周巷镇 共9户";
+            toplabel.text = [NSString stringWithFormat:@"%@(分公司)%@",self.name,self.name1];
+            //;@"XX公司(分公司)运维小组1 周巷镇 共9户"
             [self.AllView addSubview:toplabel];
             
             UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, 400)];
@@ -138,7 +145,7 @@
             self.table1.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"详情",@"发生时间"];
             
             
-            self.table1.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table1.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             //    table.beginSpace = 30;
             /*        Text color of the table body         */
             self.table1.bodyTextColor = [UIColor blackColor];
@@ -178,7 +185,7 @@
             NSArray *tipArr = @[@"1",@"5678",@"水云街55号1幢",@"设备离线",@"09-02 20:20"];
             self.table11.colTitleArr = tipArr;
             //        self.table44.colWidthArr = colWid;
-            self.table11.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table11.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             self.table11.bodyTextColor = [UIColor blackColor];
             self.table11.minHeightItems = 36;
             self.table11.lineColor = [UIColor lightGrayColor];
@@ -207,7 +214,7 @@
             UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
             toplabel.font = [UIFont systemFontOfSize:15];
             toplabel.textColor = [UIColor darkGrayColor];
-            toplabel.text = @"XX公司(分公司)运维小组1 周巷镇 共9户";
+            toplabel.text = toplabel.text = [NSString stringWithFormat:@"%@(分公司)%@",self.name,self.name1];;
             [self.QuanEView addSubview:toplabel];
             
             UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, 400)];
@@ -229,7 +236,7 @@
             self.table2.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"详情",@"发生时间"];
             
             
-            self.table2.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table2.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             //    table.beginSpace = 30;
             /*        Text color of the table body         */
             self.table2.bodyTextColor = [UIColor blackColor];
@@ -269,7 +276,7 @@
             NSArray *tipArr = @[@"1",@"5678",@"水云街55号1幢",@"设备异常",@"09-02 20:20"];
             self.table22.colTitleArr = tipArr;
             //        self.table44.colWidthArr = colWid;
-            self.table22.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table22.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             self.table22.bodyTextColor = [UIColor blackColor];
             self.table22.minHeightItems = 36;
             self.table22.lineColor = [UIColor lightGrayColor];
@@ -298,7 +305,7 @@
             UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
             toplabel.font = [UIFont systemFontOfSize:15];
             toplabel.textColor = [UIColor darkGrayColor];
-            toplabel.text = @"XX公司(分公司)运维小组1 周巷镇 共9户";
+            toplabel.text = [NSString stringWithFormat:@"%@(分公司)%@",self.name,self.name1];;
             [self.YuDianView addSubview:toplabel];
             
             UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, 400)];
@@ -320,7 +327,7 @@
             self.table3.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"详情",@"发生时间"];;
             
             
-            self.table3.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table3.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             //    table.beginSpace = 30;
             /*        Text color of the table body         */
             self.table3.bodyTextColor = [UIColor blackColor];
@@ -360,7 +367,7 @@
             NSArray *tipArr = @[@"1",@"5678",@"水云街55号1幢",@"设备故障",@"09-02 20:20"];
             self.table33.colTitleArr = tipArr;
             //        self.table44.colWidthArr = colWid;
-            self.table33.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
+            self.table33.colWidthArr = @[@30.0,@60.0,@100.0,@80.0,@80.0];
             self.table33.bodyTextColor = [UIColor blackColor];
             self.table33.minHeightItems = 36;
             self.table33.lineColor = [UIColor lightGrayColor];
@@ -419,6 +426,90 @@
     InstallStationViewController *vc = [[InstallStationViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/status",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    [manager.requestSerializer  setValue:@"work" forHTTPHeaderField:@"user"];
+    [manager.requestSerializer  setValue:[NSString stringWithFormat:@"%@",self.workID] forHTTPHeaderField:@"id"];
+    NSLog(@"workid:%@",self.workID);
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取运维小组状态正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _model = [[BaoJingZhuangTaiModel alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_model];
+            }
+//            [self setTabel];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(BaoJingZhuangTaiModel *)model{
+    if (!_model) {
+        _model = [[BaoJingZhuangTaiModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr;
+}
+
 /*
  #pragma mark - Navigation
  

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -130,6 +130,11 @@
                 <constraint firstAttribute="trailing" secondItem="rOs-IP-C1F" secondAttribute="trailing" constant="24" id="zqt-le-Lha"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="wanchenglv" destination="rOs-IP-C1F" id="Jku-0w-uLK"/>
+                <outlet property="yifadian" destination="B5G-ZB-Gt8" id="jey-8O-Afu"/>
+                <outlet property="zongzhuangji" destination="EDP-yH-Gua" id="Dvb-Jf-qkv"/>
+            </connections>
             <point key="canvasLocation" x="33.5" y="-278"/>
         </view>
     </objects>

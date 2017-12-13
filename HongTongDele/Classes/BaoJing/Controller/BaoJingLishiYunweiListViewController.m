@@ -8,11 +8,13 @@
 
 #import "BaoJingLishiYunweiListViewController.h"
 #import "JHTableChart.h"
+#import "ShaiXuanKuangView.h"
 @interface BaoJingLishiYunweiListViewController ()<TableButDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong)UILabel *yearLabel;
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)JHTableChart *table1;
 @property (nonatomic,strong)JHTableChart *table11;
+@property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
 @end
 
 @implementation BaoJingLishiYunweiListViewController
@@ -169,6 +171,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)shaixuanBtnClick{
+    self.shaixuanView = [[[NSBundle mainBundle]loadNibNamed:@"ShaiXuanKuang" owner:self options:nil]objectAtIndex:0];
+    self.shaixuanView.frame = CGRectMake(0, 0, KWidth, KHeight);
+    self.shaixuanView.delegate = self;
+    [self.view addSubview:self.shaixuanView];
 }
 
 /*

@@ -9,9 +9,14 @@
 #import "ZhuangtaiListZongViewController.h"
 #import "JHTableChart.h"
 #import "ZhuangTaiListViewController.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "BaoJingZhuangTaiModel.h"
 @interface ZhuangtaiListZongViewController ()<TableButDelegate>
 @property (nonatomic,strong)JHTableChart *table;
 @property (nonatomic,strong)JHTableChart *table1;
+@property (nonatomic,strong)BaoJingZhuangTaiModel *model;
+@property (nonatomic,strong)NSMutableArray *dataArr;
 @end
 
 @implementation ZhuangtaiListZongViewController
@@ -19,7 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [self setTabel];
+    [self requestData];
+//    [self setTabel];
     // Do any additional setup after loading the view.
 }
 - (void)setTabel{
@@ -79,7 +85,14 @@
     self.table1.isblue = NO;
     self.table1.delegate = self;
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"1",@"分公司1",@"50",@"50",@"50"];
+    
+    NSMutableArray *tipArr = [[NSMutableArray alloc] init];
+    _model = _dataArr[0];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.company_id]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.offlineTotal]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.abnormalTotal]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.faultTotal]];
     self.table1.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table1.colWidthArr = @[@30.0,@80.0,@80.0,@80.0,@80.0];
@@ -88,18 +101,22 @@
     self.table1.lineColor = [UIColor lightGrayColor];
     self.table1.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"2",@"分公司2",@"40",@"40",@"40"],
-                          @[@"3",@"分公司3",@"50",@"50",@"50"],
-                          @[@"4",@"分公司4",@"50",@"50",@"50"],
-                          @[@"5",@"分公司5",@"50",@"50",@"50"],
-                          @[@"6",@"分公司6",@"50",@"50",@"50"],
-                          @[@"7",@"分公司7",@"50",@"50",@"50"],
-                          @[@"8",@"分公司8",@"50",@"50",@"50"],
-                          @[@"9",@"分公司9",@"50",@"50",@"50"],
-                          @[@"10",@"分公司10",@"50",@"50",@"50"]
-                          ];
-    self.table1.dataArr = array2d2;
+    NSMutableArray *newArr = [[NSMutableArray alloc] init];
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr.count; i++) {
+        if (i>0) {
+            _model = _dataArr[i];
+            [newArr addObject: [NSString stringWithFormat:@"%@",_model.company_id]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.offlineTotal]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.abnormalTotal]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.faultTotal]];
+            [newArr1 addObject:newArr];
+        }
+        
+    }
+    self.table1.dataArr = newArr1;
+    
     [self.table1 showAnimation];
     [oneTable1 addSubview:self.table1];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
@@ -110,13 +127,97 @@
 {
     NSLog(@"代理方法%ld",index);
         ZhuangTaiListViewController *vc = [[ZhuangTaiListViewController alloc] init];
+        _model = self.dataArr[index];
+        vc.name = _model.name;
+        vc.companyID = _model.company_id;
         [self.navigationController pushViewController:vc animated:YES];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/status",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取总公司状态正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _model = [[BaoJingZhuangTaiModel alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_model];
+            }
+            [self setTabel];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
 
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(BaoJingZhuangTaiModel *)model{
+    if (!_model) {
+        _model = [[BaoJingZhuangTaiModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr;
+}
 /*
 #pragma mark - Navigation
 

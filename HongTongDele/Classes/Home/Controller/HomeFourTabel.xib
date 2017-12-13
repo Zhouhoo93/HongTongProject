@@ -191,6 +191,12 @@
                 <constraint firstItem="NVJ-bC-vNQ" firstAttribute="top" secondItem="dqq-W4-Ljf" secondAttribute="top" constant="63" id="zRN-fA-huJ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="chulizhong" destination="S6m-tM-CMU" id="k3P-ZF-XUq"/>
+                <outlet property="weichuli" destination="jfA-QE-e2i" id="ENI-HQ-dEJ"/>
+                <outlet property="xiaolvyichang" destination="2Df-dc-Vof" id="72K-6O-yuw"/>
+                <outlet property="yichuli" destination="dE1-BX-3I5" id="SUq-E6-68Q"/>
+            </connections>
             <point key="canvasLocation" x="64.5" y="284"/>
         </view>
     </objects>

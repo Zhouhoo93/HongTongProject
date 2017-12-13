@@ -12,11 +12,16 @@
 #import "HomeThreeView.h"
 #import "HomeFourView.h"
 #import "SelectFenGongSiViewController.h"
+#import "SelectYunWeiViewController.h"
 #import "ZhuangtaiListZongViewController.h"
+#import "ZhuangTaiListViewController.h"
+#import "ZhuangtaiViewController.h"
 #import "BaoJingYunWeiListViewController.h"
 #import "XiaoLvYunWeiViewController.h"
 #import "BaoJingLiShiListViewController.h"
 #import "XiaoLvLishiViewController.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
 @interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
@@ -25,6 +30,10 @@
 @property (nonatomic,strong) UIButton *zonggongsibtn;
 @property (nonatomic,strong) UIButton *fengongsibtn;
 @property (nonatomic,strong) UIButton *yunweixiaozubtn;
+@property (nonatomic,strong)HomeOneView *oneView;
+@property (nonatomic,strong)HomeTwoView *twoView;
+@property (nonatomic,strong)HomeThreeView *threeView;
+@property (nonatomic,strong)HomeFourView *fourView;
 @end
 
 @implementation HomeViewController
@@ -80,55 +89,123 @@
         }
        
     }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",type);
+    if ([type isEqualToString:@"parent"]) {
+        [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+        [self.zonggongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }else if ([type isEqualToString:@"company"]){
+        [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.zonggongsibtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        self.zonggongsibtn.enabled = NO;
+        [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+        [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }else{
+        [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.zonggongsibtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        self.zonggongsibtn.enabled = NO;
+        [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.fengongsibtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        self.fengongsibtn.enabled = NO;
+        [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+        [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
     
-    HomeOneView *view = [[[NSBundle mainBundle]loadNibNamed:@"HomeOneTabel" owner:self options:nil]objectAtIndex:0];
-    view.Topdelegate = self;
-    view.frame = CGRectMake(0, KHeight/667*55, KWidth, KHeight/667*120);
-    [self.bgScrollView addSubview:view];
+    self.oneView = [[[NSBundle mainBundle]loadNibNamed:@"HomeOneTabel" owner:self options:nil]objectAtIndex:0];
+    self.oneView.Topdelegate = self;
+    self.oneView.frame = CGRectMake(0, KHeight/667*55, KWidth, KHeight/667*120);
+    [self.bgScrollView addSubview:self.oneView];
     
-    HomeTwoView *view1 = [[[NSBundle mainBundle]loadNibNamed:@"HomeTwoTabel" owner:self options:nil]objectAtIndex:0];
-    view1.Topdelegate = self;
-    view1.frame = CGRectMake(0, KHeight/667*185, KWidth, KHeight/667*120);
-    [self.bgScrollView addSubview:view1];
+    self.twoView = [[[NSBundle mainBundle]loadNibNamed:@"HomeTwoTabel" owner:self options:nil]objectAtIndex:0];
+    self.twoView.Topdelegate = self;
+    self.twoView.frame = CGRectMake(0, KHeight/667*185, KWidth, KHeight/667*120);
+    [self.bgScrollView addSubview:self.twoView];
     
-    HomeThreeView *view2 = [[[NSBundle mainBundle]loadNibNamed:@"HomeThreeTabel" owner:self options:nil]objectAtIndex:0];
-    view2.Topdelegate  = self;
-    view2.frame = CGRectMake(0, KHeight/667*310, KWidth, KHeight/667*120);
-    [self.bgScrollView addSubview:view2];
+    self.threeView = [[[NSBundle mainBundle]loadNibNamed:@"HomeThreeTabel" owner:self options:nil]objectAtIndex:0];
+    self.threeView.Topdelegate  = self;
+    self.threeView.frame = CGRectMake(0, KHeight/667*310, KWidth, KHeight/667*120);
+    [self.bgScrollView addSubview:self.threeView];
     
-    HomeFourView *view3 = [[[NSBundle mainBundle]loadNibNamed:@"HomeFourTabel" owner:self options:nil]objectAtIndex:0];
-    view3.Topdelegate = self;
-    view3.frame = CGRectMake(0, KHeight/667*435, KWidth, KHeight/667*120);
-    [self.bgScrollView addSubview:view3];
+    self.fourView = [[[NSBundle mainBundle]loadNibNamed:@"HomeFourTabel" owner:self options:nil]objectAtIndex:0];
+    self.fourView.Topdelegate = self;
+    self.fourView.frame = CGRectMake(0, KHeight/667*435, KWidth, KHeight/667*120);
+    [self.bgScrollView addSubview:self.fourView];
+    
+    [self requestBaojingData];
 }
 //执行协议方法
 - (void)transButIndex
 {
-    SelectFenGongSiViewController *vc = [[SelectFenGongSiViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",type);
+    if ([type isEqualToString:@"parent"]) {
+        SelectFenGongSiViewController *vc = [[SelectFenGongSiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([type isEqualToString:@"company"]){
+        SelectYunWeiViewController *vc = [[SelectYunWeiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+   
+    }
+    
     
 }
 - (void)transButIndex2
 {
-    ZhuangtaiListZongViewController *vc = [[ZhuangtaiListZongViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",type);
+    if ([type isEqualToString:@"parent"]) {
+        ZhuangtaiListZongViewController *vc = [[ZhuangtaiListZongViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([type isEqualToString:@"company"]){
+        ZhuangTaiListViewController *vc = [[ZhuangTaiListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        ZhuangtaiViewController *vc = [[ZhuangtaiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)transButIndex3
 {
-    BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",type);
+    if ([type isEqualToString:@"parent"]) {
+        BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([type isEqualToString:@"company"]){
+        
+    }else{
+        
+    }
+    
     
 }
 
 -(void)BaoJinglishi{
-    BaoJingLiShiListViewController *vc = [[BaoJingLiShiListViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",type);
+    if ([type isEqualToString:@"parent"]) {
+        BaoJingLiShiListViewController *vc = [[BaoJingLiShiListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([type isEqualToString:@"company"]){
+        
+    }else{
+        
+    }
 }
 
 -(void)XiaoLvlishi{
@@ -223,6 +300,86 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)requestBaojingData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取报警电站正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            NSInteger Handle = [responseObject[@"content"][@"Handle"] integerValue];
+            self.threeView.weichuli.text = [NSString stringWithFormat:@"%ld条",Handle];
+            NSInteger Handled = [responseObject[@"content"][@"Handled"] integerValue];
+            self.threeView.yichuli.text = [NSString stringWithFormat:@"%ld条",Handled];
+            NSInteger InHandle = [responseObject[@"content"][@"InHandle"] integerValue];
+            self.threeView.chulizhong.text = [NSString stringWithFormat:@"%ld条",InHandle];
+            NSInteger abnormalTotal = [responseObject[@"content"][@"abnormalTotal"] integerValue];
+            self.twoView.yichang.text = [NSString stringWithFormat:@"%ld户",abnormalTotal];
+            NSInteger faultTotal = [responseObject[@"content"][@"faultTotal"] integerValue];
+            self.twoView.guzhang.text = [NSString stringWithFormat:@"%ld户",faultTotal];
+            NSInteger offlineTotal = [responseObject[@"content"][@"offlineTotal"] integerValue];
+            self.twoView.lixian.text = [NSString stringWithFormat:@"%ld户",offlineTotal];
+            NSInteger all = abnormalTotal+faultTotal+offlineTotal;
+            NSInteger all1 = Handle+Handled+InHandle;
+            self.twoView.baojingdianzhan.text = [NSString stringWithFormat:@"报警电站:%ld户",all];
+            self.threeView.baojingxinxi.text = [NSString stringWithFormat:@"报警信息:%ld条",all1];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
 }
 
 /*

@@ -13,6 +13,10 @@
 - (void)XiaoLvlishi;
 @end
 @interface HomeFourView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *xiaolvyichang;
+@property (weak, nonatomic) IBOutlet UILabel *weichuli;
+@property (weak, nonatomic) IBOutlet UILabel *chulizhong;
+@property (weak, nonatomic) IBOutlet UILabel *yichuli;
 @property (nonatomic, assign) id<TopButDelegate4> Topdelegate;//代理属性
 - (void)ClickBut:(UIButton *)sender;//此方法执行时判断协议方法的执行情况
 - (void)XiaoLvClick:(UIButton *)sender;//此方法执行时判断协议方法的执行情况

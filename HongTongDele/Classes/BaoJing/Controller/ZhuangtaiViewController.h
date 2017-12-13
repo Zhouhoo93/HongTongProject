@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ZhuangtaiViewController : UIViewController
-
+@property (nonatomic,copy)NSString *name;
+@property (nonatomic,copy)NSString *name1;
+@property (nonatomic,copy)NSString *workID;
 @end

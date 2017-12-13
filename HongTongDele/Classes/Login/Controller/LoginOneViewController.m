@@ -65,12 +65,15 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"正确%@",responseObject);
+        //(parent  总公司  company    分公司  work 运维小组)
         if([responseObject[@"result"][@"success"] intValue] ==1){
-            NSString *token = [NSString stringWithFormat:@"%@",responseObject[@"content"]];
+            NSString *token = [NSString stringWithFormat:@"%@",responseObject[@"content"][@"token"]];
+            NSString *type = [NSString stringWithFormat:@"%@",responseObject[@"content"][@"type"]];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setValue:self.passwordTextField.text forKey:@"password"];
             [userDefaults setValue:self.passwordTextField.text forKey:@"phone"];
             [userDefaults setValue:token forKey:@"token"];
+            [userDefaults setValue:type forKey:@"type"];
             [userDefaults synchronize];
             
             [self goHomeController];

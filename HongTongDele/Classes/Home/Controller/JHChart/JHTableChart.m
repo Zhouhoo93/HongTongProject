@@ -461,7 +461,12 @@
         }
         
         /*        绘制具体的行数据         */
-        
+        if (_dataModelArr.count==0){
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(_beginSpace, _lastY-_minHeightItems, KWidth-20, _minHeightItems)];
+            btn.tag = 1000;
+            [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:btn];
+        }
         for (NSInteger i = 0; i<_dataModelArr.count; i++) {
             
             JHTableDataRowModel *model = _dataModelArr[i];
@@ -470,6 +475,12 @@
             btn.tag = i+1000;
             [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:btn];
+            if (i==_dataModelArr.count-1){
+                UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(_beginSpace, _lastY, KWidth-20, _minHeightItems)];
+                btn.tag = i+1001;
+                [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+                [self addSubview:btn];
+            }
             
             [self drawLineWithContext:context andStarPoint:P_M(_beginSpace, _lastY + model.maxCount * _minHeightItems) andEndPoint:P_M(_beginSpace + _tableWidth, _lastY + model.maxCount * _minHeightItems) andIsDottedLine:NO andColor:_lineColor];
             

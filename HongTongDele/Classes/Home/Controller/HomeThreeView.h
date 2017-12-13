@@ -13,6 +13,10 @@
 - (void)BaoJinglishi;
 @end
 @interface HomeThreeView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *baojingxinxi;
+@property (weak, nonatomic) IBOutlet UILabel *weichuli;
+@property (weak, nonatomic) IBOutlet UILabel *chulizhong;
+@property (weak, nonatomic) IBOutlet UILabel *yichuli;
 @property (nonatomic, assign) id<TopButDelegate3> Topdelegate;//代理属性
 - (void)ClickBut:(UIButton *)sender;//此方法执行时判断协议方法的执行情况
 - (void)BaoJingClick:(UIButton *)sender;//此方法执行时判断协议方法的执行情况

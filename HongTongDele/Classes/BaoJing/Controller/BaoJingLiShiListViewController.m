@@ -18,6 +18,7 @@
 @property (nonatomic,strong)JHTableChart *table2;
 @property (nonatomic,strong)JHTableChart *table22;
 @property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
+
 @end
 
 @implementation BaoJingLiShiListViewController
@@ -286,6 +287,8 @@
     BaoJingLishiYunweiListViewController *vc = [[BaoJingLishiYunweiListViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
 /*
 #pragma mark - Navigation
 
