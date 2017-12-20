@@ -66,6 +66,7 @@
     self.table = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table.delegate = self;
     self.table.typeCount = 87;
+    self.table.small = YES;
     self.table.isblue = NO;
     self.table.bodyTextColor = [UIColor blackColor];
     self.table.tableTitleFont = [UIFont systemFontOfSize:14];

@@ -210,7 +210,7 @@
                     }else{
                         if (KWidth>374) {
                             if ([_colTitleArr[i] isEqualToString:@"异常"]) {
-                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor yellowColor] font:[UIFont systemFontOfSize:14]];
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:RGBColor(255, 139, 0) font:[UIFont systemFontOfSize:14]];
                             }else if([_colTitleArr[i] isEqualToString:@"故障"]){
                                 [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
                             }else{
@@ -218,7 +218,7 @@
                             }
                         }else{
                             if ([_colTitleArr[i] isEqualToString:@"异常"]) {
-                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor yellowColor] font:[UIFont systemFontOfSize:14]];
+                                [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:RGBColor(255, 139, 0) font:[UIFont systemFontOfSize:14]];
                             }else if([_colTitleArr[i] isEqualToString:@"故障"]){
                                 [self drawText:_colTitleArr[i] context:context atPoint:CGRectMake(lastX + wid / 2.0 - size.width / 2, _lastY + _minHeightItems / 2.0 -size.height / 2.0, wid, _minHeightItems) WithColor:[UIColor redColor] font:[UIFont systemFontOfSize:14]];
                             }else{
@@ -296,7 +296,7 @@
                         [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor redColor] font:_tableTitleFont];
                     }else{
                         if ([rowItems isEqualToString:@"异常"]) {
-                             [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor yellowColor] font:_tableTitleFont];
+                             [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:RGBColor(255, 139, 0) font:_tableTitleFont];
                         }else if([rowItems isEqualToString:@"故障"]){
                             [self drawText:rowItems context:context atPoint:CGRectMake(lastX + wid / 2 - size.width / 2.0,  _lastY + model.maxCount * _minHeightItems - model.maxCount * _minHeightItems / 2.0 - size.height / 2.0, size.width, size.height) WithColor:[UIColor redColor] font:_tableTitleFont];
                         }else{
@@ -380,22 +380,25 @@
                     NSArray *firArr = [_colTitleArr[0] componentsSeparatedByString:@"|"];
                     if (firArr.count>=2) {
                         [self drawLineWithContext:context andStarPoint:P_M(lastX, _lastY) andEndPoint:P_M(lastX + wid, _lastY + _minHeightItems) andIsDottedLine:NO andColor:_lineColor];
-                        if (KWidth>374) {
-                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:14 aimString:firArr[0]];
+                        
+                        
+                        if (_small) {
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:9 aimString:firArr[0]];
+                             [self drawText:firArr[0] context:context atPoint:CGRectMake(lastX + wid / 2.0 + wid / 4.0 - size.width / 2, _lastY + _minHeightItems / 4.0 -size.height / 2.0, wid, _minHeightItems / 2.0) WithColor:_bodyTextColor font:[UIFont systemFontOfSize:9]];
                         }else{
                             size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:13 aimString:firArr[0]];
+                            [self drawText:firArr[0] context:context atPoint:CGRectMake(lastX + wid / 2.0 + wid / 4.0 - size.width / 2, _lastY + _minHeightItems / 4.0 -size.height / 2.0, wid, _minHeightItems / 2.0) WithColor:_bodyTextColor font:_tableTitleFont];
                         }
                         
+                       
                         
-                        [self drawText:firArr[0] context:context atPoint:CGRectMake(lastX + wid / 2.0 + wid / 4.0 - size.width / 2, _lastY + _minHeightItems / 4.0 -size.height / 2.0, wid, _minHeightItems / 2.0) WithColor:_bodyTextColor font:_tableTitleFont];
-                        if (KWidth>374) {
-                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:14 aimString:firArr[1]];
+                        if (_small) {
+                            size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:9 aimString:firArr[1]];
+                            [self drawText:firArr[1] context:context atPoint:CGRectMake(lastX + wid / 4.0 - size.width / 2.0, _lastY + _minHeightItems / 2.0 + _minHeightItems / 4.0 - size.height / 2.0, size.width+5, _minHeightItems / 2.0) WithColor:_bodyTextColor font:[UIFont systemFontOfSize:9]];
                         }else{
                             size = [self sizeOfStringWithMaxSize:CGSizeMake(wid, _minHeightItems) textFont:13 aimString:firArr[1]];
-                        }
-                        
-                        
                         [self drawText:firArr[1] context:context atPoint:CGRectMake(lastX + wid / 4.0 - size.width / 2.0, _lastY + _minHeightItems / 2.0 + _minHeightItems / 4.0 - size.height / 2.0, size.width+5, _minHeightItems / 2.0) WithColor:_bodyTextColor font:_tableTitleFont];
+                        }
                     }else{
                         if (self.isRed) {
                             if (KWidth>374) {

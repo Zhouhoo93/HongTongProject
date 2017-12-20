@@ -3,7 +3,7 @@
 //  HongTongDele
 //
 //  Created by Zhouhoo on 2017/11/29.
-//  Copyright © 2017年 xinyuntec. All rights reserved.
+//  Copyright © 2017年 xinyuntec. All rights reserve-d.
 //
 
 #import "GuanLiViewController.h"
@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"管理";
+    self.title = @"设备和运维情况";
     
     self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64)];
     self.bgscrollview.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -44,12 +44,13 @@
     self.table1 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table1.delegate = self;
     self.table1.typeCount = 88;
+    self.table1.small = YES;
     self.table1.isblue = NO;
     self.table1.bodyTextColor = [UIColor blackColor];
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table1.colTitleArr = @[@"类别|名称",@"设备离线(户)",@"设备异常(户)",@"设备故障(户)",@"效率异常(户)"];
+    self.table1.colTitleArr = @[@"类别|名称",@"离线",@"异常",@"故障",@"效率异常"];
     
     
     self.table1.colWidthArr = @[@70.0,@70.0,@70.0,@70.0,@70.0];
@@ -126,15 +127,16 @@
     self.table2 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table2.delegate = self;
     self.table2.typeCount = 88;
+    self.table2.small = YES;
     self.table2.isblue = NO;
     self.table2.bodyTextColor = [UIColor blackColor];
     self.table2.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table2.colTitleArr = @[@"类别|名称",@"设备离线(户)",@"设备异常(户)",@"设备故障(户)",@"效率异常(户)"];
+    self.table2.colTitleArr = @[@"类别|名称",@"未处理(条)",@"处理中(条)",@"已处理(条)",@"平均响应时间(分钟)",@"平均处理时间(小时)"];
     
     
-    self.table2.colWidthArr = @[@70.0,@70.0,@70.0,@70.0,@70.0];
+    self.table2.colWidthArr = @[@55.0,@50.0,@50.0,@50.0,@70.0,@75.0];
     //    table.beginSpace = 30;
     /*        Text color of the table body         */
     self.table2.bodyTextColor = [UIColor blackColor];
@@ -171,25 +173,25 @@
     self.table22.isblue = NO;
     self.table22.delegate = self;
     self.table22.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr1 = @[@"分公司一",@"7",@"8",@"5",@"2"];
+    NSArray *tipArr1 = @[@"分公司一",@"7",@"8",@"5",@"2",@"1"];
     self.table22.colTitleArr = tipArr1;
     //        self.table44.colWidthArr = colWid;
-    self.table22.colWidthArr = @[@70.0,@70.0,@70.0,@70.0,@70.0];
+    self.table22.colWidthArr = @[@55.0,@50.0,@50.0,@50.0,@70.0,@75.0];
     self.table22.bodyTextColor = [UIColor blackColor];
     self.table22.minHeightItems = 36;
     self.table22.lineColor = [UIColor lightGrayColor];
     self.table22.backgroundColor = [UIColor clearColor];
     
     NSArray *array2d22 = @[
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"]];
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
+                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"]];
     self.table22.dataArr = array2d22;
     [self.table22 showAnimation];
     [oneTable2 addSubview:self.table22];

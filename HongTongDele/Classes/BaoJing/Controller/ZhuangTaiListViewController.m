@@ -43,9 +43,16 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)setTabel{
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.view addSubview:biaogeBg];
+    if (self.dataArr.count<10) {
+        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, self.dataArr.count*40+33)];
+        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.view addSubview:biaogeBg];
+    }else{
+        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, 400)];
+        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.view addSubview:biaogeBg];
+    }
+    
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 140, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -54,6 +61,7 @@
     self.table = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table.delegate = self;
     self.table.typeCount = 88;
+    self.table.small = YES;
     self.table.isblue = NO;
     self.table.bodyTextColor = [UIColor blackColor];
     self.table.tableTitleFont = [UIFont systemFontOfSize:14];

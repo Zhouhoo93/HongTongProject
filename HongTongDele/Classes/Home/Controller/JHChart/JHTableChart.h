@@ -26,7 +26,7 @@
  */
 @property (nonatomic, copy) NSString * tableTitleString;
 @property (nonatomic, assign) id<TableButDelegate>delegate;//代理属性
-
+@property (nonatomic,assign)BOOL small;
 /**
  *  Table header row height, default 50
  */

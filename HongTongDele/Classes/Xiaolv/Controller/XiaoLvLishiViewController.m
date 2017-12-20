@@ -96,12 +96,13 @@
     self.table1 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table1.delegate = self;
     self.table1.typeCount = 88;
+    self.table1.small = YES;
     self.table1.isblue = NO;
     self.table1.bodyTextColor = [UIColor blackColor];
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table1.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"装机容量(kW)",@"降效比(%)"];
+    self.table1.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"容量(kW)",@"降效(%)"];
     
     
     self.table1.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
@@ -191,12 +192,13 @@
     self.table2 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table2.delegate = self;
     self.table2.typeCount = 88;
+    self.table2.small = YES;
     self.table2.isblue = NO;
     self.table2.bodyTextColor = [UIColor blackColor];
     self.table2.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table2.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"装机容量(kW)",@"降效比(%)"];
+    self.table2.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"容量(kW)",@"降效(%)"];
     
     
     self.table2.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];

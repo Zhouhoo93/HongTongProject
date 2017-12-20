@@ -718,6 +718,9 @@
      
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
              NSLog(@"%@",error);  //这里打印错误信息
+             self.FirstChartgenArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
+             self.FirstChartuseArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
+             [self setFirstChart];
          }];
     
     
@@ -886,6 +889,12 @@
     }
      
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+            
+             self.redArr = @[@0,@0];
+             self.yellowArr = @[@0,@0];
+             self.blueArr = @[@0,@0];
+             self.greenArr = @[@0,@0];
+             [self setZhuzhuang];
              NSLog(@"%@",error);  //这里打印错误信息
          }];
     

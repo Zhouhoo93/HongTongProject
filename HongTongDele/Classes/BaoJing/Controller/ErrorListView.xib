@@ -184,7 +184,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="设备状态:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbz-Fs-dVn">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="通讯状态:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbz-Fs-dVn">
                     <rect key="frame" x="50" y="316" width="69" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="XkQ-i9-RDY"/>
@@ -259,7 +259,7 @@
                     <state key="normal" title="一键导航" image="导航"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyK-M3-DVL">
-                    <rect key="frame" x="103" y="369" width="54" height="30"/>
+                    <rect key="frame" x="103" y="369" width="49" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="cMb-jC-DK9"/>
                     </constraints>
@@ -268,7 +268,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12h-9y-Pa9">
-                    <rect key="frame" x="182" y="370" width="54" height="30"/>
+                    <rect key="frame" x="177" y="370" width="49" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="IOC-tI-RKR"/>
                     </constraints>
@@ -277,11 +277,13 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-2a-nKQ">
-                    <rect key="frame" x="261" y="370" width="54" height="30"/>
+                    <rect key="frame" x="251" y="370" width="64" height="30"/>
                     <constraints>
+                        <constraint firstAttribute="width" constant="64" id="ipG-Mu-xjB"/>
                         <constraint firstAttribute="height" constant="30" id="kIY-nN-oTu"/>
                     </constraints>
-                    <state key="normal" title="已处理" backgroundImage="处理中">
+                    <inset key="titleEdgeInsets" minX="-12" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="已处理" backgroundImage="已处理">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
@@ -388,7 +390,6 @@
                 <constraint firstItem="74e-tZ-MzQ" firstAttribute="top" secondItem="AKK-dZ-Dn1" secondAttribute="bottom" constant="8" id="mXK-zX-8Jr"/>
                 <constraint firstAttribute="trailing" secondItem="Fa5-Wu-xsU" secondAttribute="trailing" constant="60" id="n7e-aO-cTb"/>
                 <constraint firstItem="hqn-p2-AqW" firstAttribute="leading" secondItem="iSf-Cf-NES" secondAttribute="leading" constant="20" id="o4w-Zg-2Wf"/>
-                <constraint firstItem="Pc8-2a-nKQ" firstAttribute="width" secondItem="qyK-M3-DVL" secondAttribute="width" id="p46-lz-umJ"/>
                 <constraint firstItem="Pc8-2a-nKQ" firstAttribute="leading" secondItem="12h-9y-Pa9" secondAttribute="trailing" constant="25" id="qgr-ZO-RQy"/>
                 <constraint firstItem="cHP-4B-bLo" firstAttribute="centerX" secondItem="iSf-Cf-NES" secondAttribute="centerX" id="rhV-4h-i6P"/>
                 <constraint firstItem="wcm-0b-3px" firstAttribute="top" secondItem="bUi-EK-MWD" secondAttribute="bottom" constant="3" id="rkB-Pr-lUV"/>
@@ -413,6 +414,7 @@
         <image name="信息" width="63" height="32"/>
         <image name="处理中" width="63" height="22"/>
         <image name="导航" width="63" height="31"/>
+        <image name="已处理" width="64" height="22"/>
         <image name="意见栏" width="178" height="86"/>
         <image name="拨号" width="63" height="31"/>
     </resources>

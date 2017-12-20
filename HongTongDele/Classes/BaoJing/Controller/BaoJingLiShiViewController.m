@@ -5,12 +5,13 @@
 //  Created by Zhouhoo on 2017/11/15.
 //  Copyright © 2017年 xinyuntec. All rights reserved.
 //
-
+//报警列表户
 #import "BaoJingLiShiViewController.h"
 #import "JHTableChart.h"
 #import "ShaiXuanKuangView.h"
 #import "ErrorList.h"
-@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,yichangDelegate>
+#import "JHPickView.h"
+@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,yichangDelegate,JHPickerDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIView *leftView;
 @property (nonatomic,strong)UIView *rightView;
@@ -20,13 +21,14 @@
 @property (nonatomic,strong)JHTableChart *table33;
 @property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
 @property (nonatomic,strong)ErrorList *errorList;
+@property (nonatomic,assign)NSInteger select;
 @end
 
 @implementation BaoJingLiShiViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"报警信息列表";
+    self.title = @"报警电站";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setTop];
     // Do any additional setup after loading the view.
@@ -43,7 +45,7 @@
     
     UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2, 64, KWidth/2, 44)];
     rightLabel.textAlignment  = NSTextAlignmentCenter;
-    rightLabel.text = @"已处理";
+    rightLabel.text = @"处理中";
     [self.view addSubview:rightLabel];
     
     UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(KWidth/2, 64, KWidth/2, 44)];
@@ -99,10 +101,10 @@
     toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
     [self.leftView addSubview:toplabel];
     
-    UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
-    [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
-    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.leftView addSubview:shaixuanBtn1];
+//    UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
+//    [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+//    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.leftView addSubview:shaixuanBtn1];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
     biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -115,12 +117,13 @@
     self.table1 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table1.delegate = self;
     self.table1.typeCount = 88;
+    self.table1.small = YES;
     self.table1.isblue = NO;
     self.table1.bodyTextColor = [UIColor blackColor];
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table1.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"通讯状态",@"详情",@"发生时间"];
+    self.table1.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"通讯",@"详情",@"发生时间"];
     
     
     self.table1.colWidthArr = @[@30.0,@40.0,@90.0,@30.0,@90.0,@50.0];
@@ -193,6 +196,24 @@
     self.shaixuanView.delegate = self;
     [self.view addSubview:self.shaixuanView];
 }
+-(void)dizhiClick{
+    JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+    picker.classArr = @[@"杭州",@"宁波",@"温州"];
+    self.select = 0;
+    picker.delegate = self ;
+    picker.arrayType = weightArray;
+    [self.view addSubview:picker];
+    //    self.selectedIndexPath = 0;
+}
+-(void)guzhangClick{
+    JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+    picker.classArr = @[@"无故障",@"电网过压",@"电网欠压",@"电网过频",@"电网欠频",@"电网阻抗大",@"频率抖动",@"电网过流",@"直流过压"];
+    self.select = 1;
+    picker.delegate = self ;
+    picker.arrayType = weightArray;
+    [self.view addSubview:picker];
+    //    self.selectedIndexPath = 0;
+}
 
 - (void)CloseClick{
     [self.shaixuanView removeFromSuperview];
@@ -206,7 +227,19 @@
 - (void)RightClick {
     [self.shaixuanView removeFromSuperview];
 }
+#pragma mark - JHPickerDelegate
 
+-(void)PickerSelectorIndixString:(NSString *)str:(NSInteger)row
+{
+    
+    if (self.select ==0) {
+        [self.shaixuanView.dizhiBtn setTitle:str forState:UIControlStateNormal];
+    }else{
+        [self.shaixuanView.guzhangBtn setTitle:str forState:UIControlStateNormal];
+    }
+    
+    
+}
 
 - (void)setRightTable{
     UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(20, 16, 12, 17)];
@@ -219,10 +252,10 @@
     toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
     [self.rightView addSubview:toplabel];
     
-    UIButton *shaixuanBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
-    [shaixuanBtn3 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
-    [shaixuanBtn3 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.rightView addSubview:shaixuanBtn3];
+//    UIButton *shaixuanBtn3 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 14, 80, 30)];
+//    [shaixuanBtn3 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+//    [shaixuanBtn3 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.rightView addSubview:shaixuanBtn3];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
     biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -235,12 +268,13 @@
     self.table3 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table3.delegate = self;
     self.table3.typeCount = 88;
+    self.table3.small = YES;
     self.table3.isblue = NO;
     self.table3.bodyTextColor = [UIColor blackColor];
     self.table3.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table3.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"通讯状态",@"详情",@"发生时间"];
+    self.table3.colTitleArr = @[@"类别|序号",@"户号",@"地址",@"通讯",@"详情",@"发生时间"];
     
     
     self.table3.colWidthArr = @[@30.0,@40.0,@90.0,@30.0,@90.0,@50.0];

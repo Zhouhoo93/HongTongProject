@@ -148,6 +148,9 @@
                             <state key="normal" title="请选择故障">
                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="guzhangBtnClick:" destination="5B2-Qu-YlP" eventType="touchUpInside" id="kQl-uL-Lbh"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -216,6 +219,9 @@
                     <state key="normal" title="请选择地址">
                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="dizhiBtnClick:" destination="5B2-Qu-YlP" eventType="touchUpInside" id="Wxz-az-5xx"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -237,6 +243,11 @@
                 <constraint firstItem="b2B-QE-ClD" firstAttribute="top" secondItem="5B2-Qu-YlP" secondAttribute="top" constant="249" id="qYx-r3-yeE"/>
                 <constraint firstAttribute="trailing" secondItem="eqZ-Oh-12d" secondAttribute="trailing" constant="78" id="rPj-gf-wL1"/>
             </constraints>
+            <connections>
+                <outlet property="dizhiBtn" destination="eqZ-Oh-12d" id="6gD-8O-RK3"/>
+                <outlet property="guzhangBtn" destination="CHT-Dw-aPL" id="W2O-Ih-dHq"/>
+                <outlet property="huhao" destination="HPY-G2-eJD" id="Wai-5u-eCV"/>
+            </connections>
             <point key="canvasLocation" x="202.5" y="138.5"/>
         </view>
         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Te-du-1q6">

@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"总公司";
+    self.title = @"分公司";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self SetCollection];
     // Do any additional setup after loading the view.
@@ -55,7 +55,7 @@
     layout.sectionHeadersPinToVisibleBounds = YES;
     
     //2.初始化collectionView
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,76, KWidth, KHeight-110) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,76, KWidth, KHeight-70) collectionViewLayout:layout];
     [self.view addSubview:self.collectionView];
     self.collectionView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     

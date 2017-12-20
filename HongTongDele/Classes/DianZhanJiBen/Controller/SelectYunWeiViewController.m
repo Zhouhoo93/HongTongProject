@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"分公司";
+    self.title = @"运维小组";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self SetCollection];
     // Do any additional setup after loading the view.

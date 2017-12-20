@@ -13,6 +13,12 @@
 }
 - (IBAction)wanchengBtnClick:(id)sender {
 }
+- (IBAction)dizhiBtnClick:(id)sender {
+    [self dizhi:sender];
+}
+- (IBAction)guzhangBtnClick:(id)sender {
+    [self guzhang:sender];
+}
 - (IBAction)CloseBtnClick:(id)sender {
     [self ClickBut:sender];
 }
@@ -44,7 +50,21 @@
         [self.delegate RightClick];
     }
 }
-
+-(void)dizhi:(UIButton *)sender{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(dizhiClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate dizhiClick];
+    }
+}
+-(void)guzhang:(UIButton *)sender{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(guzhangClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate guzhangClick];
+    }
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.huhao resignFirstResponder];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -4,20 +4,21 @@
 //
 //  Created by Zhouhoo on 2017/12/1.
 //  Copyright © 2017年 xinyuntec. All rights reserved.
-//
+// 报警历史 运维
 
 #import "BaoJingLiShiListViewController.h"
 #import "JHTableChart.h"
-#import "ShaiXuanKuangView.h"
+#import "ShaiXuanYunWeiView.h"
 #import "BaoJingLishiYunweiListViewController.h"
-@interface BaoJingLiShiListViewController ()<TableButDelegate,UIScrollViewDelegate,ShaiXuanDelegate>
+#import "JHPickView.h"
+@interface BaoJingLiShiListViewController ()<TableButDelegate,UIScrollViewDelegate,ShaiXuanYunWeiDelegate,JHPickerDelegate>
 @property (nonatomic,strong)UILabel *yearLabel;
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)JHTableChart *table1;
 @property (nonatomic,strong)JHTableChart *table11;
 @property (nonatomic,strong)JHTableChart *table2;
 @property (nonatomic,strong)JHTableChart *table22;
-@property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
+@property (nonatomic,strong)ShaiXuanYunWeiView *shaixuanView;
 
 @end
 
@@ -25,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"报警信息列表";
+    self.title = @"报警电站";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self setTopBtn];
     // Do any additional setup after loading the view.
@@ -77,7 +78,23 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)diquClick{
+    JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+    picker.classArr = @[@"杭州",@"宁波",@"温州"];
+    picker.delegate = self ;
+    picker.arrayType = weightArray;
+    [self.view addSubview:picker];
+    //    self.selectedIndexPath = 0;
+}
+#pragma mark - JHPickerDelegate
 
+-(void)PickerSelectorIndixString:(NSString *)str:(NSInteger)row
+{
+    
+    
+    [self.shaixuanView.guanxiaBtn setTitle:str forState:UIControlStateNormal];
+    
+}
 - (void)setTabel{
     UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 56, 12, 17)];
     leftImg.image = [UIImage imageNamed:@"定位"];
@@ -89,10 +106,10 @@
     toplabel.text = @"分公司一 共90条";
     [self.bgscrollview addSubview:toplabel];
     
-    UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 54, 80, 30)];
-    [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
-    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgscrollview addSubview:shaixuanBtn1];
+//    UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 54, 80, 30)];
+//    [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+//    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.bgscrollview addSubview:shaixuanBtn1];
     
     UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 85, KWidth-20, 400)];
     biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -105,12 +122,13 @@
     self.table1 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table1.delegate = self;
     self.table1.typeCount = 88;
+    self.table1.small = YES;
     self.table1.isblue = NO;
     self.table1.bodyTextColor = [UIColor blackColor];
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table1.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖范围",@"户数(户)",@"报警条数(条)"];
+    self.table1.colTitleArr = @[@"类别|序号",@"名称",@"管辖范围",@"电站数",@"报警次数"];
     
     
     self.table1.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
@@ -185,10 +203,10 @@
     toplabel1.text = @"分公司二 共90条";
     [self.bgscrollview addSubview:toplabel1];
     
-    UIButton *shaixuanBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 492, 80, 30)];
-    [shaixuanBtn2 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
-    [shaixuanBtn2 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgscrollview addSubview:shaixuanBtn2];
+//    UIButton *shaixuanBtn2 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-100, 492, 80, 30)];
+//    [shaixuanBtn2 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
+//    [shaixuanBtn2 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.bgscrollview addSubview:shaixuanBtn2];
     
     UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 520, KWidth-20, 400)];
     biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
@@ -201,12 +219,13 @@
     self.table2 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
     self.table2.delegate = self;
     self.table2.typeCount = 88;
+    self.table2.small = YES;
     self.table2.isblue = NO;
     self.table2.bodyTextColor = [UIColor blackColor];
     self.table2.tableTitleFont = [UIFont systemFontOfSize:14];
     //    table.xDescTextFontSize =  (CGFloat)13;
     //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table2.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖范围",@"户数(户)",@"报警条数(条)"];
+    self.table2.colTitleArr = @[@"类别|序号",@"名称",@"管辖范围",@"电站数",@"报警次数"];
     
     
     self.table2.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
@@ -272,7 +291,7 @@
     self.table22.frame = CGRectMake(0, 0, KWidth, [self.table22 heightFromThisDataSource]);
 }
 - (void)shaixuanBtnClick{
-    self.shaixuanView = [[[NSBundle mainBundle]loadNibNamed:@"ShaiXuanKuang" owner:self options:nil]objectAtIndex:0];
+    self.shaixuanView = [[[NSBundle mainBundle]loadNibNamed:@"ShaiXuanYunWei" owner:self options:nil]objectAtIndex:0];
     self.shaixuanView.frame = CGRectMake(0, 0, KWidth, KHeight);
     self.shaixuanView.delegate = self;
     [self.view addSubview:self.shaixuanView];
