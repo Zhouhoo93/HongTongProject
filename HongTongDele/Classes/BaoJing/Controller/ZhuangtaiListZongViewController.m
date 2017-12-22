@@ -26,14 +26,21 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self requestData];
+    self.title = @"报警电站";
 //    [self setTabel];
     // Do any additional setup after loading the view.
 }
 - (void)setTabel{
     if (self.dataArr.count<10) {
-        self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 110, KWidth-20, self.dataArr.count*40+33)];
-        self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-        [self.view addSubview:self.biaogeBg];
+        if (self.dataArr.count==0) {
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 110, KWidth-20, self.dataArr.count*40+35)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:self.biaogeBg];
+        }else{
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 110, KWidth-20, self.dataArr.count*40+33)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:self.biaogeBg];
+        }
     }else{
         self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 110, KWidth-20, 400)];
         self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -114,6 +121,7 @@
     NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
     for (int i=0; i<_dataArr.count; i++) {
         if (i>0) {
+            [newArr removeAllObjects];
             _model = _dataArr[i];
             [newArr addObject: [NSString stringWithFormat:@"%@",_model.company_id]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.name]];

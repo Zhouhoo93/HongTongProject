@@ -137,19 +137,31 @@
 
 - (void)zhengchangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    vc.bid = self.bid;
+    vc.huhao = self.house_id;
+    vc.address = self.address;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)lixianBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    vc.bid = self.bid;
+    vc.huhao = self.house_id;
+    vc.address = self.address;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)yichangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    vc.bid = self.bid;
+    vc.huhao = self.house_id;
+    vc.address = self.address;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)guzhangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
+    vc.bid = self.bid;
+    vc.huhao = self.house_id;
+    vc.address = self.address;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

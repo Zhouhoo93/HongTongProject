@@ -9,9 +9,17 @@
 #import "GuZhangListViewController.h"
 #import "JHTableChart.h"
 #import "GuZhangLiShiListViewController.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "GuZhangModel.h"
 @interface GuZhangListViewController ()<TableButDelegate>
 @property (nonatomic,strong)JHTableChart *table;
 @property (nonatomic,strong)JHTableChart *table1;
+@property (nonatomic,strong)GuZhangModel *model;
+@property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)UILabel *leftLabel;
+@property (nonatomic,strong)UILabel *leftLabel1;
+@property (nonatomic,strong)UILabel *rightLabel;
 @end
 
 @implementation GuZhangListViewController
@@ -20,6 +28,7 @@
     [super viewDidLoad];
     self.title = @"今年电站故障列表";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [self requestData];
     [self setUI];
     // Do any additional setup after loading the view.
 }
@@ -30,34 +39,50 @@
     [rightBtn addTarget:self action:@selector(lishiBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:rightBtn];
     
-    UILabel *leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 84, KWidth-100, 34)];
-    leftLabel.text = @"户号: 123456";
-    leftLabel.numberOfLines = 0;
-    leftLabel.font = [UIFont systemFontOfSize:16];
-    [self.view addSubview:leftLabel];
+    self.leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 84, KWidth-100, 34)];
+    self.leftLabel.text = @"户号: 123456";
+    self.leftLabel.numberOfLines = 0;
+    self.leftLabel.font = [UIFont systemFontOfSize:16];
+    [self.view addSubview:self.leftLabel];
     
-    UILabel *leftLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 114, KWidth-100, 34)];
-    leftLabel1.text = @"地址: 浙江省杭州市新加坡科技园";
-    leftLabel1.font = [UIFont systemFontOfSize:16];
-    leftLabel1.numberOfLines = 0;
-    [self.view addSubview:leftLabel1];
+    self.leftLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(20, 114, KWidth-100, 34)];
+    self.leftLabel1.text = @"地址: ";
+    self.leftLabel1.font = [UIFont systemFontOfSize:16];
+    self.leftLabel1.numberOfLines = 0;
+    [self.view addSubview:self.leftLabel1];
     
     UIImageView *rightImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-170, 155, 24, 24)];
     rightImg.image = [UIImage imageNamed:@"报警数"];
     [self.view addSubview:rightImg];
     
-    UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-145, 150, 110, 34)];
-    rightLabel.font = [UIFont systemFontOfSize:15];
-    rightLabel.text = @"总报警次数: 5次";
-    [self.view addSubview:rightLabel];
+    self.rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-145, 150, 110, 34)];
+    self.rightLabel.font = [UIFont systemFontOfSize:15];
+    self.rightLabel.text = @"总报警次数:  次";
+    [self.view addSubview:self.rightLabel];
     
-    [self setTabel];
+//    [self setTabel];
 }
 
 - (void)setTabel{
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.view addSubview:biaogeBg];
+    self.rightLabel.text = [NSString stringWithFormat:@"总报警次数:%ld次",self.dataArr.count];
+    self.leftLabel.text = [NSString stringWithFormat:@"户号: %@",self.huhao];
+    self.leftLabel1.text = [NSString stringWithFormat:@"地址: %@",self.address];
+
+    if (self.dataArr.count<10) {
+        if (self.dataArr.count==0) {
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, KWidth-20, self.dataArr.count*40+35)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:biaogeBg];
+        }else{
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, KWidth-20, self.dataArr.count*40+33)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:biaogeBg];
+        }
+    }else{
+        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 180, KWidth-20, 400)];
+        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.view addSubview:biaogeBg];
+    }
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 180, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -112,7 +137,21 @@
     self.table1.isblue = NO;
     self.table1.delegate = self;
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"1",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"];
+    NSMutableArray *tipArr = [[NSMutableArray alloc] initWithCapacity:0];
+    _model = _dataArr[0];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.ID]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.created_at]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.nature]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.cause]];
+    if ([_model.status integerValue]==0) {
+        [tipArr addObject:@"未处理"];
+    }else if([_model.status integerValue]==1){
+        [tipArr addObject:@"处理中"];
+    }else{
+        [tipArr addObject:@"已处理"];
+    }
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.responseTime]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.handleTime]];
     self.table1.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table1.colWidthArr = @[@30.0,@40.0,@35.0,@80.0,@50.0,@55.0,@55.0];
@@ -121,18 +160,32 @@
     self.table1.lineColor = [UIColor lightGrayColor];
     self.table1.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"2",@"08-01 20:20",@"异常",@"发电异常",@"已处理",@"14",@"1"],
-                          @[@"3",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"4",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"5",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"6",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"7",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"8",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"9",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"],
-                          @[@"10",@"08-01 20:20",@"故障",@"逆变器掉线",@"未处理",@"14",@"1"]
-                          ];
-    self.table1.dataArr = array2d2;
+//    NSMutableArray *newArr = [[NSMutableArray alloc] init];
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr.count; i++) {
+        if (i>0) {
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            [newArr removeAllObjects];
+            _model = _dataArr[i];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.ID]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.created_at]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.nature]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.cause]];
+            if ([_model.status integerValue]==0) {
+                [newArr addObject:@"未处理"];
+            }else if([_model.status integerValue]==1){
+                 [newArr addObject:@"处理中"];
+            }else{
+                [newArr addObject:@"已处理"];
+            }
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.responseTime]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.handleTime]];
+            [newArr1 addObject:newArr];
+            NSLog(@"newArr :%@   newarr1:%@",newArr,newArr1);
+        }
+        
+    }
+    self.table1.dataArr = newArr1;
     [self.table1 showAnimation];
     [oneTable1 addSubview:self.table1];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
@@ -146,7 +199,94 @@
 }
 - (void)lishiBtnClick{
     GuZhangLiShiListViewController *vc = [[GuZhangLiShiListViewController alloc] init];
+    vc.bid = self.bid;
+    vc.huhao = self.huhao;
+    vc.address = self.address;
     [self.navigationController pushViewController:vc animated:YES];
+}
+-(void)requestData{
+        
+        NSString *URL = [NSString stringWithFormat:@"%@/police/bidAnyData",kUrl];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        NSLog(@"token:%@",token);
+        [userDefaults synchronize];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+        [parameters setValue:self.bid forKey:@"bid"];
+        [parameters setValue:@"2017" forKey:@"year"];
+    NSLog(@"参数:%@",parameters);
+        [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"今年电站故障列表正确%@",responseObject);
+            
+            if ([responseObject[@"result"][@"success"] intValue] ==0) {
+                NSNumber *code = responseObject[@"result"][@"errorCode"];
+                NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+                if ([errorcode isEqualToString:@"3100"])  {
+                    [MBProgressHUD showText:@"请重新登陆"];
+                    [self newLogin];
+                }else{
+                    NSString *str = responseObject[@"result"][@"errorMsg"];
+                    [MBProgressHUD showText:str];
+                }
+            }else{
+                for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                    _model = [[GuZhangModel alloc] initWithDictionary:dic];
+                    [self.dataArr addObject:_model];
+                }
+                [self setTabel];
+                
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"失败%@",error);
+            //        [MBProgressHUD showText:@"%@",error[@"error"]];
+        }];
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(GuZhangModel *)model{
+    if (!_model) {
+        _model = [[GuZhangModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
 }
 /*
 #pragma mark - Navigation

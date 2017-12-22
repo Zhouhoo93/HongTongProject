@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface GuZhangListViewController : UIViewController
-
+@property (nonatomic,strong) NSString *bid;
+@property (nonatomic,strong) NSString *huhao;
+@property (nonatomic,strong) NSString *address;
 @end

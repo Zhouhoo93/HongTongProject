@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"状态列表";
+    self.title = @"报警电站";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(25, 76, 12, 17)];
@@ -43,10 +43,17 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)setTabel{
+    
     if (self.dataArr.count<10) {
-        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, self.dataArr.count*40+33)];
-        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-        [self.view addSubview:biaogeBg];
+        if (self.dataArr.count==0) {
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, self.dataArr.count*40+35)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:biaogeBg];
+        }else{
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, self.dataArr.count*40+33)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.view addSubview:biaogeBg];
+        }
     }else{
         UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 140, KWidth-20, 400)];
         biaogeBg.image = [UIImage imageNamed:@"表格bg"];
@@ -125,6 +132,7 @@
     NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
     for (int i=0; i<_dataArr.count; i++) {
         if (i>0) {
+            [newArr removeAllObjects];
             _model = _dataArr[i];
             [newArr addObject: [NSString stringWithFormat:@"%@",_model.company_id]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
