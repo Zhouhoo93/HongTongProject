@@ -64,6 +64,7 @@
 		383CABED1F4D513F001B3034 /* AlarmListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEC1F4D513F001B3034 /* AlarmListModel.m */; };
 		383CABF01F4D5BA2001B3034 /* AlarmPopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */; };
 		383CABF61F4D7F43001B3034 /* StationListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383CABF51F4D7F43001B3034 /* StationListModel.m */; };
+		383F84891FF0CFD900E6C7E9 /* GuanliModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 383F84881FF0CFD900E6C7E9 /* GuanliModel.m */; };
 		384AB6BC1F3C3BCC005AFE7A /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384AB6BB1F3C3BCC005AFE7A /* GLKit.framework */; };
 		384AB6FE1F3C4C0F005AFE7A /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384AB6C31F3C4C0F005AFE7A /* BaseNavigationController.m */; };
 		384AB6FF1F3C4C0F005AFE7A /* LivePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 384AB6C51F3C4C0F005AFE7A /* LivePlayerViewController.m */; };
@@ -453,6 +454,8 @@
 		383CABEF1F4D5BA2001B3034 /* AlarmPopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmPopModel.m; sourceTree = "<group>"; };
 		383CABF41F4D7F43001B3034 /* StationListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationListModel.h; sourceTree = "<group>"; };
 		383CABF51F4D7F43001B3034 /* StationListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationListModel.m; sourceTree = "<group>"; };
+		383F84871FF0CFD900E6C7E9 /* GuanliModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GuanliModel.h; sourceTree = "<group>"; };
+		383F84881FF0CFD900E6C7E9 /* GuanliModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GuanliModel.m; sourceTree = "<group>"; };
 		384AB6BB1F3C3BCC005AFE7A /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		384AB6C21F3C4C0F005AFE7A /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		384AB6C31F3C4C0F005AFE7A /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
@@ -2008,6 +2011,8 @@
 			children = (
 				389392EB1F593A4B00EDF535 /* CustomerListModel.h */,
 				389392EC1F593A4B00EDF535 /* CustomerListModel.m */,
+				383F84871FF0CFD900E6C7E9 /* GuanliModel.h */,
+				383F84881FF0CFD900E6C7E9 /* GuanliModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2910,6 +2915,7 @@
 				389945E71FBD77F200793718 /* SelectYunWeiViewController.m in Sources */,
 				38FCCDD91FD108B600EDE982 /* BaoJingLishiYunweiListViewController.m in Sources */,
 				38B2D3F31F34262E00038F47 /* ElectricityViewController.m in Sources */,
+				383F84891FF0CFD900E6C7E9 /* GuanliModel.m in Sources */,
 				38C2E8161FEBB53600B8083E /* GuZhangModel.m in Sources */,
 				389A9FE91F45653300B55BAC /* InstallModel.m in Sources */,
 				38755C951F3D9F4B0081CF4D /* MJRefreshGifHeader.m in Sources */,

@@ -17,7 +17,10 @@
 @end
 
 @implementation ServiceListViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBarHidden = NO;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self performSelector:@selector(createButton) withObject:nil afterDelay:1];
@@ -120,9 +123,57 @@
 - (void)onTapLiveBtn
 
 {
+    CGPoint offset = self.bgScrollView.contentOffset;
     
-    NSLog(@"点击底部按钮");
+    if (offset.x == 0) {
+        NSLog(@"推送点击底部按钮");
+    }else if(offset.x == KWidth){
+       NSLog(@"客服点击底部按钮");
+        [self requestLivePeople];
+    }else{
+        NSLog(@"直播底部按钮");
+    }
     
+    
+}
+- (void)requestLivePeople{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/getChatList",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取聊天列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+//                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            
+//            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+//                _model = [[CustomerListModel alloc] initWithDictionary:dic];
+//                [self.dataArr addObject:_model];
+//            }
+//            [self.listTableView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
 }
 - (void)resignWindow
 {

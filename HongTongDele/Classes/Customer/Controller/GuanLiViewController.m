@@ -8,12 +8,17 @@
 
 #import "GuanLiViewController.h"
 #import "JHTableChart.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "GuanliModel.h"
 @interface GuanLiViewController ()<UIScrollViewDelegate,TableButDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)JHTableChart *table1;
 @property (nonatomic,strong)JHTableChart *table11;
 @property (nonatomic,strong)JHTableChart *table2;
 @property (nonatomic,strong)JHTableChart *table22;
+@property (nonatomic,strong)GuanliModel *model;
+@property (nonatomic,strong)NSMutableArray *dataArr;
 @end
 
 @implementation GuanLiViewController
@@ -28,14 +33,28 @@
     self.bgscrollview.contentSize = CGSizeMake(KWidth, 800);
     [self.view addSubview:self.bgscrollview];
     
-    [self setTabelChart];
+    
+    [self requestData];
     // Do any additional setup after loading the view.
 }
 
 - (void)setTabelChart{
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.bgscrollview addSubview:biaogeBg];
+    
+    if (self.dataArr.count<10) {
+        if (self.dataArr.count==0) {
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr.count*40+35)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:biaogeBg];
+        }else{
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr.count*40+33)];
+            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:biaogeBg];
+        }
+    }else{
+        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, 400)];
+        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.bgscrollview addSubview:biaogeBg];
+    }
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 15, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -90,7 +109,13 @@
     self.table11.isblue = NO;
     self.table11.delegate = self;
     self.table11.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"分公司一",@"7",@"8",@"5",@"2"];
+    NSMutableArray *tipArr = [[NSMutableArray alloc] init];
+    _model = _dataArr[0];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
     self.table11.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table11.colWidthArr = @[@70.0,@70.0,@70.0,@70.0,@70.0];
@@ -99,28 +124,53 @@
     self.table11.lineColor = [UIColor lightGrayColor];
     self.table11.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2"]];
-    self.table11.dataArr = array2d2;
+    NSMutableArray *newArr = [[NSMutableArray alloc] init];
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr.count; i++) {
+        if (i>0) {
+            [newArr removeAllObjects];
+            _model = _dataArr[i];
+            [newArr addObject: [NSString stringWithFormat:@"%@",_model.name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
+            [newArr1 addObject:newArr];
+        }
+        
+    }
+    self.table11.dataArr = newArr1;
     [self.table11 showAnimation];
     [oneTable1 addSubview:self.table11];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
     self.table11.frame = CGRectMake(0, 0, KWidth, [self.table11 heightFromThisDataSource]);
     
     
-    UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415, KWidth-20, 400)];
-    biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-    [self.bgscrollview addSubview:biaogeBg1];
     
-    UIView *fourTable1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 415, KWidth, 400)];
+    if (self.dataArr.count<10) {
+        if (self.dataArr.count==0) {
+            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr.count*40+35+20, KWidth-20, 400)];
+            biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:biaogeBg1];
+            
+        }else{
+            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr.count*40+33+20, KWidth-20, 400)];
+            biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:biaogeBg1];
+            
+        }
+    }else{
+        
+        UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415+20, KWidth-20,400 )];
+        biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+        [self.bgscrollview addSubview:biaogeBg1];
+    }
+    UIView *fourTable1 = [[UIScrollView alloc] init];
+    if (_dataArr.count<10) {
+        fourTable1.frame = CGRectMake(0, self.dataArr.count*40+33+20, KWidth, 400);
+    }else{
+        fourTable1.frame = CGRectMake(0, 415, KWidth, 400);
+    }
     //    fourTable.bounces = NO;
     [self.bgscrollview addSubview:fourTable1];
     
@@ -164,8 +214,12 @@
     //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/664*(300));
     //        }else{
     //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/667*46*self.dayFeeArr.count);
-    //        }
-    oneTable2.frame = CGRectMake(0, 451, KWidth, 364);
+
+    if (_dataArr.count<10) {
+        oneTable2.frame = CGRectMake(0, self.dataArr.count*40+33+20+36, KWidth, 400);
+    }else{
+        oneTable2.frame = CGRectMake(0, 415+36, KWidth, 400);
+    }
     oneTable2.bounces = NO;
     [self.bgscrollview addSubview:oneTable2];
     self.table22 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 364)];
@@ -173,7 +227,14 @@
     self.table22.isblue = NO;
     self.table22.delegate = self;
     self.table22.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr1 = @[@"分公司一",@"7",@"8",@"5",@"2",@"1"];
+    NSMutableArray *tipArr1 = [[NSMutableArray alloc] init];
+    _model = _dataArr[0];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.name]];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.handle]];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.InHandle]];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.responseAvg]];
+    [tipArr1 addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
     self.table22.colTitleArr = tipArr1;
     //        self.table44.colWidthArr = colWid;
     self.table22.colWidthArr = @[@55.0,@50.0,@50.0,@50.0,@70.0,@75.0];
@@ -182,17 +243,23 @@
     self.table22.lineColor = [UIColor lightGrayColor];
     self.table22.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d22 = @[
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"],
-                          @[@"分公司一",@"7",@"8",@"5",@"2",@"1"]];
-    self.table22.dataArr = array2d22;
+    NSMutableArray *newArr2 = [[NSMutableArray alloc] init];
+    NSMutableArray *newArr22 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr.count; i++) {
+        if (i>0) {
+            [newArr2 removeAllObjects];
+            _model = _dataArr[i];
+            [newArr2 addObject: [NSString stringWithFormat:@"%@",_model.name]];
+            [newArr2 addObject:[NSString stringWithFormat:@"%@",_model.handle]];
+            [newArr2 addObject:[NSString stringWithFormat:@"%@",_model.InHandle]];
+            [newArr2 addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
+            [newArr2 addObject:[NSString stringWithFormat:@"%@",_model.responseAvg]];
+            [newArr2 addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
+            [newArr22 addObject:newArr2];
+        }
+        
+    }
+    self.table22.dataArr = newArr22;
     [self.table22 showAnimation];
     [oneTable2 addSubview:self.table22];
     oneTable2.contentSize = CGSizeMake(KWidth, 360);
@@ -203,7 +270,87 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/manager",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获管理列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _model = [[GuanliModel alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_model];
+            }
+//            [self setLeftTable];
+            [self setTabelChart];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(GuanliModel *)model{
+    if (!_model) {
+        _model = [[GuanliModel alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
+}
 /*
 #pragma mark - Navigation
 

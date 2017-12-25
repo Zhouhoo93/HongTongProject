@@ -25,7 +25,10 @@
 @end
 
 @implementation CustomerListViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBarHidden = NO;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"联系列表";
@@ -68,7 +71,7 @@
 }
 
 -(void)requestListData{
-    NSString *URL = [NSString stringWithFormat:@"%@/getChatList",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/police/getChatList",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -110,7 +113,7 @@
 }
 
 -(void)requestCreat{
-    NSString *URL = [NSString stringWithFormat:@"%@/createGroup",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/police/createGroup",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];

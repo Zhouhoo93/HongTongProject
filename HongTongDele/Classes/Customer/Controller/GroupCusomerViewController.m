@@ -17,6 +17,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [[IQKeyboardManager sharedManager] setEnable:NO];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +33,7 @@
 
 - (void)getAllMembersOfGroup:(NSString *)groupId
                       result:(void (^)(NSArray<NSString *> *userIdList))resultBlock{
-    NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,groupId];
+    NSString *URL = [NSString stringWithFormat:@"%@/police/queryUser/%@",kUrl,groupId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];

@@ -22,6 +22,7 @@
 #import "XiaoLvLishiViewController.h"
 #import "LoginOneViewController.h"
 #import "AppDelegate.h"
+#import <RongIMKit/RongIMKit.h>
 @interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
@@ -42,6 +43,7 @@
     [super viewDidLoad];
     self.title = @"首页";
     [self setTopView];
+    [self getRongYunToken];
     // Do any additional setup after loading the view.
 }
 
@@ -381,6 +383,45 @@
     [userDefaults synchronize];
     
 }
+
+- (void)getRongYunToken{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/getToken",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    [userDefaults synchronize];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"登陆融云正确%@",responseObject);
+        NSString *rongToken = responseObject[@"content"];
+        //----------融云------------
+        [[RCIM sharedRCIM] initWithAppKey:@"x18ywvqfx6pzc"];
+        [[RCIM sharedRCIM] connectWithToken:rongToken     success:^(NSString *userId) {
+            NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
+        } error:^(RCConnectErrorCode status) {
+            NSLog(@"登陆的错误码为:%d", status);
+        } tokenIncorrect:^{
+            //token过期或者不正确。
+            //如果设置了token有效期并且token过期，请重新请求您的服务器获取新的token
+            //如果没有设置token有效期却提示token错误，请检查您客户端和服务器的appkey是否匹配，还有检查您获取token的流程。
+            NSLog(@"token错误");
+        }];
+        
+        
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+}
+
 
 /*
 #pragma mark - Navigation

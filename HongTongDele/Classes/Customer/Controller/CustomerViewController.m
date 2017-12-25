@@ -14,6 +14,7 @@
 #import "GroupCusomerViewController.h"
 //#import "HSingleGlobalData.h"
 @implementation CustomerViewController
+
 - (void)viewDidLoad {
     //重写显示相关的接口，必须先调用super，否则会屏蔽SDK默认的处理
     [super viewDidLoad];
@@ -43,6 +44,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    self.navigationController.navigationBarHidden = NO;
     if (self.conversationListTableView) {
         [self.conversationListTableView reloadData];
     }
@@ -106,8 +108,7 @@
 
 - (void)getAllMembersOfGroup:(NSString *)groupId
                       result:(void (^)(NSArray<NSString *> *userIdList))resultBlock{
-
-    NSString *URL = [NSString stringWithFormat:@"%@/queryUser/%@",kUrl,groupId];
+    NSString *URL = [NSString stringWithFormat:@"%@/police/queryUser/%@",kUrl,groupId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -165,7 +166,7 @@
 
 -(void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *))completion{
     
-    NSString *URL = [NSString stringWithFormat:@"%@/getGroupName/%@",kUrl,groupId];
+    NSString *URL = [NSString stringWithFormat:@"%@/police/getGroupName/%@",kUrl,groupId];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];

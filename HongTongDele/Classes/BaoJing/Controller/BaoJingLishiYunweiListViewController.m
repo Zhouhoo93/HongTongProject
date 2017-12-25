@@ -10,6 +10,9 @@
 #import "JHTableChart.h"
 #import "ShaiXuanKuangView.h"
 #import "JHPickView.h"
+#import "AppDelegate.h"
+#import "LoginOneViewController.h"
+#import "YunWeiListModel.h"
 @interface BaoJingLishiYunweiListViewController ()<TableButDelegate,UIScrollViewDelegate,ShaiXuanDelegate,JHPickerDelegate>
 @property (nonatomic,strong)UILabel *yearLabel;
 @property (nonatomic,strong)UIScrollView *bgscrollview;
@@ -17,6 +20,13 @@
 @property (nonatomic,strong)JHTableChart *table11;
 @property (nonatomic,strong)ShaiXuanKuangView *shaixuanView;
 @property (nonatomic,assign)NSInteger select;
+@property (nonatomic,copy)NSString *selectID;
+@property (nonatomic,copy)NSString *gongsiName;
+@property (nonatomic,strong)UILabel *toplabel;
+@property (nonatomic,strong)UIImageView *biaogeBg;
+@property (nonatomic,copy)NSString *selectBid;
+@property (nonatomic,strong)YunWeiListModel *Datamodel;
+@property (nonatomic,strong)NSMutableArray *modelArr;
 @end
 
 @implementation BaoJingLishiYunweiListViewController
@@ -54,7 +64,8 @@
     [rightDownBtn addTarget:self action:@selector(rightDownBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bgscrollview addSubview:rightDownBtn];
     
-    [self setTabel];
+//    [self setTabel];
+    [self requestData];
 }
 
 - (void)setTabel{
@@ -62,20 +73,42 @@
     leftImg.image = [UIImage imageNamed:@"定位"];
     [self.bgscrollview addSubview:leftImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 64, KWidth-70, 24)];
-    toplabel.font = [UIFont systemFontOfSize:14];
-    toplabel.textColor = [UIColor darkGrayColor];
-    toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
-    [self.bgscrollview addSubview:toplabel];
-    
+//    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 64, KWidth-70, 24)];
+//    toplabel.font = [UIFont systemFontOfSize:14];
+//    toplabel.textColor = [UIColor darkGrayColor];
+//    toplabel.text = @"xx公司(分公司) 运维小组1 周巷镇 共9条";
+//    [self.bgscrollview addSubview:toplabel];
+    if (self.toplabel) {
+        
+        self.toplabel.text = [NSString stringWithFormat:@"%@(分公司)%@ 共%ld条",self.fengongsi,self.yunwei,self.modelArr.count];
+    }else{
+        self.toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 64, KWidth-70, 24)];
+        self.toplabel.font = [UIFont systemFontOfSize:15];
+        self.toplabel.textColor = [UIColor darkGrayColor];
+        //    self.toplabel.text = @"分公司一 共90条";
+        self.toplabel.text = [NSString stringWithFormat:@"%@(分公司)%@ 共%ld条",self.fengongsi,self.yunwei,self.modelArr.count];
+        [self.bgscrollview addSubview:self.toplabel];
+    }
 //    UIButton *shaixuanBtn1 = [[UIButton alloc] initWithFrame:CGRectMake(KWidth-90, 64, 80, 30)];
 //    [shaixuanBtn1 setImage:[UIImage imageNamed:@"筛选"] forState:UIControlStateNormal];
 //    [shaixuanBtn1 addTarget:self action:@selector(shaixuanBtnClick) forControlEvents:UIControlEventTouchUpInside];
 //    [self.bgscrollview addSubview:shaixuanBtn1];
+    if (self.modelArr.count<10) {
+        if (self.modelArr.count==0) {
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 95, KWidth-20, self.modelArr.count*40+35)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg];
+        }else{
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 95, KWidth-20, self.modelArr.count*40+33)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg];
+        }
+    }else{
+        self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 95, KWidth-20, 400)];
+        self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.bgscrollview addSubview:self.biaogeBg];
+    }
     
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 95, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.bgscrollview addSubview:biaogeBg];
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 95, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -130,7 +163,16 @@
     self.table11.isblue = NO;
     self.table11.delegate = self;
     self.table11.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"1",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"];
+     NSMutableArray *tipArr = [[NSMutableArray alloc] init];
+    if (self.modelArr.count>0) {
+        _Datamodel = _modelArr[0];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.ID]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.home]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.addr]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.nature]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.cause]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.date]];
+    }
     self.table11.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table11.colWidthArr = @[@30.0,@40.0,@90.0,@90.0,@50.0];
@@ -139,17 +181,23 @@
     self.table11.lineColor = [UIColor lightGrayColor];
     self.table11.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"1",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"2",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"3",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"4",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"5",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"6",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"7",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"8",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"],
-                          @[@"9",@"5678",@"水云村201号",@"直流母线过流",@"08-01 20:20"]];
-    self.table11.dataArr = array2d2;
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_modelArr.count; i++) {
+        if (i>0) {
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            [newArr removeAllObjects];
+            _Datamodel = _modelArr[i];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.ID]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.home]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.addr]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.nature]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.cause]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.date]];
+            [newArr1 addObject:newArr];
+        }
+        
+    }
+    self.table11.dataArr = newArr1;
     [self.table11 showAnimation];
     [oneTable1 addSubview:self.table11];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
@@ -162,6 +210,10 @@
     NSInteger strNum = [str integerValue];
     NSInteger strNum1 =strNum-1;
     self.yearLabel.text = [NSString stringWithFormat:@"%ld",strNum1];
+    [self.table1 removeFromSuperview];
+    [self.table11 removeFromSuperview];
+    [self.biaogeBg removeFromSuperview];
+    [self requestData];
 }
 
 - (void)rightDownBtnClick{
@@ -169,6 +221,10 @@
     NSInteger strNum = [str integerValue];
     NSInteger strNum1 =strNum+1;
     self.yearLabel.text = [NSString stringWithFormat:@"%ld",strNum1];
+    [self.table1 removeFromSuperview];
+    [self.table11 removeFromSuperview];
+    [self.biaogeBg removeFromSuperview];
+    [self requestData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -213,6 +269,93 @@
         [self.shaixuanView.guzhangBtn setTitle:str forState:UIControlStateNormal];
     }
     
+    
+}
+
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/work/list",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.workID forKey:@"id"];
+    [parameters setValue:self.yearLabel.text forKey:@"year"];
+//    [parameters setValue:@"handle" forKey:@"type"];
+    //type:值(handle 和  inhandle)
+    NSLog(@"parameters:%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取户列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [self.modelArr removeAllObjects];
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _Datamodel = [[YunWeiListModel alloc] initWithDictionary:dic];
+                [self.modelArr addObject:_Datamodel];
+            }
+            [self setTabel];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+-(NSMutableArray *)modelArr{
+    if (!_modelArr) {
+        _modelArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _modelArr;
+}
+-(YunWeiListModel *)Datamodel{
+    if (!_Datamodel) {
+        _Datamodel = [[YunWeiListModel alloc] init];
+    }
+    return _Datamodel;
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
     
 }
 /*
