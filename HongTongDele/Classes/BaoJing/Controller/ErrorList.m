@@ -18,6 +18,25 @@
 - (IBAction)wanchengBtnClick:(id)sender {
     [self Right1:sender];
 }
+- (IBAction)bohaoBtnClick:(id)sender {
+    [self.delegate bohaoBtnClick];
+}
+- (IBAction)xinxiBtnClick:(id)sender {
+    [self.delegate xinxiBtnClick];
+}
+- (IBAction)daohangBtnClick:(id)sender {
+    [self.delegate daohangBtnClick];
+}
+- (IBAction)weichuli:(id)sender {
+    [self.delegate weichuliClick];
+}
+- (IBAction)chulizhong:(id)sender {
+    [self.delegate chulizhongClick];
+}
+- (IBAction)yichuli:(id)sender {
+    [self.delegate yichuliClick];
+}
+
 //代理方法, 通过BUT 下标 来滑动视图
 - (void)ClickBut1:(UIButton *)sender{
     if (self.delegate && [self.delegate respondsToSelector:@selector(CloseClick1)]) {
@@ -39,6 +58,11 @@
         [self.delegate RightClick1];
     }
 }
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.yunweiyijian resignFirstResponder];
+}
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

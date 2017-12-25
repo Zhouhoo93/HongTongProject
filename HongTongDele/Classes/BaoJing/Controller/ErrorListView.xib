@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -241,6 +241,9 @@
                         <constraint firstAttribute="width" constant="60" id="b0J-1C-j9G"/>
                     </constraints>
                     <state key="normal" title="拨号" image="拨号"/>
+                    <connections>
+                        <action selector="bohaoBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="L9v-do-eOj"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VTy-zF-EF4">
                     <rect key="frame" x="285" y="166" width="60" height="30"/>
@@ -249,6 +252,9 @@
                         <constraint firstAttribute="height" constant="30" id="puk-ra-cO3"/>
                     </constraints>
                     <state key="normal" title="信息" image="信息"/>
+                    <connections>
+                        <action selector="xinxiBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="kZZ-Yq-L2h"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySf-2c-AmD">
                     <rect key="frame" x="267" y="199" width="64" height="30"/>
@@ -257,6 +263,9 @@
                         <constraint firstAttribute="width" constant="64" id="KLy-dV-vfE"/>
                     </constraints>
                     <state key="normal" title="一键导航" image="导航"/>
+                    <connections>
+                        <action selector="daohangBtnClick:" destination="iSf-Cf-NES" eventType="touchUpInside" id="hGd-l2-fE0"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qyK-M3-DVL">
                     <rect key="frame" x="103" y="369" width="49" height="30"/>
@@ -266,6 +275,9 @@
                     <state key="normal" title="未处理" backgroundImage="处理中">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="weichuli:" destination="iSf-Cf-NES" eventType="touchUpInside" id="Jwd-7i-zOl"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12h-9y-Pa9">
                     <rect key="frame" x="177" y="370" width="49" height="30"/>
@@ -275,6 +287,9 @@
                     <state key="normal" title="处理中" backgroundImage="处理中">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="chulizhong:" destination="iSf-Cf-NES" eventType="touchUpInside" id="5fx-9C-FlW"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-2a-nKQ">
                     <rect key="frame" x="251" y="370" width="64" height="30"/>
@@ -286,6 +301,10 @@
                     <state key="normal" title="已处理" backgroundImage="已处理">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="chulizhong:" destination="iSf-Cf-NES" eventType="touchUpInside" id="vE8-cB-9O0"/>
+                        <action selector="yichuli:" destination="iSf-Cf-NES" eventType="touchUpInside" id="MOU-rO-TgK"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="意见栏" translatesAutoresizingMaskIntoConstraints="NO" id="Kyv-mH-Gk7">
                     <rect key="frame" x="99" y="403" width="225" height="97"/>
@@ -404,6 +423,17 @@
                 <constraint firstItem="12h-9y-Pa9" firstAttribute="leading" secondItem="qyK-M3-DVL" secondAttribute="trailing" constant="25" id="yNg-AF-tPC"/>
                 <constraint firstItem="hJn-3p-Ucm" firstAttribute="top" secondItem="iSf-Cf-NES" secondAttribute="top" id="zAz-ad-Jhd"/>
             </constraints>
+            <connections>
+                <outlet property="chulizhuangtai" destination="Ots-yM-mdi" id="bgd-Wo-ezU"/>
+                <outlet property="dizhi" destination="DUw-a6-feG" id="c5v-KB-7sS"/>
+                <outlet property="fadianliang" destination="74e-tZ-MzQ" id="Igb-aF-gsN"/>
+                <outlet property="gonglv" destination="AKK-dZ-Dn1" id="3On-Al-MxF"/>
+                <outlet property="huhao" destination="bUi-EK-MWD" id="6KK-ss-Vnp"/>
+                <outlet property="shoujihao" destination="gns-4k-ukH" id="AnV-9C-4R9"/>
+                <outlet property="tongxunzhuangtai" destination="Uap-mA-OyV" id="7c0-b4-OIA"/>
+                <outlet property="xiangqing" destination="qNG-Vh-RfO" id="k33-Z8-tQ5"/>
+                <outlet property="yunweiyijian" destination="Fa5-Wu-xsU" id="mMw-dF-Ofc"/>
+            </connections>
             <point key="canvasLocation" x="164.5" y="-225.5"/>
         </view>
     </objects>

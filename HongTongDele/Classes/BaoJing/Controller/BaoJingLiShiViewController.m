@@ -30,6 +30,14 @@
 @property (nonatomic,strong)NSMutableArray *modelArr1;
 @property (nonatomic,strong)UIImageView *biaogeBg;
 @property (nonatomic,strong)UIImageView *biaogeBg1;
+@property (nonatomic,copy)NSString *selectBid;
+@property (nonatomic,copy)NSString *selectID;
+@property (nonatomic,assign)NSInteger jieduan;
+@property (nonatomic,copy)NSString *position;
+@property (nonatomic,copy)NSString *phone;
+@property (nonatomic,copy)NSString *address;
+@property (nonatomic,copy)NSString *dianjiStatus;
+
 @end
 
 @implementation BaoJingLiShiViewController
@@ -39,6 +47,7 @@
     self.title = @"报警电站";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setTop];
+    self.jieduan = 0;
 //    [self requestData];
 //    [self requestData1];
     // Do any additional setup after loading the view.
@@ -419,10 +428,21 @@
 
 - (void)transButIndex:(NSInteger)index
 {
-    self.errorList = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListView" owner:self options:nil]objectAtIndex:0];
-        self.errorList.delegate = self;
-    self.errorList.frame = CGRectMake(0, 0, KWidth, KHeight);
-    [self.view addSubview:self.errorList];
+    CGPoint offset = _bgscrollview.contentOffset;
+    
+    if (offset.x == 0) {
+        _Datamodel = _modelArr[index];
+        _selectID = _Datamodel.ID;
+        _selectBid = _Datamodel.bid;
+        self.jieduan = 0;
+    }else{
+        _Datamodel = _modelArr1[index];
+        _selectID = _Datamodel.ID;
+        _selectBid = _Datamodel.bid;
+        self.jieduan = 1;
+    }
+    [self requesterror];
+    
 }
 - (void)CloseClick1{
     [self.errorList removeFromSuperview];
@@ -431,7 +451,67 @@
     [self.errorList removeFromSuperview];
 }
 -(void)RightClick1{
+    NSString *str = self.errorList.yunweiyijian.text;
+    NSLog(@"str:%@ %@",str,self.dianjiStatus);
+    [self requestchangge];
     [self.errorList removeFromSuperview];
+}
+-(void)bohaoBtnClick{
+    NSString *str = [NSString stringWithFormat:@"tel:%@",self.phone];
+//    NSMutableString *str=[[NSMutableString alloc] initWithFormat:@"tel:18813189235"];
+    UIWebView *callWebview = [[UIWebView alloc] init];
+    [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
+    [self.view addSubview:callWebview];
+    
+}
+
+-(void)xinxiBtnClick{
+    NSString *str = [NSString stringWithFormat:@"sms://%@",self.phone];
+    NSURL *url = [NSURL URLWithString:str];
+    
+    [[UIApplication sharedApplication] openURL:url];
+    
+    
+}
+-(void)weichuliClick{
+    self.dianjiStatus = @"0";
+}
+-(void)chulizhongClick{
+    self.dianjiStatus = @"1";
+}
+-(void)yichuliClick{
+    self.dianjiStatus = @"2";
+}
+
+-(void)daohangBtnClick{
+    [self mapBtnClick];
+}
+- (void)mapBtnClick{
+    NSArray *newArray3 = [self.position componentsSeparatedByString:@","];
+    BOOL hasBaiduMap = NO;
+    BOOL hasGaodeMap = NO;
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]){
+        hasBaiduMap = YES;
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"iosamap://"]]){
+        hasGaodeMap = YES;
+    }
+    
+    
+    if (hasBaiduMap)
+    {
+        //        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:终点&mode=driving",currentLat, currentLon,_shopLat,_shopLon] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:30.833708884292438,119.9267578125|name:我的位置&destination=latlng:%@,%@|name:终点&mode=driving",newArray3[0],newArray3[1]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else if (hasGaodeMap)
+    {
+        NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&poiname=%@&lat=%@&lon=%@&dev=1&style=2",@"红彤代理端", @"123123123", @"终点",newArray3[0],newArray3[1]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else{
+        [MBProgressHUD showText:@"请先安装百度地图或者高德地图"];
+    }
 }
 
 -(void)requestData{
@@ -522,6 +602,115 @@
     
     
 }
+
+-(void)requesterror{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/work/ropup",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.selectID forKey:@"id"];
+    [parameters setValue:self.selectBid forKey:@"bid"];
+    //type:值(handle 和  inhandle)
+    NSLog(@"parameters:%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取故障列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+           
+            self.address = responseObject[@"content"][@"address"];
+            NSString *house_id = responseObject[@"content"][@"house_id"];
+            NSString *name = responseObject[@"content"][@"name"];
+            self.phone = responseObject[@"content"][@"phone"];
+            NSString *power = responseObject[@"content"][@"power"];
+            NSString *today_gen = responseObject[@"content"][@"today_gen"];
+            NSString *position = responseObject[@"content"][@"position"];
+            self.position = position;
+            self.errorList = [[[NSBundle mainBundle]loadNibNamed:@"ErrorListView" owner:self options:nil]objectAtIndex:0];
+            self.errorList.delegate = self;
+            self.errorList.frame = CGRectMake(0, 0, KWidth, KHeight);
+            self.errorList.huhao.text = house_id;
+            self.errorList.shoujihao.text = self.phone;
+            self.errorList.dizhi.text = self.address;
+            self.errorList.gonglv.text = [NSString stringWithFormat:@"%@kW",power];
+            self.errorList.fadianliang.text = [NSString stringWithFormat:@"%@度",today_gen];;
+            self.errorList.huhao.text = house_id;
+            if (self.jieduan==0) {
+                self.errorList.chulizhuangtai.text = @"未处理";
+            }else{
+                self.errorList.chulizhuangtai.text = @"处理中";
+            }
+            self.errorList.tongxunzhuangtai.text = _Datamodel.nature;
+            [self.view addSubview:self.errorList];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+-(void)requestchangge{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/work/handle",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.selectID forKey:@"id"];
+    [parameters setValue:self.selectBid forKey:@"bid"];
+    [parameters setValue:self.dianjiStatus forKey:@"status"];
+    [parameters setValue:self.errorList.yunweiyijian.text forKey:@"opinion"];
+    //type:值(handle 和  inhandle)
+    NSLog(@"parameters:%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"上传故障正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
 - (void)newLogin{
     [MBProgressHUD showText:@"请重新登录"];
     [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
