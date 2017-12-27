@@ -135,6 +135,7 @@
     [self.bgScrollView addSubview:self.fourView];
     
     [self requestBaojingData];
+    [self requestdianzhan];
 }
 //执行协议方法
 - (void)transButIndex
@@ -354,6 +355,65 @@
     
     
 }
+-(void)requestdianzhan{
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-base-data",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取电站基本数据正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            double value1 = 0.98000;
+            double value2 = 0.98125;
+            NSLog(@"%@",@(value1).description);
+            NSLog(@"%@",@(value2).description);
+            
+            NSInteger zongzhuangji = [responseObject[@"content"][@"total_install_base"] integerValue];
+            NSInteger zonghushu = [responseObject[@"content"][@"total_number_households"] integerValue];
+            if (zongzhuangji>=0&&zongzhuangji<1000) {
+                CGFloat zongzhuang = zongzhuangji ;
+                self.oneView.zongzhuangji.text = [NSString stringWithFormat:@"%@瓦/%ld户",@(zongzhuang).description,zonghushu];
+            }else if (zongzhuangji>=1000&&zongzhuangji<1000000){
+                CGFloat zongzhuang = zongzhuangji/1000;
+                self.oneView.zongzhuangji.text = [NSString stringWithFormat:@"%@千瓦/%ld户",@(zongzhuang).description,zonghushu];
+            }else{
+                CGFloat zongzhuang = zongzhuangji/1000000;
+                self.oneView.zongzhuangji.text = [NSString stringWithFormat:@"%@兆瓦/%ld户",@(zongzhuang).description,zonghushu];
+            }
+           
+            CGFloat fadian = [responseObject[@"content"][@"total_gen_cap"] floatValue];
+            self.oneView.yifadian.text = [NSString stringWithFormat:@"%.3f度",fadian];
+            NSInteger wanchenglv = [responseObject[@"content"][@"completion_rate"] integerValue];
+            self.oneView.wanchenglv.text = [NSString stringWithFormat:@"%ld%%",wanchenglv];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+
 
 - (void)newLogin{
     [MBProgressHUD showText:@"请重新登录"];

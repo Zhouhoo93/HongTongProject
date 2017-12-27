@@ -20,11 +20,19 @@
 @property (nonatomic,strong)UIScrollView *bgScrollView;
 @property (nonatomic,strong) NSMutableArray *FirstChartgenArr;
 @property (nonatomic,strong) NSMutableArray *FirstChartuseArr;
+@property (nonatomic,strong) NSMutableArray *FirstChartgenArr1;
+@property (nonatomic,strong) NSMutableArray *FirstChartuseArr1;
+@property (nonatomic,strong) NSMutableArray *FirstChartXArr;
+@property (nonatomic,strong) NSMutableArray *FirstChartXArr1;
 @property (nonatomic,assign)float maxNumber;
 @property (nonatomic,strong) JHLineChart *lineChart;
 @property (nonatomic,strong) JHLineChart *lineChart2;
 @property (nonatomic,strong) JHLineChart *lineChart1;
+@property (nonatomic,strong) JHLineChart *lineChart3;
+@property (nonatomic,strong) JHLineChart *lineChart4;
 @property (nonatomic,strong) HistogramView *zhuView;
+@property (nonatomic,strong) HistogramView *zhuView1;
+@property (nonatomic,strong) HistogramView *zhuView2;
 @property (nonatomic,strong) NSMutableArray *blueArr;
 @property (nonatomic,strong) NSMutableArray *greenArr;
 @property (nonatomic,strong) NSMutableArray *redArr;
@@ -33,7 +41,13 @@
 @property (nonatomic,copy) NSString *username;
 @property (nonatomic,strong) UIImageView *bg;
 @property (nonatomic,strong) UIImageView *bg1;
+@property (nonatomic,strong) UIImageView *bg2;
+@property (nonatomic,strong) UIImageView *bg3;
+@property (nonatomic,strong) UIImageView *bg4;
+@property (nonatomic,strong) UIImageView *bg5;
 @property (nonatomic,strong)StationTextView *StationTextview;
+@property (nonatomic,strong) UIScrollView *firstScroll;
+@property (nonatomic,strong) UIScrollView *firstScroll1;
 //@property (nonatomic,copy) NSString *tel;
 @end
 
@@ -48,7 +62,11 @@
     [super viewDidLoad];
     [self requestData];
     [self requestFirstChart];
+    [self requestFirstChart2];
+//    [self requestSecondChart];
     [self requestSecondChart];
+    [self requestSecondChart1];
+    [self requestSecondChart2];
     self.title = @"电站详情";
     
     // Do any additional setup after loading the view.
@@ -100,7 +118,14 @@
     
     [self.bgScrollView addSubview:self.StationTextview];
     
-    
+    self.firstScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 410, KWidth,KHeight/667*211 )];
+    self.firstScroll.contentSize = CGSizeMake(KWidth*2, 0);
+    self.firstScroll.pagingEnabled = YES;
+    [self.bgScrollView addSubview:self.firstScroll];
+    self.firstScroll1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 630, KWidth,KHeight/667*211 )];
+    self.firstScroll1.contentSize = CGSizeMake(KWidth*3, 0);
+    self.firstScroll1.pagingEnabled = YES;
+    [self.bgScrollView addSubview:self.firstScroll1];
 }
 //执行协议方法
 - (void)transButIndex
@@ -138,30 +163,30 @@
 - (void)zhengchangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
     vc.bid = self.bid;
-    vc.huhao = self.house_id;
-    vc.address = self.address;
+    vc.huhao = self.StationTextview.huhao.text;
+    vc.address = self.StationTextview.addressLabel1.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)lixianBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
     vc.bid = self.bid;
-    vc.huhao = self.house_id;
-    vc.address = self.address;
+    vc.huhao = self.StationTextview.huhao.text;
+    vc.address = self.StationTextview.addressLabel1.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)yichangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
     vc.bid = self.bid;
-    vc.huhao = self.house_id;
-    vc.address = self.address;
+    vc.huhao = self.StationTextview.huhao.text;
+    vc.address = self.StationTextview.addressLabel1.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)guzhangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
     vc.bid = self.bid;
-    vc.huhao = self.house_id;
-    vc.address = self.address;
+    vc.huhao = self.StationTextview.huhao.text;
+    vc.address = self.StationTextview.addressLabel1.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -171,12 +196,13 @@
 }
 - (void)setFirstChart{
     
-    self.bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 410, KWidth-14, KHeight/667*211)];
-    self.bg.image = [UIImage imageNamed:@"biaogebg"];
-    [self.bgScrollView addSubview:self.bg];
+    
+    self.bg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 0, KWidth-14, KHeight/667*211)];
+    self.bg.image = [UIImage imageNamed:@"表格bg"];
+    [self.firstScroll addSubview:self.bg];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    titleLabel.text = @"今日发、用电功率曲线图";
+    titleLabel.text = @"本月发、用电功率曲线图";
     titleLabel.textColor = RGBColor(2, 28, 106);
     titleLabel.font = [UIFont systemFontOfSize:16];
     [self.bg addSubview:titleLabel];
@@ -240,7 +266,7 @@
     
     self.lineChart = [[JHLineChart alloc] initWithFrame:CGRectMake(0,KHeight/667*30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
     self.lineChart.isShowRight = NO;
-    self.lineChart.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    self.lineChart.xLineDataArr = self.FirstChartXArr;
     self.lineChart.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
     
     self.lineChart.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
@@ -341,7 +367,7 @@
     self.lineChart2.isShowRight = NO;
     self.lineChart2.isShowLeft = YES;
     self.lineChart2.isKw = YES;
-    self.lineChart2.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    self.lineChart2.xLineDataArr = self.FirstChartXArr;
     
     self.lineChart2.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
     
@@ -424,12 +450,267 @@
     
     
 }
+- (void)setFirstChart1{
+    
+    
+    self.bg2 = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth+7, 0, KWidth-14, KHeight/667*211)];
+    self.bg2.image = [UIImage imageNamed:@"表格bg"];
+    [self.firstScroll addSubview:self.bg2];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
+    titleLabel.text = @"今年发、用电功率曲线图";
+    titleLabel.textColor = RGBColor(2, 28, 106);
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    [self.bg2 addSubview:titleLabel];
+    
+    UILabel *waLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 25, 10)];
+    waLabel.text = @"(kW)";
+    waLabel.textColor = RGBColor(0, 60, 255);
+    waLabel.font = [UIFont systemFontOfSize:11];
+    [self.bg2 addSubview:waLabel];
+    UILabel *waLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-38, 25, 25, 10)];
+    waLabel1.text = @"(kW)";
+    waLabel1.textColor = RGBColor(255, 0, 0);
+    waLabel1.font = [UIFont systemFontOfSize:11];
+    [self.bg2 addSubview:waLabel1];
+    UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    shiLabel.text = @"(h)";
+    shiLabel.textColor = [UIColor darkGrayColor];
+    shiLabel.font = [UIFont systemFontOfSize:11];
+    [self.bg2 addSubview:shiLabel];
+    
+    UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 10, 50, 20)];
+    rightTopLabel.text = @"发电功率";
+    rightTopLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg2 addSubview:rightTopLabel];
+    UIImageView *topImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 15, 10, 10)];
+    topImg.image = [UIImage imageNamed:@"椭圆-6"];
+    [self.bg2 addSubview:topImg];
+    
+    UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 25, 50, 20)];
+    rightDownLabel.text = @"用电功率";
+    rightDownLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg2 addSubview:rightDownLabel];
+    UIImageView *downImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 30, 10, 10)];
+    downImg.image = [UIImage imageNamed:@"椭圆-6-拷贝"];
+    [self.bg2 addSubview:downImg];
+    
+    NSInteger count = 1;
+    for (int i=0; i<self.FirstChartgenArr1.count; i++) {
+        if (i>0) {
+            if (self.FirstChartgenArr1[i]>=0) {
+                if (self.FirstChartgenArr1[i-1]<0) {
+                    count++;
+                }
+            }
+        }
+    }
+    NSMutableArray *genArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    for (int i=0; i<self.FirstChartgenArr1.count; i++) {
+        if (i>0) {
+            if (self.FirstChartgenArr1[i]>=0) {
+                if (self.FirstChartgenArr1[i-1]<0) {
+                    [genArr1 addObject:self.FirstChartgenArr1[i]];
+                }
+            }else{
+                
+            }
+        }
+    }
+    
+    
+    
+    self.lineChart3 = [[JHLineChart alloc] initWithFrame:CGRectMake(0,KHeight/667*30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    self.lineChart3.isShowRight = NO;
+    self.lineChart3.xLineDataArr = self.FirstChartXArr1;
+    self.lineChart3.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    
+    self.lineChart3.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    //用电数据
+    self.lineChart3.valueArr = @[self.FirstChartgenArr1];
+    //    self.lineChart.valueArr = @[@1,@1,@1,[NSNull null],@1,@1,@1];
+    self.lineChart3.showYLevelLine = YES;
+    self.lineChart3.showYLine = YES;
+    self.lineChart3.isShowLeft = NO;
+    self.lineChart3.isKw = YES;
+    self.lineChart3.isShowRight = YES;
+    self.lineChart3.showValueLeadingLine = NO;
+    self.lineChart3.valueFontSize = 0.0;
+    self.lineChart3.backgroundColor = [UIColor clearColor];
+    /* Line Chart colors */
+    self.lineChart3.valueLineColorArr =@[ RGBColor(255, 0, 0)];
+    /* Colors for every line chart*/
+    //    lineChart.pointColorArr = @[[UIColor orangeColor],[UIColor yellowColor]];
+    /* color for XY axis */
+    self.lineChart3.xAndYLineColor = [UIColor blackColor];
+    /* XY axis scale color */
+    self.lineChart3.xAndYNumberColor = [UIColor darkGrayColor];
+    /* Dotted line color of the coordinate point */
+    self.lineChart3.positionLineColorArr = @[[UIColor clearColor],[UIColor clearColor]];
+    /*        Set whether to fill the content, the default is False         */
+    //    lineChart.contentFill = YES;
+    /*        Set whether the curve path         */
+    self.lineChart3.pathCurve = YES;
+    /*        Set fill color array         */
+    //    lineChart.contentFillColorArr = @[[UIColor colorWithRed:0 green:1 blue:0 alpha:0.468],[UIColor colorWithRed:1 green:0 blue:0 alpha:0.468]];
+    [self.bg2 addSubview:self.lineChart3];
+    CGFloat maxUse = 0;
+    for (int i=0; i<_FirstChartgenArr1.count; i++) {
+        CGFloat num = [_FirstChartgenArr1[i] floatValue];
+        if (num > maxUse) {
+            maxUse = num;
+        }
+    }
+    CGFloat maxGen = 0;
+    for (int i=0; i<_FirstChartuseArr1.count; i++) {
+        CGFloat num = [_FirstChartuseArr1[i] floatValue];
+        if (num > maxGen) {
+            maxGen = num;
+        }
+    }
+    CGFloat bei = maxGen/maxUse;
+    CGFloat da = maxUse-maxGen;
+    if (maxUse==0) {
+        NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse];
+        NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse*2];
+        NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse*3];
+        NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse*4];
+        NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse*5];
+        NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse*6];
+        self.lineChart3.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+    }else{
+        CGFloat six = 1/6;
+        if (bei>6) {
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse*6];
+            self.lineChart3.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else if (bei<1/6){
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse/6];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse/6*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse/6*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse/6*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse/6*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse/6*6];
+            self.lineChart3.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else{
+            if (da>0) {
+                NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse/6];
+                NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse/6*2];
+                NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse/6*3];
+                NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse/6*4];
+                NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse/6*5];
+                NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse];
+                self.lineChart3.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+            }else{
+                NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen/6];
+                NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen/6*2];
+                NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen/6*3];
+                NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen/6*4];
+                NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen/6*5];
+                NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen];
+                self.lineChart3.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+            }
+        }
+    }
+    /*       Start animation        */
+    [self.lineChart3 showAnimation];
+    
+    self.lineChart4 = [[JHLineChart alloc] initWithFrame:CGRectMake(0,KHeight/667*30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    self.lineChart4.isShowRight = NO;
+    self.lineChart4.isShowLeft = YES;
+    self.lineChart4.isKw = YES;
+    self.lineChart4.xLineDataArr = self.FirstChartXArr1;
+    
+    self.lineChart4.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    
+    self.lineChart4.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    //用电数据
+    self.lineChart4.valueArr = @[self.FirstChartuseArr1];
+    
+    self.lineChart4.showYLevelLine = NO;
+    self.lineChart4.showYLine = NO;
+    self.lineChart4.showValueLeadingLine = NO;
+    self.lineChart4.valueFontSize = 0.0;
+    self.lineChart4.backgroundColor = [UIColor clearColor];
+    /* Line Chart colors */
+    self.lineChart4.valueLineColorArr =@[ RGBColor(0, 60, 255)];
+    /* Colors for every line chart*/
+    //    lineChart.pointColorArr = @[[UIColor orangeColor],[UIColor yellowColor]];
+    /* color for XY axis */
+    self.lineChart4.xAndYLineColor = [UIColor blackColor];
+    /* XY axis scale color */
+    self.lineChart4.xAndYNumberColor = [UIColor darkGrayColor];
+    /* Dotted line color of the coordinate point */
+    self.lineChart4.positionLineColorArr = @[[UIColor clearColor],[UIColor clearColor]];
+    /*        Set whether to fill the content, the default is False         */
+    //    lineChart.contentFill = YES;
+    /*        Set whether the curve path         */
+    self.lineChart4.pathCurve = YES;
+    /*        Set fill color array         */
+    //    lineChart.contentFillColorArr = @[[UIColor colorWithRed:0 green:1 blue:0 alpha:0.468],[UIColor colorWithRed:1 green:0 blue:0 alpha:0.468]];
+    [self.bg2 addSubview:self.lineChart4];
+    /*       Start animation        */
+    
+    CGFloat bei1 = maxUse/maxGen;
+    if (maxGen==0) {
+        NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen];
+        NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen*2];
+        NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen*3];
+        NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen*4];
+        NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen*5];
+        NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen*6];
+        self.lineChart4.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+    }else{
+        if (bei1>6) {
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen*6];
+            self.lineChart4.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else if (bei1<1/6){
+            NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen/6];
+            NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen/6*2];
+            NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen/6*3];
+            NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen/6*4];
+            NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen/6*5];
+            NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen/6*6];
+            self.lineChart4.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+        }else{
+            if (da>0) {
+                NSString *str1 = [NSString stringWithFormat:@"%.2f",maxUse/6];
+                NSString *str2 = [NSString stringWithFormat:@"%.2f",maxUse/6*2];
+                NSString *str3 = [NSString stringWithFormat:@"%.2f",maxUse/6*3];
+                NSString *str4 = [NSString stringWithFormat:@"%.2f",maxUse/6*4];
+                NSString *str5 = [NSString stringWithFormat:@"%.2f",maxUse/6*5];
+                NSString *str6 = [NSString stringWithFormat:@"%.2f",maxUse];
+                self.lineChart4.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+            }else{
+                NSString *str1 = [NSString stringWithFormat:@"%.2f",maxGen/6];
+                NSString *str2 = [NSString stringWithFormat:@"%.2f",maxGen/6*2];
+                NSString *str3 = [NSString stringWithFormat:@"%.2f",maxGen/6*3];
+                NSString *str4 = [NSString stringWithFormat:@"%.2f",maxGen/6*4];
+                NSString *str5 = [NSString stringWithFormat:@"%.2f",maxGen/6*5];
+                NSString *str6 = [NSString stringWithFormat:@"%.2f",maxGen];
+                self.lineChart4.yLineDataArr = @[str1,str2,str3,str4,str5,str6];
+            }
+        }
+    }
+    [self.lineChart4 showAnimation];
+    
+    
+    
+}
 
 - (void)setZhuzhuang{
-    
-    self.bg1 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 610, KWidth-14,KHeight/667*211)];
-    self.bg1.image = [UIImage imageNamed:@"biaogebg"];
-    [self.bgScrollView addSubview:self.bg1];
+    self.bg1 = [[UIImageView alloc] initWithFrame:CGRectMake(7, 0, KWidth-14,KHeight/667*211)];
+    self.bg1.image = [UIImage imageNamed:@"表格bg"];
+    [self.firstScroll1 addSubview:self.bg1];
     
     UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
     secondLabel.text = @"今日发、用电量柱状图";
@@ -554,9 +835,9 @@
     self.zhuView.maxNumber = self.maxNumber;
     self.zhuView.backgroundColor = [UIColor clearColor];
     self.zhuView.arr = self.redArr;
-    self.zhuView.arr1 = self.yellowArr;
-    self.zhuView.arr2 = self.blueArr;
-    self.zhuView.arr3 = self.greenArr;
+    self.zhuView.arr1 = nil;
+    self.zhuView.arr2 = nil;
+    self.zhuView.arr3 = nil;
     //    self.zhuView.arr4 = self.redArr;
     //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
     //    view.maxAll = self.maxAll;
@@ -565,9 +846,287 @@
     //    [self addTimer];
     
 }
+- (void)setZhuzhuang1{
+    self.bg4 = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth+7, 0, KWidth-14,KHeight/667*211)];
+    self.bg4.image = [UIImage imageNamed:@"表格bg"];
+    [self.firstScroll1 addSubview:self.bg4];
+    
+    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
+    secondLabel.text = @"本月发、用电量柱状图";
+    secondLabel.textColor = RGBColor(2, 28, 106);
+    secondLabel.font = [UIFont systemFontOfSize:16];
+    [self.bg4 addSubview:secondLabel];
+    
+    UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
+    dianLabel.text = @"(kW·h)";
+    
+    
+    dianLabel.textColor = RGBColor(0, 60, 255);
+    dianLabel.font = [UIFont systemFontOfSize:11];
+    [self.bg4 addSubview:dianLabel];
+    
+    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    shiLabel1.text = @"(日)";
+    shiLabel1.textColor = [UIColor darkGrayColor];
+    shiLabel1.font = [UIFont systemFontOfSize:11];
+    [self.bg4 addSubview:shiLabel1];
+    
+    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
+    leftTopLabel.text = @"上网";
+    leftTopLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg4 addSubview:leftTopLabel];
+    
+    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
+    leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
+    [self.bg4 addSubview:leftTopImg];
+    
+    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
+    leftDownLabel.text = @"峰电";
+    leftDownLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg4 addSubview:leftDownLabel];
+    
+    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
+    leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
+    [self.bg4 addSubview:leftDownImg];
+    
+    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
+    rightTopLabel1.text = @"自用";
+    rightTopLabel1.font = [UIFont systemFontOfSize:8];
+    [self.bg4 addSubview:rightTopLabel1];
+    UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
+    rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
+    [self.bg4 addSubview:rightTopImg];
+    
+    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
+    rightDownLabel1.text = @"谷电";
+    rightDownLabel1.font = [UIFont systemFontOfSize:8];
+    [self.bg4 addSubview:rightDownLabel1];
+    UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
+    rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
+    [self.bg4 addSubview:rightDownImg];
+    
+    JHLineChart *lineChart4 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    lineChart4.isShowRight = NO;
+    lineChart4.isShowLeft = YES;
+    
+    lineChart4.isKw = NO;
+    
+    lineChart4.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24",@"26",@"28",@"30"];
+    
+    lineChart4.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    
+    lineChart4.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    lineChart4.valueArr = @[];
+    lineChart4.showYLevelLine = YES;
+    lineChart4.showYLine = YES;
+    lineChart4.showValueLeadingLine = NO;
+    lineChart4.valueFontSize = 0.0;
+    lineChart4.xAndYLineColor = [UIColor blackColor];
+    /* XY axis scale color */
+    lineChart4.xAndYNumberColor = [UIColor darkGrayColor];
+    lineChart4.backgroundColor = [UIColor clearColor];
+    [self.bg4 addSubview:lineChart4];
+    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
+    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
+    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
+    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
+    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
+    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    lineChart4.yLineDataArr = @[yline2,yline3,yline4,yline5,yline6];
+    /*       Start animation        */
+    [lineChart4 showAnimation];
+    
+    
+    //    JHLineChart *lineChart11 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    //    lineChart11.isShowRight = NO;
+    //    lineChart11.isShowLeft = YES;
+    //
+    //    lineChart11.isKw = NO;
+    //
+    //    lineChart11.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    //
+    //    lineChart11.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    //
+    //    lineChart11.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    //    lineChart11.valueArr = @[];
+    //    lineChart11.showYLevelLine = NO;
+    //    lineChart11.showYLine = NO;
+    //    lineChart11.showValueLeadingLine = NO;
+    //    lineChart11.valueFontSize = 0.0;
+    //    lineChart11.xAndYLineColor = [UIColor blackColor];
+    //    /* XY axis scale color */
+    //    lineChart11.xAndYNumberColor = [UIColor darkGrayColor];
+    //    lineChart11.backgroundColor = [UIColor clearColor];
+    //    [self.bgScrollView addSubview:lineChart11];
+    
+    //    NSString *yline11 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
+    //    NSString *yline22 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
+    //    NSString *yline33 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
+    //    NSString *yline44 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
+    //    NSString *yline55 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
+    //    NSString *yline66 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    //    lineChart11.yLineDataArr = @[yline22,yline33,yline44,yline55,yline66];
+    //    /*       Start animation        */
+    //    [lineChart11 showAnimation];
+    
+    
+    self.zhuView1 = [[HistogramView alloc] initWithFrame:CGRectMake(0, 34, KWidth-14, KHeight/667*180)];
+    self.zhuView1.maxNumber = self.maxNumber;
+    self.zhuView1.backgroundColor = [UIColor clearColor];
+    self.zhuView1.arr = self.yellowArr;
+    self.zhuView1.arr1 = nil;
+    self.zhuView1.arr2 = nil;
+    self.zhuView1.arr3 = nil;
+    //    self.zhuView.arr4 = self.redArr;
+    //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
+    //    view.maxAll = self.maxAll;
+    [self.bg4 addSubview:self.zhuView1];
+    //    self.page=0;
+    //    [self addTimer];
+    
+}
+- (void)setZhuzhuang2{
+    self.bg5 = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth*2+7, 0, KWidth-14,KHeight/667*211)];
+    self.bg5.image = [UIImage imageNamed:@"表格bg"];
+    [self.firstScroll1 addSubview:self.bg5];
+    
+    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
+    secondLabel.text = @"今年发、用电量柱状图";
+    secondLabel.textColor = RGBColor(2, 28, 106);
+    secondLabel.font = [UIFont systemFontOfSize:16];
+    [self.bg5 addSubview:secondLabel];
+    
+    UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
+    dianLabel.text = @"(kW·h)";
+    
+    
+    dianLabel.textColor = RGBColor(0, 60, 255);
+    dianLabel.font = [UIFont systemFontOfSize:11];
+    [self.bg5 addSubview:dianLabel];
+    
+    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    shiLabel1.text = @"(月)";
+    shiLabel1.textColor = [UIColor darkGrayColor];
+    shiLabel1.font = [UIFont systemFontOfSize:11];
+    [self.bg5 addSubview:shiLabel1];
+    
+    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
+    leftTopLabel.text = @"上网";
+    leftTopLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg5 addSubview:leftTopLabel];
+    
+    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
+    leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
+    [self.bg5 addSubview:leftTopImg];
+    
+    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
+    leftDownLabel.text = @"峰电";
+    leftDownLabel.font = [UIFont systemFontOfSize:8];
+    [self.bg5 addSubview:leftDownLabel];
+    
+    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
+    leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
+    [self.bg5 addSubview:leftDownImg];
+    
+    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
+    rightTopLabel1.text = @"自用";
+    rightTopLabel1.font = [UIFont systemFontOfSize:8];
+    [self.bg5 addSubview:rightTopLabel1];
+    UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
+    rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
+    [self.bg5 addSubview:rightTopImg];
+    
+    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
+    rightDownLabel1.text = @"谷电";
+    rightDownLabel1.font = [UIFont systemFontOfSize:8];
+    [self.bg5 addSubview:rightDownLabel1];
+    UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
+    rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
+    [self.bg5 addSubview:rightDownImg];
+    
+    JHLineChart *lineChart4 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    lineChart4.isShowRight = NO;
+    lineChart4.isShowLeft = YES;
+    
+    lineChart4.isKw = NO;
+    
+    lineChart4.xLineDataArr = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12"];
+    
+    lineChart4.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    
+    lineChart4.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    lineChart4.valueArr = @[];
+    lineChart4.showYLevelLine = YES;
+    lineChart4.showYLine = YES;
+    lineChart4.showValueLeadingLine = NO;
+    lineChart4.valueFontSize = 0.0;
+    lineChart4.xAndYLineColor = [UIColor blackColor];
+    /* XY axis scale color */
+    lineChart4.xAndYNumberColor = [UIColor darkGrayColor];
+    lineChart4.backgroundColor = [UIColor clearColor];
+    [self.bg5 addSubview:lineChart4];
+    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
+    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
+    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
+    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
+    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
+    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    lineChart4.yLineDataArr = @[yline2,yline3,yline4,yline5,yline6];
+    /*       Start animation        */
+    [lineChart4 showAnimation];
+    
+    
+    //    JHLineChart *lineChart11 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
+    //    lineChart11.isShowRight = NO;
+    //    lineChart11.isShowLeft = YES;
+    //
+    //    lineChart11.isKw = NO;
+    //
+    //    lineChart11.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    //
+    //    lineChart11.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
+    //
+    //    lineChart11.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
+    //    lineChart11.valueArr = @[];
+    //    lineChart11.showYLevelLine = NO;
+    //    lineChart11.showYLine = NO;
+    //    lineChart11.showValueLeadingLine = NO;
+    //    lineChart11.valueFontSize = 0.0;
+    //    lineChart11.xAndYLineColor = [UIColor blackColor];
+    //    /* XY axis scale color */
+    //    lineChart11.xAndYNumberColor = [UIColor darkGrayColor];
+    //    lineChart11.backgroundColor = [UIColor clearColor];
+    //    [self.bgScrollView addSubview:lineChart11];
+    
+    //    NSString *yline11 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
+    //    NSString *yline22 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
+    //    NSString *yline33 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
+    //    NSString *yline44 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
+    //    NSString *yline55 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
+    //    NSString *yline66 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    //    lineChart11.yLineDataArr = @[yline22,yline33,yline44,yline55,yline66];
+    //    /*       Start animation        */
+    //    [lineChart11 showAnimation];
+    
+    
+    self.zhuView2 = [[HistogramView alloc] initWithFrame:CGRectMake(0, 34, KWidth-14, KHeight/667*180)];
+    self.zhuView2.maxNumber = self.maxNumber;
+    self.zhuView2.backgroundColor = [UIColor clearColor];
+    self.zhuView2.arr = self.blueArr;
+    self.zhuView2.arr1 = nil;
+    self.zhuView2.arr2 = nil;
+    self.zhuView2.arr3 = nil;
+    //    self.zhuView.arr4 = self.redArr;
+    //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
+    //    view.maxAll = self.maxAll;
+    [self.bg2 addSubview:self.zhuView2];
+    //    self.page=0;
+    //    [self addTimer];
+    
+}
 // 曲线图数据
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/sites/get-site-info-by-bid",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-site-info",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -575,13 +1134,58 @@
     NSLog(@"token is :%@",token);
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:self.bid forKey:@"bid"];
-    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"电站详情%@",responseObject);
-        self.state = responseObject[@"content"][@"status"];
-        self.username = responseObject[@"content"][@"username"];
-        self.tel = responseObject[@"content"][@"tel"];
+        NSString *house_id = responseObject[@"content"][@"house_id"];
+        self.StationTextview.huhao.text = [NSString stringWithFormat:@"%@",house_id];
+        NSString *name = responseObject[@"content"][@"name"];
+        self.StationTextview.xingming.text = [NSString stringWithFormat:@"%@",name];
+        NSString *phone = responseObject[@"content"][@"phone"];
+        self.StationTextview.telLabel.text = [NSString stringWithFormat:@"%@",phone];
+        NSString *address = responseObject[@"content"][@"address"];
+        self.StationTextview.addressLabel1.text = [NSString stringWithFormat:@"%@",address];
+//        self.StationTextview.huhao.text = responseObject[@"content"][@"house_id"];
+        NSString *roof_property = responseObject[@"content"][@"roof_property"];
+        self.StationTextview.wuding2.text = [NSString stringWithFormat:@"%@",roof_property];
+        NSString *installed_capacity = responseObject[@"content"][@"installed_capacity"];
+        self.StationTextview.zhuangji2.text = [NSString stringWithFormat:@"%@",installed_capacity];
+        NSString *laying_direction = responseObject[@"content"][@"laying_direction"];
+        self.StationTextview.chaoxiang2.text = [NSString stringWithFormat:@"%@",laying_direction];
+        NSString *laying_angle = responseObject[@"content"][@"laying_angle"];
+        self.StationTextview.jiaodu2.text = [NSString stringWithFormat:@"%@",laying_angle];
+        NSString *zone_area = responseObject[@"content"][@"zone_area"];
+        self.StationTextview.taiqu2.text = [NSString stringWithFormat:@"%@",zone_area];
+         NSString *line = responseObject[@"content"][@"line"];
+        self.StationTextview.xianlu2.text = [NSString stringWithFormat:@"%@",line];
+        NSString *pole_no = responseObject[@"content"][@"pole_no"];
+        self.StationTextview.ganhao2.text = [NSString stringWithFormat:@"%@",pole_no];
+        NSString *brand = responseObject[@"content"][@"brand"];
+        self.StationTextview.zujian2.text = [NSString stringWithFormat:@"%@",brand];
+        NSString *brand_specifications = responseObject[@"content"][@"brand_specifications"];
+        self.StationTextview.guige2.text = [NSString stringWithFormat:@"%@",brand_specifications];
+        NSString *brand_num = responseObject[@"content"][@"brand_num"];
+        self.StationTextview.shuliang2.text = [NSString stringWithFormat:@"%@",brand_num];
+        NSString *inverter = responseObject[@"content"][@"inverter"];
+        self.StationTextview.nibianqi2.text = [NSString stringWithFormat:@"%@",inverter];
+        NSString *laying_direction1 = responseObject[@"content"][@"laying_direction"];
+        self.StationTextview.guige4.text = [NSString stringWithFormat:@"%@kW",laying_direction1];//没有
+        NSString *inverter_num = responseObject[@"content"][@"inverter_num"];
+        self.StationTextview.taishu2.text = [NSString stringWithFormat:@"%@",inverter_num];
+        NSString *install_time = responseObject[@"content"][@"install_time"];
+        self.StationTextview.bingwang2.text = [NSString stringWithFormat:@"%@",install_time];
+        NSString *access_way = responseObject[@"content"][@"access_way"];
+        self.StationTextview.bingwangfangshi2.text = [NSString stringWithFormat:@"%@",access_way];
+        //------
+        NSString *str = responseObject[@"content"][@"power"];
+        self.StationTextview.dangqiangonglv.text = [NSString stringWithFormat:@"%@kW",str];
+        NSString *str1 = responseObject[@"content"][@"today_gen"];
+        self.StationTextview.jinrifadianliang.text = [NSString stringWithFormat:@"%@度",str1];
+        NSString *brand_specifications1 = responseObject[@"content"][@"brand_specifications"];
+        self.StationTextview.zhuanhuanxiaolv.text = [NSString stringWithFormat:@"%@度",brand_specifications1];// 没有
+        NSString *group_name = responseObject[@"content"][@"group_name"];
+        self.StationTextview.yunweixiaozu.text = [NSString stringWithFormat:@"%@度",group_name];
         if (self.table) {
             [self.table reloadData];
         }
@@ -597,7 +1201,7 @@
 
 // 曲线图数据
 -(void)requestFirstChart{
-    NSString *URL = [NSString stringWithFormat:@"%@/sites/get-power-graph-data",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-graph-efficient",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
@@ -605,7 +1209,9 @@
     NSLog(@"token is :%@",token);
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:self.bid forKey:@"bid"];
-    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    [parameters setValue:@"month" forKey:@"type"];
+    NSLog(@"bid is :%@",self.bid);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"第一张图%@",responseObject);
@@ -617,7 +1223,8 @@
             
             [self.FirstChartuseArr removeAllObjects];
             [self.FirstChartgenArr removeAllObjects];
-            NSArray *array = responseObject[@"content"][@"use_power"];
+            NSArray *array = responseObject[@"content"][@"all"];
+            self.FirstChartXArr = responseObject[@"content"][@"all_date"];
             NSMutableArray *valuearr = [[NSMutableArray alloc]initWithCapacity:0];
             if ([array isEqual:[NSNull null]]) {
                 array = nil;
@@ -670,7 +1277,7 @@
             }
             NSLog(@"用电数组:%@",self.FirstChartgenArr);
             
-            NSArray *array1 = responseObject[@"content"][@"gen_power"];
+            NSArray *array1 = responseObject[@"content"][@"single"];
             
             NSMutableArray *valuearr1 = [[NSMutableArray alloc]initWithCapacity:0];
             if ([array1 isEqual:[NSNull null]] ) {
@@ -737,10 +1344,155 @@
     
     
 }
+// 曲线图数据
+-(void)requestFirstChart2{
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-graph-efficient",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSLog(@"token is :%@",token);
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.bid forKey:@"bid"];
+    [parameters setValue:@"year" forKey:@"type"];
+    NSLog(@"bid is :%@",self.bid);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"第一张图%@",responseObject);
+        if([responseObject[@"result"][@"errorMsg"] isEqualToString:@"token expired"]){
+            [self newLogin];
+            
+            
+        }else  if([responseObject[@"result"][@"success"] intValue] ==1){
+            
+            [self.FirstChartuseArr1 removeAllObjects];
+            [self.FirstChartgenArr1 removeAllObjects];
+            NSArray *array = responseObject[@"content"][@"all"];
+            self.FirstChartXArr1 = responseObject[@"content"][@"all_date"];
+            NSMutableArray *valuearr = [[NSMutableArray alloc]initWithCapacity:0];
+            if ([array isEqual:[NSNull null]]) {
+                array = nil;
+            }else{
+                
+                for (int i =0; i<array.count; i++) {
+                    NSString *value = [NSString stringWithFormat:@"%@",array[i]];
+                    [valuearr addObject:value];
+                }
+                
+                for (int i=0; i<valuearr.count; i++) {
+                    CGFloat num = [valuearr[i] floatValue];
+                    CGFloat number = [valuearr[valuearr.count-1] floatValue];
+                    if (number<0) {
+                        for (NSInteger m = valuearr.count-1; m>=0; m--) {
+                            CGFloat number1 = [valuearr[m] floatValue];
+                            if (number1<0) {
+                                [valuearr removeObjectAtIndex:m];
+                            }else{
+                                break;
+                            }
+                        }
+                    }
+                    NSInteger count = 0;
+                    if (num<0) {
+                        if (i==0) {
+                            [valuearr replaceObjectAtIndex:0 withObject:@"0"];
+                        }
+                        for (int j=i; j<valuearr.count-i; j++) {
+                            CGFloat num1 = [valuearr[j] floatValue];
+                            
+                            if (num1<0) {
+                                count++;
+                            }else{
+                                break;
+                            }
+                            
+                        }
+                        for (int k=0; k<count; k++) {
+                            CGFloat hou = [valuearr[i+count] floatValue];
+                            CGFloat qian = [valuearr[i-1] floatValue];
+                            CGFloat tihuan = qian-(qian-hou)/(count)*(k+1);
+                            NSString *str = [NSString stringWithFormat:@"%.2f",tihuan];
+                            [valuearr replaceObjectAtIndex:i+k withObject:str];
+                        }
+                    }
+                }
+                
+                self.FirstChartgenArr1 = valuearr;
+            }
+            NSLog(@"用电数组:%@",self.FirstChartgenArr);
+            
+            NSArray *array1 = responseObject[@"content"][@"single"];
+            
+            NSMutableArray *valuearr1 = [[NSMutableArray alloc]initWithCapacity:0];
+            if ([array1 isEqual:[NSNull null]] ) {
+                array1 = nil;
+            }else{
+                
+                for (int i =0; i<array1.count; i++) {
+                    NSString *value1 = [NSString stringWithFormat:@"%@",array1[i]];
+                    [valuearr1 addObject:value1];
+                }
+                
+                for (int i=0; i<valuearr1.count; i++) {
+                    CGFloat num = [valuearr1[i] floatValue];
+                    CGFloat number = [valuearr1[valuearr1.count-1] floatValue];
+                    if (number<0) {
+                        for (NSInteger m = valuearr1.count-1; m>=0; m--) {
+                            CGFloat number1 = [valuearr1[m] floatValue];
+                            if (number1<0) {
+                                [valuearr1 removeObjectAtIndex:m];
+                            }else{
+                                break;
+                            }
+                        }
+                    }
+                    NSInteger count = 0;
+                    if (num<0) {
+                        if (i==0) {
+                            [valuearr1 replaceObjectAtIndex:0 withObject:@"0"];
+                        }
+                        for (int j=i; j<valuearr1.count-i; j++) {
+                            CGFloat num1 = [valuearr1[j] floatValue];
+                            if (num1<0) {
+                                count++;
+                            }else{
+                                break;
+                            }
+                            
+                        }
+                        for (int k=0; k<count; k++) {
+                            CGFloat hou = [valuearr1[i+count] floatValue];
+                            CGFloat qian = [valuearr1[i-1] floatValue];
+                            CGFloat tihuan = qian-(qian-hou)/count*(k+1);
+                            NSString *str = [NSString stringWithFormat:@"%.2f",tihuan];
+                            [valuearr1 replaceObjectAtIndex:i+k withObject:str];
+                        }
+                    }
+                }
+                
+                self.FirstChartuseArr1 = valuearr1;
+                
+            }
+            NSLog(@"发电数组:%@",self.FirstChartuseArr);
+            
+        }
+        [self setFirstChart1];
+    }
+     
+          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+              NSLog(@"%@",error);  //这里打印错误信息
+              self.FirstChartgenArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
+              self.FirstChartuseArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
+              [self setFirstChart1];
+          }];
+    
+    
+}
 
 // 柱状图数据
 -(void)requestSecondChart{
-    NSString *URL = [NSString stringWithFormat:@"%@/sites/get-gen-use-med-low-graph-data",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-graph-gen-cap",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     AFHTTPRequestSerializer *requestSerializer =  [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
@@ -752,12 +1504,13 @@
     NSLog(@"token is :%@",token);
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:self.bid forKey:@"bid"];
-    [manager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    [parameters setValue:@"day" forKey:@"type"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"用电量柱状图%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
-            NSMutableArray *redAll = responseObject[@"content"][@"red"];
+            NSMutableArray *redAll = responseObject[@"content"];
             [self.redArr removeAllObjects];
             for (int i=0; i<redAll.count; i++) {
                 if (i%2==0) {
@@ -776,7 +1529,38 @@
                 }
             }
             
-            NSMutableArray *yellowAll = responseObject[@"content"][@"yellow"];
+        }
+        [self setZhuzhuang];
+    }
+     
+         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+            
+            
+         }];
+    
+    
+}
+// 柱状图数据1
+-(void)requestSecondChart1{
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-graph-gen-cap",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPRequestSerializer *requestSerializer =  [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.requestSerializer = requestSerializer;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSLog(@"token is :%@",token);
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.bid forKey:@"bid"];
+    [parameters setValue:@"month" forKey:@"type"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"用电量柱状图%@",responseObject);
+        if([responseObject[@"result"][@"success"] intValue] ==1){
+            NSMutableArray *yellowAll = responseObject[@"content"];
             [self.yellowArr removeAllObjects];
             for (int i=0; i<yellowAll.count; i++) {
                 if (i%2==0) {
@@ -795,38 +1579,48 @@
                 }
             }
             
-            
-            NSMutableArray *greenAll = responseObject[@"content"][@"green"];
-            [self.greenArr removeAllObjects];
-            for (int i=0; i<greenAll.count; i++) {
-                if (i%2==0) {
-                    if (i+1==greenAll.count) {
-                        CGFloat qian = [greenAll[i] floatValue];
-                        CGFloat hou = 0;
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
-                        [self.greenArr addObject:str];
-                    }else{
-                        CGFloat qian = [greenAll[i] floatValue];
-                        CGFloat hou = [greenAll[i+1] floatValue];
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
-                        [self.greenArr addObject:str];
-                    }
-                    
-                }
-            }
-            
-            
-            
-            NSMutableArray *blueAll = responseObject[@"content"][@"bule"];
+        }
+        [self setZhuzhuang1];
+    }
+     
+          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+              
+              
+          }];
+    
+    
+}
+// 柱状图数据1
+-(void)requestSecondChart2{
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-graph-gen-cap",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    AFHTTPRequestSerializer *requestSerializer =  [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.requestSerializer = requestSerializer;
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSLog(@"token is :%@",token);
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.bid forKey:@"bid"];
+    [parameters setValue:@"year" forKey:@"type"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"用电量柱状图%@",responseObject);
+        if([responseObject[@"result"][@"success"] intValue] ==1){
+            NSMutableArray *blueAll = responseObject[@"content"];
             [self.blueArr removeAllObjects];
             for (int i=0; i<blueAll.count; i++) {
                 if (i%2==0) {
-                    CGFloat qian = [blueAll[i] floatValue];
                     if (i+1==blueAll.count) {
+                        CGFloat qian = [blueAll[i] floatValue];
                         CGFloat hou = 0;
                         NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
                         [self.blueArr addObject:str];
                     }else{
+                        CGFloat qian = [blueAll[i] floatValue];
                         CGFloat hou = [blueAll[i+1] floatValue];
                         NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
                         [self.blueArr addObject:str];
@@ -835,83 +1629,18 @@
                 }
             }
             
-            for (int i=0; i<self.blueArr.count; i++) {
-                if (i>3&&i<11) {
-                    CGFloat blue = [self.blueArr[i] floatValue];
-                    CGFloat red = [self.redArr[i] floatValue];
-                    CGFloat fin = blue+red;
-                    NSString *str = [NSString stringWithFormat:@"%.2f",fin];
-                    [self.blueArr replaceObjectAtIndex:i withObject:str];
-                }
-            }
-            for (int i=0; i<self.greenArr.count; i++) {
-                if  (i<4||i>10){
-                    CGFloat green = [self.greenArr[i] floatValue];
-                    CGFloat red = [self.redArr[i] floatValue];
-                    CGFloat fin = green+red;
-                    NSString *str = [NSString stringWithFormat:@"%.2f",fin];
-                    [self.greenArr replaceObjectAtIndex:i withObject:str];
-                }
-            }
-            
-            NSLog(@"red:%@",self.redArr);
-            NSLog(@"yellowArr:%@",self.yellowArr);
-            NSLog(@"blueArr:%@",self.blueArr);
-            NSLog(@"greenArr:%@",self.greenArr);
-            
-            CGFloat max = 0;
-            CGFloat sum = 0;
-            for (int i=0; i<self.redArr.count; i++) {
-                for (int k=0; k<_yellowArr.count; k++) {
-                    if (k==i) {
-                        CGFloat red = [self.redArr[i] floatValue];
-                        CGFloat yellow = [self.yellowArr[k] floatValue];
-                        sum = red+yellow;
-                        if (sum>max) {
-                            max = sum;
-                        }
-                    }
-                }
-            }
-            CGFloat max1 = 0;
-            CGFloat sum1 = 0;
-            for (int i=0; i<self.blueArr.count; i++) {
-                for (int k=0; k<_greenArr.count; k++) {
-                    if (k==i) {
-                        CGFloat red = [self.blueArr[i] floatValue];
-                        CGFloat yellow = [self.greenArr[k] floatValue];
-                        sum1 = red+yellow;
-                        if (sum1>max1) {
-                            max1 = sum1;
-                        }
-                    }
-                }
-            }
-            if (max>max1) {
-                self.maxNumber = max;
-                self.zhuView.maxNumber = max;
-            }else{
-                self.maxNumber = max1;
-                self.zhuView.maxNumber = max1;
-            }
-            
-            
         }
-        [self setZhuzhuang];
+        [self setZhuzhuang2];
     }
      
-         failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
-            
-             self.redArr = @[@0,@0];
-             self.yellowArr = @[@0,@0];
-             self.blueArr = @[@0,@0];
-             self.greenArr = @[@0,@0];
-             [self setZhuzhuang];
-             NSLog(@"%@",error);  //这里打印错误信息
-         }];
+          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+              
+              
+          }];
     
     
 }
+
 
 
 - (void)newLogin{
@@ -966,6 +1695,18 @@
         _blueArr = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return _blueArr;
+}
+-(NSMutableArray *)FirstChartXArr{
+    if(!_FirstChartXArr){
+        _FirstChartXArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _FirstChartXArr;
+}
+-(NSMutableArray *)FirstChartXArr1{
+    if(!_FirstChartXArr1){
+        _FirstChartXArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _FirstChartXArr1;
 }
 /*
  #pragma mark - Navigation

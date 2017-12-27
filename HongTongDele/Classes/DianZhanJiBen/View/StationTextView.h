@@ -18,6 +18,13 @@
 - (void)guzhangBtnClick;
 @end
 @interface StationTextView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *yunyingshang;
+@property (weak, nonatomic) IBOutlet UILabel *yunweixiaozu;
+@property (weak, nonatomic) IBOutlet UILabel *zhuanhuanxiaolv;
+@property (weak, nonatomic) IBOutlet UILabel *jinrifadianliang;
+@property (weak, nonatomic) IBOutlet UILabel *huhao;
+@property (weak, nonatomic) IBOutlet UILabel *xingming;
+@property (weak, nonatomic) IBOutlet UILabel *dangqiangonglv;
 @property (nonatomic, assign) id<TopButDelegate>delegate;//代理属性
 @property (weak, nonatomic) IBOutlet UILabel *telLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel1;

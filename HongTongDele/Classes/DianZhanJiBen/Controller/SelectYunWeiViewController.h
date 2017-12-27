@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectYunWeiViewController : UIViewController
-
+@property (nonatomic,copy)NSString *companyID;
+@property (nonatomic,copy)NSString *selectName;
 @end

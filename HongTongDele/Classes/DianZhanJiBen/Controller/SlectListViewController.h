@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SlectListViewController : UIViewController
-
+@property (nonatomic,copy)NSString *workID;
+@property (nonatomic,copy)NSString *selectName;
+@property (nonatomic,copy)NSString *selectName2;
 @end

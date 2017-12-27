@@ -9,8 +9,13 @@
 #import "SelectYunWeiViewController.h"
 #import "SelectCollectionViewCell.h"
 #import "SlectListViewController.h"
+#import "AppDelegate.h"
+#import "LoginOneViewController.h"
+#import "FenGongSiListModelTwo.h"
 @interface SelectYunWeiViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic,strong) UICollectionView *collectionView;
+@property (nonatomic,strong) FenGongSiListModelTwo *model;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 @end
 
 @implementation SelectYunWeiViewController
@@ -20,6 +25,7 @@
     self.title = @"运维小组";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [self SetCollection];
+    [self requestData];
     // Do any additional setup after loading the view.
 }
 - (void)SetCollection{
@@ -37,9 +43,9 @@
     // 2.设置行间距
     layout.minimumLineSpacing = 1;
     // 3.设置每个item的大小
-    layout.itemSize = CGSizeMake(KWidth/2-10, 200);
+    layout.itemSize = CGSizeMake(170, 200);
     // 4.设置Item的估计大小,用于动态设置item的大小，结合自动布局（self-sizing-cell）
-    layout.estimatedItemSize = CGSizeMake(KWidth/2-10, 200);
+//    layout.estimatedItemSize = CGSizeMake(KWidth/2-10, 200);
     // 5.设置布局方向
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     // 6.设置头视图尺寸大小
@@ -77,7 +83,7 @@
 
 //设置每个分区的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 5;
+    return _dataArr.count;
 }
 
 //设置返回每个item的属性必须实现）
@@ -88,8 +94,15 @@
     UINib *nib = [UINib nibWithNibName:@"SelectCollectionViewCell"bundle: [NSBundle mainBundle]];
     [collectionView registerNib:nib forCellWithReuseIdentifier:@"selectFen"];
     SelectCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"selectFen" forIndexPath:indexPath];
-    cell.NameLabel.text = [NSString stringWithFormat:@"运维小组%ld",indexPath.row+1];
     cell.leftImg.image = [UIImage imageNamed:@"运维"];
+    _model = _dataArr[indexPath.row];
+    cell.NameLabel.text = [NSString stringWithFormat:@"%@",_model.role];
+    cell.leftImg.image = [UIImage imageNamed:@"分公司"];
+    CGFloat install = [_model.total_install_base floatValue]/1000;
+    cell.zhuangjirongliang.text = [NSString stringWithFormat:@"%@kW",@(install).description];
+    cell.hushu.text = [NSString stringWithFormat:@"%@户",_model.total_number_households];
+    cell.fadianliang.text = [NSString stringWithFormat:@"%@度",_model.total_gen_cap];
+    cell.wanchenglv.text = [NSString stringWithFormat:@"%@%%",_model.completion_rate];
     return cell;
 }
 //设置每个item垂直间距
@@ -99,11 +112,95 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    _model = _dataArr[indexPath.row];
     SlectListViewController *vc = [[SlectListViewController alloc] init];
+    vc.workID = _model.ID;
+    vc.selectName = self.selectName;
+    vc.selectName2 = _model.role;
     [self.navigationController pushViewController:vc animated:YES];
 }
-
-
+-(void)requestData{
+    NSString *URL = [NSString stringWithFormat:@"%@/data/get-role-list",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:@"company" forKey:@"role"];
+    [parameters setValue:self.companyID forKey:@"company_id"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取运维列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _model = [[FenGongSiListModelTwo alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_model];
+            }
+            [self.collectionView reloadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(FenGongSiListModelTwo *)model{
+    if (!_model) {
+        _model = [[FenGongSiListModelTwo alloc] init];
+    }
+    return _model;
+}
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr;
+}
 
 /*
 #pragma mark - Navigation

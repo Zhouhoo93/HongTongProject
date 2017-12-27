@@ -299,6 +299,9 @@
 		38C9F4BA1FCBE0430029C33A /* JYangToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C9F4A51FCBE0430029C33A /* JYangToolKit.framework */; };
 		38C9F4BB1FCBE0430029C33A /* WalletResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 38C9F4A61FCBE0430029C33A /* WalletResource.bundle */; };
 		38C9F4BC1FCBE0430029C33A /* release_notes_ios.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38C9F4A81FCBE0430029C33A /* release_notes_ios.txt */; };
+		38D11AA61FF1EFF500955141 /* FenGongSiListModelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D11AA51FF1EFF500955141 /* FenGongSiListModelTwo.m */; };
+		38D11AAC1FF22DF000955141 /* townListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D11AAB1FF22DF000955141 /* townListModel.m */; };
+		38D11AAF1FF231B200955141 /* TownDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D11AAE1FF231B200955141 /* TownDataModel.m */; };
 		38DD9DC91F458A5B0028D73E /* ElectricityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38DD9DC81F458A5B0028D73E /* ElectricityModel.m */; };
 		38E202F31FB43B3000F35121 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E202F21FB43B3000F35121 /* HomeViewController.m */; };
 		38E202F71FB43FB800F35121 /* HomeOneTabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38E202F61FB43FB800F35121 /* HomeOneTabel.xib */; };
@@ -894,6 +897,12 @@
 		38C9F4A61FCBE0430029C33A /* WalletResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WalletResource.bundle; sourceTree = "<group>"; };
 		38C9F4A71FCBE0430029C33A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/JrmfInfo.strings"; sourceTree = "<group>"; };
 		38C9F4A81FCBE0430029C33A /* release_notes_ios.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes_ios.txt; sourceTree = "<group>"; };
+		38D11AA41FF1EFF500955141 /* FenGongSiListModelTwo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FenGongSiListModelTwo.h; sourceTree = "<group>"; };
+		38D11AA51FF1EFF500955141 /* FenGongSiListModelTwo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FenGongSiListModelTwo.m; sourceTree = "<group>"; };
+		38D11AAA1FF22DF000955141 /* townListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = townListModel.h; sourceTree = "<group>"; };
+		38D11AAB1FF22DF000955141 /* townListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = townListModel.m; sourceTree = "<group>"; };
+		38D11AAD1FF231B200955141 /* TownDataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TownDataModel.h; sourceTree = "<group>"; };
+		38D11AAE1FF231B200955141 /* TownDataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TownDataModel.m; sourceTree = "<group>"; };
 		38DD9DC71F458A5B0028D73E /* ElectricityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElectricityModel.h; sourceTree = "<group>"; };
 		38DD9DC81F458A5B0028D73E /* ElectricityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ElectricityModel.m; sourceTree = "<group>"; };
 		38E202F11FB43B3000F35121 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -2152,6 +2161,12 @@
 			children = (
 				38C2E8141FEBB53600B8083E /* GuZhangModel.h */,
 				38C2E8151FEBB53600B8083E /* GuZhangModel.m */,
+				38D11AA41FF1EFF500955141 /* FenGongSiListModelTwo.h */,
+				38D11AA51FF1EFF500955141 /* FenGongSiListModelTwo.m */,
+				38D11AAA1FF22DF000955141 /* townListModel.h */,
+				38D11AAB1FF22DF000955141 /* townListModel.m */,
+				38D11AAD1FF231B200955141 /* TownDataModel.h */,
+				38D11AAE1FF231B200955141 /* TownDataModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2829,6 +2844,7 @@
 				382FDDD81FE37A3000098906 /* NSObject+MJKeyValue.m in Sources */,
 				389AA00E1F45769600B55BAC /* JHChart.m in Sources */,
 				389AA0191F45769600B55BAC /* JHTableDataRowModel.m in Sources */,
+				38D11AAC1FF22DF000955141 /* townListModel.m in Sources */,
 				389AA01A1F45769600B55BAC /* JHWaveChart.m in Sources */,
 				382FDDFD1FE37A5100098906 /* NSArray+MASAdditions.m in Sources */,
 				384AB7101F3C4C0F005AFE7A /* VideoResolutionView.m in Sources */,
@@ -2870,6 +2886,7 @@
 				380494C11F32BA3700AA0DBC /* AppDelegate.m in Sources */,
 				387B554D1FE0FF540019FF25 /* BaoJingZhuangTaiModel.m in Sources */,
 				38755C231F3D9F2B0081CF4D /* AFSecurityPolicy.m in Sources */,
+				38D11AA61FF1EFF500955141 /* FenGongSiListModelTwo.m in Sources */,
 				38C9EB3D1F42C3BA00DB41B4 /* NoticeTableViewCell.m in Sources */,
 				38755C521F3D9F350081CF4D /* IQKeyboardManager.m in Sources */,
 				3876920F1F4ABBAD001B7E82 /* UIView+Utils.m in Sources */,
@@ -2882,6 +2899,7 @@
 				38C9EB391F42C3BA00DB41B4 /* NoticeViewController.m in Sources */,
 				389AA0171F45769600B55BAC /* JHShowInfoView.m in Sources */,
 				38E202F31FB43B3000F35121 /* HomeViewController.m in Sources */,
+				38D11AAF1FF231B200955141 /* TownDataModel.m in Sources */,
 				38755C561F3D9F350081CF4D /* IQPreviousNextView.m in Sources */,
 				38EEA7BD1F37FD8F00034F01 /* TwoScrollView.m in Sources */,
 				38B2D3FD1F34556000038F47 /* AlarmViewController.m in Sources */,
