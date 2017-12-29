@@ -52,7 +52,7 @@
     [self.bgscrollview addSubview:leftImg];
     
     self.yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-90, 15, 180, 34)];
-    self.yearLabel.text = @"2016";
+    self.yearLabel.text = @"2017";
     self.yearLabel.textAlignment = NSTextAlignmentCenter;
     [self.bgscrollview addSubview:self.yearLabel];
     

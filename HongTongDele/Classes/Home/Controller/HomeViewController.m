@@ -17,13 +17,21 @@
 #import "ZhuangTaiListViewController.h"
 #import "ZhuangtaiViewController.h"
 #import "BaoJingYunWeiListViewController.h"
+#import "BaoJingLiShiViewController.h"
 #import "XiaoLvYunWeiViewController.h"
 #import "BaoJingLiShiListViewController.h"
 #import "XiaoLvLishiViewController.h"
 #import "LoginOneViewController.h"
 #import "AppDelegate.h"
 #import <RongIMKit/RongIMKit.h>
-@interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4>
+#import "shouyefengongsimodel.h"
+#import "shouyeyunweiModel.h"
+#import "JHPickView.h"
+#import "SlectListViewController.h"
+#import "XiaoLvHuViewController.h"
+#import "BaoJingLishiYunweiListViewController.h"
+#import "XiaoLvLiShiYunweiViewController.h"
+@interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4,JHPickerDelegate>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
 @property (nonatomic,strong)UIActionSheet *actionSheet;
@@ -35,6 +43,16 @@
 @property (nonatomic,strong)HomeTwoView *twoView;
 @property (nonatomic,strong)HomeThreeView *threeView;
 @property (nonatomic,strong)HomeFourView *fourView;
+@property (nonatomic,strong)NSMutableArray *fengongsiArr;
+@property (nonatomic,strong)NSMutableArray *yunweiArr;
+@property (nonatomic,strong)shouyefengongsimodel *fengongsi;
+@property (nonatomic,strong)shouyeyunweiModel *yunwei;
+@property (nonatomic,assign)NSInteger select;
+@property (nonatomic,copy)NSString *selectFengongsi;
+@property (nonatomic,copy)NSString *selectFengongsiID;
+@property (nonatomic,copy)NSString *selectyunwei;
+@property (nonatomic,copy)NSString *selectyunweiID;
+@property (nonatomic,copy)NSString *type;
 @end
 
 @implementation HomeViewController
@@ -42,8 +60,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"首页";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.type = [userDefaults valueForKey:@"type"];
+    NSLog(@"type:%@",self.type);
+    if ([self.type isEqualToString:@"parent"]) {
+        [self requestfengongsi];
+    }else if([self.type isEqualToString:@"company"]){
+        [self requestyunwei];
+    }
     [self setTopView];
     [self getRongYunToken];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -72,6 +99,7 @@
             self.zonggongsibtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
             [self.zonggongsibtn setTitle:@"总公司" forState:UIControlStateNormal];
             [self.zonggongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+            [self.zonggongsibtn addTarget:self action:@selector(zonggongsiBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
             [self.bgScrollView addSubview:self.zonggongsibtn];
         }else if(i==1){
@@ -84,7 +112,7 @@
         }else{
             self.yunweixiaozubtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
             [self.yunweixiaozubtn setTitle:@"运维小组" forState:UIControlStateNormal];
-            [self.yunweixiaozubtn addTarget:self action:@selector(yunweiBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [self.yunweixiaozubtn addTarget:self action:@selector(yunweixiaozuBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
             [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
             [self.bgScrollView addSubview:self.yunweixiaozubtn];
@@ -93,7 +121,6 @@
     }
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *type = [userDefaults valueForKey:@"type"];
-    NSLog(@"type:%@",type);
     if ([type isEqualToString:@"parent"]) {
         [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
         [self.zonggongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -136,42 +163,61 @@
     
     [self requestBaojingData];
     [self requestdianzhan];
+    [self requestxiaolv];
+}
+-(void)zonggongsiBtnClick{
+    [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+    [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+    [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+    [self.fengongsibtn setTitle:@"分公司" forState:UIControlStateNormal];
+    [self.yunweixiaozubtn setTitle:@"运维小组" forState:UIControlStateNormal];
+    [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+    [self.fengongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
+    self.type = @"parent";
 }
 //执行协议方法
 - (void)transButIndex
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *type = [userDefaults valueForKey:@"type"];
-    NSLog(@"type:%@",type);
-    if ([type isEqualToString:@"parent"]) {
+
+    if ([self.type isEqualToString:@"parent"]) {
         SelectFenGongSiViewController *vc = [[SelectFenGongSiViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([type isEqualToString:@"company"]){
+    }else if ([self.type isEqualToString:@"company"]){
         SelectYunWeiViewController *vc = [[SelectYunWeiViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
+        vc.companyID = self.selectFengongsiID;
+        vc.selectName = self.selectFengongsi;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-   
+        SlectListViewController *vc = [[SlectListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        vc.workID = self.selectyunweiID;
+        vc.selectName = self.selectFengongsi;
+        vc.selectName2 = self.selectyunwei;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
     
 }
 - (void)transButIndex2
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *type = [userDefaults valueForKey:@"type"];
-    NSLog(@"type:%@",type);
-    if ([type isEqualToString:@"parent"]) {
+
+    if ([self.type isEqualToString:@"parent"]) {
         ZhuangtaiListZongViewController *vc = [[ZhuangtaiListZongViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([type isEqualToString:@"company"]){
+    }else if ([self.type isEqualToString:@"company"]){
         ZhuangTaiListViewController *vc = [[ZhuangTaiListViewController alloc] init];
+        vc.name = self.selectFengongsi;
+        vc.companyID = self.selectFengongsiID;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         ZhuangtaiViewController *vc = [[ZhuangtaiViewController alloc] init];
+        vc.workID = self.selectyunweiID;
+        vc.name = self.selectFengongsi;
+        vc.name1 = self.selectyunwei;
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -179,17 +225,22 @@
 
 - (void)transButIndex3
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *type = [userDefaults valueForKey:@"type"];
-    NSLog(@"type:%@",type);
-    if ([type isEqualToString:@"parent"]) {
+
+    if ([self.type isEqualToString:@"parent"]) {
         BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([type isEqualToString:@"company"]){
-        
+    }else if ([self.type isEqualToString:@"company"]){
+        BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else{
-        
+        BaoJingLiShiViewController *vc = [[BaoJingLiShiViewController alloc] init];
+        vc.workID = self.selectyunweiID;
+        vc.fengongsi = self.selectFengongsi;
+        vc.yunwei = self.selectyunwei;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
     
@@ -197,31 +248,60 @@
 
 -(void)BaoJinglishi{
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *type = [userDefaults valueForKey:@"type"];
-    NSLog(@"type:%@",type);
-    if ([type isEqualToString:@"parent"]) {
+
+    if ([self.type isEqualToString:@"parent"]) {
         BaoJingLiShiListViewController *vc = [[BaoJingLiShiListViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([type isEqualToString:@"company"]){
-        
+    }else if ([self.type isEqualToString:@"company"]){
+        BaoJingLiShiListViewController *vc = [[BaoJingLiShiListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else{
-        
+        BaoJingLishiYunweiListViewController *vc = [[BaoJingLishiYunweiListViewController alloc] init];
+        vc.workID = self.selectyunweiID;
+        vc.fengongsi = self.selectFengongsi;
+        vc.yunwei = self.selectyunwei;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
 -(void)XiaoLvlishi{
-    XiaoLvLishiViewController *vc = [[XiaoLvLishiViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([self.type isEqualToString:@"parent"]) {
+        XiaoLvLishiViewController *vc = [[XiaoLvLishiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([self.type isEqualToString:@"company"]){
+        XiaoLvLishiViewController *vc = [[XiaoLvLishiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        XiaoLvLiShiYunweiViewController *vc = [[XiaoLvLiShiYunweiViewController alloc] init];
+        vc.workID = self.selectyunweiID;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 
 - (void)transButIndex4
 {
-    XiaoLvYunWeiViewController *vc = [[XiaoLvYunWeiViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    if ([self.type isEqualToString:@"parent"]) {
+        XiaoLvYunWeiViewController *vc = [[XiaoLvYunWeiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if ([self.type isEqualToString:@"company"]){
+        XiaoLvYunWeiViewController *vc = [[XiaoLvYunWeiViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        XiaoLvHuViewController *vc = [[XiaoLvHuViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        vc.workID = self.selectyunweiID;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
     
 }
 
@@ -230,74 +310,79 @@
 }
 
 - (void)fenfongsiBtnClick{
-     self.actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"分公司1" otherButtonTitles:@"分公司2",@"分公司3", nil];
-    //这里的actionSheetStyle也可以不设置；
-    self.actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [self.actionSheet showInView:self.view];
+    if (_fengongsiArr.count>0) {
+        self.tabBarController.tabBar.hidden = YES;
+        NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<_fengongsiArr.count; i++) {
+            _fengongsi = _fengongsiArr[i];
+            [list addObject:_fengongsi.name];
+        }
+        JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+        picker.classArr = list;
+        self.select = 0;
+        picker.delegate = self ;
+        picker.arrayType = weightArray;
+        [self.view addSubview:picker];
+    }
+    
 }
-#pragma mark - UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (actionSheet==self.actionSheet) {
-        //按照按钮的顺序0-N；
-        switch (buttonIndex) {
-            case 0:
-                NSLog(@"点击了分公司1");
-                [self.fengongsibtn setTitle:@"分公司1" forState:UIControlStateNormal];
-                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-                
-            case 1:
-                NSLog(@"点击了分公司2");
-                [self.fengongsibtn setTitle:@"分公司2" forState:UIControlStateNormal];
-                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-                
-            case 2:
-                NSLog(@"点击了分公司3");
-                [self.fengongsibtn setTitle:@"分公司3" forState:UIControlStateNormal];
-                [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-            default:
-                break;
+- (void)yunweixiaozuBtnClick{
+    if (_yunweiArr.count>0) {
+        self.tabBarController.tabBar.hidden = YES;
+        NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:0];
+        for (int i=0; i<_yunweiArr.count; i++) {
+            _yunwei = _yunweiArr[i];
+            [list addObject:_yunwei.workname];
         }
+        JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+        picker.classArr = list;
+        self.select = 1;
+        picker.delegate = self ;
+        picker.arrayType = weightArray;
+        [self.view addSubview:picker];
     }else{
-        //按照按钮的顺序0-N；
-        switch (buttonIndex) {
-            case 0:
-                NSLog(@"点击了运维小组1");
-                [self.fengongsibtn setTitle:@"运维小组1" forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-                
-            case 1:
-                NSLog(@"点击了运维小组2");
-                [self.fengongsibtn setTitle:@"运维小组2" forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-                
-            case 2:
-                NSLog(@"点击了运维小组3");
-                [self.fengongsibtn setTitle:@"运维小组3" forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
-                [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                break;
-            default:
-                break;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text =@"暂无运维小组";
+        [hud hideAnimated:YES afterDelay:2.f];
+    }
+    
+}
+-(void)PickerSelectorIndixString:(NSString *)str:(NSInteger)row
+{
+    self.tabBarController.tabBar.hidden = NO;
+    if (self.select ==0) {
+         [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+        [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.fengongsibtn setTitle:str forState:UIControlStateNormal];
+        for (int i=0; i<_fengongsiArr.count; i++) {
+            _fengongsi = _fengongsiArr[i];
+            if ([str isEqualToString:_fengongsi.name]) {
+                self.selectFengongsiID = _fengongsi.ID;
+                self.selectFengongsi = _fengongsi.name;
+            }
         }
+        self.type = @"company";
+        [self requestyunwei];
+    }else{
+         [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+         [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
+        [self.yunweixiaozubtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
+        [self.yunweixiaozubtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.yunweixiaozubtn setTitle:str forState:UIControlStateNormal];
+        for (int i=0; i<_yunweiArr.count; i++) {
+            _yunwei = _yunweiArr[i];
+            if ([str isEqualToString:_yunwei.workname]) {
+                self.selectyunweiID = _yunwei.ID;
+                self.selectyunwei = _yunwei.workname;
+            }
+        }
+        self.type = @"work";
     }
     
     
-}
-- (void)yunweiBtnClick{
-    self.actionSheet1 = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"运维小组1" otherButtonTitles:@"运维小组2",@"运维小组3", nil];
-    //这里的actionSheetStyle也可以不设置；
-    self.actionSheet1.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [self.actionSheet1 showInView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -413,6 +498,51 @@
     
 }
 
+-(void)requestxiaolv{
+    NSString *URL = [NSString stringWithFormat:@"%@/abnormal/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取效率数据正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+          
+            
+            NSInteger Handle = [responseObject[@"content"][@"Handle"] integerValue];
+            NSInteger Handled = [responseObject[@"content"][@"Handled"] integerValue];
+            NSInteger InHandle = [responseObject[@"content"][@"InHandle"] integerValue];
+            self.fourView.weichuli.text = [NSString stringWithFormat:@"%ld户",Handle];
+            self.fourView.chulizhong.text = [NSString stringWithFormat:@"%ld户",InHandle];
+            self.fourView.yichuli.text = [NSString stringWithFormat:@"%ld户",Handled];
+            self.fourView.xiaolvyichang.text = [NSString stringWithFormat:@"效率异常:%ld户",Handle+InHandle+Handled];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
 
 
 - (void)newLogin{
@@ -482,7 +612,112 @@
     
 }
 
-
+-(void)requestfengongsi{
+    NSString *URL = [NSString stringWithFormat:@"%@/user/index",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取分公司列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [_fengongsiArr removeAllObjects];
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _fengongsi = [[shouyefengongsimodel alloc] initWithDictionary:dic];
+                [self.fengongsiArr addObject:_fengongsi];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+-(void)requestyunwei{
+    NSString *URL = [NSString stringWithFormat:@"%@/user/com",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.selectFengongsi forKey:@"company_id"];
+    NSLog(@"参数:%@",parameters);
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取运维列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [_yunweiArr removeAllObjects];
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _yunwei = [[shouyeyunweiModel alloc] initWithDictionary:dic];
+                [self.yunweiArr addObject:_yunwei];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+-(NSMutableArray *)fengongsiArr{
+    if (!_fengongsiArr) {
+        _fengongsiArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _fengongsiArr;
+}
+-(shouyefengongsimodel *)fengongsi{
+    if(!_fengongsi){
+        _fengongsi = [[shouyefengongsimodel alloc] init];
+    }
+    return _fengongsi;
+}
+-(NSMutableArray *)yunweiArr{
+    if (!_yunweiArr) {
+        _yunweiArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _yunweiArr;
+}
+-(shouyeyunweiModel *)yunwei{
+    if (!_yunwei) {
+        _yunwei = [[shouyeyunweiModel alloc] init];
+    }
+    return _yunwei;
+}
 /*
 #pragma mark - Navigation
 

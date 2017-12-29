@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BaoJingYunWeiListViewController : UIViewController
-
+@property (nonatomic,copy)NSString *name;
+@property (nonatomic,copy)NSString *companyID;
 @end

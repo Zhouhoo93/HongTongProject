@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface XiaoLvHuViewController : UIViewController
-
+@property (nonatomic,copy)NSString *workID;
 @end

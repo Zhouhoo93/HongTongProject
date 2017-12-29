@@ -377,7 +377,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    NSString * urlString = [NSString stringWithFormat:@"%@/agent/index",kUrl];
+    NSString * urlString = [NSString stringWithFormat:@"%@/user/store",kUrl];
 
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     

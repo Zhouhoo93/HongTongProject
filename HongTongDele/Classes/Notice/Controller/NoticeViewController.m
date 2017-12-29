@@ -90,20 +90,20 @@
 }
 
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/select-app-article",kUrl];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/getpush",kUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    //    NSString *token = [userDefaults valueForKey:@"token"];
-    //    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [userDefaults valueForKey:@"token"];
+        [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    //    [parameters setValue:@"5" forKey:@"limit"];
-    //        [parameters setValue:@"文章id" forKey:@"id"];
-    NSString *page = [NSString stringWithFormat:@"%d",self.page];
-    [parameters setValue:page forKey:@"page"];
-    
-    NSLog(@"%@",parameters);
-    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+//    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+//    //    [parameters setValue:@"5" forKey:@"limit"];
+//    //        [parameters setValue:@"文章id" forKey:@"id"];
+//    NSString *page = [NSString stringWithFormat:@"%d",self.page];
+//    [parameters setValue:page forKey:@"page"];
+//
+//    NSLog(@"%@",parameters);
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -120,15 +120,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
-            if (self.page<2) {
-                [self.dataArr removeAllObjects];
-            }
-            NSArray *arr = responseObject[@"content"];
-            if (arr.count>0) {
-                
-            }else{
-                self.page--;
-            }
+            [_dataArr removeAllObjects];
             for (NSDictionary *dic in responseObject[@"content"]) {
                 _noticeModel = [[NoticeModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_noticeModel];

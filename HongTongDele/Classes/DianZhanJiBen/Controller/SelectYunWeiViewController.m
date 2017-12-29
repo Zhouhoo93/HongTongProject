@@ -34,7 +34,7 @@
     [self.view addSubview:leftImg];
     
     UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 74, 200, 24)];
-    toplabel.text = @"分公司";
+    toplabel.text = self.selectName;
     [self.view addSubview:toplabel];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];

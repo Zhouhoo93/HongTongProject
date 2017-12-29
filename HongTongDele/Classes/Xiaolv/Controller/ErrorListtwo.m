@@ -39,6 +39,24 @@
         [self.delegate RightClick];
     }
 }
+- (IBAction)bohap:(id)sender {
+    [self.delegate bohaoBtnClick];
+}
+- (IBAction)xinxi:(id)sender {
+    [self.delegate xinxiBtnClick];
+}
+- (IBAction)daohang:(id)sender {
+    [self.delegate daohangBtnClick];
+}
+- (IBAction)weichuli:(id)sender {
+    [self.delegate weichuliClick];
+}
+- (IBAction)chulizhong:(id)sender {
+    [self.delegate chulizhongClick];
+}
+- (IBAction)yichuli:(id)sender {
+    [self.delegate yichuliClick];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -9,7 +9,12 @@
 #import "XiaoLvYunWeiViewController.h"
 #import "JHTableChart.h"
 #import "XiaoLvHuViewController.h"
-@interface XiaoLvYunWeiViewController ()<UIScrollViewDelegate,TableButDelegate>
+#import "JHPickView.h"
+#import "XiaolvFengongsiListModel.h"
+#import "LoginOneViewController.h"
+#import "AppDelegate.h"
+#import "XiaoLvWorkListModel.h"
+@interface XiaoLvYunWeiViewController ()<UIScrollViewDelegate,TableButDelegate,JHPickerDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIScrollView *bgscrollview1;
 @property (nonatomic,strong)UIScrollView *bg;
@@ -23,6 +28,17 @@
 @property (nonatomic,strong)JHTableChart *table33;
 @property (nonatomic,strong)JHTableChart *table4;
 @property (nonatomic,strong)JHTableChart *table44;
+@property (nonatomic,strong)NSMutableArray *listArr;
+@property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)NSMutableArray *dataArr1;
+@property (nonatomic,strong)XiaolvFengongsiListModel *listModel;
+@property (nonatomic,strong)XiaoLvWorkListModel *workModel;
+@property (nonatomic,copy)NSString *selectID;
+@property (nonatomic,copy)NSString *selectName;
+@property (nonatomic,strong)UILabel *toplabel1;
+@property (nonatomic,strong)UILabel *toplabel;
+@property (nonatomic,strong) UIImageView *biaogeBg;
+@property (nonatomic,strong) UIImageView *biaogeBg1;
 @end
 
 @implementation XiaoLvYunWeiViewController
@@ -101,31 +117,49 @@
     self.rightView.backgroundColor = [UIColor clearColor];
     [self.bgscrollview1 addSubview:self.rightView];
     
-    
-    
-    [self setLeftTable];
-    [self setRightTable];
+    [self requestfengongsi];
 }
 
 
 - (void)setLeftTable{
     UIImageView *topTable = [[UIImageView alloc] initWithFrame:CGRectMake(15, 17, KWidth-100, 30)];
     topTable.image = [UIImage imageNamed:@"发电bgt"];
+    topTable.userInteractionEnabled = YES;
     [self.leftView addSubview:topTable];
     
     UIImageView *leftImg = [[UIImageView alloc] initWithFrame:CGRectMake(15, 4, 12, 17)];
     leftImg.image = [UIImage imageNamed:@"tbx"];
     [topTable addSubview:leftImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
-    toplabel.font = [UIFont systemFontOfSize:15];
-    toplabel.textColor = [UIColor darkGrayColor];
-    toplabel.text = @"分公司一:20户 平均降效比:30%";
-    [topTable addSubview:toplabel];
+    self.toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
+    self.toplabel.font = [UIFont systemFontOfSize:15];
+    self.toplabel.textColor = [UIColor darkGrayColor];
+//    self.toplabel.text = @"分公司一:20户 平均降效比:30%";
+    self.toplabel.text = [NSString stringWithFormat:@"%@:%ld户 平均降效:30%%",_selectName,self.dataArr.count];
+    [topTable addSubview:self.toplabel];
     
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.leftView addSubview:biaogeBg];
+    UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, KWidth-100, 30)];
+    [leftBtn addTarget:self action:@selector(leftTitleClick) forControlEvents:UIControlEventTouchUpInside];
+    [topTable addSubview:leftBtn];
+    
+//    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
+//    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+//    [self.leftView addSubview:biaogeBg];
+    if (self.dataArr.count<10) {
+        if (self.dataArr.count==0) {
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, self.dataArr.count*40+35)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.leftView addSubview:self.biaogeBg];
+        }else{
+            self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, self.dataArr.count*40+33)];
+            self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+            [self.leftView addSubview:self.biaogeBg];
+        }
+    }else{
+        self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
+        self.biaogeBg.image = [UIImage imageNamed:@"表格bg"];
+        [self.leftView addSubview:self.biaogeBg];
+    }
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 45, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -180,7 +214,15 @@
     self.table11.isblue = NO;
     self.table11.delegate = self;
     self.table11.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"1",@"运维小组1",@"周巷镇、镇海镇",@"12",@"31"];
+    NSMutableArray *tipArr = [[NSMutableArray alloc] init];
+    if (self.dataArr.count>0) {
+        _workModel = _dataArr[0];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.reduce_effect]];
+    }
     self.table11.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table11.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
@@ -189,123 +231,46 @@
     self.table11.lineColor = [UIColor lightGrayColor];
     self.table11.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"2",@"运维小组2",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"3",@"运维小组3",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"4",@"运维小组4",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"5",@"运维小组5",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"6",@"运维小组6",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"7",@"运维小组7",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"8",@"运维小组8",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"9",@"运维小组9",@"镇海镇、周巷镇",@"12",@"31"],
-                          @[@"10",@"运维小组10",@"镇海镇、周巷镇",@"12",@"31"]];
-    self.table11.dataArr = array2d2;
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr.count; i++) {
+        if (i>0) {
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            [newArr removeAllObjects];
+            _workModel = _dataArr[i];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.reduce_effect]];
+            [newArr1 addObject:newArr];
+        }
+        
+    }
+    self.table11.dataArr = newArr1;
     [self.table11 showAnimation];
     [oneTable1 addSubview:self.table11];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
     self.table11.frame = CGRectMake(0, 0, KWidth, [self.table11 heightFromThisDataSource]);
     
-    UIImageView *topTable1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 454, KWidth-100, 30)];
-    topTable1.image = [UIImage imageNamed:@"发电bgt"];
-    [self.leftView addSubview:topTable1];
-    
-    UIImageView *leftImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 2, 12, 17)];
-    leftImg1.image = [UIImage imageNamed:@"tbx"];
-    [topTable1 addSubview:leftImg1];
-    
-    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
-    toplabel1.font = [UIFont systemFontOfSize:15];
-    toplabel1.textColor = [UIColor darkGrayColor];
-    toplabel1.text = @"分公司一:20户 平均降效比:30%";
-    [topTable1 addSubview:toplabel1];
-    
-    UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
-    biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-    [self.leftView addSubview:biaogeBg1];
-    
-    UIView *fourTable1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 480, KWidth, 400)];
-    //    fourTable.bounces = NO;
-    [self.leftView addSubview:fourTable1];
-    
-    self.table2 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
-    self.table2.delegate = self;
-    self.table2.typeCount = 88;
-    self.table2.small = YES;
-    self.table2.isblue = NO;
-    self.table2.bodyTextColor = [UIColor blackColor];
-    self.table2.tableTitleFont = [UIFont systemFontOfSize:14];
-    //    table.xDescTextFontSize =  (CGFloat)13;
-    //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table2.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"容量(kW)",@"降效(%)"];
-    
-    
-    self.table2.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
-    //    table.beginSpace = 30;
-    /*        Text color of the table body         */
-    self.table2.bodyTextColor = [UIColor blackColor];
-    /*        Minimum grid height         */
-    self.table2.minHeightItems = 36;
-    //    self.table4.tableChartTitleItemsHeight = KHeight/667*46;
-    /*        Table line color         */
-    self.table2.lineColor = [UIColor lightGrayColor];
-    
-    self.table2.backgroundColor = [UIColor clearColor];
-    /*       Data source array, in accordance with the data from top to bottom that each line of data, if one of the rows of a column in a number of cells, can be stored in an array of         */
-    
-    //        self.table.dataArr = array2d2;
-    
-    
-    /*        show   */
-    //    fourTable.contentSize = CGSizeMake(KWidth, 46);
-    [self.table2 showAnimation];
-    [fourTable1 addSubview:self.table2];
-    /*        Automatic calculation table height        */
-    self.table2.frame = CGRectMake(0, 0, KWidth, [self.table1 heightFromThisDataSource]);
-    
-    UIScrollView *oneTable2 = [[UIScrollView alloc] init];
-    //        if (self.dayFeeArr.count>11) {
-    //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/664*(300));
-    //        }else{
-    //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/667*46*self.dayFeeArr.count);
-    //        }
-    oneTable2.frame = CGRectMake(0, 516, KWidth, 364);
-    oneTable2.bounces = NO;
-    [self.leftView addSubview:oneTable2];
-    self.table22 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 364)];
-    self.table22.typeCount = 88;
-    self.table22.isblue = NO;
-    self.table22.delegate = self;
-    self.table22.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr1 = @[@"1",@"运维小组1",@"周巷镇、镇海镇",@"10",@"10"];
-    self.table22.colTitleArr = tipArr1;
-    //        self.table44.colWidthArr = colWid;
-    self.table22.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
-    self.table22.bodyTextColor = [UIColor blackColor];
-    self.table22.minHeightItems = 36;
-    self.table22.lineColor = [UIColor lightGrayColor];
-    self.table22.backgroundColor = [UIColor clearColor];
-    
-    NSArray *array2d22 = @[
-                           @[@"2",@"运维小组2",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"3",@"运维小组3",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"4",@"运维小组4",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"5",@"运维小组5",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"6",@"运维小组6",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"7",@"运维小组7",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"8",@"运维小组8",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"9",@"运维小组9",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"10",@"运维小组10",@"周巷镇、镇海镇",@"10",@"10"]];
-    self.table22.dataArr = array2d22;
-    [self.table22 showAnimation];
-    [oneTable2 addSubview:self.table22];
-    oneTable2.contentSize = CGSizeMake(KWidth, 360);
-    self.table22.frame = CGRectMake(0, 0, KWidth, [self.table22 heightFromThisDataSource]);
 }
 
+- (void)leftTitleClick{
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:0];
+    for (int i=0; i<_listArr.count; i++) {
+        _listModel = _listArr[i];
+        [list addObject:_listModel.name];
+    }
+    JHPickView *picker = [[JHPickView alloc]initWithFrame:self.view.bounds];
+    picker.classArr = list;
+    picker.delegate = self ;
+    picker.arrayType = weightArray;
+    [self.view addSubview:picker];
+}
 
 
 - (void)setRightTable{
     UIImageView *topTable = [[UIImageView alloc] initWithFrame:CGRectMake(15, 17, KWidth-100, 30)];
+    topTable.userInteractionEnabled = YES;
     topTable.image = [UIImage imageNamed:@"发电bgt"];
     [self.rightView addSubview:topTable];
     
@@ -313,15 +278,32 @@
     leftImg.image = [UIImage imageNamed:@"tbx"];
     [topTable addSubview:leftImg];
     
-    UILabel *toplabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
-    toplabel.font = [UIFont systemFontOfSize:15];
-    toplabel.textColor = [UIColor darkGrayColor];
-    toplabel.text = @"分公司一:20户 平均降效比:30%";
-    [topTable addSubview:toplabel];
+    self.toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
+    self.toplabel1.font = [UIFont systemFontOfSize:15];
+    self.toplabel1.textColor = [UIColor darkGrayColor];
+//    self.toplabel1.text = @"分公司一:20户 平均降效比:30%";
+    self.toplabel1.text = [NSString stringWithFormat:@"%@:%ld户 平均降效:30%%",_selectName,self.dataArr1.count];
+    [topTable addSubview:self.toplabel1];
     
-    UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
-    biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-    [self.rightView addSubview:biaogeBg];
+    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 17, KWidth-100, 30)];
+    [rightBtn addTarget:self action:@selector(leftTitleClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.rightView addSubview:rightBtn];
+    
+    if (self.dataArr1.count<10) {
+        if (self.dataArr1.count==0) {
+            self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, self.dataArr1.count*40+35)];
+            self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.rightView addSubview:self.biaogeBg1];
+        }else{
+            self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, self.dataArr1.count*40+33)];
+            self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.rightView addSubview:self.biaogeBg1];
+        }
+    }else{
+        self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 45, KWidth-20, 400)];
+        self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+        [self.rightView addSubview:self.biaogeBg1];
+    }
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 45, KWidth, 400)];
     //    fourTable.bounces = NO;
@@ -376,7 +358,15 @@
     self.table33.isblue = NO;
     self.table33.delegate = self;
     self.table33.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr = @[@"1",@"运维小组1",@"周巷镇、镇海镇",@"10",@"10"];
+    NSMutableArray *tipArr = [[NSMutableArray alloc] init];
+    if (self.dataArr1.count>0) {
+        _workModel = _dataArr1[0];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.reduce_effect]];
+    }
     self.table33.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table33.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
@@ -385,124 +375,61 @@
     self.table33.lineColor = [UIColor lightGrayColor];
     self.table33.backgroundColor = [UIColor clearColor];
     
-    NSArray *array2d2 = @[
-                          @[@"2",@"运维小组2",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"3",@"运维小组3",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"4",@"运维小组4",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"5",@"运维小组5",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"6",@"运维小组6",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"7",@"运维小组7",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"8",@"运维小组8",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"9",@"运维小组9",@"周巷镇、镇海镇",@"10",@"10"],
-                          @[@"10",@"运维小组10",@"周巷镇、镇海镇",@"10",@"10"]];
-    self.table33.dataArr = array2d2;
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    for (int i=0; i<_dataArr1.count; i++) {
+        if (i>0) {
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            [newArr removeAllObjects];
+            _workModel = _dataArr1[i];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.reduce_effect]];
+            [newArr1 addObject:newArr];
+        }
+        
+    }
+    self.table33.dataArr = newArr1;
     [self.table33 showAnimation];
     [oneTable1 addSubview:self.table33];
     oneTable1.contentSize = CGSizeMake(KWidth, 360);
     self.table33.frame = CGRectMake(0, 0, KWidth, [self.table33 heightFromThisDataSource]);
     
-    UIImageView *topTable1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 454, KWidth-100, 30)];
-    topTable1.image = [UIImage imageNamed:@"发电bgt"];
-    [self.rightView addSubview:topTable1];
     
-    UIImageView *leftImg1 = [[UIImageView alloc] initWithFrame:CGRectMake(15, 2, 12, 17)];
-    leftImg1.image = [UIImage imageNamed:@"tbx"];
-    [topTable1 addSubview:leftImg1];
+}
+-(void)PickerSelectorIndixString:(NSString *)str:(NSInteger)row
+{
+    for (int i=0; i<_listArr.count; i++) {
+        _listModel = _listArr[i];
+        if ([str isEqualToString:_listModel.name]) {
+            self.selectID = _listModel.company_id;
+            self.selectName = str;
+        }
+    }
+    [self.table1 removeFromSuperview];
+    [self.table11 removeFromSuperview];
+    [self.table3 removeFromSuperview];
+    [self.table33 removeFromSuperview];
+    [self.biaogeBg1 removeFromSuperview];
+    [self.biaogeBg removeFromSuperview];
+    [self.toplabel removeFromSuperview];
+    [self.toplabel1 removeFromSuperview];
+    [self.dataArr removeAllObjects];
+    [self.dataArr1 removeAllObjects];
+    [self requestList];
+    [self requestList1];
+    NSLog(@"%@,%ld",str,row);
     
-    UILabel *toplabel1 = [[UILabel alloc] initWithFrame:CGRectMake(40, 2, KWidth-70, 24)];
-    toplabel1.font = [UIFont systemFontOfSize:15];
-    toplabel1.textColor = [UIColor darkGrayColor];
-    toplabel1.text = @"分公司一:20户 平均降效比:30%";
-    [topTable1 addSubview:toplabel1];
-    
-    UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 480, KWidth-20, 400)];
-    biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-    [self.rightView addSubview:biaogeBg1];
-    
-    UIView *fourTable1 = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 480, KWidth, 400)];
-    //    fourTable.bounces = NO;
-    [self.rightView addSubview:fourTable1];
-    
-    self.table4 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
-    self.table4.delegate = self;
-    self.table4.typeCount = 88;
-    self.table4.small = YES;
-    self.table4.isblue = NO;
-    self.table4.bodyTextColor = [UIColor blackColor];
-    self.table4.tableTitleFont = [UIFont systemFontOfSize:14];
-    //    table4 =  (CGFloat)13;
-    //    table.yDescTextFontSize =  (CGFloat)13;
-    self.table4.colTitleArr = @[@"类别|序号",@"运维小组",@"管辖区域",@"容量(kW)",@"降效(%)"];
-    
-    
-    self.table4.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
-    //    table.beginSpace = 30;
-    /*        Text color of the table body         */
-    self.table4.bodyTextColor = [UIColor blackColor];
-    /*        Minimum grid height         */
-    self.table4.minHeightItems = 36;
-    //    self.table4.tableChartTitleItemsHeight = KHeight/667*46;
-    /*        Table line color         */
-    self.table4.lineColor = [UIColor lightGrayColor];
-    
-    self.table4.backgroundColor = [UIColor clearColor];
-    /*       Data source array, in accordance with the data from top to bottom that each line of data, if one of the rows of a column in a number of cells, can be stored in an array of         */
-    
-    //        self.table.dataArr = array2d2;
-    
-    
-    /*        show   */
-    //    fourTable.contentSize = CGSizeMake(KWidth, 46);
-    [self.table4 showAnimation];
-    [fourTable1 addSubview:self.table4];
-    /*        Automatic calculation table height        */
-    self.table4.frame = CGRectMake(0, 0, KWidth, [self.table4 heightFromThisDataSource]);
-    
-    UIScrollView *oneTable2 = [[UIScrollView alloc] init];
-    //        if (self.dayFeeArr.count>11) {
-    //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/664*(300));
-    //        }else{
-    //            oneTable1.frame = CGRectMake(0,KHeight/667*92, k_MainBoundsWidth, KHeight/667*46*self.dayFeeArr.count);
-    //        }
-    oneTable2.frame = CGRectMake(0, 516, KWidth, 364);
-    oneTable2.bounces = NO;
-    [self.rightView addSubview:oneTable2];
-    self.table44 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 364)];
-    self.table44.typeCount = 88;
-    self.table44.isblue = NO;
-    self.table44.delegate = self;
-    self.table44.tableTitleFont = [UIFont systemFontOfSize:14];
-    NSArray *tipArr1 = @[@"1",@"运维小组1",@"周巷镇、镇海镇",@"10",@"10"];
-    self.table44.colTitleArr = tipArr1;
-    //        self.table44.colWidthArr = colWid;
-    self.table44.colWidthArr = @[@30.0,@80.0,@120.0,@60.0,@60.0];
-    self.table44.bodyTextColor = [UIColor blackColor];
-    self.table44.minHeightItems = 36;
-    self.table44.lineColor = [UIColor lightGrayColor];
-    self.table44.backgroundColor = [UIColor clearColor];
-    
-    NSArray *array2d22 = @[
-                           @[@"2",@"运维小组2",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"3",@"运维小组3",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"4",@"运维小组4",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"5",@"运维小组5",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"6",@"运维小组6",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"7",@"运维小组7",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"8",@"运维小组8",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"9",@"运维小组9",@"周巷镇、镇海镇",@"10",@"10"],
-                           @[@"10",@"运维小组10",@"周巷镇、镇海镇",@"10",@"10"]];
-    self.table44.dataArr = array2d22;
-    [self.table44 showAnimation];
-    [oneTable2 addSubview:self.table44];
-    oneTable2.contentSize = CGSizeMake(KWidth, 360);
-    self.table44.frame = CGRectMake(0, 0, KWidth, [self.table44 heightFromThisDataSource]);
 }
 
 - (void)transButIndex:(NSInteger)index
 {
     NSLog(@"代理方法%ld",index);
     //    self.navigationController.navigationBar.hidden = NO;
+    _workModel = _dataArr[index];
     XiaoLvHuViewController *vc = [[XiaoLvHuViewController alloc] init];
+    vc.workID = _workModel.work_id;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -510,7 +437,225 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)requestfengongsi{
+    NSString *URL = [NSString stringWithFormat:@"%@/abnormal/info",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:@"Handle" forKey:@"type"];
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取分公司列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _listModel = [[XiaolvFengongsiListModel alloc] initWithDictionary:dic];
+                [self.listArr addObject:_listModel];
+            }
+            _listModel = _listArr[0];
+            self.selectID = _listModel.company_id;
+            self.selectName = _listModel.name;
+//            [self setLeftTable];
+//            [self setRightTable];
+            [self requestList];
+            [self requestList1];
+            //            [self performSelector:@selector(requestList) withObject:nil afterDelay:1.0f];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
 
+-(void)requestList{
+    NSString *selectID = [NSString stringWithFormat:@"%@",self.selectID];
+    if (selectID.length>0) {
+        
+    }else{
+        _listModel = _listArr[0];
+        self.selectID = [NSString stringWithFormat:@"%@",_listModel.company_id];
+    }
+    
+    NSString *URL = [NSString stringWithFormat:@"%@/abnormal/company",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.selectID forKey:@"id"];
+    [parameters setValue:@"Handle" forKey:@"type"];
+    NSLog(@"parameters:%@",parameters);
+    //type:值(handle 和  inhandle)
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取分公司数据正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [_dataArr removeAllObjects];
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _workModel = [[XiaoLvWorkListModel alloc] initWithDictionary:dic];
+                [self.dataArr addObject:_workModel];
+            }
+            //            [self setTabel];
+            [self setLeftTable];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+-(void)requestList1{
+    NSString *selectID = [NSString stringWithFormat:@"%@",self.selectID];
+    if (selectID.length>0) {
+        
+    }else{
+        _listModel = _listArr[0];
+        self.selectID = [NSString stringWithFormat:@"%@",_listModel.company_id];
+    }
+    
+    NSString *URL = [NSString stringWithFormat:@"%@/abnormal/company",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setValue:self.selectID forKey:@"id"];
+    [parameters setValue:@"inHandle" forKey:@"type"];
+    NSLog(@"parameters:%@",parameters);
+    //type:值(handle 和  inhandle)
+    [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取右边数据正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            [_dataArr1 removeAllObjects];
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _workModel = [[XiaoLvWorkListModel alloc] initWithDictionary:dic];
+                [self.dataArr1 addObject:_workModel];
+            }
+            //            [self setTabel];
+            [self setRightTable];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+
+-(NSMutableArray *)listArr {
+    if (!_listArr) {
+        _listArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _listArr;
+}
+-(XiaolvFengongsiListModel *)listModel{
+    if (!_listModel) {
+        _listModel = [[XiaolvFengongsiListModel alloc] init];
+    }
+    return _listModel;
+}
+- (void)newLogin{
+    [MBProgressHUD showText:@"请重新登录"];
+    [self performSelector:@selector(backTo) withObject: nil afterDelay:2.0f];
+}
+-(void)backTo{
+    [self clearLocalData];
+    //    LoginViewController *VC =[[LoginViewController alloc] init];
+    //    VC.hidesBottomBarWhenPushed = YES;
+    UIApplication *app =[UIApplication sharedApplication];
+    AppDelegate *app2 = app.delegate;
+    //    app2.window.rootViewController = VC;
+    //    [self.navigationController pushViewController:VC animated:YES];
+    LoginOneViewController *loginViewController = [[LoginOneViewController alloc] initWithNibName:@"LoginOneViewController" bundle:nil];
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    
+    app2.window.rootViewController = navigationController;
+}
+- (void)clearLocalData{
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:nil forKey:@"phone"];
+    [userDefaults setValue:nil forKey:@"passWord"];
+    [userDefaults setValue:nil forKey:@"token"];
+    //    [userDefaults setValue:nil forKey:@"registerid"];
+    [userDefaults synchronize];
+    
+}
+-(XiaoLvWorkListModel *)workModel {
+    if (!_workModel) {
+        _workModel = [[XiaoLvWorkListModel alloc] init];
+    }
+    return _workModel;
+}
+
+-(NSMutableArray *)dataArr{
+    if (!_dataArr) {
+        _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return  _dataArr;
+}
+-(NSMutableArray *)dataArr1{
+    if (!_dataArr1) {
+        _dataArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr1;
+}
 /*
 #pragma mark - Navigation
 

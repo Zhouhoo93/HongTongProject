@@ -11,6 +11,7 @@
 #import "LoginOneViewController.h"
 #import "AppDelegate.h"
 #import "GuanliModel.h"
+#import "GuanLiFirstModel.h"
 @interface GuanLiViewController ()<UIScrollViewDelegate,TableButDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)JHTableChart *table1;
@@ -19,6 +20,8 @@
 @property (nonatomic,strong)JHTableChart *table22;
 @property (nonatomic,strong)GuanliModel *model;
 @property (nonatomic,strong)NSMutableArray *dataArr;
+@property (nonatomic,strong)GuanLiFirstModel *firstmodel;
+@property (nonatomic,strong)NSMutableArray *dataArr1;
 @end
 
 @implementation GuanLiViewController
@@ -34,19 +37,20 @@
     [self.view addSubview:self.bgscrollview];
     
     
-    [self requestData];
+    
+    [self requestFirstData];
     // Do any additional setup after loading the view.
 }
 
 - (void)setTabelChart{
     
-    if (self.dataArr.count<10) {
-        if (self.dataArr.count==0) {
-            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr.count*40+35)];
+    if (self.dataArr1.count<10) {
+        if (self.dataArr1.count==0) {
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+35)];
             biaogeBg.image = [UIImage imageNamed:@"表格bg"];
             [self.bgscrollview addSubview:biaogeBg];
         }else{
-            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr.count*40+33)];
+            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+33)];
             biaogeBg.image = [UIImage imageNamed:@"表格bg"];
             [self.bgscrollview addSubview:biaogeBg];
         }
@@ -110,12 +114,12 @@
     self.table11.delegate = self;
     self.table11.tableTitleFont = [UIFont systemFontOfSize:14];
     NSMutableArray *tipArr = [[NSMutableArray alloc] init];
-    _model = _dataArr[0];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
+    _firstmodel = _dataArr1[0];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.name]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.offlineTotal]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.abnormalTotal]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.faultTotal]];
+    [tipArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.Total]];
     self.table11.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table11.colWidthArr = @[@70.0,@70.0,@70.0,@70.0,@70.0];
@@ -126,15 +130,15 @@
     
     NSMutableArray *newArr = [[NSMutableArray alloc] init];
     NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
-    for (int i=0; i<_dataArr.count; i++) {
+    for (int i=0; i<_dataArr1.count; i++) {
         if (i>0) {
             [newArr removeAllObjects];
-            _model = _dataArr[i];
-            [newArr addObject: [NSString stringWithFormat:@"%@",_model.name]];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_model.Handled]];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_model.handleAvg]];
+            _firstmodel = _dataArr1[i];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.name]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.offlineTotal]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.abnormalTotal]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.faultTotal]];
+            [newArr addObject:[NSString stringWithFormat:@"%@",_firstmodel.Total]];
             [newArr1 addObject:newArr];
         }
         
@@ -149,12 +153,12 @@
     
     if (self.dataArr.count<10) {
         if (self.dataArr.count==0) {
-            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr.count*40+35+20, KWidth-20, 400)];
+            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+35+20, KWidth-20, self.dataArr.count*40+35)];
             biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
             [self.bgscrollview addSubview:biaogeBg1];
             
         }else{
-            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr.count*40+33+20, KWidth-20, 400)];
+            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+33+20, KWidth-20, self.dataArr.count*40+33)];
             biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
             [self.bgscrollview addSubview:biaogeBg1];
             
@@ -283,7 +287,7 @@
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"获管理列表正确%@",responseObject);
+        NSLog(@"获管理下面列表正确%@",responseObject);
         
         if ([responseObject[@"result"][@"success"] intValue] ==0) {
             NSNumber *code = responseObject[@"result"][@"errorCode"];
@@ -302,6 +306,48 @@
             }
 //            [self setLeftTable];
             [self setTabelChart];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+-(void)requestFirstData{
+    NSString *URL = [NSString stringWithFormat:@"%@/police/faultManager",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+    
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获管理下面列表正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            NSNumber *code = responseObject[@"result"][@"errorCode"];
+            NSString *errorcode = [NSString stringWithFormat:@"%@",code];
+            if ([errorcode isEqualToString:@"3100"])  {
+                [MBProgressHUD showText:@"请重新登陆"];
+                [self newLogin];
+            }else{
+                NSString *str = responseObject[@"result"][@"errorMsg"];
+                [MBProgressHUD showText:str];
+            }
+        }else{
+            for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                _firstmodel = [[GuanLiFirstModel alloc] initWithDictionary:dic];
+                [self.dataArr1 addObject:_firstmodel];
+            }
+            //            [self setLeftTable];
+            [self requestData];
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -350,6 +396,18 @@
         _dataArr = [[NSMutableArray alloc] initWithCapacity:0];
     }
     return _dataArr;
+}
+-(GuanLiFirstModel *)firstmodel{
+    if (!_firstmodel) {
+        _firstmodel = [[GuanLiFirstModel alloc] init];
+    }
+    return _firstmodel;
+}
+-(NSMutableArray *)dataArr1{
+    if (!_dataArr1) {
+        _dataArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+    }
+    return _dataArr1;
 }
 /*
 #pragma mark - Navigation

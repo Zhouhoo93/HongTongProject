@@ -77,7 +77,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456789" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-wj-T3F">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-wj-T3F">
                     <rect key="frame" x="91" y="142" width="252" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="crD-s2-TfW"/>
@@ -96,7 +96,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15057032987" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fT8-3I-f9R">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fT8-3I-f9R">
                     <rect key="frame" x="110" y="171" width="98" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="M7I-pj-bgr"/>
@@ -115,7 +115,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杭州市江干区XXX2栋" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJf-pN-OmP">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJf-pN-OmP">
                     <rect key="frame" x="84" y="200" width="178" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="mfW-YR-dLp"/>
@@ -134,7 +134,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10kW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlX-2Y-ZNK">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlX-2Y-ZNK">
                     <rect key="frame" x="125" y="229" width="69" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="AO9-fO-2cf"/>
@@ -154,7 +154,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1100度" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVQ-Ro-wVe">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVQ-Ro-wVe">
                     <rect key="frame" x="138" y="258" width="88" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="M5o-eb-xA9"/>
@@ -194,7 +194,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未处理" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miS-zv-6v4">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="miS-zv-6v4">
                     <rect key="frame" x="126" y="307" width="69" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="JMc-mN-1fg"/>
@@ -211,6 +211,9 @@
                         <constraint firstAttribute="height" constant="30" id="PSV-qM-nDa"/>
                     </constraints>
                     <state key="normal" title="拨号" image="拨号"/>
+                    <connections>
+                        <action selector="bohap:" destination="DM6-13-LAf" eventType="touchUpInside" id="Puu-3w-NJy"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Q7-2a-25t">
                     <rect key="frame" x="283" y="166" width="60" height="30"/>
@@ -219,6 +222,9 @@
                         <constraint firstAttribute="width" constant="60" id="l6f-3u-wna"/>
                     </constraints>
                     <state key="normal" title="信息" image="信息"/>
+                    <connections>
+                        <action selector="xinxi:" destination="DM6-13-LAf" eventType="touchUpInside" id="7e6-fM-Lx1"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwt-O5-uue">
                     <rect key="frame" x="265" y="203" width="64" height="30"/>
@@ -227,6 +233,9 @@
                         <constraint firstAttribute="height" constant="30" id="V6q-s1-ZpS"/>
                     </constraints>
                     <state key="normal" title="一键导航" image="导航"/>
+                    <connections>
+                        <action selector="daohang:" destination="DM6-13-LAf" eventType="touchUpInside" id="ku9-Pg-jm9"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BmT-Fk-D51">
                     <rect key="frame" x="100" y="331" width="49" height="30"/>
@@ -237,6 +246,9 @@
                     <state key="normal" title="未处理" backgroundImage="处理中">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="weichuli:" destination="DM6-13-LAf" eventType="touchUpInside" id="dIV-Pm-4dd"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LpG-xG-aHt">
                     <rect key="frame" x="174" y="330" width="49" height="30"/>
@@ -246,6 +258,9 @@
                     <state key="normal" title="处理中" backgroundImage="处理中">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="chulizhong:" destination="DM6-13-LAf" eventType="touchUpInside" id="tJW-dK-X8f"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHS-6y-pTG">
                     <rect key="frame" x="248" y="331" width="64" height="30"/>
@@ -257,6 +272,9 @@
                     <state key="normal" title="已处理" backgroundImage="已处理">
                         <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="yichuli:" destination="DM6-13-LAf" eventType="touchUpInside" id="4zc-sG-PuB"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="意见栏" translatesAutoresizingMaskIntoConstraints="NO" id="vbZ-2h-Nst">
                     <rect key="frame" x="97" y="368" width="225" height="97"/>
@@ -294,7 +312,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="在线" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXb-hg-jhJ">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXb-hg-jhJ">
                     <rect key="frame" x="127" y="282" width="69" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="69" id="Aq3-qx-6kZ"/>
@@ -381,6 +399,16 @@
                 <constraint firstAttribute="trailing" secondItem="5Sp-qD-GnR" secondAttribute="trailing" constant="18" id="ze6-0t-Qzc"/>
                 <constraint firstAttribute="trailing" secondItem="df8-S9-ydl" secondAttribute="trailing" constant="60" id="ztc-sY-631"/>
             </constraints>
+            <connections>
+                <outlet property="address" destination="NJf-pN-OmP" id="ehL-GA-TQK"/>
+                <outlet property="beizhu" destination="df8-S9-ydl" id="6IY-xu-a4b"/>
+                <outlet property="fadianliang" destination="PVQ-Ro-wVe" id="Kaa-lz-moY"/>
+                <outlet property="gonglv" destination="tlX-2Y-ZNK" id="VnL-bv-QU5"/>
+                <outlet property="huhao" destination="tHx-wj-T3F" id="Wi9-Y6-gSO"/>
+                <outlet property="jieduan" destination="miS-zv-6v4" id="ACn-Qa-drZ"/>
+                <outlet property="phone" destination="fT8-3I-f9R" id="Uxn-Fz-N1e"/>
+                <outlet property="zhuangtai" destination="KXb-hg-jhJ" id="1bM-px-gV0"/>
+            </connections>
             <point key="canvasLocation" x="15" y="-27"/>
         </view>
     </objects>
