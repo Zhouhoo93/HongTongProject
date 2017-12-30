@@ -95,12 +95,12 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="800度" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naH-ZE-Rv2">
-                        <rect key="frame" x="93" y="122" width="72" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="800度" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naH-ZE-Rv2">
+                        <rect key="frame" x="93" y="122" width="77" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="Qlc-XS-lPH"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -134,7 +134,7 @@
                 <constraint firstItem="ckw-BJ-9mm" firstAttribute="top" secondItem="ql2-DN-zfC" secondAttribute="bottom" constant="10" id="UJE-NV-RDy"/>
                 <constraint firstItem="tah-P3-Gxk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Z5i-24-hRN"/>
                 <constraint firstAttribute="trailing" secondItem="XxF-MQ-9un" secondAttribute="trailing" constant="20" id="bnx-bv-4sA"/>
-                <constraint firstAttribute="trailing" secondItem="naH-ZE-Rv2" secondAttribute="trailing" constant="5" id="d55-4M-mxg"/>
+                <constraint firstAttribute="trailing" secondItem="naH-ZE-Rv2" secondAttribute="trailing" id="d55-4M-mxg"/>
                 <constraint firstAttribute="trailing" secondItem="tah-P3-Gxk" secondAttribute="trailing" id="eb4-99-hiB"/>
                 <constraint firstItem="Ym2-bi-MyN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="epF-hq-6qa"/>
                 <constraint firstItem="sQt-XJ-Zii" firstAttribute="leading" secondItem="dSv-SR-DP4" secondAttribute="trailing" constant="12" id="ftY-89-KE3"/>

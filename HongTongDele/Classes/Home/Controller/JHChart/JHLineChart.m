@@ -88,8 +88,8 @@
     switch (_lineChartQuadrantType) {
         case JHLineChartQuadrantTypeFirstQuardrant:
         {
-            //            _perXLen = (_xLength-0)/(_xLineDataArr.count-1);
-            _perXLen = (_xLength-0)/24;
+                        _perXLen = (_xLength-0)/(_xLineDataArr.count-1);
+//            _perXLen = (_xLength-0)/;
             _perYlen = (_yLength-kXandYSpaceForSuperView)/_yLineDataArr.count;
         }
             break;
@@ -375,8 +375,8 @@
                     if (_isShowLeft) {
                         if (_isKw) {
                             CGFloat number = [_yLineDataArr[i] floatValue];
-                            CGFloat num = 1000.0;
-                            CGFloat newNumber = number/num;
+                          
+                            CGFloat newNumber = number;
                             [self drawText:[NSString stringWithFormat:@"%.2f",newNumber] andContext:context atPoint:P_M(p.x-18-3, p.y-hei / 2) WithColor:RGBColor(0, 60, 255) andFontSize:self.yDescTextFontSize];
                         }else{
                             CGFloat number = [_yLineDataArr[i] floatValue];
@@ -399,8 +399,7 @@
                         [self drawLineWithContext:context andStarPoint:p andEndPoint:P_M(p.x+3, p.y) andIsDottedLine:NO andColor:self.xAndYLineColor];
                         //                    }
                         CGFloat number = [_yLineDataArr[i] floatValue];
-                        CGFloat num = 1000.0;
-                        CGFloat newNumber = number/num;
+                        CGFloat newNumber = number;
                         [self drawText:[NSString stringWithFormat:@"%.2f",newNumber] andContext:context atPoint:P_M(p.x-16-3, p.y-hei / 2) WithColor:RGBColor(255, 0, 0) andFontSize:self.yDescTextFontSize];
                     }
                     
@@ -634,7 +633,7 @@
     
     switch (_lineChartQuadrantType) {
         case JHLineChartQuadrantTypeFirstQuardrant:{
-            if ([_yLineDataArr[0] integerValue] == 0) {
+            if ([_yLineDataArr[0] floatValue] == 0) {
                 _perValue = 0;
                 
             }else{

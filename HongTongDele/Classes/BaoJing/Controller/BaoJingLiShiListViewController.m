@@ -340,9 +340,18 @@
                 _model = [[FenGongSiListModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_model];
             }
-            _model = _dataArr[0];
-            self.selectID = _model.ID;
-            self.gongsiName = _model.name;
+            NSString *str = [NSString stringWithFormat:@"%@",self.companyID];
+            if (str.length>0) {
+                self.selectID = self.companyID;
+                self.gongsiName = self.name;
+            }else{
+                _model = _dataArr[0];
+                self.selectID = _model.ID;
+                self.gongsiName = _model.name;
+            }
+//            _model = _dataArr[0];
+//            self.selectID = _model.ID;
+//            self.gongsiName = _model.name;
             [self requestList];
        
             //            [self performSelector:@selector(requestList) withObject:nil afterDelay:1.0f];
@@ -357,11 +366,14 @@
 }
 -(void)requestList{
     NSString *selectID = [NSString stringWithFormat:@"%@",self.selectID];
-    if (selectID.length>0) {
-        
+    NSString *str = [NSString stringWithFormat:@"%@",self.companyID];
+    if (![str isEqualToString:@"(null)"]) {
+        self.selectID = self.companyID;
+        self.gongsiName = self.name;
     }else{
         _model = _dataArr[0];
         self.selectID = [NSString stringWithFormat:@"%@",_model.ID];
+        self.gongsiName = [NSString stringWithFormat:@"%@",_model.name];
     }
     
     NSString *URL = [NSString stringWithFormat:@"%@/police/company/list",kUrl];

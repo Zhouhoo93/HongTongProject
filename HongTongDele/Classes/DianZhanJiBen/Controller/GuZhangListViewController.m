@@ -138,20 +138,23 @@
     self.table1.delegate = self;
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     NSMutableArray *tipArr = [[NSMutableArray alloc] initWithCapacity:0];
-    _model = _dataArr[0];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.ID]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.created_at]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.nature]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.cause]];
-    if ([_model.status integerValue]==0) {
-        [tipArr addObject:@"未处理"];
-    }else if([_model.status integerValue]==1){
-        [tipArr addObject:@"处理中"];
-    }else{
-        [tipArr addObject:@"已处理"];
+    if (_dataArr.count>0) {
+        _model = _dataArr[0];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.ID]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.created_at]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.nature]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.cause]];
+        if ([_model.status integerValue]==0) {
+            [tipArr addObject:@"未处理"];
+        }else if([_model.status integerValue]==1){
+            [tipArr addObject:@"处理中"];
+        }else{
+            [tipArr addObject:@"已处理"];
+        }
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.responseTime]];
+        [tipArr addObject:[NSString stringWithFormat:@"%@",_model.handleTime]];
     }
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.responseTime]];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.handleTime]];
+    
     self.table1.colTitleArr = tipArr;
     //        self.table44.colWidthArr = colWid;
     self.table1.colWidthArr = @[@30.0,@40.0,@35.0,@80.0,@50.0,@55.0,@55.0];

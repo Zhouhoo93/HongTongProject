@@ -695,8 +695,12 @@
                 [MBProgressHUD showText:@"请重新登陆"];
                 [self newLogin];
             }else{
-                NSString *str = responseObject[@"result"][@"errorMsg"];
-                [MBProgressHUD showText:str];
+//                NSString *str = responseObject[@"result"][@"errorMsg"];
+//                [MBProgressHUD showText:str];
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeText;
+                hud.label.text =responseObject[@"result"][@"errorMsg"];
+                [hud hideAnimated:YES afterDelay:2.f];
             }
         }else{
             

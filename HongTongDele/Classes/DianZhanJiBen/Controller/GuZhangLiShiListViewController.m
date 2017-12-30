@@ -100,6 +100,7 @@
 }
 
 - (void)setTabel{
+    self.rightLabel.text = [NSString stringWithFormat:@"总报警次数:%ld次",self.dataArr.count];
     if (self.dataArr.count<10) {
         if (self.dataArr.count==0) {
             self.biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 190, KWidth-20, self.dataArr.count*40+35)];

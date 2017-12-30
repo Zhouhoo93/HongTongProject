@@ -202,29 +202,29 @@
     [self.firstScroll addSubview:self.bg];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    titleLabel.text = @"本月发、用电功率曲线图";
+    titleLabel.text = @"月效率曲线比较图";
     titleLabel.textColor = RGBColor(2, 28, 106);
     titleLabel.font = [UIFont systemFontOfSize:16];
     [self.bg addSubview:titleLabel];
     
     UILabel *waLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 25, 10)];
-    waLabel.text = @"(kW)";
+    waLabel.text = @"(度)";
     waLabel.textColor = RGBColor(0, 60, 255);
     waLabel.font = [UIFont systemFontOfSize:11];
     [self.bg addSubview:waLabel];
     UILabel *waLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-38, 25, 25, 10)];
-    waLabel1.text = @"(kW)";
+    waLabel1.text = @"(度)";
     waLabel1.textColor = RGBColor(255, 0, 0);
     waLabel1.font = [UIFont systemFontOfSize:11];
     [self.bg addSubview:waLabel1];
-    UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
-    shiLabel.text = @"(h)";
+    UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-33,KHeight/667*190, 30, 10)];
+    shiLabel.text = @"(日)";
     shiLabel.textColor = [UIColor darkGrayColor];
     shiLabel.font = [UIFont systemFontOfSize:11];
     [self.bg addSubview:shiLabel];
     
     UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 10, 50, 20)];
-    rightTopLabel.text = @"发电功率";
+    rightTopLabel.text = @"单个电站";
     rightTopLabel.font = [UIFont systemFontOfSize:8];
     [self.bg addSubview:rightTopLabel];
     UIImageView *topImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 15, 10, 10)];
@@ -232,7 +232,7 @@
     [self.bg addSubview:topImg];
     
     UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 25, 50, 20)];
-    rightDownLabel.text = @"用电功率";
+    rightDownLabel.text = @"整个电站";
     rightDownLabel.font = [UIFont systemFontOfSize:8];
     [self.bg addSubview:rightDownLabel];
     UIImageView *downImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 30, 10, 10)];
@@ -272,7 +272,7 @@
     self.lineChart.lineChartQuadrantType = JHLineChartQuadrantTypeFirstQuardrant;
     //用电数据
     self.lineChart.valueArr = @[self.FirstChartgenArr];
-    //    self.lineChart.valueArr = @[@1,@1,@1,[NSNull null],@1,@1,@1];
+   
     self.lineChart.showYLevelLine = YES;
     self.lineChart.showYLine = YES;
     self.lineChart.isShowLeft = NO;
@@ -360,6 +360,7 @@
             }
         }
     }
+    NSLog(@"valueArr:%@,yLineDataArr:%@",self.lineChart.valueArr,self.lineChart.yLineDataArr);
     /*       Start animation        */
     [self.lineChart showAnimation];
     
@@ -445,6 +446,7 @@
             }
         }
     }
+    NSLog(@"valueArr2:%@,yLineDataArr2:%@",self.lineChart2.valueArr,self.lineChart2.yLineDataArr);
     [self.lineChart2 showAnimation];
     
     
@@ -458,29 +460,29 @@
     [self.firstScroll addSubview:self.bg2];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    titleLabel.text = @"今年发、用电功率曲线图";
+    titleLabel.text = @"年效率曲线比较图";
     titleLabel.textColor = RGBColor(2, 28, 106);
     titleLabel.font = [UIFont systemFontOfSize:16];
     [self.bg2 addSubview:titleLabel];
     
     UILabel *waLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 25, 10)];
-    waLabel.text = @"(kW)";
+    waLabel.text = @"(度)";
     waLabel.textColor = RGBColor(0, 60, 255);
     waLabel.font = [UIFont systemFontOfSize:11];
     [self.bg2 addSubview:waLabel];
     UILabel *waLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-38, 25, 25, 10)];
-    waLabel1.text = @"(kW)";
+    waLabel1.text = @"(度)";
     waLabel1.textColor = RGBColor(255, 0, 0);
     waLabel1.font = [UIFont systemFontOfSize:11];
     [self.bg2 addSubview:waLabel1];
-    UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
-    shiLabel.text = @"(h)";
+    UILabel *shiLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-33,KHeight/667*190, 30, 10)];
+    shiLabel.text = @"(月)";
     shiLabel.textColor = [UIColor darkGrayColor];
     shiLabel.font = [UIFont systemFontOfSize:11];
     [self.bg2 addSubview:shiLabel];
     
     UILabel *rightTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 10, 50, 20)];
-    rightTopLabel.text = @"发电功率";
+    rightTopLabel.text = @"单个电站";
     rightTopLabel.font = [UIFont systemFontOfSize:8];
     [self.bg2 addSubview:rightTopLabel];
     UIImageView *topImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 15, 10, 10)];
@@ -488,7 +490,7 @@
     [self.bg2 addSubview:topImg];
     
     UILabel *rightDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-77, 25, 50, 20)];
-    rightDownLabel.text = @"用电功率";
+    rightDownLabel.text = @"整个电站";
     rightDownLabel.font = [UIFont systemFontOfSize:8];
     [self.bg2 addSubview:rightDownLabel];
     UIImageView *downImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-90, 30, 10, 10)];
@@ -701,6 +703,7 @@
             }
         }
     }
+    NSLog(@"valueArr:%@,yLineDataArr:%@",self.lineChart3.valueArr,self.lineChart3.yLineDataArr);
     [self.lineChart4 showAnimation];
     
     
@@ -713,58 +716,36 @@
     [self.firstScroll1 addSubview:self.bg1];
     
     UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    secondLabel.text = @"今日发、用电量柱状图";
+    secondLabel.text = @"日发电量柱状图";
     secondLabel.textColor = RGBColor(2, 28, 106);
     secondLabel.font = [UIFont systemFontOfSize:16];
     [self.bg1 addSubview:secondLabel];
     
     UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
-    dianLabel.text = @"(kW·h)";
+    dianLabel.text = @"(度)";
     
     
     dianLabel.textColor = RGBColor(0, 60, 255);
     dianLabel.font = [UIFont systemFontOfSize:11];
     [self.bg1 addSubview:dianLabel];
     
-    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-33,KHeight/667*190, 15, 10)];
     shiLabel1.text = @"(h)";
     shiLabel1.textColor = [UIColor darkGrayColor];
     shiLabel1.font = [UIFont systemFontOfSize:11];
     [self.bg1 addSubview:shiLabel1];
     
-    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
-    leftTopLabel.text = @"上网";
-    leftTopLabel.font = [UIFont systemFontOfSize:8];
-    [self.bg1 addSubview:leftTopLabel];
     
-    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
-    leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
-    [self.bg1 addSubview:leftTopImg];
-    
-    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
-    leftDownLabel.text = @"峰电";
-    leftDownLabel.font = [UIFont systemFontOfSize:8];
-    [self.bg1 addSubview:leftDownLabel];
-    
-    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
-    leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
-    [self.bg1 addSubview:leftDownImg];
     
     UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
-    rightTopLabel1.text = @"自用";
+    rightTopLabel1.text = @"发电量";
     rightTopLabel1.font = [UIFont systemFontOfSize:8];
     [self.bg1 addSubview:rightTopLabel1];
     UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
     rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
     [self.bg1 addSubview:rightTopImg];
     
-    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
-    rightDownLabel1.text = @"谷电";
-    rightDownLabel1.font = [UIFont systemFontOfSize:8];
-    [self.bg1 addSubview:rightDownLabel1];
-    UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
-    rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
-    [self.bg1 addSubview:rightDownImg];
+    
     
     self.lineChart1 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
     self.lineChart1.isShowRight = NO;
@@ -852,58 +833,33 @@
     [self.firstScroll1 addSubview:self.bg4];
     
     UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    secondLabel.text = @"本月发、用电量柱状图";
+    secondLabel.text = @"月发电量柱状图";
     secondLabel.textColor = RGBColor(2, 28, 106);
     secondLabel.font = [UIFont systemFontOfSize:16];
     [self.bg4 addSubview:secondLabel];
     
     UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
-    dianLabel.text = @"(kW·h)";
+    dianLabel.text = @"(度)";
     
     
     dianLabel.textColor = RGBColor(0, 60, 255);
     dianLabel.font = [UIFont systemFontOfSize:11];
     [self.bg4 addSubview:dianLabel];
     
-    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-33,KHeight/667*190, 30, 10)];
     shiLabel1.text = @"(日)";
     shiLabel1.textColor = [UIColor darkGrayColor];
     shiLabel1.font = [UIFont systemFontOfSize:11];
     [self.bg4 addSubview:shiLabel1];
     
-    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
-    leftTopLabel.text = @"上网";
+    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
+    leftTopLabel.text = @"发电量";
     leftTopLabel.font = [UIFont systemFontOfSize:8];
     [self.bg4 addSubview:leftTopLabel];
     
-    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
+    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
     leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
     [self.bg4 addSubview:leftTopImg];
-    
-    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
-    leftDownLabel.text = @"峰电";
-    leftDownLabel.font = [UIFont systemFontOfSize:8];
-    [self.bg4 addSubview:leftDownLabel];
-    
-    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
-    leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
-    [self.bg4 addSubview:leftDownImg];
-    
-    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
-    rightTopLabel1.text = @"自用";
-    rightTopLabel1.font = [UIFont systemFontOfSize:8];
-    [self.bg4 addSubview:rightTopLabel1];
-    UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
-    rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
-    [self.bg4 addSubview:rightTopImg];
-    
-    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
-    rightDownLabel1.text = @"谷电";
-    rightDownLabel1.font = [UIFont systemFontOfSize:8];
-    [self.bg4 addSubview:rightDownLabel1];
-    UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
-    rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
-    [self.bg4 addSubview:rightDownImg];
     
     JHLineChart *lineChart4 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
     lineChart4.isShowRight = NO;
@@ -991,58 +947,37 @@
     [self.firstScroll1 addSubview:self.bg5];
     
     UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth/2-105, 10, 250, 20)];
-    secondLabel.text = @"今年发、用电量柱状图";
+    secondLabel.text = @"年发电量柱状图";
     secondLabel.textColor = RGBColor(2, 28, 106);
     secondLabel.font = [UIFont systemFontOfSize:16];
     [self.bg5 addSubview:secondLabel];
     
     UILabel *dianLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 10)];
-    dianLabel.text = @"(kW·h)";
+    dianLabel.text = @"(度)";
     
     
     dianLabel.textColor = RGBColor(0, 60, 255);
     dianLabel.font = [UIFont systemFontOfSize:11];
     [self.bg5 addSubview:dianLabel];
     
-    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 15, 10)];
+    UILabel *shiLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-30,KHeight/667*190, 30, 10)];
     shiLabel1.text = @"(月)";
     shiLabel1.textColor = [UIColor darkGrayColor];
     shiLabel1.font = [UIFont systemFontOfSize:11];
     [self.bg5 addSubview:shiLabel1];
     
-    UILabel *leftTopLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 10, 50, 20)];
-    leftTopLabel.text = @"上网";
-    leftTopLabel.font = [UIFont systemFontOfSize:8];
-    [self.bg5 addSubview:leftTopLabel];
+   
     
-    UIImageView *leftTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 15, 10, 7)];
-    leftTopImg.image = [UIImage imageNamed:@"矩形-23-拷贝"];
-    [self.bg5 addSubview:leftTopImg];
-    
-    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-95, 25, 50, 20)];
-    leftDownLabel.text = @"峰电";
+    UILabel *leftDownLabel = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
+    leftDownLabel.text = @"发电量";
     leftDownLabel.font = [UIFont systemFontOfSize:8];
     [self.bg5 addSubview:leftDownLabel];
     
-    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-108, 30, 10, 7)];
+    UIImageView *leftDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
     leftDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-2"];
     [self.bg5 addSubview:leftDownImg];
     
-    UILabel *rightTopLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 10, 50, 20)];
-    rightTopLabel1.text = @"自用";
-    rightTopLabel1.font = [UIFont systemFontOfSize:8];
-    [self.bg5 addSubview:rightTopLabel1];
-    UIImageView *rightTopImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 15, 10, 7)];
-    rightTopImg.image = [UIImage imageNamed:@"矩形-23"];
-    [self.bg5 addSubview:rightTopImg];
     
-    UILabel *rightDownLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(KWidth-60, 25, 50, 20)];
-    rightDownLabel1.text = @"谷电";
-    rightDownLabel1.font = [UIFont systemFontOfSize:8];
-    [self.bg5 addSubview:rightDownLabel1];
-    UIImageView *rightDownImg = [[UIImageView alloc] initWithFrame:CGRectMake(KWidth-73, 30, 10, 7)];
-    rightDownImg.image = [UIImage imageNamed:@"矩形-23-拷贝-3"];
-    [self.bg5 addSubview:rightDownImg];
     
     JHLineChart *lineChart4 = [[JHLineChart alloc] initWithFrame:CGRectMake(0, 30, KWidth-14, KHeight/667*180) andLineChartType:JHChartLineValueNotForEveryX];
     lineChart4.isShowRight = NO;
@@ -1229,12 +1164,12 @@
             if ([array isEqual:[NSNull null]]) {
                 array = nil;
             }else{
-                
+
                 for (int i =0; i<array.count; i++) {
                     NSString *value = [NSString stringWithFormat:@"%@",array[i]];
                     [valuearr addObject:value];
                 }
-                
+
                 for (int i=0; i<valuearr.count; i++) {
                     CGFloat num = [valuearr[i] floatValue];
                     CGFloat number = [valuearr[valuearr.count-1] floatValue];
@@ -1255,13 +1190,13 @@
                         }
                         for (int j=i; j<valuearr.count-i; j++) {
                             CGFloat num1 = [valuearr[j] floatValue];
-                            
+
                             if (num1<0) {
                                 count++;
                             }else{
                                 break;
                             }
-                            
+
                         }
                         for (int k=0; k<count; k++) {
                             CGFloat hou = [valuearr[i+count] floatValue];
@@ -1272,7 +1207,7 @@
                         }
                     }
                 }
-                
+            
                 self.FirstChartgenArr = valuearr;
             }
             NSLog(@"用电数组:%@",self.FirstChartgenArr);
@@ -1283,12 +1218,12 @@
             if ([array1 isEqual:[NSNull null]] ) {
                 array1 = nil;
             }else{
-                
+
                 for (int i =0; i<array1.count; i++) {
                     NSString *value1 = [NSString stringWithFormat:@"%@",array1[i]];
                     [valuearr1 addObject:value1];
                 }
-                
+
                 for (int i=0; i<valuearr1.count; i++) {
                     CGFloat num = [valuearr1[i] floatValue];
                     CGFloat number = [valuearr1[valuearr1.count-1] floatValue];
@@ -1314,7 +1249,7 @@
                             }else{
                                 break;
                             }
-                            
+
                         }
                         for (int k=0; k<count; k++) {
                             CGFloat hou = [valuearr1[i+count] floatValue];
@@ -1325,7 +1260,7 @@
                         }
                     }
                 }
-                
+        
                 self.FirstChartuseArr = valuearr1;
                 
             }
@@ -1337,9 +1272,9 @@
      
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
              NSLog(@"%@",error);  //这里打印错误信息
-             self.FirstChartgenArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
-             self.FirstChartuseArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
-             [self setFirstChart];
+//             self.FirstChartgenArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
+//             self.FirstChartuseArr = @[@0,@0,@0,@0,@0,@0,@0,@0];
+//             [self setFirstChart];
          }];
     
     
@@ -1420,7 +1355,7 @@
                 
                 self.FirstChartgenArr1 = valuearr;
             }
-            NSLog(@"用电数组:%@",self.FirstChartgenArr);
+            NSLog(@"用电数组:%@",self.FirstChartgenArr1);
             
             NSArray *array1 = responseObject[@"content"][@"single"];
             
@@ -1474,7 +1409,7 @@
                 self.FirstChartuseArr1 = valuearr1;
                 
             }
-            NSLog(@"发电数组:%@",self.FirstChartuseArr);
+            NSLog(@"发电数组:%@",self.FirstChartuseArr1);
             
         }
         [self setFirstChart1];
@@ -1482,9 +1417,9 @@
      
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
               NSLog(@"%@",error);  //这里打印错误信息
-              self.FirstChartgenArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
-              self.FirstChartuseArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
-              [self setFirstChart1];
+//              self.FirstChartgenArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
+//              self.FirstChartuseArr1 = @[@0,@0,@0,@0,@0,@0,@0,@0];
+//              [self setFirstChart1];
           }];
     
     

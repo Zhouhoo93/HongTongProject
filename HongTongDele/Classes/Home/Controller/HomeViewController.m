@@ -174,6 +174,10 @@
     [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
     [self.fengongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
     self.type = @"parent";
+    self.selectFengongsiID = nil;
+    self.selectFengongsi = nil;
+    self.selectyunwei = nil;
+    self.selectyunweiID = nil;
 }
 //执行协议方法
 - (void)transButIndex
@@ -233,6 +237,8 @@
     }else if ([self.type isEqualToString:@"company"]){
         BaoJingYunWeiListViewController *vc = [[BaoJingYunWeiListViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
+        vc.companyID = self.selectFengongsiID;
+        vc.name = self.selectFengongsi;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         BaoJingLiShiViewController *vc = [[BaoJingLiShiViewController alloc] init];
@@ -294,11 +300,15 @@
     }else if ([self.type isEqualToString:@"company"]){
         XiaoLvYunWeiViewController *vc = [[XiaoLvYunWeiViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
+        vc.companyID = self.selectFengongsiID;
+        vc.name = self.selectFengongsi;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         XiaoLvHuViewController *vc = [[XiaoLvHuViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         vc.workID = self.selectyunweiID;
+//        vc.fengongsi = self.selectFengongsi;
+//        vc.yunwei = self.selectyunwei;
         [self.navigationController pushViewController:vc animated:YES];
     }
     
@@ -365,6 +375,8 @@
             }
         }
         self.type = @"company";
+        self.selectyunwei = nil;
+        self.selectyunweiID = nil;
         [self requestyunwei];
     }else{
          [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface XiaoLvLishiViewController : UIViewController
-
+@property (nonatomic,copy)NSString *name;
+@property (nonatomic,copy)NSString *companyID;
 @end

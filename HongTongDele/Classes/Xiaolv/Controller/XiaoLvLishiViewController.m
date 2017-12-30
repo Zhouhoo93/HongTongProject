@@ -105,9 +105,18 @@
                 _listModel = [[XiaolvFengongsiListModel alloc] initWithDictionary:dic];
                 [self.listArr addObject:_listModel];
             }
-            _listModel = _listArr[0];
-            self.selectID = _listModel.company_id;
-            self.selectName = _listModel.name;
+            NSString *str = [NSString stringWithFormat:@"%@",self.companyID];
+            if (str.length>0) {
+                self.selectID = self.companyID;
+                self.selectName = self.name;
+            }else{
+                _listModel = _listArr[0];
+                self.selectID = _listModel.company_id;
+                self.selectName = _listModel.name;
+            }
+//            _listModel = _listArr[0];
+//            self.selectID = _listModel.company_id;
+//            self.selectName = _listModel.name;
             //            [self setLeftTable];
             //            [self setRightTable];
             [self requestList];
@@ -324,11 +333,14 @@
 }
 -(void)requestList{
     NSString *selectID = [NSString stringWithFormat:@"%@",self.selectID];
-    if (selectID.length>0) {
-        
+    NSString *str = [NSString stringWithFormat:@"%@",self.companyID];
+    if (![str isEqualToString:@"(null)"]) {
+        self.selectID = self.companyID;
+        self.selectName = self.name;
     }else{
         _listModel = _listArr[0];
         self.selectID = [NSString stringWithFormat:@"%@",_listModel.company_id];
+        self.selectName = [NSString stringWithFormat:@"%@",_listModel.name];
     }
     
     NSString *URL = [NSString stringWithFormat:@"%@/abnormal/company",kUrl];
