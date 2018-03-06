@@ -48,7 +48,7 @@
 @property (nonatomic,strong)StationTextView *StationTextview;
 @property (nonatomic,strong) UIScrollView *firstScroll;
 @property (nonatomic,strong) UIScrollView *firstScroll1;
-//@property (nonatomic,copy) NSString *tel;
+@property (nonatomic,copy) NSString *position;
 @end
 
 @implementation InstallStationViewController
@@ -159,7 +159,35 @@
     [callWebview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:str]]];
     [self.view addSubview:callWebview];
 }
-
+- (void)daohangBtnClick{
+    NSArray *newArray3 = [self.position componentsSeparatedByString:@","];
+    BOOL hasBaiduMap = NO;
+    BOOL hasGaodeMap = NO;
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]]){
+        hasBaiduMap = YES;
+    }
+    
+    if ([[UIApplication sharedApplication]canOpenURL:[NSURL URLWithString:@"iosamap://"]]){
+        hasGaodeMap = YES;
+    }
+    
+    
+    if (hasBaiduMap)
+    {
+        
+        //        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:终点&mode=driving",currentLat, currentLon,_shopLat,_shopLon] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:30.3373243942,120.3936767578|name:我的位置&destination=latlng:%@,%@|name:终点&mode=driving",newArray3[1],newArray3[0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] ;
+        NSLog(@"定位:%@",urlString);
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else if(hasGaodeMap)
+    {
+        NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&poiname=%@&lat=%@&lon=%@&dev=1&style=2",@"红彤代理端", @"123123123", @"终点",newArray3[1],newArray3[0]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"定位:%@",urlString);
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }else{
+        [MBProgressHUD showText:@"请先安装百度地图或者高德地图"];
+    }
+}
 - (void)zhengchangBtnClick{
     GuZhangListViewController *vc = [[GuZhangListViewController alloc] init];
     vc.bid = self.bid;
@@ -1080,7 +1108,17 @@
         NSString *phone = responseObject[@"content"][@"phone"];
         self.StationTextview.telLabel.text = [NSString stringWithFormat:@"%@",phone];
         NSString *address = responseObject[@"content"][@"address"];
-        self.StationTextview.addressLabel1.text = [NSString stringWithFormat:@"%@",address];
+        self.position = responseObject[@"content"][@"position"];
+        if (address.length>11) {
+           
+            NSString *str1 = [address substringToIndex:11];//截取掉下标5之前的字符串
+            NSString *str2 = [address substringFromIndex:11];
+            self.StationTextview.addressLabel1.text = [NSString stringWithFormat:@"%@",str1];
+            self.StationTextview.addressLabel2.text = [NSString stringWithFormat:@"%@",str2];
+        }else{
+            self.StationTextview.addressLabel1.text = [NSString stringWithFormat:@"%@",address];
+        }
+      
 //        self.StationTextview.huhao.text = responseObject[@"content"][@"house_id"];
         NSString *roof_property = responseObject[@"content"][@"roof_property"];
         self.StationTextview.wuding2.text = [NSString stringWithFormat:@"%@",roof_property];

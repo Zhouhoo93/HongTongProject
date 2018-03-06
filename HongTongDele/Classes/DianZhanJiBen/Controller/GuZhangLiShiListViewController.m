@@ -68,7 +68,7 @@
     [self.view addSubview:leftImg];
     
     self.yearLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, 180, 34)];
-    self.yearLabel.text = @"2016";
+    self.yearLabel.text = @"2018";
     self.yearLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.yearLabel];
     

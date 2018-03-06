@@ -585,7 +585,7 @@
 //        if (self.address.length>0) {
 //            [parameters setValue:self.address forKey:@"area"];
 //        }
-        NSLog(@"%@",parameters)
+        NSLog(@"%@",parameters);
         [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
             

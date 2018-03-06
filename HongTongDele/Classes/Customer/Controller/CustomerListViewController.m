@@ -57,6 +57,9 @@
         
         alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
         [alertview show];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *phone = [userDefaults valueForKey:@"phone"];
+        [self.selectArray addObject:phone];
         NSLog(@"选中数组%@",self.selectArray);
     }
     
@@ -225,7 +228,7 @@
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_listTableView.editing) {
         _model = self.dataArr[indexPath.row];
-        NSString *userID = _model.bid;
+        NSString *userID = _model.tel;
         if ([self.selectArray containsObject:userID]) {
             [self.selectArray removeObject:userID];
         }
@@ -237,7 +240,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_listTableView.editing) {
         _model = self.dataArr[indexPath.row];
-        NSString *userID = _model.bid;
+        NSString *userID = _model.tel;
         if (![self.selectArray containsObject:userID]) {
             [self.selectArray addObject:userID];
         }
@@ -247,7 +250,7 @@
         _model = _dataArr[indexPath.row];
         RCConversationViewController *conversationVC = [[RCConversationViewController alloc]init];
         conversationVC.conversationType = 1;
-        conversationVC.targetId = [NSString stringWithFormat:@"%@",_model.bid];
+        conversationVC.targetId = [NSString stringWithFormat:@"%@",_model.tel];
         conversationVC.title = [NSString stringWithFormat:@"%@",_model.username];
         //    conversationVC.hidesBottomBarWhenPushed = YES;
         //    [IQKeyboardManager sharedManager].enable = NO;

@@ -71,7 +71,7 @@
             NSString *type = [NSString stringWithFormat:@"%@",responseObject[@"content"][@"type"]];
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
             [userDefaults setValue:self.passwordTextField.text forKey:@"password"];
-            [userDefaults setValue:self.passwordTextField.text forKey:@"phone"];
+            [userDefaults setValue:self.phoneTextField.text forKey:@"phone"];
             [userDefaults setValue:token forKey:@"token"];
             [userDefaults setValue:type forKey:@"type"];
             [userDefaults synchronize];

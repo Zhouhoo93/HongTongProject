@@ -190,12 +190,12 @@
     self.table1.lineColor = [UIColor lightGrayColor];
     self.table1.backgroundColor = [UIColor clearColor];
     
-    NSMutableArray *newArr = [[NSMutableArray alloc] init];
-    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
     
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+
     for (int i=0; i<_dataArr.count; i++) {
         if (i>0) {
-            [newArr removeAllObjects];
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
             _Model = _dataArr[i];
             [newArr addObject:[NSString stringWithFormat:@"%d",i+1]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_Model.house_id]];
@@ -207,6 +207,7 @@
         }
         
     }
+    NSLog(@"%@",newArr1);
     self.table1.dataArr = newArr1;
     [self.table1 showAnimation];
     [oneTable1 addSubview:self.table1];
@@ -241,6 +242,7 @@
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setValue:@"work" forKey:@"role"];
     [parameters setValue:self.townID forKey:@"village_id"];
+    NSLog(@"参数:%@",parameters);
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

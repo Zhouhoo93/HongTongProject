@@ -16,6 +16,7 @@
 - (void)lixianBtnClick;
 - (void)yichangBtnClick;
 - (void)guzhangBtnClick;
+- (void)daohangBtnClick;
 @end
 @interface StationTextView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *yunyingshang;

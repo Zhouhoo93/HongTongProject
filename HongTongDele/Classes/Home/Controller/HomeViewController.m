@@ -53,6 +53,8 @@
 @property (nonatomic,copy)NSString *selectyunwei;
 @property (nonatomic,copy)NSString *selectyunweiID;
 @property (nonatomic,copy)NSString *type;
+@property (nonatomic,copy) NSString *changgename;
+@property (nonatomic,copy) NSString *changgeID;
 @end
 
 @implementation HomeViewController
@@ -178,6 +180,9 @@
     self.selectFengongsi = nil;
     self.selectyunwei = nil;
     self.selectyunweiID = nil;
+    self.changgename = nil;
+    self.changgeID = nil;
+    [self refresh];
 }
 //执行协议方法
 - (void)transButIndex
@@ -316,6 +321,9 @@
 }
 
 - (void)refresh{
+    [self requestdianzhan];
+    [self requestxiaolv];
+    [self requestBaojingData];
     [self.table.mj_header endRefreshing];
 }
 
@@ -372,11 +380,14 @@
             if ([str isEqualToString:_fengongsi.name]) {
                 self.selectFengongsiID = _fengongsi.ID;
                 self.selectFengongsi = _fengongsi.name;
+                self.changgename = _fengongsi.name;
+                self.changgeID = _fengongsi.ID;
             }
         }
         self.type = @"company";
         self.selectyunwei = nil;
         self.selectyunweiID = nil;
+        [self refresh];
         [self requestyunwei];
     }else{
          [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
@@ -389,9 +400,12 @@
             if ([str isEqualToString:_yunwei.workname]) {
                 self.selectyunweiID = _yunwei.ID;
                 self.selectyunwei = _yunwei.workname;
+                self.changgename = _yunwei.workname;
+                self.changgeID = _yunwei.ID;
             }
         }
         self.type = @"work";
+        [self refresh];
     }
     
     
@@ -409,7 +423,11 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
+    NSString *changge = [NSString stringWithFormat:@"%@",_changgeID];
+    if (changge.length>0) {
+        [manager.requestSerializer  setValue:self.type forHTTPHeaderField:@"changeName"];
+        [manager.requestSerializer  setValue:changge forHTTPHeaderField:@"changeId"];
+    }
     [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -460,7 +478,11 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
+    NSString *changge = [NSString stringWithFormat:@"%@",_changgeID];
+    if (changge.length>0) {
+        [manager.requestSerializer  setValue:self.type forHTTPHeaderField:@"changeName"];
+        [manager.requestSerializer  setValue:changge forHTTPHeaderField:@"changeId"];
+    }
     [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -518,7 +540,11 @@
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
-    
+    NSString *changge = [NSString stringWithFormat:@"%@",_changgeID];
+    if (changge.length>0) {
+        [manager.requestSerializer  setValue:self.type forHTTPHeaderField:@"changeName"];
+        [manager.requestSerializer  setValue:changge forHTTPHeaderField:@"changeId"];
+    }
     [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

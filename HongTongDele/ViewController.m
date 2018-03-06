@@ -50,6 +50,8 @@
 @property (nonatomic,copy) NSString *town;
 @property (nonatomic,copy) NSString *address;
 @property (nonatomic,copy) NSString *grade;
+@property (nonatomic,copy) NSString *changgename;
+@property (nonatomic,copy) NSString *changgeID;
 @property (nonatomic,strong)UITableView *table;
 @property (nonatomic,strong)UIImageView *imageHeader;
 @property (nonatomic,strong)UIImageView *imageView;

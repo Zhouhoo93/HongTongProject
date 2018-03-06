@@ -58,15 +58,17 @@
 }
 
 -(void)requestMineData{
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/index",kUrl];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSString *phone = [userDefaults valueForKey:@"phone"];
+    NSString *URL = [NSString stringWithFormat:@"%@/user/getuserinformation",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     NSLog(@"token:%@",token);
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     
-    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    [manager POST:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -93,7 +95,11 @@
             self.telNumber = responseObject[@"content"][@"tel"];
             self.touxiang = responseObject[@"content"][@"pic"];
             
+            [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:self.telNumber name:self.nicheng portrait:self.touxiang];
+            // 设置消息体内是否携带用户信息
+            [RCIM sharedRCIM].enableMessageAttachUserInfo = YES;
             
+         
             
         }
         

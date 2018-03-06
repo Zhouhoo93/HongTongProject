@@ -22,10 +22,25 @@
 @property (nonatomic,strong)NSMutableArray *dataArr;
 @property (nonatomic,strong)GuanLiFirstModel *firstmodel;
 @property (nonatomic,strong)NSMutableArray *dataArr1;
+@property (nonatomic,strong)UIImageView *biaogeBg1;
+@property (nonatomic,strong)UIImageView *biaogeBg2;
 @end
 
 @implementation GuanLiViewController
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jinru:) name:@"jinru" object:nil];
+}
+- (void)jinru:(NSNotification *)text{
+    NSLog(@"jinru");
+    [self.biaogeBg1 removeFromSuperview];
+    [self.biaogeBg2 removeFromSuperview];
+    [self.table1 removeFromSuperview];
+    [self.table11 removeFromSuperview];
+    [self.table2 removeFromSuperview];
+    [self.table22 removeFromSuperview];
+    [self requestFirstData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"设备和运维情况";
@@ -46,18 +61,18 @@
     
     if (self.dataArr1.count<10) {
         if (self.dataArr1.count==0) {
-            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+35)];
-            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-            [self.bgscrollview addSubview:biaogeBg];
+            self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+35)];
+            self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg1];
         }else{
-            UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+33)];
-            biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-            [self.bgscrollview addSubview:biaogeBg];
+           self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, self.dataArr1.count*40+33)];
+            self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg1];
         }
     }else{
-        UIImageView *biaogeBg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, 400)];
-        biaogeBg.image = [UIImage imageNamed:@"表格bg"];
-        [self.bgscrollview addSubview:biaogeBg];
+        self.biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, KWidth-20, 400)];
+        self.biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
+        [self.bgscrollview addSubview:self.biaogeBg1];
     }
     
     UIView *fourTable = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 15, KWidth, 400)];
@@ -153,21 +168,21 @@
     
     if (self.dataArr.count<10) {
         if (self.dataArr.count==0) {
-            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+35+20, KWidth-20, self.dataArr.count*40+35)];
-            biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-            [self.bgscrollview addSubview:biaogeBg1];
+            self.biaogeBg2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+35+20, KWidth-20, self.dataArr.count*40+35)];
+            self.biaogeBg2.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg2];
             
         }else{
-            UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+33+20, KWidth-20, self.dataArr.count*40+33)];
-            biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-            [self.bgscrollview addSubview:biaogeBg1];
+            self.biaogeBg2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, self.dataArr1.count*40+33+20, KWidth-20, self.dataArr.count*40+33)];
+            self.biaogeBg2.image = [UIImage imageNamed:@"表格bg"];
+            [self.bgscrollview addSubview:self.biaogeBg2];
             
         }
     }else{
         
-        UIImageView *biaogeBg1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415+20, KWidth-20,400 )];
-        biaogeBg1.image = [UIImage imageNamed:@"表格bg"];
-        [self.bgscrollview addSubview:biaogeBg1];
+        self.biaogeBg2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415+20, KWidth-20,400 )];
+        self.biaogeBg2.image = [UIImage imageNamed:@"表格bg"];
+        [self.bgscrollview addSubview:self.biaogeBg2];
     }
     UIView *fourTable1 = [[UIScrollView alloc] init];
     if (_dataArr.count<10) {
@@ -300,6 +315,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
+            [self.dataArr removeAllObjects];
             for (NSMutableDictionary *dic in responseObject[@"content"]) {
                 _model = [[GuanliModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_model];
@@ -341,6 +357,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
+            [self.dataArr1 removeAllObjects];
             for (NSMutableDictionary *dic in responseObject[@"content"]) {
                 _firstmodel = [[GuanLiFirstModel alloc] initWithDictionary:dic];
                 [self.dataArr1 addObject:_firstmodel];

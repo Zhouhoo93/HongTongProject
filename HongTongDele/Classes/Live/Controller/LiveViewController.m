@@ -63,9 +63,11 @@
     [self refresh];
 }
 -(void)requestData{
-    NSString *URL = [NSString stringWithFormat:@"%@/agent/index",kUrl];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *phone = [userDefaults valueForKey:@"phone"];
+    NSString *URL = [NSString stringWithFormat:@"%@/agent/index/%@",kUrl,phone];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [userDefaults valueForKey:@"token"];
     NSLog(@"token:%@",token);
     [userDefaults synchronize];

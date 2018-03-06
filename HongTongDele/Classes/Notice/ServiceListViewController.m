@@ -9,6 +9,7 @@
 #import "ServiceListViewController.h"
 #import "NoticeViewController.h"
 #import "CustomerViewController.h"
+#import "CustomerListViewController.h"
 #import "LiveViewController.h"
 #import "UseIdLoginController.h"
 #import "LiveCollectionViewCell.h"
@@ -162,6 +163,9 @@
     }else if(offset.x == KWidth){
        NSLog(@"客服点击底部按钮");
         [self requestLivePeople];
+        UIViewController *vc = [[CustomerListViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
     }else{
         NSLog(@"直播底部按钮");
         [self requestCreatLive];

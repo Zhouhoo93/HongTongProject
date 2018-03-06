@@ -100,6 +100,10 @@
     }
 }
 - (IBAction)daohangBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(daohangBtnClick)]) {
+        //代理存在且有这个transButIndex:方法
+        [self.delegate daohangBtnClick];
+    }
 }
 - (IBAction)zhengchangBtnClick:(id)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(zhengchangBtnClick)]) {
