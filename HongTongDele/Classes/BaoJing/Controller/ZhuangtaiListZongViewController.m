@@ -117,11 +117,12 @@
     self.table1.lineColor = [UIColor lightGrayColor];
     self.table1.backgroundColor = [UIColor clearColor];
     
-    NSMutableArray *newArr = [[NSMutableArray alloc] init];
-    NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
+    
+    NSMutableArray *newArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+//    [newArr1 removeAllObjects];
     for (int i=0; i<_dataArr.count; i++) {
         if (i>0) {
-            [newArr removeAllObjects];
+            NSMutableArray *newArr = [[NSMutableArray alloc] initWithCapacity:0];
             _model = _dataArr[i];
             [newArr addObject: [NSString stringWithFormat:@"%@",_model.company_id]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
@@ -132,6 +133,7 @@
         }
         
     }
+    NSLog(@"newArr:%@",newArr1);
     self.table1.dataArr = newArr1;
     
     [self.table1 showAnimation];
@@ -180,6 +182,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
+            [self.dataArr removeAllObjects];
             for (NSMutableDictionary *dic in responseObject[@"content"]) {
                 _model = [[BaoJingZhuangTaiModel alloc] initWithDictionary:dic];
                 [self.dataArr addObject:_model];

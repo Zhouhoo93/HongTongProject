@@ -48,7 +48,7 @@
     self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64)];
     self.bgscrollview.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.bgscrollview.delegate = self;
-    self.bgscrollview.contentSize = CGSizeMake(KWidth, 800);
+    self.bgscrollview.contentSize = CGSizeMake(KWidth, 900);
     [self.view addSubview:self.bgscrollview];
     
     
@@ -180,7 +180,7 @@
         }
     }else{
         
-        self.biaogeBg2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415+20, KWidth-20,400 )];
+        self.biaogeBg2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 415+20, KWidth-20,440 )];
         self.biaogeBg2.image = [UIImage imageNamed:@"表格bg"];
         [self.bgscrollview addSubview:self.biaogeBg2];
     }
@@ -188,7 +188,7 @@
     if (_dataArr.count<10) {
         fourTable1.frame = CGRectMake(0, self.dataArr.count*40+33+20, KWidth, 400);
     }else{
-        fourTable1.frame = CGRectMake(0, 415, KWidth, 400);
+        fourTable1.frame = CGRectMake(0, 435, KWidth, 400);
     }
     //    fourTable.bounces = NO;
     [self.bgscrollview addSubview:fourTable1];
@@ -237,7 +237,7 @@
     if (_dataArr.count<10) {
         oneTable2.frame = CGRectMake(0, self.dataArr.count*40+33+20+36, KWidth, 400);
     }else{
-        oneTable2.frame = CGRectMake(0, 415+36, KWidth, 400);
+        oneTable2.frame = CGRectMake(0, 435+36, KWidth, 400);
     }
     oneTable2.bounces = NO;
     [self.bgscrollview addSubview:oneTable2];

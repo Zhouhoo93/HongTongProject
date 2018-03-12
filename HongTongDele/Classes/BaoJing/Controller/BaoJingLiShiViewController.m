@@ -544,6 +544,7 @@
                 [MBProgressHUD showText:str];
             }
         }else{
+            [self.modelArr removeAllObjects];
             for (NSMutableDictionary *dic in responseObject[@"content"]) {
                 _Datamodel = [[YunWeiListModel alloc] initWithDictionary:dic];
                 [self.modelArr addObject:_Datamodel];
