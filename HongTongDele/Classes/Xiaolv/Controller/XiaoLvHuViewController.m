@@ -174,7 +174,7 @@
     [self.leftView addSubview:fourTable];
     
     self.table1 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
-    self.table1.delegate = self;
+//    self.table1.delegate = self;
     self.table1.typeCount = 88;
     self.table1.small = YES;
     self.table1.isblue = NO;
@@ -308,7 +308,7 @@
     [self.rightView addSubview:fourTable];
     
     self.table3 = [[JHTableChart alloc] initWithFrame:CGRectMake(0, 0, KWidth, 400)];
-    self.table3.delegate = self;
+//    self.table3.delegate = self;
     self.table3.typeCount = 88;
     self.table3.small = YES;
     self.table3.isblue = NO;

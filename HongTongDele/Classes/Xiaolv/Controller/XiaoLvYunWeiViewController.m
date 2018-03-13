@@ -217,7 +217,7 @@
     NSMutableArray *tipArr = [[NSMutableArray alloc] init];
     if (self.dataArr.count>0) {
         _workModel = _dataArr[0];
-        [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+        [tipArr addObject:[NSString stringWithFormat:@"1"]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];
@@ -237,7 +237,7 @@
             NSMutableArray *newArr = [[NSMutableArray alloc] init];
             [newArr removeAllObjects];
             _workModel = _dataArr[i];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_id]];
+            [newArr addObject:[NSString stringWithFormat:@"%d",i+1]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.work_name]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.town_name]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_workModel.brand_specification]];

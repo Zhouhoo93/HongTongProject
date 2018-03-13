@@ -116,7 +116,7 @@
     self.table1.tableTitleFont = [UIFont systemFontOfSize:14];
     NSMutableArray *tipArr = [[NSMutableArray alloc] init];
     _model = _dataArr[0];
-    [tipArr addObject:[NSString stringWithFormat:@"%@",_model.company_id]];
+    [tipArr addObject:[NSString stringWithFormat:@"1"]];
     [tipArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
     [tipArr addObject:[NSString stringWithFormat:@"%@",_model.offlineTotal]];
     [tipArr addObject:[NSString stringWithFormat:@"%@",_model.abnormalTotal]];
@@ -128,13 +128,13 @@
     self.table1.minHeightItems = 36;
     self.table1.lineColor = [UIColor lightGrayColor];
     self.table1.backgroundColor = [UIColor clearColor];
-    NSMutableArray *newArr = [[NSMutableArray alloc] init];
+    
     NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
     for (int i=0; i<_dataArr.count; i++) {
         if (i>0) {
-            [newArr removeAllObjects];
+            NSMutableArray *newArr = [[NSMutableArray alloc] init];
             _model = _dataArr[i];
-            [newArr addObject: [NSString stringWithFormat:@"%@",_model.company_id]];
+            [newArr addObject: [NSString stringWithFormat:@"%d",i+1]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.name]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.offlineTotal]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_model.abnormalTotal]];

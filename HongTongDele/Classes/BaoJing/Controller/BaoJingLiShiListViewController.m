@@ -203,7 +203,7 @@
     NSMutableArray *tipArr = [[NSMutableArray alloc] init];
     if (self.modelArr.count>0) {
         _Datamodel = _modelArr[0];
-        [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.work_id]];
+        [tipArr addObject:[NSString stringWithFormat:@"1"]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.work_name]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.town_name]];
         [tipArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.home]];
@@ -223,7 +223,7 @@
             NSMutableArray *newArr = [[NSMutableArray alloc] init];
             [newArr removeAllObjects];
             _Datamodel = _modelArr[i];
-            [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.work_id]];
+            [newArr addObject:[NSString stringWithFormat:@"%d",i+1]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.work_name]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.town_name]];
             [newArr addObject:[NSString stringWithFormat:@"%@",_Datamodel.home]];
