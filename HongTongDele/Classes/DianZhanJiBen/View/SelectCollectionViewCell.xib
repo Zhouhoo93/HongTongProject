@@ -22,14 +22,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="170" height="200"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="我的" translatesAutoresizingMaskIntoConstraints="NO" id="Ym2-bi-MyN">
-                        <rect key="frame" x="29" y="15" width="23" height="27"/>
+                        <rect key="frame" x="20" y="15" width="23" height="27"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="27" id="KsX-q0-Ihh"/>
                             <constraint firstAttribute="width" constant="23" id="O8C-dC-ujz"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="运维小组" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XxF-MQ-9un">
-                        <rect key="frame" x="65" y="20" width="100" height="21"/>
+                        <rect key="frame" x="56" y="20" width="109" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="DOe-0J-bjw"/>
                         </constraints>
@@ -122,7 +122,7 @@
                 <constraint firstItem="ckw-BJ-9mm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9Hb-Rz-e0b"/>
                 <constraint firstItem="ql2-DN-zfC" firstAttribute="top" secondItem="dSv-SR-DP4" secondAttribute="bottom" constant="10" id="9nk-ET-b90"/>
                 <constraint firstItem="nna-iu-n4O" firstAttribute="top" secondItem="XxF-MQ-9un" secondAttribute="bottom" constant="19" id="Aat-Ni-v0w"/>
-                <constraint firstItem="Ym2-bi-MyN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="29" id="GQg-sq-OpS"/>
+                <constraint firstItem="Ym2-bi-MyN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="GQg-sq-OpS"/>
                 <constraint firstItem="tah-P3-Gxk" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="HGj-gw-3qF"/>
                 <constraint firstAttribute="trailing" secondItem="sQt-XJ-Zii" secondAttribute="trailing" id="HNT-Ox-RtK"/>
                 <constraint firstItem="wY3-S2-KfI" firstAttribute="leading" secondItem="ckw-BJ-9mm" secondAttribute="trailing" constant="5" id="J32-uY-gV8"/>

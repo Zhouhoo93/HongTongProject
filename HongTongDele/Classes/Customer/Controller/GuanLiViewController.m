@@ -51,9 +51,21 @@
     self.bgscrollview.contentSize = CGSizeMake(KWidth, 900);
     [self.view addSubview:self.bgscrollview];
     
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    [userDefaults setValue:self.type forKey:@"type"];
+    NSString *type =  [userDefaults valueForKey:@"type1"];
+    [userDefaults synchronize];
+    
+    if ([type isEqualToString:@"work"]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text =@"暂无权限查看";
+        [hud hideAnimated:YES afterDelay:2.f];
+    }else{
+        [self requestFirstData];
+    }
     
     
-    [self requestFirstData];
     // Do any additional setup after loading the view.
 }
 

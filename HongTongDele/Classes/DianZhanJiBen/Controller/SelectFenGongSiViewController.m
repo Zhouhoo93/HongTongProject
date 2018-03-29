@@ -107,10 +107,22 @@
     _model = _dataArr[indexPath.row];
     cell.NameLabel.text = [NSString stringWithFormat:@"%@",_model.role];
     cell.leftImg.image = [UIImage imageNamed:@"分公司"];
-    CGFloat install = [_model.total_install_base floatValue]/1000;
-    cell.zhuangjirongliang.text = [NSString stringWithFormat:@"%@kW",@(install).description];
+    CGFloat install11 = [_model.total_install_base floatValue]/1000;
+    NSString *install1 = [NSString stringWithFormat:@"%.2f",install11];
+    CGFloat install = [install1 floatValue];
+    if (install==0) {
+        cell.zhuangjirongliang.text = @"0kW";
+    }else{
+        cell.zhuangjirongliang.text = [NSString stringWithFormat:@"%.2fkW",install];
+    }
     cell.hushu.text = [NSString stringWithFormat:@"%@户",_model.total_number_households];
-    cell.fadianliang.text = [NSString stringWithFormat:@"%@度",_model.total_gen_cap];
+    CGFloat fadian11 = [_model.total_gen_cap floatValue];
+    if (fadian11==0) {
+        cell.fadianliang.text = [NSString stringWithFormat:@"0度"];
+    }else{
+        NSString *fadian1 = [NSString stringWithFormat:@"%.2f",fadian11];
+        cell.fadianliang.text = [NSString stringWithFormat:@"%@度",fadian1];
+    }
     cell.wanchenglv.text = [NSString stringWithFormat:@"%@%%",_model.completion_rate];
     return cell;
 }

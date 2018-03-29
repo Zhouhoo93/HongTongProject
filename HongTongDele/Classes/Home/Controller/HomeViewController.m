@@ -176,6 +176,9 @@
     [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
     [self.fengongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
     self.type = @"parent";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:self.type forKey:@"type1"];
+    [userDefaults synchronize];
     self.selectFengongsiID = nil;
     self.selectFengongsi = nil;
     self.selectyunwei = nil;
@@ -385,6 +388,9 @@
             }
         }
         self.type = @"company";
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setValue:self.type forKey:@"type1"];
+        [userDefaults synchronize];
         self.selectyunwei = nil;
         self.selectyunweiID = nil;
         [self refresh];
@@ -405,6 +411,9 @@
             }
         }
         self.type = @"work";
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setValue:self.type forKey:@"type1"];
+        [userDefaults synchronize];
         [self refresh];
     }
     
@@ -452,9 +461,9 @@
             NSInteger InHandle = [responseObject[@"content"][@"InHandle"] integerValue];
             self.threeView.chulizhong.text = [NSString stringWithFormat:@"%ld条",InHandle];
             NSInteger abnormalTotal = [responseObject[@"content"][@"abnormalTotal"] integerValue];
-            self.twoView.yichang.text = [NSString stringWithFormat:@"%ld户",abnormalTotal];
+            self.twoView.yichang.text = [NSString stringWithFormat:@"%ld次",abnormalTotal];
             NSInteger faultTotal = [responseObject[@"content"][@"faultTotal"] integerValue];
-            self.twoView.guzhang.text = [NSString stringWithFormat:@"%ld户",faultTotal];
+            self.twoView.guzhang.text = [NSString stringWithFormat:@"%ld次",faultTotal];
             NSInteger offlineTotal = [responseObject[@"content"][@"offlineTotal"] integerValue];
             self.twoView.lixian.text = [NSString stringWithFormat:@"%ld户",offlineTotal];
             NSInteger all = abnormalTotal+faultTotal+offlineTotal;

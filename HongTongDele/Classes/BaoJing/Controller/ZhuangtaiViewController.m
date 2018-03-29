@@ -162,14 +162,14 @@
             UIButton *oneBtn = [[UIButton alloc] initWithFrame:CGRectMake(50, 14, KWidth-70, 24)];
             [oneBtn addTarget:self action:@selector(oneBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.AllView addSubview:oneBtn];
-            
+            NSArray *arr1 = self.dataArr1[0];
             if (self.dataArr1.count<10) {
                 if (self.dataArr1.count==0) {
-                    self.biaogeBG1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, self.dataArr1.count*40+35)];
+                    self.biaogeBG1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, arr1.count*40+35)];
                     self.biaogeBG1.image = [UIImage imageNamed:@"表格bg"];
                     [self.AllView addSubview:self.biaogeBG1];
                 }else{
-                    self.biaogeBG1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, self.dataArr1.count*40+33)];
+                    self.biaogeBG1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 40, KWidth-20, arr1.count*40+33)];
                     self.biaogeBG1.image = [UIImage imageNamed:@"表格bg"];
                     [self.AllView addSubview:self.biaogeBG1];
                 }
@@ -254,12 +254,12 @@
             self.table11.lineColor = [UIColor lightGrayColor];
             self.table11.backgroundColor = [UIColor clearColor];
             
-            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            
             NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
             
             for (int i=0; i<arr.count; i++) {
                 if (i>0) {
-                    [newArr removeAllObjects];
+                    NSMutableArray *newArr = [[NSMutableArray alloc] init];
                     _zhuangtaimodel = arr[i];
                     [newArr addObject: [NSString stringWithFormat:@"%@",_zhuangtaimodel.ID]];
                     [newArr addObject:[NSString stringWithFormat:@"%@",_zhuangtaimodel.home]];
@@ -386,11 +386,11 @@
             self.table22.minHeightItems = 36;
             self.table22.lineColor = [UIColor lightGrayColor];
             self.table22.backgroundColor = [UIColor clearColor];
-            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            
             NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
             for (int i=0; i<arr.count; i++) {
                 if (i>0) {
-                    [newArr removeAllObjects];
+                    NSMutableArray *newArr = [[NSMutableArray alloc] init];
                     _zhuangtaimodel = _dataArr2[0][i];
                     [newArr addObject: [NSString stringWithFormat:@"%@",_zhuangtaimodel.ID]];
                     [newArr addObject:[NSString stringWithFormat:@"%@",_zhuangtaimodel.home]];
@@ -517,11 +517,11 @@
             self.table33.minHeightItems = 36;
             self.table33.lineColor = [UIColor lightGrayColor];
             self.table33.backgroundColor = [UIColor clearColor];
-            NSMutableArray *newArr = [[NSMutableArray alloc] init];
+            
             NSMutableArray *newArr1 = [[NSMutableArray alloc] init];
             for (int i=0; i<arr.count; i++) {
                 if (i>0) {
-                    [newArr removeAllObjects];
+                    NSMutableArray *newArr = [[NSMutableArray alloc] init];
                     _zhuangtaimodel = _dataArr3[0][i];
                     [newArr addObject: [NSString stringWithFormat:@"%@",_zhuangtaimodel.ID]];
                     [newArr addObject:[NSString stringWithFormat:@"%@",_zhuangtaimodel.home]];

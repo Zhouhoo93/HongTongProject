@@ -13,42 +13,43 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "29pt@1x.png",
+      "filename" : "29pt@1x-1.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "29pt@2x.png",
+      "filename" : "29pt@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "29pt@3x.png",
+      "filename" : "29pt@3x-1.png",
       "scale" : "3x"
     },
     {
-      "idiom" : "iphone",
       "size" : "40x40",
+      "idiom" : "iphone",
+      "filename" : "40pt@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "40pt@3x.png",
+      "filename" : "40pt@3x-1.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "60pt@2x.png",
+      "filename" : "60pt@2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "60pt@3x.png",
+      "filename" : "60pt@3x-1.png",
       "scale" : "3x"
     },
     {
@@ -59,12 +60,13 @@
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "40pt@2x.png",
+      "filename" : "40pt@2x-2.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "ios-marketing",
       "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "EDITICON-1.png",
       "scale" : "1x"
     },
     {
@@ -110,14 +112,34 @@
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "512pt@1x.png",
+      "filename" : "512pt@1x-1.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "512pt@2x.png",
+      "filename" : "EDITICON-2.png",
       "scale" : "2x"
+    },
+    {
+      "filename" : "29pt@1x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "29pt@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "29pt@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "40pt@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "40pt@3x.png",
+      "unassigned" : true
     },
     {
       "filename" : "57pt@2x.png",
@@ -125,6 +147,22 @@
     },
     {
       "filename" : "57pt@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "60pt@2x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "60pt@3x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "512pt@1x.png",
+      "unassigned" : true
+    },
+    {
+      "filename" : "EDITICON.png",
       "unassigned" : true
     }
   ],

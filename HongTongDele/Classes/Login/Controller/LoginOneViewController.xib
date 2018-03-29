@@ -21,19 +21,9 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="登录页bg" translatesAutoresizingMaskIntoConstraints="NO" id="Pry-dB-t9n">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="登录页bg(1)" translatesAutoresizingMaskIntoConstraints="NO" id="Pry-dB-t9n">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="登 录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCg-qS-C0C">
-                    <rect key="frame" x="167.5" y="54" width="39.5" height="21"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="21" id="ODW-HS-8yN"/>
-                        <constraint firstAttribute="width" constant="39.5" id="po2-dF-h6l"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="手机" translatesAutoresizingMaskIntoConstraints="NO" id="33k-4z-EPC">
                     <rect key="frame" x="30" y="272" width="20" height="30"/>
                     <constraints>
@@ -128,7 +118,6 @@
                 <constraint firstItem="lbu-Ps-cBM" firstAttribute="top" secondItem="i6y-sR-5BK" secondAttribute="bottom" constant="8" id="KUg-QV-6lP"/>
                 <constraint firstItem="3pV-zK-zv2" firstAttribute="top" secondItem="nbJ-aO-Mcc" secondAttribute="bottom" constant="23" id="MiS-LB-EBQ"/>
                 <constraint firstItem="nbJ-aO-Mcc" firstAttribute="top" secondItem="cgc-aQ-oRj" secondAttribute="bottom" constant="8" id="PEC-bF-LWw"/>
-                <constraint firstItem="oCg-qS-C0C" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Sbd-kl-I7b"/>
                 <constraint firstItem="aQI-yI-LTc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="VH4-0G-Kho"/>
                 <constraint firstItem="dnL-lE-QP5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="YsV-MN-JaS"/>
                 <constraint firstItem="Ztb-7O-aHD" firstAttribute="top" secondItem="3pV-zK-zv2" secondAttribute="bottom" constant="8" id="bCY-Il-p8R"/>
@@ -136,12 +125,11 @@
                 <constraint firstAttribute="trailing" secondItem="nbJ-aO-Mcc" secondAttribute="trailing" constant="30" id="cST-0A-WYH"/>
                 <constraint firstItem="Pry-dB-t9n" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dDz-5v-Cgg"/>
                 <constraint firstAttribute="bottom" secondItem="Pry-dB-t9n" secondAttribute="bottom" id="eRh-qC-Aq4"/>
-                <constraint firstItem="i6y-sR-5BK" firstAttribute="top" secondItem="oCg-qS-C0C" secondAttribute="bottom" constant="197" id="fqc-hW-2rv"/>
                 <constraint firstItem="lbu-Ps-cBM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="iDa-7Q-B0t"/>
                 <constraint firstAttribute="trailing" secondItem="Pry-dB-t9n" secondAttribute="trailing" id="keS-9p-oHP"/>
-                <constraint firstItem="oCg-qS-C0C" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="54" id="mO3-4z-xfx"/>
                 <constraint firstItem="dnL-lE-QP5" firstAttribute="top" secondItem="lbu-Ps-cBM" secondAttribute="bottom" constant="19" id="n1J-9O-V7K"/>
                 <constraint firstItem="cgc-aQ-oRj" firstAttribute="top" secondItem="lbu-Ps-cBM" secondAttribute="bottom" constant="19" id="n7f-id-T9O"/>
+                <constraint firstItem="i6y-sR-5BK" firstAttribute="top" secondItem="33k-4z-EPC" secondAttribute="top" id="p5g-Dl-Oh9"/>
                 <constraint firstItem="33k-4z-EPC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="qSJ-Ud-vCU"/>
                 <constraint firstItem="cgc-aQ-oRj" firstAttribute="leading" secondItem="dnL-lE-QP5" secondAttribute="trailing" constant="18" id="stu-sb-bKk"/>
                 <constraint firstItem="33k-4z-EPC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="272" id="tBu-95-9GD"/>
@@ -156,6 +144,6 @@
         <image name="密码" width="10" height="14"/>
         <image name="手机" width="10" height="14"/>
         <image name="登录按钮bg" width="327" height="50"/>
-        <image name="登录页bg" width="360" height="640"/>
+        <image name="登录页bg(1)" width="1080" height="1920"/>
     </resources>
 </document>

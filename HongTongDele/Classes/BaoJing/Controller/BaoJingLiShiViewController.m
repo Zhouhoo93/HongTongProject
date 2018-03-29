@@ -14,7 +14,7 @@
 #import "AppDelegate.h"
 #import "LoginOneViewController.h"
 #import "YunWeiListModel.h"
-@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,yichangDelegate,JHPickerDelegate>
+@interface BaoJingLiShiViewController ()<UIScrollViewDelegate,TableButDelegate,ShaiXuanDelegate,yichangDelegate,JHPickerDelegate,UIActionSheetDelegate>
 @property (nonatomic,strong)UIScrollView *bgscrollview;
 @property (nonatomic,strong)UIView *leftView;
 @property (nonatomic,strong)UIView *rightView;
@@ -474,15 +474,71 @@
     
 }
 -(void)weichuliClick{
-    self.dianjiStatus = @"0";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *str = [userDefaults valueForKey:@"type"];
+    NSString *str1 = [userDefaults valueForKey:@"type1"];
+    [userDefaults synchronize];
+    if ([str isEqualToString:@"work"]||[str1 isEqualToString:@"work"]) {
+        self.dianjiStatus = @"0";
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text =@"无权限设置";
+        [hud hideAnimated:YES afterDelay:2.f];
+    }
+    
+    
 }
 -(void)chulizhongClick{
-    self.dianjiStatus = @"1";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *str = [userDefaults valueForKey:@"type"];
+    NSString *str1 = [userDefaults valueForKey:@"type1"];
+    [userDefaults synchronize];
+    if ([str isEqualToString:@"work"]||[str1 isEqualToString:@"work"]) {
+        self.dianjiStatus = @"1";
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text =@"无权限设置";
+        [hud hideAnimated:YES afterDelay:2.f];
+    }
+//    self.dianjiStatus = @"1";
 }
 -(void)yichuliClick{
-    self.dianjiStatus = @"2";
-}
+    
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *str = [userDefaults valueForKey:@"type"];
+    NSString *str1 = [userDefaults valueForKey:@"type1"];
+    [userDefaults synchronize];
+    if ([str isEqualToString:@"work"]||[str1 isEqualToString:@"work"]) {
+        self.dianjiStatus = @"2";
 
+        //创建actionSheet对象
+        UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"处理方式" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"自动恢复" otherButtonTitles:@"人工处理",nil];
+        //actionSheet样式
+        sheet.actionSheetStyle = UIActionSheetStyleDefault;
+        //显示
+        [sheet showInView:self.view];
+        sheet.delegate = self;
+
+    }else{
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text =@"无权限设置";
+        [hud hideAnimated:YES afterDelay:2.f];
+    }
+//    self.dianjiStatus = @"2";
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        NSLog(@"点击0");
+        self.errorList.yunweiyijian.text = @"自动恢复";
+    }else if (buttonIndex == 1) {
+        NSLog(@"点击1");
+//        self.errorList.yunweiyijian.text = @"人工处理";
+    }
+}
 -(void)daohangBtnClick{
     [self mapBtnClick];
 }

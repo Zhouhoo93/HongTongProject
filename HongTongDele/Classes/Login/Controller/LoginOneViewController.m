@@ -74,6 +74,7 @@
             [userDefaults setValue:self.phoneTextField.text forKey:@"phone"];
             [userDefaults setValue:token forKey:@"token"];
             [userDefaults setValue:type forKey:@"type"];
+            [userDefaults setValue:type forKey:@"type1"];
             [userDefaults synchronize];
             
             [self goHomeController];
