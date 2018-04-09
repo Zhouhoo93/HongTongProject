@@ -92,7 +92,7 @@
     self.bgScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, KHeight-64)];
     self.bgScrollView.delegate = self;
     self.bgScrollView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    self.bgScrollView.contentSize = CGSizeMake(KWidth, KHeight-64);
+    self.bgScrollView.contentSize = CGSizeMake(KWidth, 667-64);
     [self.table addSubview:self.bgScrollView];
     
     for (int i=0; i<3; i++) {
@@ -145,22 +145,22 @@
     
     self.oneView = [[[NSBundle mainBundle]loadNibNamed:@"HomeOneTabel" owner:self options:nil]objectAtIndex:0];
     self.oneView.Topdelegate = self;
-    self.oneView.frame = CGRectMake(0, KHeight/667*55, KWidth, KHeight/667*120);
+    self.oneView.frame = CGRectMake(0, 55, KWidth, 120);
     [self.bgScrollView addSubview:self.oneView];
     
     self.twoView = [[[NSBundle mainBundle]loadNibNamed:@"HomeTwoTabel" owner:self options:nil]objectAtIndex:0];
     self.twoView.Topdelegate = self;
-    self.twoView.frame = CGRectMake(0, KHeight/667*185, KWidth, KHeight/667*120);
+    self.twoView.frame = CGRectMake(0, 185, KWidth, 120);
     [self.bgScrollView addSubview:self.twoView];
     
     self.threeView = [[[NSBundle mainBundle]loadNibNamed:@"HomeThreeTabel" owner:self options:nil]objectAtIndex:0];
     self.threeView.Topdelegate  = self;
-    self.threeView.frame = CGRectMake(0, KHeight/667*310, KWidth, KHeight/667*120);
+    self.threeView.frame = CGRectMake(0, 310, KWidth, 120);
     [self.bgScrollView addSubview:self.threeView];
     
     self.fourView = [[[NSBundle mainBundle]loadNibNamed:@"HomeFourTabel" owner:self options:nil]objectAtIndex:0];
     self.fourView.Topdelegate = self;
-    self.fourView.frame = CGRectMake(0, KHeight/667*435, KWidth, KHeight/667*120);
+    self.fourView.frame = CGRectMake(0, 435, KWidth, 120);
     [self.bgScrollView addSubview:self.fourView];
     
     [self requestBaojingData];
@@ -466,7 +466,7 @@
             self.twoView.guzhang.text = [NSString stringWithFormat:@"%ld次",faultTotal];
             NSInteger offlineTotal = [responseObject[@"content"][@"offlineTotal"] integerValue];
             self.twoView.lixian.text = [NSString stringWithFormat:@"%ld户",offlineTotal];
-            NSInteger all = abnormalTotal+faultTotal+offlineTotal;
+            NSInteger all = [responseObject[@"content"][@"totalHouse"] integerValue];
             NSInteger all1 = Handle+Handled+InHandle;
             self.twoView.baojingdianzhan.text = [NSString stringWithFormat:@"报警电站:%ld户",all];
             self.threeView.baojingxinxi.text = [NSString stringWithFormat:@"报警信息:%ld条",all1];
@@ -708,7 +708,7 @@
     [userDefaults synchronize];
     [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setValue:self.selectFengongsi forKey:@"company_id"];
+    [parameters setValue:self.selectFengongsiID forKey:@"company_id"];
     NSLog(@"参数:%@",parameters);
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         

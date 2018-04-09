@@ -43,7 +43,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"设备和运维情况";
+    self.title = @"管理";
     
     self.bgscrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, KWidth, KHeight-64)];
     self.bgscrollview.backgroundColor = [UIColor groupTableViewBackgroundColor];
