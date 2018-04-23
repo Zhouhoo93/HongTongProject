@@ -31,6 +31,7 @@
 #import "XiaoLvHuViewController.h"
 #import "BaoJingLishiYunweiListViewController.h"
 #import "XiaoLvLiShiYunweiViewController.h"
+#import "XiaoLvErrorViewController.h"
 @interface HomeViewController ()<UIScrollViewDelegate,UIActionSheetDelegate,NSTextLayoutOrientationProvider,TopButDelegate,TopButDelegate2,TopButDelegate3,TopButDelegate4,JHPickerDelegate>
 @property (nonatomic,strong) UIScrollView *bgScrollView;
 @property (nonatomic,strong)UITableView *table;
@@ -55,6 +56,8 @@
 @property (nonatomic,copy)NSString *type;
 @property (nonatomic,copy) NSString *changgename;
 @property (nonatomic,copy) NSString *changgeID;
+@property (nonatomic,strong) UIButton *btnitem;
+@property (nonatomic,assign)BOOL isHasTip;
 @end
 
 @implementation HomeViewController
@@ -62,6 +65,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"首页";
+    self.isHasTip = NO;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.type = [userDefaults valueForKey:@"type"];
     NSLog(@"type:%@",self.type);
@@ -69,11 +73,22 @@
         [self requestfengongsi];
     }else if([self.type isEqualToString:@"company"]){
         [self requestyunwei];
+    }else{
+        [self requestHasTip];
     }
+
+   
     [self setTopView];
     [self getRongYunToken];
     
     // Do any additional setup after loading the view.
+}
+
+- (void)favoritebtnitem{
+    NSLog(@"右侧按钮点击");
+    XiaoLvErrorViewController *vc = [[XiaoLvErrorViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)setTopView{
@@ -112,6 +127,7 @@
             [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
             [self.bgScrollView addSubview:self.fengongsibtn];
         }else{
+            
             self.yunweixiaozubtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
             [self.yunweixiaozubtn setTitle:@"运维小组" forState:UIControlStateNormal];
             [self.yunweixiaozubtn addTarget:self action:@selector(yunweixiaozuBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -133,6 +149,21 @@
         [self.fengongsibtn setBackgroundImage:[UIImage imageNamed:@"top2"] forState:UIControlStateNormal];
         [self.fengongsibtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }else{
+        NSInteger width = [[UIScreen mainScreen]bounds].size.width - 30;　　//获取系统的width
+        UIView *view_title = [[UIView alloc]initWithFrame:CGRectMake(width, 10, 20, 20)]; //生成自定义uiview
+        self.btnitem = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+        UIImage *image = [[UIImage alloc] init];
+           image = [UIImage imageNamed:@"图层0"];
+        [self.btnitem setImage:image forState:UIControlStateNormal];
+        //    [btnitem addtarget:self action:@selector(favoritebtnitem) forcontrolevents:uicontroleventtouchupinside];
+        [self.btnitem addTarget:self action:@selector(favoritebtnitem) forControlEvents:UIControlEventTouchUpInside];
+        [view_title addSubview:self.btnitem];
+        //将uiview添加到uibarbtn中
+        UIBarButtonItem *btn =[[UIBarButtonItem alloc]initWithCustomView:view_title];
+        //设置成右边按钮位置
+        self.navigationItem.rightBarButtonItem = btn;
+        
+        
         [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top1"] forState:UIControlStateNormal];
         [self.zonggongsibtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         self.zonggongsibtn.enabled = NO;
@@ -580,6 +611,36 @@
             self.fourView.chulizhong.text = [NSString stringWithFormat:@"%ld户",InHandle];
             self.fourView.yichuli.text = [NSString stringWithFormat:@"%ld户",Handled];
             self.fourView.xiaolvyichang.text = [NSString stringWithFormat:@"效率异常:%ld户",Handle+InHandle+Handled];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"失败%@",error);
+        //        [MBProgressHUD showText:@"%@",error[@"error"]];
+    }];
+    
+    
+}
+
+-(void)requestHasTip{
+    NSString *URL = [NSString stringWithFormat:@"%@/check/status",kUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [userDefaults valueForKey:@"token"];
+    NSLog(@"token:%@",token);
+    [userDefaults synchronize];
+    [manager.requestSerializer  setValue:token forHTTPHeaderField:@"token"];
+   
+    [manager GET:URL parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"获取未读消息正确%@",responseObject);
+        
+        if ([responseObject[@"result"][@"success"] intValue] ==0) {
+            self.isHasTip = NO;
+        }else{
+            self.isHasTip = YES;
+            [self.btnitem setImage:[UIImage imageNamed:@"椭圆1"] forState:UIControlStateNormal];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

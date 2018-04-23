@@ -339,6 +339,16 @@
 		38FCCDDC1FD1253B00EDE982 /* XiaoLvLishiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDDB1FD1253B00EDE982 /* XiaoLvLishiViewController.m */; };
 		38FCCDDF1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FCCDDE1FD128F400EDE982 /* XiaoLvLiShiYunweiViewController.m */; };
 		D237A9353E650F031D4FCBEE /* libPods-HongTongDele.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */; };
+		F59EA861208DB0F90027A292 /* XiaoLvErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA85F208DB0F90027A292 /* XiaoLvErrorViewController.m */; };
+		F59EA862208DB0FA0027A292 /* XiaoLvErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F59EA860208DB0F90027A292 /* XiaoLvErrorViewController.xib */; };
+		F59EA866208DB5DA0027A292 /* XiaoLvErrorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA864208DB5DA0027A292 /* XiaoLvErrorTableViewCell.m */; };
+		F59EA867208DB5DA0027A292 /* XiaoLvErrorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F59EA865208DB5DA0027A292 /* XiaoLvErrorTableViewCell.xib */; };
+		F59EA86A208DBCA90027A292 /* XiaoLvErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA869208DBCA90027A292 /* XiaoLvErrorModel.m */; };
+		F59EA86D208DC4620027A292 /* XiaoLvBaoJingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA86C208DC4620027A292 /* XiaoLvBaoJingModel.m */; };
+		F59EA871208DC7420027A292 /* HuiZhiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA86F208DC7420027A292 /* HuiZhiViewController.m */; };
+		F59EA872208DC7420027A292 /* HuiZhiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F59EA870208DC7420027A292 /* HuiZhiViewController.xib */; };
+		F59EA876208DCE180027A292 /* BaoJingXiangViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F59EA874208DCE180027A292 /* BaoJingXiangViewController.m */; };
+		F59EA877208DCE180027A292 /* BaoJingXiangViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F59EA875208DCE180027A292 /* BaoJingXiangViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -974,6 +984,22 @@
 		7351E2CE3C33E7C638379325 /* libPods-HongTongDele.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HongTongDele.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9772E9B9573D96B614B21027 /* Pods-HongTongDele.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.debug.xcconfig"; sourceTree = "<group>"; };
 		E90E5AEF5282315D8FAA1EC0 /* Pods-HongTongDele.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HongTongDele.release.xcconfig"; path = "Pods/Target Support Files/Pods-HongTongDele/Pods-HongTongDele.release.xcconfig"; sourceTree = "<group>"; };
+		F59EA85E208DB0F90027A292 /* XiaoLvErrorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvErrorViewController.h; sourceTree = "<group>"; };
+		F59EA85F208DB0F90027A292 /* XiaoLvErrorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvErrorViewController.m; sourceTree = "<group>"; };
+		F59EA860208DB0F90027A292 /* XiaoLvErrorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XiaoLvErrorViewController.xib; sourceTree = "<group>"; };
+		F59EA863208DB5DA0027A292 /* XiaoLvErrorTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvErrorTableViewCell.h; sourceTree = "<group>"; };
+		F59EA864208DB5DA0027A292 /* XiaoLvErrorTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvErrorTableViewCell.m; sourceTree = "<group>"; };
+		F59EA865208DB5DA0027A292 /* XiaoLvErrorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = XiaoLvErrorTableViewCell.xib; sourceTree = "<group>"; };
+		F59EA868208DBCA90027A292 /* XiaoLvErrorModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvErrorModel.h; sourceTree = "<group>"; };
+		F59EA869208DBCA90027A292 /* XiaoLvErrorModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvErrorModel.m; sourceTree = "<group>"; };
+		F59EA86B208DC4620027A292 /* XiaoLvBaoJingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XiaoLvBaoJingModel.h; sourceTree = "<group>"; };
+		F59EA86C208DC4620027A292 /* XiaoLvBaoJingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XiaoLvBaoJingModel.m; sourceTree = "<group>"; };
+		F59EA86E208DC7420027A292 /* HuiZhiViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HuiZhiViewController.h; sourceTree = "<group>"; };
+		F59EA86F208DC7420027A292 /* HuiZhiViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HuiZhiViewController.m; sourceTree = "<group>"; };
+		F59EA870208DC7420027A292 /* HuiZhiViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HuiZhiViewController.xib; sourceTree = "<group>"; };
+		F59EA873208DCE180027A292 /* BaoJingXiangViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaoJingXiangViewController.h; sourceTree = "<group>"; };
+		F59EA874208DCE180027A292 /* BaoJingXiangViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaoJingXiangViewController.m; sourceTree = "<group>"; };
+		F59EA875208DCE180027A292 /* BaoJingXiangViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BaoJingXiangViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2134,6 +2160,18 @@
 				38F8EE431FCFEBCB008E783B /* ErrorListTwoList.xib */,
 				38F8EE451FCFED6C008E783B /* ErrorListtwo.h */,
 				38F8EE461FCFED6C008E783B /* ErrorListtwo.m */,
+				F59EA85E208DB0F90027A292 /* XiaoLvErrorViewController.h */,
+				F59EA85F208DB0F90027A292 /* XiaoLvErrorViewController.m */,
+				F59EA860208DB0F90027A292 /* XiaoLvErrorViewController.xib */,
+				F59EA863208DB5DA0027A292 /* XiaoLvErrorTableViewCell.h */,
+				F59EA864208DB5DA0027A292 /* XiaoLvErrorTableViewCell.m */,
+				F59EA865208DB5DA0027A292 /* XiaoLvErrorTableViewCell.xib */,
+				F59EA86E208DC7420027A292 /* HuiZhiViewController.h */,
+				F59EA86F208DC7420027A292 /* HuiZhiViewController.m */,
+				F59EA870208DC7420027A292 /* HuiZhiViewController.xib */,
+				F59EA873208DCE180027A292 /* BaoJingXiangViewController.h */,
+				F59EA874208DCE180027A292 /* BaoJingXiangViewController.m */,
+				F59EA875208DCE180027A292 /* BaoJingXiangViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2149,6 +2187,10 @@
 				3850F9C81FF4D39E004EF443 /* XiaoLvWorkListModel.m */,
 				384EC05F1FF60D1A00F8A470 /* XiaoLvTownDataModel.h */,
 				384EC0601FF60D1A00F8A470 /* XiaoLvTownDataModel.m */,
+				F59EA868208DBCA90027A292 /* XiaoLvErrorModel.h */,
+				F59EA869208DBCA90027A292 /* XiaoLvErrorModel.m */,
+				F59EA86B208DC4620027A292 /* XiaoLvBaoJingModel.h */,
+				F59EA86C208DC4620027A292 /* XiaoLvBaoJingModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2671,11 +2713,13 @@
 				38C9F4BB1FCBE0430029C33A /* WalletResource.bundle in Resources */,
 				384AB7051F3C4C0F005AFE7A /* UseIdLoginController.xib in Resources */,
 				384AB7241F3C5E8F005AFE7A /* LoginOneViewController.xib in Resources */,
+				F59EA872208DC7420027A292 /* HuiZhiViewController.xib in Resources */,
 				38C9F4B11FCBE0430029C33A /* RCConfig.plist in Resources */,
 				382FDDD01FE37A3000098906 /* Info.plist in Resources */,
 				382FDDA91FE3648300098906 /* ShaiXuanYunWei.xib in Resources */,
 				389392F21F59439000EDF535 /* CustomerListTableViewCell.xib in Resources */,
 				38C9F4B51FCBE0430029C33A /* JrmfInfo.strings in Resources */,
+				F59EA862208DB0FA0027A292 /* XiaoLvErrorViewController.xib in Resources */,
 				38B2D3F51F344D0100038F47 /* TableTipView.xib in Resources */,
 				38E202FB1FB4461D00F35121 /* HomeThreeTabel.xib in Resources */,
 				384AB7001F3C4C0F005AFE7A /* LivePlayerViewController.xib in Resources */,
@@ -2684,10 +2728,12 @@
 				38B2D3FA1F34519900038F47 /* SecondTableViewCell.xib in Resources */,
 				384AB7021F3C4C0F005AFE7A /* LoginViewController.xib in Resources */,
 				38B166E81F622D3900C0E3E4 /* ChangePassViewController.xib in Resources */,
+				F59EA867208DB5DA0027A292 /* XiaoLvErrorTableViewCell.xib in Resources */,
 				384AB7291F3C620E005AFE7A /* RegisterViewController.xib in Resources */,
 				38EEA7C41F38052C00034F01 /* ThiredTableViewCell.xib in Resources */,
 				384AB7131F3C4C0F005AFE7A /* WeiboSDK.bundle in Resources */,
 				387692461F4ABDA4001B7E82 /* SideSlipCommonTableViewCell.xib in Resources */,
+				F59EA877208DCE180027A292 /* BaoJingXiangViewController.xib in Resources */,
 				38A3A6451FD6823300047992 /* SexViewController.xib in Resources */,
 				380494CC1F32BA3700AA0DBC /* LaunchScreen.storyboard in Resources */,
 				38B2D4041F34584500038F47 /* SecondTwoTableViewCell.xib in Resources */,
@@ -2791,6 +2837,7 @@
 				38755C261F3D9F2B0081CF4D /* AFURLSessionManager.m in Sources */,
 				382FDDB71FE3790100098906 /* MySingleton.m in Sources */,
 				3876920A1F4ABBAD001B7E82 /* ZYSideSlipFilterController.m in Sources */,
+				F59EA86D208DC4620027A292 /* XiaoLvBaoJingModel.m in Sources */,
 				3876923E1F4ABDA4001B7E82 /* FilterBaseCollectionViewCell.m in Sources */,
 				389945EA1FBD8E4600793718 /* StationTextView.m in Sources */,
 				3876923A1F4ABDA4001B7E82 /* FilterAllCategoryViewController.m in Sources */,
@@ -2834,6 +2881,7 @@
 				3850F9C61FF4D014004EF443 /* XiaolvFengongsiListModel.m in Sources */,
 				38B057F61FC4031100FEE429 /* ZhuangtaiViewController.m in Sources */,
 				38755C8A1F3D9F4B0081CF4D /* MJRefreshAutoFooter.m in Sources */,
+				F59EA876208DCE180027A292 /* BaoJingXiangViewController.m in Sources */,
 				382FDDAC1FE3665D00098906 /* ShaiXuanYunWeiView.m in Sources */,
 				384AB72C1F3C6CF4005AFE7A /* LoginOneViewController.m in Sources */,
 				38755C531F3D9F350081CF4D /* IQKeyboardReturnKeyHandler.m in Sources */,
@@ -2871,8 +2919,10 @@
 				382FDDD91FE37A3000098906 /* NSObject+MJProperty.m in Sources */,
 				38BB34251FC55598003A1A29 /* BaoJingYunWeiListViewController.m in Sources */,
 				38630FA81FB9335D001997CD /* SelectFenGongSiViewController.m in Sources */,
+				F59EA861208DB0F90027A292 /* XiaoLvErrorViewController.m in Sources */,
 				384AB7071F3C4C0F005AFE7A /* GotyeLiveConfig.m in Sources */,
 				382FDDF91FE37A5100098906 /* MASConstraintMaker.m in Sources */,
+				F59EA871208DC7420027A292 /* HuiZhiViewController.m in Sources */,
 				384AB7011F3C4C0F005AFE7A /* LoginViewController.m in Sources */,
 				3883A3331F41AD1C007967DF /* SettingViewController.m in Sources */,
 				38EEA7D41F383E8D00034F01 /* MenuView.m in Sources */,
@@ -2880,6 +2930,7 @@
 				387692491F4ABDA4001B7E82 /* SideSlipServiceTableViewCell.m in Sources */,
 				38755C991F3D9F4B0081CF4D /* MJRefreshConst.m in Sources */,
 				38883DA11FECF663004FBCA5 /* YunWeiListModel.m in Sources */,
+				F59EA86A208DBCA90027A292 /* XiaoLvErrorModel.m in Sources */,
 				383CABF01F4D5BA2001B3034 /* AlarmPopModel.m in Sources */,
 				382FDDD81FE37A3000098906 /* NSObject+MJKeyValue.m in Sources */,
 				389AA00E1F45769600B55BAC /* JHChart.m in Sources */,
@@ -2988,6 +3039,7 @@
 				382FDDFB1FE37A5100098906 /* MASViewAttribute.m in Sources */,
 				38F8EE421FCFEABA008E783B /* ErrorList.m in Sources */,
 				38FCCDD61FD1044100EDE982 /* BaoJingLiShiListViewController.m in Sources */,
+				F59EA866208DB5DA0027A292 /* XiaoLvErrorTableViewCell.m in Sources */,
 				3883A3271F41A084007967DF /* ForgetViewController.m in Sources */,
 				38755C501F3D9F350081CF4D /* IQUIViewController+Additions.m in Sources */,
 				384AB70B1F3C4C0F005AFE7A /* ZqwHorizontalTableView.m in Sources */,
@@ -3194,7 +3246,7 @@
 					"$(PROJECT_DIR)/HongTongDele/Classes/FrameWork/Rong_Cloud_iOS_IMKit_SDK_v2_8_21_Stable_58968/RedPacket/AlipaySDK",
 					"$(PROJECT_DIR)/HongTongDele/Classes/FrameWork/Rong_Cloud_iOS_IMKit_SDK_v2_8_21_Stable_58968/RedPacket/JrmfIMLib",
 				);
-				GCC_PREFIX_HEADER = /Users/zhouhao/Desktop/HongTongDel/HongTongDele/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Users/tianxia/HongTongProject/HongTongDele/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = HongTongDele/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -3244,7 +3296,7 @@
 					"$(PROJECT_DIR)/HongTongDele/Classes/FrameWork/Rong_Cloud_iOS_IMKit_SDK_v2_8_21_Stable_58968/RedPacket/AlipaySDK",
 					"$(PROJECT_DIR)/HongTongDele/Classes/FrameWork/Rong_Cloud_iOS_IMKit_SDK_v2_8_21_Stable_58968/RedPacket/JrmfIMLib",
 				);
-				GCC_PREFIX_HEADER = /Users/zhouhao/Desktop/HongTongDel/HongTongDele/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Users/tianxia/HongTongProject/HongTongDele/PrefixHeader.pch;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = HongTongDele/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

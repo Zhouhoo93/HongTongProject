@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="XiaoLvErrorViewController">
+            <connections>
+                <outlet property="blueToLeft" destination="AFB-zM-HB9" id="oXH-XA-7NH"/>
+                <outlet property="leftBtn" destination="to2-rm-B55" id="OC3-D5-ZGc"/>
+                <outlet property="rightBtn" destination="Ngy-X3-eYV" id="cB7-K5-u5Y"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E7g-Zx-hlh">
+                    <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="7Hz-YJ-mdR"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="to2-rm-B55">
+                    <rect key="frame" x="0.0" y="64" width="187.5" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="olg-lG-M0j"/>
+                    </constraints>
+                    <state key="normal" title="回执"/>
+                    <connections>
+                        <action selector="leftBtnClick:" destination="-1" eventType="touchUpInside" id="qXn-4G-bsC"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ngy-X3-eYV">
+                    <rect key="frame" x="187.5" y="64" width="187.5" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="Njp-Wo-3Za"/>
+                    </constraints>
+                    <state key="normal" title="报警"/>
+                    <connections>
+                        <action selector="rightBtnClick:" destination="-1" eventType="touchUpInside" id="1x5-KJ-MfM"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="388-Ea-2gk">
+                    <rect key="frame" x="20" y="105" width="150" height="3"/>
+                    <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="3" id="3nc-ZJ-W6f"/>
+                        <constraint firstAttribute="width" constant="150" id="iM7-22-Vx7"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="388-Ea-2gk" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="AFB-zM-HB9"/>
+                <constraint firstAttribute="trailing" secondItem="E7g-Zx-hlh" secondAttribute="trailing" id="BkO-QJ-e46"/>
+                <constraint firstItem="Ngy-X3-eYV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="NV4-r4-a3E"/>
+                <constraint firstItem="to2-rm-B55" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SLx-iO-gKt"/>
+                <constraint firstItem="388-Ea-2gk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="105" id="eDH-0n-xND"/>
+                <constraint firstItem="E7g-Zx-hlh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="g28-gA-iQ7"/>
+                <constraint firstItem="to2-rm-B55" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="lRo-aO-zfr"/>
+                <constraint firstItem="Ngy-X3-eYV" firstAttribute="leading" secondItem="to2-rm-B55" secondAttribute="trailing" id="mvB-L0-Kxy"/>
+                <constraint firstAttribute="trailing" secondItem="Ngy-X3-eYV" secondAttribute="trailing" id="q9W-66-KDN"/>
+                <constraint firstItem="E7g-Zx-hlh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qso-uw-vgW"/>
+                <constraint firstItem="Ngy-X3-eYV" firstAttribute="width" secondItem="to2-rm-B55" secondAttribute="width" id="uGk-Ax-cZa"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="151.5"/>
+        </view>
+    </objects>
+</document>
