@@ -25,6 +25,8 @@
 @property (nonatomic,strong) NSMutableArray *FirstChartXArr;
 @property (nonatomic,strong) NSMutableArray *FirstChartXArr1;
 @property (nonatomic,assign)float maxNumber;
+@property (nonatomic,assign)float maxNumber2;
+@property (nonatomic,assign)float maxNumber3;
 @property (nonatomic,strong) JHLineChart *lineChart;
 @property (nonatomic,strong) JHLineChart *lineChart2;
 @property (nonatomic,strong) JHLineChart *lineChart1;
@@ -781,7 +783,7 @@
     
     self.lineChart1.isKw = NO;
     
-    self.lineChart1.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24"];
+    self.lineChart1.xLineDataArr = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24"];
     
     self.lineChart1.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
     
@@ -844,11 +846,11 @@
     self.zhuView.maxNumber = self.maxNumber;
     self.zhuView.backgroundColor = [UIColor clearColor];
     self.zhuView.arr = self.redArr;
-    self.zhuView.arr1 = nil;
-    self.zhuView.arr2 = nil;
-    self.zhuView.arr3 = nil;
+    self.zhuView.arr1 =  nil;
+    self.zhuView.arr2 =  nil;
+    self.zhuView.arr3 =  nil;
     //    self.zhuView.arr4 = self.redArr;
-    //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
+//        self.zhuView.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
     //    view.maxAll = self.maxAll;
     [self.bg1 addSubview:self.zhuView];
     //    self.page=0;
@@ -895,7 +897,7 @@
     
     lineChart4.isKw = NO;
     
-    lineChart4.xLineDataArr = @[@"0",@"2",@"4",@"6",@"8",@"10",@"12",@"14",@"16",@"18",@"20",@"22",@"24",@"26",@"28",@"30"];
+    lineChart4.xLineDataArr = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",@"28",@"29",@"30",@"31"];
     
     lineChart4.contentInsets = UIEdgeInsetsMake(0, 25, 20, 10);
     
@@ -910,12 +912,12 @@
     lineChart4.xAndYNumberColor = [UIColor darkGrayColor];
     lineChart4.backgroundColor = [UIColor clearColor];
     [self.bg4 addSubview:lineChart4];
-    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
-    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
-    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
-    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
-    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
-    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*0];
+    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*1];
+    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*2];
+    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*3];
+    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*4];
+    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber2/5*5];
     lineChart4.yLineDataArr = @[yline2,yline3,yline4,yline5,yline6];
     /*       Start animation        */
     [lineChart4 showAnimation];
@@ -955,14 +957,15 @@
     
     
     self.zhuView1 = [[HistogramView alloc] initWithFrame:CGRectMake(0, 34, KWidth-14, KHeight/667*180)];
-    self.zhuView1.maxNumber = self.maxNumber;
+    self.zhuView1.maxNumber = self.maxNumber2;
     self.zhuView1.backgroundColor = [UIColor clearColor];
-    self.zhuView1.arr = self.yellowArr;
-    self.zhuView1.arr1 = nil;
+    self.zhuView1.num = 1;
+    self.zhuView1.arr = nil;
+    self.zhuView1.arr1 = self.yellowArr;
     self.zhuView1.arr2 = nil;
     self.zhuView1.arr3 = nil;
     //    self.zhuView.arr4 = self.redArr;
-    //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
+//        self.zhuView1.arr = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
     //    view.maxAll = self.maxAll;
     [self.bg4 addSubview:self.zhuView1];
     //    self.page=0;
@@ -1028,12 +1031,12 @@
     lineChart4.xAndYNumberColor = [UIColor darkGrayColor];
     lineChart4.backgroundColor = [UIColor clearColor];
     [self.bg5 addSubview:lineChart4];
-    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*0];
-    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*1];
-    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*2];
-    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*3];
-    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*4];
-    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber/5*5];
+    NSString *yline1 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*0];
+    NSString *yline2 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*1];
+    NSString *yline3 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*2];
+    NSString *yline4 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*3];
+    NSString *yline5 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*4];
+    NSString *yline6 = [NSString stringWithFormat:@"%.2f",_maxNumber3/5*5];
     lineChart4.yLineDataArr = @[yline2,yline3,yline4,yline5,yline6];
     /*       Start animation        */
     [lineChart4 showAnimation];
@@ -1073,16 +1076,17 @@
     
     
     self.zhuView2 = [[HistogramView alloc] initWithFrame:CGRectMake(0, 34, KWidth-14, KHeight/667*180)];
-    self.zhuView2.maxNumber = self.maxNumber;
+    self.zhuView2.maxNumber = self.maxNumber3;
     self.zhuView2.backgroundColor = [UIColor clearColor];
-    self.zhuView2.arr = self.blueArr;
+    self.zhuView2.num = 2;
+    self.zhuView2.arr = nil;
     self.zhuView2.arr1 = nil;
-    self.zhuView2.arr2 = nil;
+    self.zhuView2.arr2 = self.blueArr;
     self.zhuView2.arr3 = nil;
     //    self.zhuView.arr4 = self.redArr;
     //    view.arr3 = @[@10,@10,@10,@10,@10,@10,@10,@10,@10,@10,@10];
     //    view.maxAll = self.maxAll;
-    [self.bg2 addSubview:self.zhuView2];
+    [self.bg5 addSubview:self.zhuView2];
     //    self.page=0;
     //    [self addTimer];
     
@@ -1481,26 +1485,34 @@
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"用电量柱状图%@",responseObject);
+        NSLog(@"用电量日柱状图%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
             NSMutableArray *redAll = responseObject[@"content"];
             [self.redArr removeAllObjects];
             for (int i=0; i<redAll.count; i++) {
-                if (i%2==0) {
-                    if (i+1==redAll.count) {
+//                if (i%2==0) {
+//                    if (i+1==redAll.count) {
+//                        CGFloat qian = [redAll[i] floatValue];
+//                        CGFloat hou = 0;
+//                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        [self.redArr addObject:str];
+//                    }else{
                         CGFloat qian = [redAll[i] floatValue];
-                        CGFloat hou = 0;
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        CGFloat hou = [redAll[i+1] floatValue];
+                        NSString *str = [NSString stringWithFormat:@"%.2f",qian];
                         [self.redArr addObject:str];
-                    }else{
-                        CGFloat qian = [redAll[i] floatValue];
-                        CGFloat hou = [redAll[i+1] floatValue];
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
-                        [self.redArr addObject:str];
-                    }
-                    
+//                    }
+//
+//                }
+            }
+            CGFloat max = 0;
+            for (int i=0; i<self.redArr.count; i++) {
+                CGFloat now = [self.redArr[i] floatValue];
+                if (now>max) {
+                    max = now;
                 }
             }
+            self.maxNumber = max;
             
         }
         [self setZhuzhuang];
@@ -1531,26 +1543,34 @@
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"用电量柱状图%@",responseObject);
+        NSLog(@"用电量月柱状图%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
             NSMutableArray *yellowAll = responseObject[@"content"];
             [self.yellowArr removeAllObjects];
             for (int i=0; i<yellowAll.count; i++) {
-                if (i%2==0) {
-                    if (i+1==yellowAll.count) {
+//                if (i%2==0) {
+//                    if (i+1==yellowAll.count) {
+//                        CGFloat qian = [yellowAll[i] floatValue];
+//                        CGFloat hou = 0;
+//                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        [self.yellowArr addObject:str];
+//                    }else{
                         CGFloat qian = [yellowAll[i] floatValue];
-                        CGFloat hou = 0;
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        CGFloat hou = [yellowAll[i+1] floatValue];
+                        NSString *str = [NSString stringWithFormat:@"%.2f",qian];
                         [self.yellowArr addObject:str];
-                    }else{
-                        CGFloat qian = [yellowAll[i] floatValue];
-                        CGFloat hou = [yellowAll[i+1] floatValue];
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
-                        [self.yellowArr addObject:str];
-                    }
-                    
+//                    }
+//
+//                }
+            }
+            CGFloat max = 0;
+            for (int i=0; i<self.yellowArr.count; i++) {
+                CGFloat now = [self.yellowArr[i] floatValue];
+                if (now>max) {
+                    max = now;
                 }
             }
+            self.maxNumber2 = max;
             
         }
         [self setZhuzhuang1];
@@ -1581,26 +1601,34 @@
     [manager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"用电量柱状图%@",responseObject);
+        NSLog(@"用电量年柱状图%@",responseObject);
         if([responseObject[@"result"][@"success"] intValue] ==1){
             NSMutableArray *blueAll = responseObject[@"content"];
             [self.blueArr removeAllObjects];
             for (int i=0; i<blueAll.count; i++) {
-                if (i%2==0) {
-                    if (i+1==blueAll.count) {
+//                if (i%2==0) {
+//                    if (i+1==blueAll.count) {
+//                        CGFloat qian = [blueAll[i] floatValue];
+//                        CGFloat hou = 0;
+//                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        [self.blueArr addObject:str];
+//                    }else{
                         CGFloat qian = [blueAll[i] floatValue];
-                        CGFloat hou = 0;
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
+//                        CGFloat hou = [blueAll[i+1] floatValue];
+                        NSString *str = [NSString stringWithFormat:@"%.2f",qian];
                         [self.blueArr addObject:str];
-                    }else{
-                        CGFloat qian = [blueAll[i] floatValue];
-                        CGFloat hou = [blueAll[i+1] floatValue];
-                        NSString *str = [NSString stringWithFormat:@"%.2f",qian+hou];
-                        [self.blueArr addObject:str];
-                    }
-                    
+//                    }
+//
+//                }
+            }
+            CGFloat max = 0;
+            for (int i=0; i<self.blueArr.count; i++) {
+                CGFloat now = [self.blueArr[i] floatValue];
+                if (now>max) {
+                    max = now;
                 }
             }
+            self.maxNumber3 = max;
             
         }
         [self setZhuzhuang2];

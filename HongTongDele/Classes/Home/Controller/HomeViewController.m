@@ -66,6 +66,7 @@
     [super viewDidLoad];
     self.title = @"首页";
     self.isHasTip = NO;
+    self.changgeID = @"";
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     self.type = [userDefaults valueForKey:@"type"];
     NSLog(@"type:%@",self.type);
@@ -115,12 +116,14 @@
         if (i==0) {
             self.zonggongsibtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
             [self.zonggongsibtn setTitle:@"总公司" forState:UIControlStateNormal];
+            self.zonggongsibtn.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.zonggongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
             [self.zonggongsibtn addTarget:self action:@selector(zonggongsiBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.zonggongsibtn setBackgroundImage:[UIImage imageNamed:@"top3"] forState:UIControlStateNormal];
             [self.bgScrollView addSubview:self.zonggongsibtn];
         }else if(i==1){
              self.fengongsibtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+            self.fengongsibtn.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.fengongsibtn setTitle:@"分公司" forState:UIControlStateNormal];
             [self.fengongsibtn addTarget:self action:@selector(fenfongsiBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.fengongsibtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];
@@ -129,6 +132,7 @@
         }else{
             
             self.yunweixiaozubtn = [[UIButton alloc] initWithFrame:CGRectMake(10+i*((KWidth-60)/3+20), 10, (KWidth-60)/3, 34)];
+            self.yunweixiaozubtn.titleLabel.font = [UIFont systemFontOfSize:13];
             [self.yunweixiaozubtn setTitle:@"运维小组" forState:UIControlStateNormal];
             [self.yunweixiaozubtn addTarget:self action:@selector(yunweixiaozuBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.yunweixiaozubtn setTitleColor:RGBColor(91, 202, 255) forState:UIControlStateNormal];

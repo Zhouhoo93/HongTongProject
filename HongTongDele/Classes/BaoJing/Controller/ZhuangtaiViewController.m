@@ -1055,7 +1055,7 @@
                 }
             }else{
                 
-                for (NSMutableDictionary *dic in responseObject[@"content"]) {
+                for (NSMutableDictionary *dic in responseObject[@"content"][@"result"]) {
                     if (i==0) {
                         [self.towndataArr1 addObject:dic[@"town"]];
                     }else if(i==1){

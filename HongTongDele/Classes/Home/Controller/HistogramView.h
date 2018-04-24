@@ -18,4 +18,5 @@
 @property (nonatomic,strong)NSArray *arr4;
 @property (nonatomic,assign)NSInteger maxAll;
 @property (nonatomic,assign)CGFloat maxNumber;
+@property (nonatomic,assign) NSInteger num;
 @end
